@@ -11,8 +11,8 @@ import sys
 
 from tools.pack.reader import ArenaPack, require
 from tools.wem.fingerprint import fingerprint
+from tools.resources import ROOT
 
-ROOT = Path(__file__).resolve().parents[1]
 
 
 def sha256(path):
@@ -31,11 +31,22 @@ def load_manifest(commander='hannibal'):
     value = json.loads((folder / 'manifest.json').read_text(encoding='utf-8'))
     require(value['schema_version'] == 1 and value['commander'] == commander, 'Unsupported manifest')
     require(value['runtime_slot'] == 'audio_cn.pack', 'Unsupported runtime slot')
+    require(value['id'] == commander and value['spoken_count'] == value['expected_spoken_count']
+            and value['replacement_count'] == value['expected_replacement_count']
+            and value['supported_base_pack_hash'] == value['base']['sha256']
+            and value['required_runtime_pack'] == value['runtime_slot']
+            and value['replacement_directory'] == f'replacements/{commander}/wem', 'Installer metadata mismatch')
     return value
 
 
 def validate_data(manifest):
     """Validate the allowlist against independent inventory, metadata and WEMs."""
+    if 'components' in manifest:
+        from tools.installer.catalog import merge_manifests
+        parts = [load_manifest(name) for name in manifest['components']]
+        results = [validate_data(part) for part in parts]
+        require(merge_manifests(parts, manifest['release']) == manifest, 'Joint manifest mismatch')
+        return {'status': 'PASS', 'components': results, 'replacement_wems': len(manifest['replacements'])}
     name = manifest['commander']
     folder = ROOT / 'data' / 'commanders' / name
     rows = csv_rows(folder / 'voice-lines.csv')
@@ -148,7 +159,8 @@ def build(base_path, output_path, manifest):
             owned = True
             shutil.copyfileobj(source, dest, 1024 * 1024)
             for spec in manifest['replacements']:
-                payload = (ROOT / 'replacements' / manifest['commander'] / 'wem' / (spec['media_id'] + '.wem')).read_bytes()
+                owner = spec.get('source_commander', manifest['commander'])
+                payload = (ROOT / 'replacements' / owner / 'wem' / (spec['media_id'] + '.wem')).read_bytes()
                 require(len(payload) == spec['size'] and hashlib.sha256(payload).hexdigest() == spec['sha256'], 'Replacement changed during build')
                 dest.seek(spec['offset'])
                 require(dest.write(payload) == spec['size'], 'Short payload write')

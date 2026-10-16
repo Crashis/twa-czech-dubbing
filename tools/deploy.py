@@ -35,7 +35,8 @@ def assert_stopped(game_root):
     env['TWA_DUBBING_GAME_ROOT'] = str(game_root)
     encoded = base64.b64encode(PROCESS_QUERY.encode('utf-16-le')).decode('ascii')
     query = subprocess.run(['powershell.exe', '-NoProfile', '-NonInteractive', '-EncodedCommand', encoded],
-                           env=env, capture_output=True, text=True)
+                           env=env, capture_output=True, text=True, timeout=30,
+                           creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0))
     require(query.returncode == 0, 'Cannot inspect game/launcher processes; close them and retry')
     running = json.loads(query.stdout)
     require(isinstance(running, list), 'Unexpected process query response')

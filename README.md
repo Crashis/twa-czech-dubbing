@@ -1,66 +1,34 @@
 # Total War: Arena Czech Dubbing
 
-Český dabing commanderů pro **Total War: Arena**. Hannibal má hotových **305 / 305 mluvených hlášek**. Všech 16 tichých placeholderů zůstává původních a žádné sdílené médium se nemění.
+Český dabing pro **Total War: Arena**, Windows x64. **Hannibal: 305 / 305 mluvených hlášek.** Všech 16 tichých placeholderů zůstává původních; sdílené hlášky se nemění.
 
-Repozitář obsahuje české náhrady, metadata a nástroje. Vyžaduje **vlastní existující instalaci podporované verze hry**. Původní herní PACKy, banky ani extrahované původní audio nejsou součástí projektu. Installer sestaví a aplikuje mod lokálně.
+Potřebujete vlastní podporovanou instalaci hry a přibližně 750 MB volného místa pro zálohu a sestavení. Release obsahuje připravený installer a česká data. Python, Git, API klíč ani další nástroje nejsou k instalaci potřeba.
 
-Batch 03 byl uživatelem úspěšně vyzkoušen ve hře. Complete / Batch 04 má úplnou offline validaci a reprodukovatelný výsledek; samostatný runtime test Batch 04 dosud neproběhl.
+## Installation
 
-## Požadavky a podporovaná verze
+1. Stáhněte nejnovější Windows ZIP ze sekce **Releases** tohoto projektu.
+2. Rozbalte celý ZIP.
+3. Spusťte `Install.bat` nebo `TWA-Czech-Dubbing-Installer.exe`.
+4. Vyberte složku Total War: Arena a zavřete hru i launcher.
+5. Klikněte na **Install Czech Dubbing**. Po dokončení můžete spustit hru.
 
-Windows, Windows PowerShell 5.1 nebo PowerShell 7 a Python 3.11+. Pro instalaci není potřeba pip, ElevenLabs účet ani API klíč. Počítejte přibližně s 500 MB volného místa pro zálohu a pracovní PACK.
+**Verify** zkontroluje instalaci, **Restore Original** obnoví původní audio. Záloha zůstává v `%LOCALAPPDATA%\TWA-Czech-Dubbing\backup\<installation-id>\audio_cn.pack`, nezávisle na staženém ZIPu. Podrobnosti a řešení chyb: [uživatelský návod](docs/USER_GUIDE.md).
 
-Podporu určuje přesný obsah `data/audio_cn.pack`, nikoli jen název vydání launcheru:
+Installer nejprve ověří podporovanou verzi, česká data a zálohu. Nový soubor sestaví a celý ověří dočasně, teprve potom jej atomicky nainstaluje. Neznámou verzi hry odmítne.
 
-| Vlastnost | Podporovaný originál |
+## Podporovaná verze
+
+| Soubor | SHA-256 |
 |---|---|
-| SHA-256 | `d6ee7ec4c4422276d9caba7013f46662a980955c138be13f653b58992ad876ad` |
-| Velikost | 244 019 593 B |
-| Položky | 16 545 |
-| Runtime slot | `audio_cn.pack` s očekávaným původním anglickým obsahem |
+| Původní `data/audio_cn.pack` | `d6ee7ec4c4422276d9caba7013f46662a980955c138be13f653b58992ad876ad` |
+| Hannibal CZ 1.0.0 | `3405389faa3c5336e6635189e033e117144605356d9042a34f797b2c576df32b` |
 
-Jiný hash installer odmítne. Čínský soubor `.pack.orig` není automaticky podporovaný základ.
+Podporovaný soubor má 244 019 593 B a 16 545 položek. Název launcheru ani jazyk v názvu souboru neurčuje kompatibilitu. Původní herní soubory nejsou součástí projektu ani releasu.
 
-## Instalace
+## Vývoj a pokročilé použití
 
-Stáhněte nebo naklonujte projekt mimo složku hry. V PowerShellu přejděte do jeho kořene a zavřete hru i launcher. Příklad cesty upravte podle své instalace; jde o složku obsahující `data`.
+Zdrojový repozitář obsahuje finální české WEMy, metadata, Python/PowerShell tooling, testy a release builder. GUI lze spustit přes `python -B -m tools.installer.gui` s Pythonem 3.11+ a Tk. Pokročilé PowerShell wrappery zůstávají v `scripts/`; jejich zálohy používají starší umístění uvnitř složky hry, popsané v [DEVELOPMENT](docs/DEVELOPMENT.md).
 
-```powershell
-.\scripts\install.ps1 -GamePath "D:\Games\TotalWar_Arena" -WhatIf
-.\scripts\install.ps1 -GamePath "D:\Games\TotalWar_Arena"
-.\scripts\verify.ps1 -GamePath "D:\Games\TotalWar_Arena"
-```
+[DEVELOPMENT](docs/DEVELOPMENT.md) · [TECHNICAL_PIPELINE](docs/TECHNICAL_PIPELINE.md) · [ADDING_COMMANDER](docs/ADDING_COMMANDER.md) · [VALIDATION](docs/VALIDATION.md) · [AGENTS](AGENTS.md) · [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md)
 
-Installer zkontroluje originál, uchová ověřenou zálohu, sestaví a ověří nový PACK a teprve potom vymění `data/audio_cn.pack`. Výsledný SHA-256 je `3405389faa3c5336e6635189e033e117144605356d9042a34f797b2c576df32b`.
-
-Obnova originálu:
-
-```powershell
-.\scripts\restore.ps1 -GamePath "D:\Games\TotalWar_Arena"
-```
-
-Záloha zůstává v `<GamePath>/.twa-czech-dubbing/backups/audio_cn.original.pack`. Neodstraňujte ji před odinstalací. Příkazy samy hru ani launcher nespouštějí.
-
-## Pokud něco nefunguje
-
-- **Unsupported PACK SHA-256:** ověřte správnou instalaci a její původní soubory. Nepřejmenovávejte náhodný PACK na podporovaný a neupravujte očekávaný hash.
-- **Game/launcher is running:** zavřete oba procesy a příkaz opakujte.
-- **Python není nalezen:** nainstalujte Python 3.11+ a otevřete nový PowerShell; lze předat `-PythonExecutable` s cestou k interpretu.
-- **PowerShell blokuje skript:** použijte postup v [uživatelském návodu](docs/USER_GUIDE.md). Neměňte globální bezpečnostní nastavení kvůli projektu.
-- **Po spuštění launcheru znovu angličtina:** zavřete ho a spusťte `verify.ps1`. Launcher může soubory obnovit; konkrétní budoucí chování není zaručeno.
-
-## Struktura a vývoj
-
-```text
-data/commanders/hannibal/   manifest, 305 hlášek, inventory a QA metadata
-replacements/hannibal/wem/  305 finálních českých WEMů
-scripts/                   install, verify, restore pro Windows
-tools/                     obecný PACK, WEM, inventory, offline TTS planning
-tests/                     ochranné a integrační testy
-docs/                      uživatelský i technický postup
-third_party/               licence převzaté logiky
-```
-
-[USER_GUIDE](docs/USER_GUIDE.md) · [DEVELOPMENT](docs/DEVELOPMENT.md) · [TECHNICAL_PIPELINE](docs/TECHNICAL_PIPELINE.md) · [ADDING_COMMANDER](docs/ADDING_COMMANDER.md) · [AGENTS](AGENTS.md)
-
-Leonidas a Germanicus jsou možné další kroky; jejich dabing zatím nevznikl. Nástroje vybírají data parametrem `--commander` / `-Commander`. Každý další commander potřebuje vlastní schválený manifest a náhrady. Současné releasy se instalují jednotlivě; automatické kombinování commanderů není implementované.
+Dostupné commandery určuje manifest. Dnes release obsahuje Hannibala; další hlasová data zatím nejsou připravena. Budoucí kombinace vyžadují kontrolu konfliktů a samostatně ověřený společný release hash.

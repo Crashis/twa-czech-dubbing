@@ -9,8 +9,8 @@ import json
 from pathlib import Path
 import re
 import struct
+from tools.resources import ROOT
 
-ROOT = Path(__file__).resolve().parents[2]
 KEY_PATH = ROOT/'data/arena-index-public-key.json'
 DIGEST_INFO = bytes.fromhex('3031300d060960864801650304020105000420')
 EXPECTED_PUBLIC_KEY_DER_SHA256 = 'b509e5f323caa5f9638aad641c12ef9bb19cf182211143a1665c9312a8d302e6'

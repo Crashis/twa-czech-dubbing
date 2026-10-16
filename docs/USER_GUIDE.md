@@ -1,105 +1,52 @@
 # Uživatelský návod
 
-## Co potřebujete
+## Instalace
 
-Vlastní fungující instalaci Total War: Arena s přesným podporovaným souborem `audio_cn.pack`, Windows, PowerShell 5.1+ a Python 3.11+. Instalace modu nepoužívá ElevenLabs a nevytváří nový dabing. Internet po získání projektu a Pythonu není pro instalaci potřebný.
+1. Stáhněte Windows release ZIP ze sekce Releases projektu.
+2. Rozbalte **celý** ZIP do vlastní složky.
+3. Dvakrát klikněte na `Install.bat` nebo `TWA-Czech-Dubbing-Installer.exe`.
+4. Pomocí **Browse…** vyberte složku Total War: Arena. Installer může známou složku nabídnout automaticky.
+5. Zavřete hru i launcher, vyberte Hannibala a klikněte na **Install Czech Dubbing**.
+6. Po zprávě o úspěšné instalaci můžete spustit hru.
 
-Rozbalte projekt do vlastní složky mimo herní `data`. V Průzkumníku v této složce otevřete PowerShell. Příkazy v návodu spouštějte z kořene projektu. Žádný příkaz nevyžaduje administrátora, pokud máte právo zapisovat do zvolené instalace. Je potřeba přibližně 500 MB navíc pro zálohu a sestavení.
+Žádná další konfigurace, Python, Git ani API účet nejsou potřeba. Po rozbalení funguje instalace offline. Potřebujete Windows x64, vlastní podporovanou hru a přibližně 750 MB volného místa; záloha a dočasný soubor mohou být na různých discích.
 
-`GamePath` je složka hry, která přímo obsahuje podsložku `data` a herní soubory. Pokud je PACK v `D:\Games\TotalWar_Arena\data\audio_cn.pack`, zadejte `D:\Games\TotalWar_Arena`, bez koncového `data`.
+Vyberte složku obsahující `data`, například `D:\Games\TotalWar_Arena`. Pokud vyberete přímo `data`, installer umí rozpoznat jejího rodiče. Neprohledává celý disk.
 
-## Před instalací
+## Ověření a opakovaná instalace
 
-Ukončete hru i launcher, včetně launcheru běžícího na pozadí. Installer je neukončuje násilně. Při nemožnosti ověřit procesy skončí bez instalace.
+**Verify** nic ve hře nemění. Zkontroluje podporovanou verzi, integritu herního souboru i dodaných českých dat. Po instalaci zobrazí, že Hannibal CZ je správně nainstalovaný.
 
-```powershell
-python --version
-.\scripts\verify.ps1 -GamePath "D:\Games\TotalWar_Arena"
-.\scripts\install.ps1 -GamePath "D:\Games\TotalWar_Arena" -WhatIf
-```
+Je-li stejný dabing už nainstalovaný, tlačítko ukazuje **Installed** a soubor se znovu nepřepisuje. **Restore Original** zůstává dostupné. Pokud launcher vrátí přesný podporovaný originál, můžete dabing znovu nainstalovat.
 
-`verify` přečte soubory a zkontroluje RSA podpis, identitu PACKu a integritu českých náhrad v projektu. `kind: original` označuje podporovaný originál, `kind: modified` finální Hannibal CZ. Při jiném hashi skončí chybou. `-WhatIf` a `-DryRun` kontrolují předpoklady a vypíší plán; nevytvoří zálohu ani pracovní PACK a nemění hru. Plná kontrola sestavení se provede při skutečné instalaci.
+## Záloha a obnova
 
-Podporovaný originál má 244 019 593 B, 16 545 položek a SHA-256:
-
-```text
-d6ee7ec4c4422276d9caba7013f46662a980955c138be13f653b58992ad876ad
-```
-
-## Instalace a záloha
-
-```powershell
-.\scripts\install.ps1 -GamePath "D:\Games\TotalWar_Arena"
-```
-
-Installer nejprve ověří hash a podpis. Původní `audio_cn.pack` uloží do:
+Originál se před první instalací zkopíruje a ověří do:
 
 ```text
-<GamePath>/.twa-czech-dubbing/backups/audio_cn.original.pack
+%LOCALAPPDATA%\TWA-Czech-Dubbing\backup\<installation-id>\audio_cn.pack
 ```
 
-Existující zálohu nikdy nepřepíše; musí sama odpovídat podporovanému originálu. V pracovní složce `.twa-czech-dubbing/staging` sestaví novou kopii z této zálohy. Vloží přesně 305 českých zvuků, ověří všechny ostatní položky a výsledný hash, znovu zkontroluje procesy a původní stav cíle a poté vymění `data/audio_cn.pack`.
+Vedle něj je `audio_cn.json` s kontrolním otiskem, datem, cestou hry a verzí modu. Každá instalace má vlastní podsložku. Platná záloha se při opakované instalaci nepřepisuje. Rozbalený ZIP můžete po instalaci odstranit; zálohu ponechte.
 
-Mění se pouze obsah určených Hannibalových zvukových položek v tomto PACKu. Jejich délky se nemění. Index, hlavička, offsety a podpisový Appendix zůstávají shodné. Tiché placeholdery i sdílené hlášky zůstanou původní. `audio_en.pack`, banky, manifest launcheru a konfigurace jazyka se neupravují.
+Pro návrat k původním hlasům znovu rozbalte/spusťte installer, vyberte stejnou hru, zavřete hru i launcher a klikněte na **Restore Original**. Potvrďte obnovu. Záloha zůstane zachovaná.
 
-Kromě nového `audio_cn.pack` vznikne soukromá záloha a dočasná pracovní data v `.twa-czech-dubbing`. Zálohu ponechte. Při opakované instalaci platného modu a přítomnosti platné zálohy příkaz vrátí `ALREADY_INSTALLED`.
+Chybějící nebo poškozená záloha obnovu zastaví. Installer neumí původní herní data stáhnout. Používejte stejný účet Windows, pod kterým byla záloha vytvořena. Starší vývojové PowerShell skripty mají odlišné umístění zálohy; viz [DEVELOPMENT](DEVELOPMENT.md).
 
-## Ověření výsledku
+## Řešení chyb
 
-```powershell
-.\scripts\verify.ps1 -GamePath "D:\Games\TotalWar_Arena"
-```
-
-Pro Hannibal CZ očekávejte `kind: modified`, `RSA: PASS`, 305 náhrad a hash:
-
-```text
-3405389faa3c5336e6635189e033e117144605356d9042a34f797b2c576df32b
-```
-
-Samostatné `verify` pozná finální release podle celého hashe a ověří také každou náhradu. Údaj 305 změněných položek je v tomto režimu svázaný se známým hashem releasu. Při sestavení probíhá skutečné porovnání všech 16 545 položek s originálem. Technický postup nabízí i samostatné ověření s `--base`.
-
-Batch 04 je offline ověřený. Runtime test Batch 03 potvrdil uživatel; pro Batch 04 se netvrdí nový poslech ani nový test ve hře.
-
-## Odinstalace / návrat k originálu
-
-Zavřete hru i launcher a spusťte:
-
-```powershell
-.\scripts\restore.ps1 -GamePath "D:\Games\TotalWar_Arena" -WhatIf
-.\scripts\restore.ps1 -GamePath "D:\Games\TotalWar_Arena"
-.\scripts\verify.ps1 -GamePath "D:\Games\TotalWar_Arena"
-```
-
-Obnova ověří zálohu, připraví její kopii, ověří ji a obnoví `audio_cn.pack`. Záloha zůstává zachovaná. Chybějící nebo poškozená záloha znamená zastavení bez destruktivního kroku. Je-li ve hře už podporovaný originál, příkaz vrátí `ALREADY_ORIGINAL`.
-
-Neznámý aktuální PACK se automaticky nepřepisuje ani při obnově: může patřit jiné verzi nebo jiné úpravě. Nejdříve vyřešte jeho původ. Projekt neumí stáhnout původní herní obsah.
-
-## Běžné chyby
-
-| Zpráva / situace | Postup |
+| Zpráva / situace | Co udělat |
 |---|---|
-| Missing `<GamePath>/data/audio_cn.pack` | Opravte `GamePath`; nemá končit `data`. |
-| Unsupported PACK SHA-256 | Použijte vlastní podporovanou instalaci. Hash v manifestu nepřepisujte jako obcházení kontroly. |
-| Game/launcher is running | Ukončete oba a zkontrolujte Správce úloh. |
-| Cannot inspect processes | Ověřte dostupnost Windows PowerShellu/CIM a oprávnění. Kontrola se nesmí vypnout kvůli instalaci. |
-| Replacement hash/size mismatch | Obnovte nepoškozené soubory projektu. |
-| Original backup missing | Obnova se neprovede. Najděte vlastní ověřenou zálohu; nepoužívejte náhodný PACK. |
-| Přítomný mod bez zálohy | Installer ho nechá na místě. Obnovte nejprve vlastní podporovaný originál. |
-| Přístup odepřen / soubor používá jiný proces | Zavřete související programy a zkontrolujte práva. Zálohu nerušte. |
-| Junctions/symlinks unsupported | Použijte běžnou složku hry; přesměrované adresáře jsou záměrně odmítnuté. |
+| Unsupported audio_cn.pack version | Tato verze není podporovaná. Herní audio se nezměnilo. Ověřte správnou instalaci; kontrolu verze neobcházejte. |
+| Select the Total War: Arena folder… | Vyberte složku, která obsahuje `data/audio_cn.pack`. |
+| Game or launcher is currently running | Zavřete hru i launcher včetně jeho běhu na pozadí a zkuste znovu. Installer procesy neukončuje. |
+| Cannot inspect game/launcher processes | Zkontrolujte dostupnost Windows PowerShellu a oprávnění. Instalace bez této kontroly nepokračuje. |
+| Original backup missing / could not be verified | Obnova se neprovede. Je nutná vlastní ověřená původní záloha. |
+| Replacement hash/size mismatch | Znovu stáhněte a rozbalte celý nepoškozený release. |
+| Write access denied | Zavřete installer, klikněte pravým na EXE a vyberte **Spustit jako správce**. Vyberte znovu hru. Použijte stejný účet Windows. |
+| Game file changed during build | Soubor mezitím změnil jiný program. Zavřete launcher a spusťte Verify. |
+| Junctions/symlinks are unsupported | Vyberte běžnou fyzickou složku hry bez přesměrování. |
 
-Pokud PowerShell blokuje stažené skripty, po jejich kontrole lze povolit jen konkrétní spuštění:
+Technický stav je vidět v okně. Stručné logy jsou v `%LOCALAPPDATA%\TWA-Czech-Dubbing\logs\`. Neobsahují API klíče ani prostředí procesu. Během instalace nebo obnovy počkejte na dokončení.
 
-```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\install.ps1 -GamePath "D:\Games\TotalWar_Arena" -WhatIf
-```
-
-Tato volba nemění trvalou execution policy. Python mimo `PATH` lze předat například jako `-PythonExecutable "D:\Tools\Python\python.exe"`.
-
-## Launcher a runtime slot
-
-V ověřeném prostředí se pro funkční dabing používá `audio_cn.pack` s anglickým původním hlasovým obsahem. Název `cn` tedy sám neurčuje skutečný jazyk zvuků. Známý originál je rozpoznán hashem, nikoli příponou `.orig` nebo nastavením `EN`.
-
-Předchozí experiment s úpravou `audio_en.pack` nepřinesl očekávaný runtime výsledek; následný provozní test přes CN slot byl úspěšný. Proto se mod aplikuje do `audio_cn.pack`. Z toho nevyplývá obecné tvrzení, že hra nikdy neotevře `audio_en.pack` ve všech distribucích.
-
-Launcher může při opravě, aktualizaci nebo přepnutí jazyka hlasové soubory nahradit. Po podezřelé změně jej zavřete a spusťte `verify`. Je-li zpět přesný podporovaný originál, lze mod znovu nainstalovat. Je-li hash jiný, zastavte se; tento projekt jeho kompatibilitu neověřil.
+Pokud launcher opraví nebo aktualizuje hru, spusťte po jeho zavření **Verify**. Dabing používá podporovaný hlasový soubor `audio_cn.pack`, přestože jeho původní zvuky jsou anglické; nepřejmenovávejte jiné soubory podle jazyka.

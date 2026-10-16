@@ -27,6 +27,17 @@ Run `python -B -m tools.mod --commander <name> validate`, relevant unit tests an
 
 `.env` stays private and ignored; `.env.example` is a placeholder only. Installer/build do not need API credentials. The audit reads local secret values without displaying them; reports may say `SECRET SCAN PASS`, never quote secrets. The PACK public verification key and format XOR constants are public format data.
 
+## Installer and release invariants
+
+- Never include original game assets, full PACKs, backups, secrets or development archives in releases. Use an explicit payload allowlist and scan the extracted bundle and embedded EXE archive.
+- No TTS or paid API calls during installation or release build.
+- Manifests drive available commanders. Overlapping Media IDs require identical replacement hashes and compatible original entry metadata; conflicts stop the build.
+- Combined selections require a separately validated joint release manifest/hash. Build only from the canonical original.
+- Unknown game PACK hash is a hard stop. Never write to a live PACK until the complete offline candidate passes validation.
+- Back up and verify before installation; preserve valid backups outside the release. Check game/launcher processes before backup and immediately before atomic replacement.
+- Build deterministically where possible. Pin dependencies, Python/tool versions, hash seed and timestamp; compare independent EXE builds and deterministic ZIPs. Do not claim cross-toolchain identity without evidence.
+- Release tests use disposable mock game directories only. Never run or modify a real game to validate an installer without explicit task authorization.
+
 ## Git hygiene
 
 Do not initialize Git, commit, push or upload unless requested. Keep outputs outside the repository or in ignored `work/`. Report file sizes and audit findings before publication. Keep third-party notices for reused logic; obtain tools separately.

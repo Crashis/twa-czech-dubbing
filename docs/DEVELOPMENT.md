@@ -1,5 +1,38 @@
 # Vývoj a reprodukce
 
+## Windows GUI a release 1.0.0
+
+Koncový uživatel používá ZIP s EXE a externím `payload/`. Vývojář potřebuje 64bitový Windows Python s Tk. Ověřený build používá Python 3.13.5, PyInstaller 6.22.3 a přesné verze v `requirements-development.txt`. NumPy je jen pro vývoj zvuku; není v EXE.
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-development.txt
+.\.venv\Scripts\python.exe -B -m tools.installer.gui
+.\scripts\build-release.ps1 -BasePack "D:\PrivateAssets\audio_cn.original.pack" -ReferencePack "D:\PrivateAssets\hannibal-complete.pack"
+```
+
+`-BasePack` je povinný soukromý canonical original mimo repozitář. `-ReferencePack` je volitelný byte comparison s dříve schváleným Complete PACKem; whole-PACK hash se kontroluje vždy. Oba vstupy se pouze čtou. Výstupy vzniknou v ignorovaném `release/`: složka `TWA-Czech-Dubbing-Hannibal-v1.0.0-win64`, ZIP a privátní build report s velikostmi, hashi a výsledky. Existující výstupy se nepřepisují; další build lze dát do nového `-OutputDirectory`.
+
+Builder spustí celou unittest sadu včetně integrací, manifest/WEM validaci a audit secrets/assets/Markdown odkazů. Z čistého PyInstaller buildu vytvoří EXE dvakrát a vyžaduje identický hash. ZIP má stabilní pořadí, Unix permissions, timestamp a kompresi; dvě zabalení musí být identická. Používá `PYTHONHASHSEED=0`, `SOURCE_DATE_EPOCH=1792108800` a verzovaný [installer.spec](../scripts/installer.spec), bez UPX a výchozího UAC. Principy reprodukce: [PyInstaller dokumentace](https://pyinstaller.org/en/stable/advanced-topics.html#creating-a-reproducible-build).
+
+Reprodukce je ověřená v témže Windows/Python/toolchain prostředí. Jiný Python, runtime DLL, zlib nebo PyInstaller mohou změnit EXE/ZIP. Build report uchovává verze. Byte-identický PACK na těchto nástrojích nezávisí.
+
+Release se sestavuje z explicitního seznamu: EXE, BAT, readme, notices/licence, veřejný ověřovací klíč, manifest, voice-lines, nezávislá inventory a schválené české WEMy. CSV jsou runtime vstupy bezpečnostní kontroly. QA historie, source, tests, `.env`, originály a celé PACKy se nebalí. `SHA256SUMS.txt` pokrývá každý distribuovaný soubor kromě sebe. Audit prochází i rozbalený ZIP a dekomprimovaný obsah EXE.
+
+Zmrazené EXE má vývojový přepínač `--self-test ORIGINAL.pack REPORT.json`. Vždy vytváří vlastní dočasnou mock instalaci: GUI callbacky, install, verify, already-installed a restore. Nepřijímá cílovou herní složku. Browse selection a modální výsledky jsou v této automatické části simulované; skutečné dialogy potřebují samostatný vizuální smoke test. Žádná část releasu nespouští hru ani TTS.
+
+GUI backend je v `tools/installer/`, společný PACK builder v `tools/mod.py`. Data se při běhu EXE hledají pouze vedle EXE v `payload/`, nezávisle na pracovním adresáři. Záloha je v LocalAppData s ID odvozeným od normalizované herní cesty; OS lock brání dvěma souběžným transakcím. Sestavení probíhá v nové dočasné složce na stejném disku jako cíl, po úplné kontrole následuje `os.replace`. Při nedostatečném oprávnění GUI nabídne přesný postup Run as administrator; samo se neelevuje.
+
+Pokročilé původní `scripts/install.ps1`, `verify.ps1`, `restore.ps1` nadále vyžadují Python. Jejich záloha je `<GamePath>/.twa-czech-dubbing/backups/audio_cn.original.pack`; není totožná s GUI LocalAppData zálohou. Používejte stejný frontend také pro obnovu. Wrappers jsou zdrojové vývojové nástroje, ne součást end-user ZIPu.
+
+## Metadata a další commandery
+
+Manifest schema 1 navíc definuje `id`, `display_name`, `spoken_count`, `replacement_count`, `replacement_directory`, `supported_base_pack_hash`, `required_runtime_pack` a `version`. Alias fields musí souhlasit se stávajícími base/runtime/count údaji. GUI commandery dynamicky objevuje přes `data/commanders/*/manifest.json`.
+
+Pro budoucí kombinaci vytvořte `data/releases/<sorted-id>+<sorted-id>.json` s `commanders` (seřazený seznam) a `release` (`sha256`, `changed_entries`, `unchanged_entries`). Nejdříve samostatně schvalte a reprodukujte výsledný celý PACK. Merge dovolí stejný Media ID pouze při shodném payload hashi i původním path/offset/size/hash, kontroluje kompatibilní základy a tichá média. Každá komponenta stále prochází nezávislou inventory validací. Bez joint descriptoru se kombinace nesestaví. Dnešní release builder záměrně vyžaduje Hannibala; před rozšířením upravte název releasu, payload výběr a integrační corpus.
+
+Finální voice-lines a inventory uchovávají provenance, triggery a confidence. `audio-qa.json` spojuje decode evidence s padding/ww2ogg kontrolami. Původní PACKy, WAV reference, experimenty a move ledger zůstávají v soukromém archivu mimo projekt; umístění se předává jako vstup, nikdy se nezapisuje do veřejného source. Staré skripty s absolutními cestami jsou jen výzkumné podklady. Archiv se do releasu nekopíruje.
+
 ## Základní prostředí
 
 Python **3.11+**; cleanup byl ověřen na Pythonu 3.13.5. Instalace, restore, verify, PACK build, fingerprinty a hlavní testy používají standardní knihovnu. `requirements.txt` proto nemá pip dependencies. PowerShell entrypointy používají Windows PowerShell 5.1+ / PowerShell 7; procesy se kontrolují přes místní `powershell.exe` a `Get-CimInstance Win32_Process` s fail-closed chováním.
@@ -101,9 +134,3 @@ python -B -m unittest discover -s tests -v
 Bez proměnné se integrační část označí skipped; neoznačujte takový běh jako plnou PACK validaci. Integrační testy vytvářejí vlastní mock game složky, provádějí skutečné install/verify/restore wrappery pouze nad nimi a po sobě je odstraní. Nikdy nesmí cílit na skutečnou instalaci. Procesové blokování je navíc testované simulovaným běžícím procesem.
 
 Regrese zahrnují exact-size JUNK, změněný manifest, tiché IDs, neznámý základ, odmítnutí incremental buildu a overwrite, RSA tampering, zálohu, chybějící zálohu, dry-run a restore. Čerstvé testy a audio QA při cleanupu jsou shrnuté ve [VALIDATION](VALIDATION.md).
-
-## Releasová data a historické podklady
-
-`voice-lines.csv` zachovává všech 305 finálních vět, překlady, triggery, confidence, source batch, model/delivery a final WEM hashes. `media-inventory.csv` poskytuje nezávislou scope/silent allowlist. `audio-qa.json` je redukovaná historická Batch 04 QC evidence; `cleanup-audio-qa.json` nová full decode kontrola. Manifest drží očekávané originální a releasové hashe.
-
-Historické Batch 01–04 scripts, pokusy, WAVy, originály a podrobné logy jsou přesunuté mimo repozitář. Soukromý archiv uchovává původní relativní strukturu v `cleanup-2026-10-16/workspace/` a move ledger. Staré scripts jsou historické důkazy s původními absolutními cestami; nespouštějte je naslepo po přesunu. Reusable část je nyní v `tools/` a technické poznatky v tomto projektu. Git kandidáti se z archivu nesestavují.

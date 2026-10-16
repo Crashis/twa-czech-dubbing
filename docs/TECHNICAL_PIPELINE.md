@@ -72,7 +72,7 @@ Exact-size nástroj normalizuje přípustný terminal alignment a vloží před 
 
 Fingerprint validuje strukturu včetně stripped setup, packetů, seek tabulky a sample count. Full QC provádí PCM16 i float32 decode, kontrolu clippingu, přesného počtu vzorků, korelaci >0,95 a SNR >15 dB vůči připravenému reference. Rekonstrukce přes ww2ogg musí po opravě Ogg page granules/CRC souhlasit s přímým dekódem do jednoho PCM16 kroku. Oprava granules nemění codec packets. Padding se navíc ověřuje shodným dekódem raw a padded WEM.
 
-Historická metadata QC jsou v `audio-qa.json`. Nová kontrola všech 305 kanonických WEMů generickým validátorem je v `cleanup-audio-qa.json`. Ani jeden soubor nepředstírá nový lidský poslech.
+`data/commanders/hannibal/audio-qa.json` uchovává validaci všech 305 finálních WEMů: PCM16/float32, korelaci a SNR vůči nezměněné referenci, ww2ogg a důkaz zachování PCM při paddingu. Nejde o nový lidský poslech.
 
 ## Runtime: rozsah důkazů
 

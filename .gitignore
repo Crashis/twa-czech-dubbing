@@ -35,6 +35,7 @@ venv/
 node_modules/
 build/
 dist/
+release/
 tmp/
 temp/
 cache/

@@ -2490,5 +2490,12 @@
       "original_sha256": "706c54970bbe6ef94e32ae41b33fa96ee693f2481c3a5f45e0b0804b2bbd5fd1",
       "sha256": "d87d71a0fa7572d4e3572c4269f7da14cf723dd213c3cb277de86bb6fc97d52c"
     }
-  ]
+  ],
+  "id": "hannibal",
+  "spoken_count": 305,
+  "replacement_count": 305,
+  "replacement_directory": "replacements/hannibal/wem",
+  "supported_base_pack_hash": "d6ee7ec4c4422276d9caba7013f46662a980955c138be13f653b58992ad876ad",
+  "required_runtime_pack": "audio_cn.pack",
+  "version": "1.0.0"
 }
