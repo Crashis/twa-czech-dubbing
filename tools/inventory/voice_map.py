@@ -22,6 +22,11 @@ def resolve_bank(bank, info):
         chain = path + (target,)
         if node['type'] == 'CAkSound':
             return [(node, chain)]
+        # Wwise permits an intentionally empty random container. It is a
+        # structural no-audio branch, not an unresolved external WEM.
+        if node['type'] == 'CAkRanSeqCntr' and not node.get('children'):
+            require(not node.get('playlist'), 'Empty container has a nonempty playlist')
+            return []
         require(node.get('children'), f'Unsupported terminal object in {bank}: {target}')
         if node['type'] == 'CAkRanSeqCntr':
             require({int(c['value']) for c in node['children']} == {int(p['target']['value']) for p in node['playlist']}, 'Playlist/children mismatch')
@@ -45,9 +50,9 @@ def resolve_bank(bank, info):
                                  'plugin_id': int(sound['ulPluginID'][0]['value']), 'ownership': 'UNREVIEWED'})
         if event['type'] != 'CAkDialogueEvent':
             continue
-        for branch in event['branches']:
+        for branch_index, branch in enumerate(event['branches']):
             target = int(branch['target']['value'])
-            context = {'bank': bank, 'event_id': event['id'], 'event_type': 'DialogueEvent', 'groups': event['groups'], 'conditions': branch['keys'],
+            context = {'bank': bank, 'event_id': event['id'], 'event_type': 'DialogueEvent', 'branch_index': branch_index, 'groups': event['groups'], 'conditions': branch['keys'],
                        'target': target, 'weight': branch['weight'], 'probability': branch['probability']}
             if target == 0:
                 rows.append(context | {'null_branch': True})

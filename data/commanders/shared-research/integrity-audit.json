@@ -1,0 +1,39 @@
+{
+  "game_file_set_size_mtime": "EXTERNAL_ACTIVITY_OBSERVED",
+  "game_files_at_start": 618,
+  "game_files_at_final_check": 619,
+  "new_game_files": [
+    "CurseVoice.json"
+  ],
+  "missing_game_files": [],
+  "size_or_mtime_changed": [
+    "game.dll",
+    "npl-base.dll",
+    "npl-sdk.dll",
+    "stack_config.json",
+    "twa_mod.dll",
+    "twa_mod.lua"
+  ],
+  "game_content_hashes_checked": 13,
+  "game_source_pack_content_hashes": "PASS_UNCHANGED",
+  "game_dll_content_matches_source_audit": true,
+  "hannibal_file_set_content": "PASS",
+  "hannibal_files_sha256_checked": 309,
+  "hannibal_replacement_wems_sha256_checked": 305,
+  "original_audio_asset_reverification": {
+    "leonidas": 2103,
+    "scipio-africanus": 2089,
+    "reference-hannibal": 1127,
+    "status": "PASS_EXACT_WEM_AND_PCM16_WAV"
+  },
+  "real_game_writes_by_this_task": 0,
+  "real_game_launcher_runs_by_this_task": 0,
+  "external_game_launcher_processes_observed": [
+    "Arena",
+    "twa-launcher"
+  ],
+  "processes_stopped_by_this_task": 0,
+  "paid_api_calls": 0,
+  "tts_generations": 0,
+  "git_commit_push_upload": 0
+}

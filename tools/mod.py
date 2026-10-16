@@ -191,6 +191,14 @@ def main():
     verify_parser.add_argument('--base', help='Optional canonical original for full entry byte diff')
     args = parser.parse_args()
     try:
+        require(bool(re.fullmatch(r'[a-z][a-z0-9_-]*', args.commander)), 'Invalid commander name')
+        research = ROOT / 'data' / 'commanders' / args.commander / 'research'
+        production = research.parent / 'manifest.json'
+        if args.command == 'validate' and not production.exists() and (research / 'manifest-draft.json').exists():
+            from tools.inventory.research_metadata import validate_research
+            result = validate_research(research, args.commander)
+            print(json.dumps(result, ensure_ascii=True, indent=2))
+            return 0
         manifest = load_manifest(args.commander)
         if args.command == 'build':
             if args.report:

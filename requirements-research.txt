@@ -1,0 +1,5 @@
+# Optional offline original-audio transcription environment; never used by installers.
+faster-whisper==1.2.1
+ctranslate2==4.8.3
+av==19.0.1
+numpy==2.5.4

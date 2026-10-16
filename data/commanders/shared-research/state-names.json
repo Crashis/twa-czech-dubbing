@@ -1,0 +1,1477 @@
+{
+  "47997846": {
+    "name": "vo_ua_Momentum",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_intensity_settings_tables/data"
+  },
+  "50874515": {
+    "name": "vo_ua_Focus_Fire",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "63920677": {
+    "name": "ALLIED_CAPTURE_POINT_LOST",
+    "group": 636323490,
+    "source": "game.dll"
+  },
+  "71838799": {
+    "name": "vo_ua_quick_reload",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "74454091": {
+    "name": "your_base_is_under_attack",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data"
+  },
+  "83219417": {
+    "name": "Commander_Vercingetorix",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "98475006": {
+    "name": "first_blood_by_your_alliance",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data"
+  },
+  "125812344": {
+    "name": "vo_ua_Spot",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "129954585": {
+    "name": "vo_ua_Brace",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "163486484": {
+    "name": "ENEMY_CAPTURE_POINT_LOST",
+    "group": 636323490,
+    "source": "game.dll"
+  },
+  "170380844": {
+    "name": "vo_sel_War_Dogs",
+    "group": 4273992948,
+    "source": "wad.pack:db/unit_castes_tables/data"
+  },
+  "229797477": {
+    "name": "vo_ua_Tremble_Before_Xerxes",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "237179618": {
+    "name": "vo_ua_vicious_assault",
+    "group": 1602634982,
+    "source": "wad.pack:db/arena_commander_abilities_tables/data"
+  },
+  "239179087": {
+    "name": "ALLIED_BASE_VULNERABLE",
+    "group": 636323490,
+    "source": "game.dll"
+  },
+  "247289013": {
+    "name": "vo_ua_natures_ally",
+    "group": 1602634982,
+    "source": "wad.pack:db/arena_colour_packs_tables/data"
+  },
+  "289827615": {
+    "name": "end_lose_capture",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data"
+  },
+  "312411504": {
+    "name": "vo_ua_oath_of_perserverance",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "324968592": {
+    "name": "vo_ua_Hide",
+    "group": 1602634982,
+    "source": "game.dll"
+  },
+  "359743629": {
+    "name": "vo_sel_Shock_Cavalry",
+    "group": 4273992948,
+    "source": "wad.pack:db/unit_class_tables/data"
+  },
+  "382960926": {
+    "name": "vo_ua_Fear",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "413894370": {
+    "name": "vo_ua_BRIBE",
+    "group": 1602634982,
+    "source": "game.dll"
+  },
+  "420165961": {
+    "name": "vo_ua_EYE_OF_ASHA",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "451860841": {
+    "name": "vo_ua_headhunt",
+    "group": 1602634982,
+    "source": "wad.pack:db/achievement_groups_tables/data"
+  },
+  "464488458": {
+    "name": "vo_ua_unit_manual_charge",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "490858007": {
+    "name": "vo_culture_China",
+    "group": 3113488887,
+    "source": "wad.pack:db/cultures_tables/data"
+  },
+  "500976762": {
+    "name": "announcer",
+    "group": 112324978,
+    "source": "game.dll"
+  },
+  "501335812": {
+    "name": "Commander_Hasdrubal",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data"
+  },
+  "503282970": {
+    "name": "vo_ua_heartening_cry",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_cursor_junctions_tables/data"
+  },
+  "515874551": {
+    "name": "Enemy_capture_point_under_attack",
+    "group": 636323490,
+    "source": "wad.pack:db/announcer_vo_settings_tables/data"
+  },
+  "529182837": {
+    "name": "timer_low_lose",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data"
+  },
+  "633342596": {
+    "name": "vo_sel_Archers",
+    "group": 4273992948,
+    "source": "wad.pack:db/cdir_unit_qualities_tables/cdir_unit_qualities"
+  },
+  "645207958": {
+    "name": "vo_ua_UNIT_focus_fire",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_cursor_junctions_tables/data"
+  },
+  "655718489": {
+    "name": "vo_ua_Masters_Patience",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "658715602": {
+    "name": "vo_ua_PURSUIT",
+    "group": 1602634982,
+    "source": "game.dll"
+  },
+  "659903553": {
+    "name": "Commander_Leonidas",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "665114142": {
+    "name": "vo_ua_deployables_ff_caltrops_receive",
+    "group": 1602634982,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "696603356": {
+    "name": "vo_ua_juggernaut",
+    "group": 1602634982,
+    "source": "wad.pack:db/arena_matchmaking_hints_tables/data"
+  },
+  "704295612": {
+    "name": "vo_ua_Fury",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "727832404": {
+    "name": "vo_ua_camelry_charge",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "728465726": {
+    "name": "Commander_Germanicus",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data"
+  },
+  "733485138": {
+    "name": "deployables_ff_stakes_receive",
+    "group": 636323490,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "751350594": {
+    "name": "vo_ua_drop_pikes",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_behaviour_groups_tables/data"
+  },
+  "753902164": {
+    "name": "vo_ua_HOLD_THE_LINE",
+    "group": 1602634982,
+    "source": "game.dll"
+  },
+  "758765361": {
+    "name": "vo_ua_uprising",
+    "group": 1602634982,
+    "source": "wad.pack:db/arena_commander_abilities_tables/data"
+  },
+  "767852384": {
+    "name": "vo_ua_unit_spear_piercing_blows",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "776578854": {
+    "name": "vo_culture_Persian",
+    "group": 3113488887,
+    "source": "wad.pack:db/cultures_subcultures_tables/data@u16ascii"
+  },
+  "785932617": {
+    "name": "vo_ua_snipe",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "803751249": {
+    "name": "vo_ua_brandish_heads",
+    "group": 1602634982,
+    "source": "wad.pack:db/arena_consumables_tables/data"
+  },
+  "857983275": {
+    "name": "vo_sel_bow_cavalry",
+    "group": 4273992948,
+    "source": "wad.pack:db/land_units_tables/data"
+  },
+  "878449731": {
+    "name": "vo_ua_unit_medium_speed_stance",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "936285215": {
+    "name": "Commander_Hannibal",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "940647551": {
+    "name": "Your_unit_is_routing",
+    "group": 636323490,
+    "source": "wad.pack:db/announcer_vo_settings_tables/data"
+  },
+  "945117536": {
+    "name": "vo_ua_unit_medium_defence_stance",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_to_special_ability_phase_junctions_tables/data"
+  },
+  "980547906": {
+    "name": "vo_ua_Anvil",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "983279571": {
+    "name": "vo_ua_Fortify",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "1012484749": {
+    "name": "vo_ua_action_failure",
+    "group": 1602634982,
+    "source": "game.dll"
+  },
+  "1016622620": {
+    "name": "Commander_Miltiades",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "1019910666": {
+    "name": "Commander_Alexander",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "1022210351": {
+    "name": "vo_ua_defiance",
+    "group": 1602634982,
+    "source": "wad.pack:db/arena_commander_abilities_tables/data"
+  },
+  "1030196704": {
+    "name": "deployables_ff_tar_receive",
+    "group": 636323490,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "1036716655": {
+    "name": "CAPTURE_POINT_LOCKED",
+    "group": 636323490,
+    "source": "game.dll"
+  },
+  "1046981698": {
+    "name": "Allied_capture_point_under_attack",
+    "group": 636323490,
+    "source": "wad.pack:db/announcer_vo_settings_tables/data"
+  },
+  "1051506245": {
+    "name": "vo_sel_repeating_crossbows",
+    "group": 4273992948,
+    "source": "wad.pack:db/arena_colour_packs_to_units_tables/data"
+  },
+  "1052470809": {
+    "name": "Allied_team_tickets_75",
+    "group": 636323490,
+    "source": "wad.pack:db/announcer_vo_settings_tables/data"
+  },
+  "1085102090": {
+    "name": "Commander_Guan_yu",
+    "group": 112324978,
+    "source": "wad.pack:db/special_ability_animations_tables/data"
+  },
+  "1086026082": {
+    "name": "Allied_team_tickets_50",
+    "group": 636323490,
+    "source": "wad.pack:db/announcer_vo_settings_tables/data"
+  },
+  "1112964594": {
+    "name": "vo_sel_spears",
+    "group": 4273992948,
+    "source": "wad.pack:db/arena_colour_packs_to_units_tables/data"
+  },
+  "1135519983": {
+    "name": "vo_ua_Vici",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "1137947211": {
+    "name": "vo_sel_falxes",
+    "group": 4273992948,
+    "source": "wad.pack:db/arena_matchmaking_hints_tables/data"
+  },
+  "1142023037": {
+    "name": "vo_ua_God_Of_War",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "1143609735": {
+    "name": "vo_ua_Unity",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "1159463324": {
+    "name": "vo_ua_deployables_place_tar",
+    "group": 1602634982,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "1175223315": {
+    "name": "Commander_Lu_bu",
+    "group": 112324978,
+    "source": "wad.pack:db/special_ability_animations_tables/data"
+  },
+  "1175381901": {
+    "name": "Enemy_base_under_attack",
+    "group": 636323490,
+    "source": "wad.pack:db/announcer_vo_settings_tables/data"
+  },
+  "1185852758": {
+    "name": "vo_ua_Vidi",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "1206922930": {
+    "name": "ff_receive_melee",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data@u16ascii"
+  },
+  "1207379848": {
+    "name": "vo_sel_Missile_Infantry",
+    "group": 4273992948,
+    "source": "wad.pack:db/unit_category_tables/data"
+  },
+  "1232556772": {
+    "name": "vo_ua_ff_cause",
+    "group": 1602634982,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "1239342387": {
+    "name": "vo_ua_opportunist",
+    "group": 1602634982,
+    "source": "wad.pack:db/ability_strikes_tables/data"
+  },
+  "1241100482": {
+    "name": "vo_ua_deployables_place_stakes",
+    "group": 1602634982,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "1287205072": {
+    "name": "vo_ua_sword_cqc_stance",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "1291118722": {
+    "name": "vo_ua_adrenaline_rush",
+    "group": 1602634982,
+    "source": "wad.pack:db/arena_commander_abilities_tables/data"
+  },
+  "1336983760": {
+    "name": "Enemy_team_eliminated",
+    "group": 636323490,
+    "source": "wad.pack:db/announcer_vo_settings_tables/data"
+  },
+  "1344613316": {
+    "name": "vo_ua_ambush",
+    "group": 1602634982,
+    "source": "wad.pack:db/encyclopedia_blocks_tables/encyclopedia_blocks"
+  },
+  "1347854243": {
+    "name": "deployables_ff_caltrops_cause",
+    "group": 636323490,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "1350300452": {
+    "name": "vo_sel_tigers",
+    "group": 4273992948,
+    "source": "wad.pack:db/arena_matchmaking_hints_tables/data"
+  },
+  "1368409207": {
+    "name": "vo_ua_unit_light_chase_stance",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_phase_stat_effects_tables/data"
+  },
+  "1378821244": {
+    "name": "Commander_Arminius",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data"
+  },
+  "1402011768": {
+    "name": "vo_ua_formed_combat",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_invalid_usage_flags_tables/data"
+  },
+  "1422687991": {
+    "name": "vo_culture_Carthaginian",
+    "group": 3113488887,
+    "source": "wad.pack:db/cdir_military_generator_configs_tables/data"
+  },
+  "1443110292": {
+    "name": "objective_capture_enemy_base",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data"
+  },
+  "1459583582": {
+    "name": "Enemy_team_tickets_75",
+    "group": 636323490,
+    "source": "wad.pack:db/announcer_vo_settings_tables/data"
+  },
+  "1480553473": {
+    "name": "vo_ua_normal_formation",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "1487611254": {
+    "name": "vo_sel_ELEPHANTS",
+    "group": 4273992948,
+    "source": "game.dll"
+  },
+  "1493138849": {
+    "name": "Enemy_team_tickets_50",
+    "group": 636323490,
+    "source": "wad.pack:db/announcer_vo_settings_tables/data"
+  },
+  "1503569098": {
+    "name": "Your_unit_is_under_attack",
+    "group": 636323490,
+    "source": "wad.pack:db/announcer_vo_settings_tables/data"
+  },
+  "1508318446": {
+    "name": "vo_ua_Tyrants_Lash",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "1539846501": {
+    "name": "vo_ua_Execute",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_group_sounds_tables/data"
+  },
+  "1565070163": {
+    "name": "vo_ua_generic_response",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "1566624867": {
+    "name": "vo_ua_Crippling_Shot",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "1568523883": {
+    "name": "vo_ua_unit_light_dodge",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_phase_stat_effects_tables/data"
+  },
+  "1595130566": {
+    "name": "vo_ua_REBELLION",
+    "group": 1602634982,
+    "source": "game.dll"
+  },
+  "1601445593": {
+    "name": "vo_ua_spear_piercing_blows",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "1642069366": {
+    "name": "vo_ua_Inspire_Group",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "1652854587": {
+    "name": "vo_ua_Iron_Discipline",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "1658269560": {
+    "name": "vo_ua_deployables_ff_caltrops_cause",
+    "group": 1602634982,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "1680280243": {
+    "name": "end_win_points",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data"
+  },
+  "1719170886": {
+    "name": "vo_ua_heavy_infantry_charge",
+    "group": 1602634982,
+    "source": "wad.pack:db/arena_commander_abilities_tables/data"
+  },
+  "1724641243": {
+    "name": "vo_ua_bow_shot",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "1737457712": {
+    "name": "timer_low_win",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data"
+  },
+  "1744534504": {
+    "name": "vo_culture_Gladiators",
+    "group": 3113488887,
+    "source": "wad.pack:db/cultures_subcultures_tables/data"
+  },
+  "1748471612": {
+    "name": "vo_ua_pike_wall",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "1779384945": {
+    "name": "vo_ua_Incendiary_Shot",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "1786379809": {
+    "name": "vo_ua_Sight_Of_The_Dragon",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "1825709242": {
+    "name": "vo_sel_ARTILLERY",
+    "group": 4273992948,
+    "source": "game.dll"
+  },
+  "1826836500": {
+    "name": "vo_ua_CHARGE",
+    "group": 1602634982,
+    "source": "wad.pack:db/animation_slot_categories_tables/data"
+  },
+  "1827633336": {
+    "name": "end_lose_annihilate",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data"
+  },
+  "1829579497": {
+    "name": "vo_ua_mark_target",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "1861217562": {
+    "name": "vo_ua_ff_receive",
+    "group": 1602634982,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "1889821288": {
+    "name": "vo_ua_Veni",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "1935124154": {
+    "name": "vo_ua_unit_brace",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "1940193585": {
+    "name": "vo_ua_Haste",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "1950090646": {
+    "name": "vo_ua_Whirlwind",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "1971431199": {
+    "name": "vo_sel_Missile_Cavalry",
+    "group": 4273992948,
+    "source": "wad.pack:db/unit_castes_tables/data"
+  },
+  "1992960882": {
+    "name": "vo_ua_Intimidate",
+    "group": 1602634982,
+    "source": "local_en.pack:special_ability_groups"
+  },
+  "2022779143": {
+    "name": "vo_ua_attacking_testudo",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_phases_tables/data"
+  },
+  "2029845397": {
+    "name": "vo_ua_unit_light_spot_stance",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_phase_stat_effects_tables/data"
+  },
+  "2038580790": {
+    "name": "vo_ua_Infantry_Charge",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2084944935": {
+    "name": "vo_ua_Throat_Strike",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2094281880": {
+    "name": "vo_ua_indomitable",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "2101403034": {
+    "name": "vo_ua_Fight_In_The_Shade",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2105420648": {
+    "name": "vo_ua_raise_shield",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "2155543376": {
+    "name": "vo_ua_Piercing_Shot",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2168618757": {
+    "name": "deployables_ff_caltrops_receive",
+    "group": 636323490,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "2180742379": {
+    "name": "vo_ua_shield_cover",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_group_sound_assignments_tables/data"
+  },
+  "2180786841": {
+    "name": "vo_ua_dismantle_artillery_piece",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_assignment_behaviours_tables/data"
+  },
+  "2186021986": {
+    "name": "vo_ua_Scorched_Earth",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2200200264": {
+    "name": "CAPTURE_POINT_CONTESTED",
+    "group": 636323490,
+    "source": "game.dll"
+  },
+  "2204441813": {
+    "name": "Female",
+    "group": 2703688388,
+    "source": "wad.pack:db/audio_entity_random_vocalisations_tables/data"
+  },
+  "2220845660": {
+    "name": "vo_ua_exemplar",
+    "group": 1602634982,
+    "source": "wad.pack:db/ability_strikes_tables/data"
+  },
+  "2227715791": {
+    "name": "vo_sel_light_artillery",
+    "group": 4273992948,
+    "source": "wad.pack:db/arena_matchmaking_hints_tables/data"
+  },
+  "2228794154": {
+    "name": "vo_ua_Hammer",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2240028451": {
+    "name": "vo_ua_Virtuous_Presence",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2278021440": {
+    "name": "vo_ua_resplendency",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "2294975724": {
+    "name": "vo_ua_frenzied_charge",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_phase_stat_effects_tables/data"
+  },
+  "2301432682": {
+    "name": "vo_ua_Deep_Pockets",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2309691477": {
+    "name": "your_team_is_capturing",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data"
+  },
+  "2315285510": {
+    "name": "vo_ua_drop_siege_equipment",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_assignment_behaviours_tables/data"
+  },
+  "2318104921": {
+    "name": "vo_ua_quick_march",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "2318724385": {
+    "name": "vo_ua_heavy_lockdown",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_phase_stat_effects_tables/data"
+  },
+  "2335687687": {
+    "name": "Commander_Xerxes",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "2339042408": {
+    "name": "vo_ua_wedge_formation",
+    "group": 1602634982,
+    "source": "wad.pack:db/arena_commander_abilities_tables/data"
+  },
+  "2399873741": {
+    "name": "vo_culture_celts",
+    "group": 3113488887,
+    "source": "wad.pack:db/groupings_military_tables/data"
+  },
+  "2416321618": {
+    "name": "vo_ua_Frenzy",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2416925946": {
+    "name": "vo_sel_HEAVY_ARTILLERY",
+    "group": 4273992948,
+    "source": "game.dll"
+  },
+  "2443024359": {
+    "name": "Commander_Teuta",
+    "group": 112324978,
+    "source": "manual candidate; exact FNV-1 and actor tree membership"
+  },
+  "2450858015": {
+    "name": "vo_ua_Forced_March",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2462291619": {
+    "name": "vo_ua_Rage",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2480317838": {
+    "name": "vo_ua_Shock",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2488782127": {
+    "name": "ALLIED_PLAYER_ELIMINATED",
+    "group": 636323490,
+    "source": "game.dll"
+  },
+  "2493627385": {
+    "name": "Commander_Zhuge_Liang",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "2524476172": {
+    "name": "vo_ua_unit_sword_heavy_strikes",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "2525390078": {
+    "name": "vo_ua_shield_wall",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "2537003225": {
+    "name": "end_win_annihilate",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data"
+  },
+  "2585553886": {
+    "name": "vo_ua_green_dragon_strike",
+    "group": 1602634982,
+    "source": "wad.pack:db/ability_strikes_tables/data"
+  },
+  "2603609431": {
+    "name": "vo_sel_chariots",
+    "group": 4273992948,
+    "source": "wad.pack:db/battle_cinematic_events_tables/data"
+  },
+  "2613545112": {
+    "name": "Commander_Crixus",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "2615808626": {
+    "name": "vo_ua_warcry",
+    "group": 1602634982,
+    "source": "wad.pack:db/arena_commander_abilities_tables/data"
+  },
+  "2626048306": {
+    "name": "vo_sel_swords",
+    "group": 4273992948,
+    "source": "wad.pack:db/arena_colour_packs_to_units_tables/data"
+  },
+  "2664474492": {
+    "name": "vo_ua_immovable_presence",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "2686506175": {
+    "name": "vo_ua_One_Step_Ahead",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2697229553": {
+    "name": "Commander_Cao_Cao",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "2697472396": {
+    "name": "vo_ua_roar",
+    "group": 1602634982,
+    "source": "wad.pack:db/arena_localised_chat_tags_tables/data@u16ascii"
+  },
+  "2734542070": {
+    "name": "vo_ua_Flying_Column",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2751042326": {
+    "name": "CAPTURE_POINT_SECURED",
+    "group": 636323490,
+    "source": "game.dll"
+  },
+  "2772611713": {
+    "name": "ff_cause",
+    "group": 636323490,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "2818984213": {
+    "name": "Commander_Massinissa",
+    "group": 112324978,
+    "source": "manual candidate; exact FNV-1 and actor tree membership"
+  },
+  "2859798240": {
+    "name": "ENEMY_BASE_VULNERABLE",
+    "group": 636323490,
+    "source": "game.dll"
+  },
+  "2859999563": {
+    "name": "vo_ua_deployables_place_barricades",
+    "group": 1602634982,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "2862517448": {
+    "name": "vo_ua_Shield_Bash",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2900357633": {
+    "name": "Female_1",
+    "group": 112324978,
+    "source": "wad.pack:db/_kv_morale_tables/data"
+  },
+  "2900357634": {
+    "name": "Female_2",
+    "group": 112324978,
+    "source": "wad.pack:db/_kv_morale_tables/data"
+  },
+  "2900357635": {
+    "name": "Female_3",
+    "group": 112324978,
+    "source": "wad.pack:db/ability_strikes_tables/data"
+  },
+  "2902961982": {
+    "name": "vo_culture_spartans",
+    "group": 3113488887,
+    "source": "wad.pack:db/arena_colour_packs_to_units_tables/data"
+  },
+  "2905713059": {
+    "name": "vo_ua_Undefeated",
+    "group": 1602634982,
+    "source": "wad.pack:db/arena_commander_abilities_tables/data"
+  },
+  "2917045873": {
+    "name": "Commander_Sulla",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "2948842504": {
+    "name": "vo_ua_RAZE",
+    "group": 1602634982,
+    "source": "game.dll"
+  },
+  "2948972461": {
+    "name": "vo_ua_Champion",
+    "group": 1602634982,
+    "source": "wad.pack:db/arena_commander_abilities_tables/data"
+  },
+  "2960394644": {
+    "name": "vo_ua_harass",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "2965380179": {
+    "name": "Fast",
+    "group": 2545052772,
+    "source": "local_en.pack:special_ability_groups"
+  },
+  "2974999698": {
+    "name": "Enemy_team_half_eliminated",
+    "group": 636323490,
+    "source": "wad.pack:db/announcer_vo_settings_tables/data"
+  },
+  "2977514201": {
+    "name": "Commander_Scipio",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "2989722444": {
+    "name": "deployables_ff_stakes_cause",
+    "group": 636323490,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "2994924007": {
+    "name": "vo_ua_Blade_Breaker",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "2995157578": {
+    "name": "vo_ua_berserk",
+    "group": 1602634982,
+    "source": "wad.pack:db/arena_commander_abilities_tables/data"
+  },
+  "3015520487": {
+    "name": "vo_ua_Deflect_Missiles",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3044772107": {
+    "name": "vo_ua_unit_debuff",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "3051967427": {
+    "name": "Commander_Boudica",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "3057291677": {
+    "name": "vo_ua_Rapid_Advance",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3059513183": {
+    "name": "vo_ua_Release",
+    "group": 1602634982,
+    "source": "game.dll"
+  },
+  "3070268990": {
+    "name": "vo_ua_Deadly_Precision",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3074673460": {
+    "name": "vo_sel_Melee_Infantry",
+    "group": 4273992948,
+    "source": "wad.pack:db/unit_castes_tables/data"
+  },
+  "3105961072": {
+    "name": "vo_ua_Mount_Kick",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_group_sounds_tables/data"
+  },
+  "3111576190": {
+    "name": "Male",
+    "group": 2703688388,
+    "source": "wad.pack:db/arena_commanders_tables/data"
+  },
+  "3118748361": {
+    "name": "vo_ua_Immortality",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3121087702": {
+    "name": "vo_ua_Reckless_Force",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3135717869": {
+    "name": "vo_ua_Cavalry_Charge",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3136151747": {
+    "name": "vo_ua_Puppet_Master",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3154681590": {
+    "name": "vo_culture_greek",
+    "group": 3113488887,
+    "source": "wad.pack:db/arena_colours_tables/data"
+  },
+  "3184776731": {
+    "name": "vo_ua_unit_shield_bash",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_phases_tables/data"
+  },
+  "3205054423": {
+    "name": "vo_sel_AXES",
+    "group": 4273992948,
+    "source": "game.dll"
+  },
+  "3230074473": {
+    "name": "vo_sel_slingers",
+    "group": 4273992948,
+    "source": "wad.pack:db/arena_colour_packs_to_units_tables/data"
+  },
+  "3254117665": {
+    "name": "vo_culture_roman",
+    "group": 3113488887,
+    "source": "wad.pack:db/anim_reference_poses_tables/data"
+  },
+  "3256910324": {
+    "name": "vo_ua_stress",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_phase_stat_effects_tables/data"
+  },
+  "3268286622": {
+    "name": "Commander_Cyrus",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "3288445643": {
+    "name": "vo_ua_natural_fortification",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_phase_stat_effects_tables/data"
+  },
+  "3291157095": {
+    "name": "vo_ua_strain",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "3302449062": {
+    "name": "Commander_Xanthippus",
+    "group": 112324978,
+    "source": "manual candidate; exact FNV-1 and actor tree membership"
+  },
+  "3314088042": {
+    "name": "vo_ua_Reign_Of_Terror",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3320879727": {
+    "name": "vo_ua_phalanx_thrust",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_group_sound_assignments_tables/data"
+  },
+  "3328430832": {
+    "name": "Enemy_player_eliminated",
+    "group": 636323490,
+    "source": "wad.pack:db/announcer_vo_settings_tables/data"
+  },
+  "3330649692": {
+    "name": "Enemy_commander_killed",
+    "group": 636323490,
+    "source": "wad.pack:db/announcer_vo_settings_tables/data"
+  },
+  "3335475708": {
+    "name": "vo_ua_Lash",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3406367171": {
+    "name": "vo_ua_deployables_ff_tar_cause",
+    "group": 1602634982,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "3410933626": {
+    "name": "vo_ua_hoplite_phalanx",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "3412462240": {
+    "name": "vo_ua_Invigorating_Strike",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3434809483": {
+    "name": "vo_ua_INFILTRATION",
+    "group": 1602634982,
+    "source": "game.dll"
+  },
+  "3436959740": {
+    "name": "vo_ua_chant",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "3451385513": {
+    "name": "vo_ua_Determination",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3474165614": {
+    "name": "CAPTURE_POINT_UNLOCKED",
+    "group": 636323490,
+    "source": "game.dll"
+  },
+  "3476964711": {
+    "name": "ff_receive",
+    "group": 636323490,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "3484597828": {
+    "name": "end_win_capture",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data"
+  },
+  "3495132587": {
+    "name": "vo_ua_Ad_Portas",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3526007992": {
+    "name": "vo_ua_tactical_advance",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "3536201078": {
+    "name": "vo_ua_From_The_Shadows",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3538640855": {
+    "name": "vo_sel_Crossbows",
+    "group": 4273992948,
+    "source": "local_en.pack:unit_effects"
+  },
+  "3562411370": {
+    "name": "vo_ua_phalanx_standard",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "3569483238": {
+    "name": "deployables_ff_tar_cause",
+    "group": 636323490,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "3589797711": {
+    "name": "vo_sel_glaives",
+    "group": 4273992948,
+    "source": "wad.pack:db/land_units_tables/data"
+  },
+  "3609930616": {
+    "name": "vo_ua_wild_temper",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_group_sound_assignments_tables/data"
+  },
+  "3617829098": {
+    "name": "Your_unit_has_recovered",
+    "group": 636323490,
+    "source": "wad.pack:db/announcer_vo_settings_tables/data"
+  },
+  "3635793931": {
+    "name": "timer_low_neutral",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data"
+  },
+  "3636273828": {
+    "name": "vo_sel_pikes",
+    "group": 4273992948,
+    "source": "wad.pack:db/land_units_tables/data"
+  },
+  "3655812004": {
+    "name": "vo_sel_Javelins",
+    "group": 4273992948,
+    "source": "wad.pack:db/audio_group_sounds_tables/data"
+  },
+  "3657740901": {
+    "name": "vo_ua_poison_bolts",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "3671061373": {
+    "name": "vo_ua_deployables_place_caltrops",
+    "group": 1602634982,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "3686586149": {
+    "name": "vo_ua_deployables_ff_tar_receive",
+    "group": 1602634982,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "3705061682": {
+    "name": "vo_ua_blaze_of_glory",
+    "group": 1602634982,
+    "source": "wad.pack:db/arena_commander_abilities_tables/data"
+  },
+  "3713817887": {
+    "name": "Commander_Liu_Bei",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "3719195628": {
+    "name": "Male_3",
+    "group": 112324978,
+    "source": "wad.pack:db/ability_strikes_tables/data"
+  },
+  "3719195629": {
+    "name": "Male_2",
+    "group": 112324978,
+    "source": "wad.pack:db/_kv_morale_tables/data"
+  },
+  "3719195630": {
+    "name": "Male_1",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "3720693244": {
+    "name": "vo_ua_Push",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3735595184": {
+    "name": "ff_cause_melee",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data"
+  },
+  "3774809470": {
+    "name": "end_lose_points",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data"
+  },
+  "3780845098": {
+    "name": "vo_ua_Vengeance",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3783877071": {
+    "name": "vo_ua_stomp",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "3792119066": {
+    "name": "Commander_decebalus",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_colour_packs_to_units_tables/data"
+  },
+  "3792855335": {
+    "name": "vo_sel_GENERIC",
+    "group": 4273992948,
+    "source": "game.dll"
+  },
+  "3796479696": {
+    "name": "vo_ua_Way_Of_The_Wind",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3801173741": {
+    "name": "Commander_Ambiorix",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "3811572718": {
+    "name": "vo_ua_throw_fire_pots",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "3812773312": {
+    "name": "vo_ua_unit_heavy_defend_stance",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_to_special_ability_phase_junctions_tables/data"
+  },
+  "3820203984": {
+    "name": "your_commander_dead",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data@u16ascii"
+  },
+  "3827388055": {
+    "name": "vo_ua_Slaughter",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3838242864": {
+    "name": "vo_ua_Wrath_Of_Mars",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "3851535672": {
+    "name": "Commander_Spartacus",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "3860505832": {
+    "name": "vo_ua_FETCH",
+    "group": 1602634982,
+    "source": "game.dll"
+  },
+  "3862454341": {
+    "name": "Enemy_player_eliminated_self",
+    "group": 636323490,
+    "source": "wad.pack:db/announcer_vo_settings_tables/data"
+  },
+  "3862543031": {
+    "name": "Commander_Dong_Zhuo",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "3928330416": {
+    "name": "Commander_Sun_ren",
+    "group": 112324978,
+    "source": "wad.pack:db/special_ability_cursor_junctions_tables/data"
+  },
+  "3966697432": {
+    "name": "vo_ua_drop_shields",
+    "group": 1602634982,
+    "source": "wad.pack:db/special_ability_behaviour_groups_tables/data"
+  },
+  "3977114732": {
+    "name": "vo_ua_sword_parry",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "3987822532": {
+    "name": "vo_culture_Gauls",
+    "group": 3113488887,
+    "source": "wad.pack:db/cdir_military_generator_template_priorities_tables/data"
+  },
+  "3989988796": {
+    "name": "vo_ua_sprint",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "4043584872": {
+    "name": "vo_culture_barbarian",
+    "group": 3113488887,
+    "source": "wad.pack:db/arena_frontend_scenes_tables/data"
+  },
+  "4043687131": {
+    "name": "vo_ua_Battle_Cry",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "4049577555": {
+    "name": "vo_ua_sword_heavy_strikes",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "4068624301": {
+    "name": "vo_ua_camel_dash",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "4076834847": {
+    "name": "vo_ua_unit_sword_parry",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "4117697572": {
+    "name": "vo_ua_BARRAGE",
+    "group": 1602634982,
+    "source": "game.dll"
+  },
+  "4146259622": {
+    "name": "vo_ua_crushing_blow",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "4158288355": {
+    "name": "vo_sel_Melee_Cavalry",
+    "group": 4273992948,
+    "source": "wad.pack:db/unit_castes_tables/data"
+  },
+  "4188249343": {
+    "name": "vo_ua_Hunt",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "4195437661": {
+    "name": "vo_ua_heavy_cavalry_charge",
+    "group": 1602634982,
+    "source": "wad.pack:db/land_units_to_unit_abilites_junctions_tables/data"
+  },
+  "4199944842": {
+    "name": "vo_ua_unit_buff",
+    "group": 1602634982,
+    "source": "wad.pack:db/unit_abilities_tables/data"
+  },
+  "4204137505": {
+    "name": "Commander_Caesar",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data@u16ascii"
+  },
+  "4211240286": {
+    "name": "vo_sel_javelin_cavalry",
+    "group": 4273992948,
+    "source": "wad.pack:db/arena_matchmaking_unit_groupings_tables/data"
+  },
+  "4249935933": {
+    "name": "vo_ua_deployables_ff_stakes_receive",
+    "group": 1602634982,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "4256407787": {
+    "name": "vo_ua_deployables_ff_stakes_cause",
+    "group": 1602634982,
+    "source": "wad.pack:db/deployables_tables/data"
+  },
+  "4265412407": {
+    "name": "first_blood_by_enemy_alliance",
+    "group": 636323490,
+    "source": "wad.pack:db/random_localisation_strings_tables/data"
+  },
+  "4274719326": {
+    "name": "vo_ua_Proscription",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_abilities_tables/data"
+  },
+  "4280063818": {
+    "name": "vo_ua_shield_screen",
+    "group": 1602634982,
+    "source": "wad.pack:db/audio_group_sound_assignments_tables/data"
+  },
+  "4288538180": {
+    "name": "Commander_Cynane",
+    "group": 112324978,
+    "source": "wad.pack:db/arena_commanders_tables/data"
+  },
+  "1973485806": {
+    "name": "vo_ua_exposed_flanks",
+    "group": 1602634982,
+    "source": "preserved ability/localization candidate; exact family-constrained FNV-1"
+  }
+}

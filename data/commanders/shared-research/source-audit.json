@@ -1,0 +1,270 @@
+{
+  "canonical_original_pack_sha256": "d6ee7ec4c4422276d9caba7013f46662a980955c138be13f653b58992ad876ad",
+  "canonical_original_pack_size_bytes": 244019593,
+  "pack_indexes_checked": 545,
+  "pack_index_rsa_failures": 0,
+  "unique_banks": 21,
+  "bank_inputs": [
+    {
+      "pack": "audio_banks.pack",
+      "path": "audio/wwise/battle.bnk",
+      "size": 69960,
+      "sha256": "c402893f096c24638461d1ec0c14604c84ccd8d7e70e2ad4359ffe9b5cc74b80",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_banks.pack",
+      "path": "audio/wwise/battle_environment.bnk",
+      "size": 170162,
+      "sha256": "66f87aadc2c44d99a3fd42ab872ae13f9d3e4c8e85fc7324cb0afa4f3fc3da71",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_banks.pack",
+      "path": "audio/wwise/battle_group.bnk",
+      "size": 853896,
+      "sha256": "5c0aae8b269632b531f5813748a843e7a50f9384b03781a1d6c82f8f512889ec",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_banks.pack",
+      "path": "audio/wwise/battle_individual.bnk",
+      "size": 1067223,
+      "sha256": "34550e32ee5d5bcd0e942dc822ef1354e8ba9986c861bb41d08591de94ca99da",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_banks.pack",
+      "path": "audio/wwise/battle_music.bnk",
+      "size": 8312,
+      "sha256": "861ceab626351a69ae277236a8216218a2a5751d4d3fe6da5b0432995c0aa732",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_banks.pack",
+      "path": "audio/wwise/battle_ui.bnk",
+      "size": 29232,
+      "sha256": "973e94be65b7bc916782629b3101fec52e9f457741f6d445f45dea69e8d9ea10",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_banks.pack",
+      "path": "audio/wwise/frontend.bnk",
+      "size": 71461,
+      "sha256": "a8ebbae7bb599998a36a8b080425ed198cfa9d09e0f8c283aefb4924f6b9fa3e",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_banks.pack",
+      "path": "audio/wwise/global.bnk",
+      "size": 3131,
+      "sha256": "4b67dc70c12b67980e013cb2a15cea922fabec188c563a7541cebc4489f544ca",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_banks.pack",
+      "path": "audio/wwise/global_bus.bnk",
+      "size": 16113,
+      "sha256": "173dd4d18a69af05145d5d86137ae55e7d99b58321793c2146ee70dbfc918fb8",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_banks.pack",
+      "path": "audio/wwise/global_bus_data.bnk",
+      "size": 1489792,
+      "sha256": "387c4df2a2a121e019f2a2b4fd05fb5e240fca523c768c1a64052fcd8049d669",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_banks.pack",
+      "path": "audio/wwise/global_movies.bnk",
+      "size": 393,
+      "sha256": "2e37a34bccacab0949040a546ab7cd71a9a496cede91547610cbc321ed5cb7f3",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_banks.pack",
+      "path": "audio/wwise/global_movies_localised.bnk",
+      "size": 83,
+      "sha256": "3387fc66e010b013d5519ff516d83197b0a5d31dce6c3b9f2ac55f18fe7a0173",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_banks.pack",
+      "path": "audio/wwise/global_music.bnk",
+      "size": 305671,
+      "sha256": "c6b4d8cadd58655f83ea95b1c070d2541bf750ab20c3a1279c478a8ba73f049a",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_banks.pack",
+      "path": "audio/wwise/global_ui.bnk",
+      "size": 53912,
+      "sha256": "dad0ab7f81f9c520d3337855438f3f28811f4d9bcae35726d8526d595da3ea21",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_banks.pack",
+      "path": "audio/wwise/init.bnk",
+      "size": 20948,
+      "sha256": "77b2d62e161d5fdf2fd5c78c095e458e0d0875d609c7dea611297bdf3611b9e6",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_en_banks.pack",
+      "path": "audio/wwise/battle_advice.bnk",
+      "size": 24039,
+      "sha256": "429e70a86f9b6f0c188dcc61d65367ff68ce040c82760c7bf791e50dc4053f9c",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_en_banks.pack",
+      "path": "audio/wwise/battle_vo_announcer.bnk",
+      "size": 169364,
+      "sha256": "779498b8ab3d0d87e417684e069f3981c2ebfe993635aa12fa72ed102e2a2efa",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_en_banks.pack",
+      "path": "audio/wwise/battle_vo_conversational.bnk",
+      "size": 693236,
+      "sha256": "af13e9592f6c375b2d0d83617d0f603deb1dee22d618e2a170448496edec5082",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_en_banks.pack",
+      "path": "audio/wwise/battle_vo_emotes.bnk",
+      "size": 115874,
+      "sha256": "84a52c305377128b864c59afe563fae29916bcbe7961a670fdbad09a0299009b",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_en_banks.pack",
+      "path": "audio/wwise/battle_vo_orders.bnk",
+      "size": 909976,
+      "sha256": "a944ba811b3413d63585998b41fe1859984f13aa4be166a952bef2a8d338a0bc",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_en_banks.pack",
+      "path": "audio/wwise/frontend_vo.bnk",
+      "size": 201513,
+      "sha256": "3d06749ef6fc910fafa100b44f5da78f7e7329e3fc2eac126fed75157da13208",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_cn_banks.pack",
+      "path": "audio/wwise/battle_advice.bnk",
+      "size": 24039,
+      "sha256": "429e70a86f9b6f0c188dcc61d65367ff68ce040c82760c7bf791e50dc4053f9c",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_cn_banks.pack",
+      "path": "audio/wwise/battle_vo_announcer.bnk",
+      "size": 169364,
+      "sha256": "779498b8ab3d0d87e417684e069f3981c2ebfe993635aa12fa72ed102e2a2efa",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_cn_banks.pack",
+      "path": "audio/wwise/battle_vo_conversational.bnk",
+      "size": 693236,
+      "sha256": "af13e9592f6c375b2d0d83617d0f603deb1dee22d618e2a170448496edec5082",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_cn_banks.pack",
+      "path": "audio/wwise/battle_vo_emotes.bnk",
+      "size": 115874,
+      "sha256": "84a52c305377128b864c59afe563fae29916bcbe7961a670fdbad09a0299009b",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_cn_banks.pack",
+      "path": "audio/wwise/battle_vo_orders.bnk",
+      "size": 909976,
+      "sha256": "a944ba811b3413d63585998b41fe1859984f13aa4be166a952bef2a8d338a0bc",
+      "rsa": "PASS"
+    },
+    {
+      "pack": "audio_cn_banks.pack",
+      "path": "audio/wwise/frontend_vo.bnk",
+      "size": 201513,
+      "sha256": "3d06749ef6fc910fafa100b44f5da78f7e7329e3fc2eac126fed75157da13208",
+      "rsa": "PASS"
+    }
+  ],
+  "voice_bank_headers": {
+    "battle_advice.bnk": {
+      "dwBankGeneratorVersion": "2147483774",
+      "dwLanguageID": "550298558",
+      "dwSoundBankID": "1860345894"
+    },
+    "battle_vo_announcer.bnk": {
+      "dwBankGeneratorVersion": "2147483774",
+      "dwLanguageID": "550298558",
+      "dwSoundBankID": "2464829415"
+    },
+    "battle_vo_conversational.bnk": {
+      "dwBankGeneratorVersion": "2147483774",
+      "dwLanguageID": "550298558",
+      "dwSoundBankID": "2465267752"
+    },
+    "battle_vo_emotes.bnk": {
+      "dwBankGeneratorVersion": "2147483774",
+      "dwLanguageID": "550298558",
+      "dwSoundBankID": "3328717877"
+    },
+    "battle_vo_orders.bnk": {
+      "dwBankGeneratorVersion": "2147483774",
+      "dwLanguageID": "550298558",
+      "dwSoundBankID": "1325353869"
+    },
+    "frontend_vo.bnk": {
+      "dwBankGeneratorVersion": "2147483774",
+      "dwLanguageID": "550298558",
+      "dwSoundBankID": "3739241945"
+    }
+  },
+  "wwiser_version": "v20260808",
+  "wwiser_sha256": "f4ba1368895adab285f27fa37b142e5da805bcc6fb77e8daba282dac65d89411",
+  "vgmstream_sha256": "29df08c557ada8269c92a6abfe3886ad2f65849b0b26ba78a0819b363bbc5b85",
+  "graph_sha256": "54ceb236fe181ef9b94fb6ad8e4084f01cf74dbd6e11640c93e02509a92f5b73",
+  "xml_sha256": "5fae3b72e9ffca95155cecbe3c2f14c6ba4c57f5b302326b906b49e638321565",
+  "wwiser_errors_or_skips": 0,
+  "game_dll_sha256": "3a0c39b8017e3ae920d51748e992965ad1990cefdbf0351525f1cde61d979b55",
+  "game_dll_matches_prior_static_trigger_research": true,
+  "python_version": "3.13.5",
+  "local_stt_engine": "faster-whisper 1.2.1 / CTranslate2 4.8.3 / CPU int8",
+  "models": {
+    "base.en": {
+      "model_bin_sha256": "2a166925539a16005f14ff328359f9b9adb9dc4fb631bb3b227526862e93e2ef",
+      "snapshot": "3d3d5dee26484f91867d81cb899cfcf72b96be6c"
+    },
+    "small.en": {
+      "model_bin_sha256": "62b2a45b05ee59acb4a5341b33ee35e041395d378d418a18acfe4c9e768ee37a",
+      "snapshot": "d1d751a5f8271d482d14ca55d9e2deeebbae577f"
+    },
+    "medium.en": {
+      "model_bin_sha256": "11b220779aea4c6f3ce9d2549c8a95ea869ed84066864b999531ef53e594fe5b",
+      "snapshot": "a29b04bd15381511a9af671baec01072039215e3"
+    }
+  },
+  "network_audio_uploads": 0,
+  "paid_api_calls": 0,
+  "hannibal_reference_exact_media_set_match": true,
+  "hannibal_reference_original_audio_hashes_verified": 1127,
+  "scope_note": "Primary inventories exclude the separate 215 file-backed advisor/tutorial reference IDs. Dialogue null leaves and empty containers are not WEM placeholders.",
+  "localization_original_pack_sha256": "8eb207ff602e537f65919a05c10275860230f6443b93977084445ae6250873a6",
+  "localization_original_pack_rsa": "PASS",
+  "localization_original_pack_size_bytes": 116373279,
+  "local_stt_recordings_reviewed": {
+    "base.en": 3884,
+    "small.en": 3884,
+    "medium.en": 1170
+  },
+  "unprocessed_two_model_disagreements": 0,
+  "alternative_onset_beam_review_recordings": 12,
+  "alternative_analysis_is_independent_model": false
+}

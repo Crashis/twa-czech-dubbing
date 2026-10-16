@@ -103,6 +103,7 @@ def parse_graph(input_path):
                                 ["sLoopCount", "sLoopModMin", "sLoopModMax", "bIsContinuous", "eTransitionMode"]}
             if kind == "CAkDialogueEvent":
                 node["groups"], node["branches"] = parse_dialogue(element)
+                node["mode"] = fields(element, "uMode")
                 node["depth"] = val(element, "uTreeDepth")
                 assert all(len(branch["keys"]) == node["depth"] for branch in node["branches"])
             # Preserve sound/container property bundles, including inherited mute/loop flags.

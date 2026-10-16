@@ -1,0 +1,523 @@
+{
+  "17786014": {
+    "text": "We have killed Cynane!",
+    "confidence": "HIGH",
+    "evidence": "Two ASR models agree phonetically; second vo_actor is exactly Commander_Cynane. Proper-name spelling corrected."
+  },
+  "29961787": {
+    "text": "Wall the area!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; deployables_place_barricades context supports the verb Wall."
+  },
+  "65164214": {
+    "text": "Limber up!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en exact agreement; small.en LEMBER is a phonetic spelling."
+  },
+  "155966295": {
+    "text": "Form up!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en agree; explicit normal_formation ability resolves farm/form homophone."
+  },
+  "168434721": {
+    "text": "No mercy!",
+    "confidence": "HIGH",
+    "evidence": "medium.en gives No mercy; base/small No messy is a close mishearing; generic battle response context, not a new invented sentence."
+  },
+  "221085179": {
+    "text": "We have ended Spartacus!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en agree; second actor Commander_Spartacus provides exact name."
+  },
+  "221118052": {
+    "text": "King Leonidas!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en exact agreement; actual speaker Commander_Leonidas and DB identity resolve base.en name error."
+  },
+  "222995191": {
+    "text": "Quick march!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en agree; explicit quick_march ability resolves match/march."
+  },
+  "278919606": {
+    "text": "Into formation!",
+    "confidence": "HIGH",
+    "evidence": "small.en wording; base.en Interformation is a close segmentation error; explicit normal_formation ability. medium.en alternative retained."
+  },
+  "283534600": {
+    "text": "Apace!",
+    "confidence": "HIGH",
+    "evidence": "Three unprompted ASR readings are phonetic variants of Apace; vo_ua_quick_march and a command-only one-word variant make the archaic speed order the supported wording. This is contextual/phonetic HIGH, not human listening."
+  },
+  "358726066": {
+    "text": "Our foolish allies are standing in the way of our missile fire!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en exact agreement; explicit ff_cause state."
+  },
+  "372349459": {
+    "text": "Leonidas of Sparta!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en exact agreement; Commander_Leonidas speaker and menu selection context resolve base.en name error."
+  },
+  "414118660": {
+    "text": "For Sparta!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en exact agreement; Spartan commander speaker resolves base.en Spotter."
+  },
+  "425829799": {
+    "text": "Leonidas comes for you!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en exact agreement; Commander_Leonidas and Intimidate branch resolve base.en name error."
+  },
+  "429172861": {
+    "text": "Limber!",
+    "confidence": "HIGH",
+    "evidence": "base.en Limber matches dismantle_artillery_piece; small/medium Limbo is a close phonetic misrecognition; sibling artillery commands include Limber up."
+  },
+  "436309678": {
+    "text": "Skewer them on stakes!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; small.en differs only by stakes/steaks, resolved by deployables_place_stakes."
+  },
+  "439596807": {
+    "text": "Loose!",
+    "confidence": "HIGH",
+    "evidence": "Original medium and +0.5s/beam10 analysis give Loose; small.en LOSE is a homophone. Same state 2257448314 has sibling Fire and Release commands."
+  },
+  "465752005": {
+    "text": "Dodge!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en exact agreement; unit_light_dodge key confirms context."
+  },
+  "478158902": {
+    "text": "The Numidian king has been put to death!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en exact agreement; reaction target Commander_Massinissa retained as separate metadata."
+  },
+  "511773672": {
+    "text": "Form phalanx!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; pike_wall context resolves base.en Valax."
+  },
+  "528291830": {
+    "text": "Spartan strength!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; Push branch supports a strength command."
+  },
+  "552687548": {
+    "text": "Pack it up!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en exact agreement; base.en alternate preserved."
+  },
+  "566942953": {
+    "text": "Never again will your eagle rise, Germanicus!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; other models agree except proper name; second vo_actor is Commander_Germanicus."
+  },
+  "575372525": {
+    "text": "Arminius is dead, and his men fear us!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en agree; Commander_Arminius target supplies exact spelling."
+  },
+  "593841837": {
+    "text": "Walls of Sparta!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; pike_wall branch resolves base.en Wholes."
+  },
+  "594813632": {
+    "text": "Arm yourself!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en agree; small.en homophone retained in raw evidence."
+  },
+  "626940613": {
+    "text": "Keen senses!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; Spot ability resolves King/Cane homophones in base/small."
+  },
+  "629517044": {
+    "text": "Defensive positions!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; unit_medium_defence_stance key supplies context."
+  },
+  "641123006": {
+    "text": "Throw down caltrops!",
+    "confidence": "HIGH",
+    "evidence": "small.en wording; explicit deployables_place_caltrops resolves base/medium cow drops."
+  },
+  "661321381": {
+    "text": "Throw down tar and get moving!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; deployables_place_tar resolves base.en time."
+  },
+  "695806010": {
+    "text": "Into phalanx!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; pike_wall context resolves base.en Felix."
+  },
+  "759793645": {
+    "text": "Moving out!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; other models are close phonetic alternatives; unit_medium_speed_stance context."
+  },
+  "788360657": {
+    "text": "Parry!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; exact sword_parry branch resolves base/small Perry homophone."
+  },
+  "848527277": {
+    "text": "Push!",
+    "confidence": "HIGH",
+    "evidence": "Exact Push ability state; alternative unprompted medium +0.5s/beam10 gives Push, resolving initial PUS/POSS phonetic outputs."
+  },
+  "909093682": {
+    "text": "Relentless push!",
+    "confidence": "HIGH",
+    "evidence": "base.en wording; small.en differs by push/puss; stress ability command context. No human listening claimed."
+  },
+  "1001639185": {
+    "text": "Scipio has been killed!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording and exact second actor Commander_Scipio resolve phonetic names in base/small."
+  },
+  "1023163801": {
+    "text": "Raise shields!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; raise_shield key resolves base.en Ray."
+  },
+  "1032776127": {
+    "text": "Raise shields!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; Fight_In_The_Shade ability context supports shields, not a personal name."
+  },
+  "1063242488": {
+    "text": "Vercingetorix has been annihilated!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; all models agree on the sentence apart from proper name, supplied by exact second actor Commander_Vercingetorix."
+  },
+  "1070346103": {
+    "text": "Pierce their hearts!",
+    "confidence": "HIGH",
+    "evidence": "base.en wording; spear_piercing_blows key resolves small/medium close phonetic misrecognitions."
+  },
+  "22336432": {
+    "text": "Increase the strain!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; stress ability context resolves base.en It creates a strain."
+  },
+  "28059083": {
+    "text": "Cynane is felled by our blades!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree phonetically; second vo_actor is Commander_Cynane. Proper-name spelling corrected."
+  },
+  "147415961": {
+    "text": "Moving out!",
+    "confidence": "HIGH",
+    "evidence": "base.en and small.en agree; medium.en Movie is a close final-consonant error; movement stance context."
+  },
+  "165952883": {
+    "text": "Miltiades falls to Roman steel!",
+    "confidence": "HIGH",
+    "evidence": "base.en supplies full spelling; all models agree phonetically apart from the name; Commander_Miltiades target."
+  },
+  "166082882": {
+    "text": "We return to the fray!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; recovered/rallied unit event supports fray, not free."
+  },
+  "171141422": {
+    "text": "Parry the blows!",
+    "confidence": "HIGH",
+    "evidence": "small.en wording; exact sword_parry ability resolves Harry/Parry and blues/blows homophones."
+  },
+  "191571653": {
+    "text": "Their flank's exposed!",
+    "confidence": "MEDIUM",
+    "evidence": "Provisional grammatical correction from base.en Their flags exposed and medium.en Theyre flanks exposed; exposed-flanks ability context. Article/number needs listening review."
+  },
+  "206513629": {
+    "text": "Forward!",
+    "confidence": "HIGH",
+    "evidence": "Alternative unprompted medium +0.5s/beam10 gives Forward; movement stance and initial Fold it/Full Edge/FOLLOW IT phonetics agree with this command."
+  },
+  "228149862": {
+    "text": "At them!",
+    "confidence": "CONFIRMED",
+    "evidence": "Exact localization key rom_scipio_emote_battlecry_at_them hashes to the actual Event; three short-phrase ASR misrecognitions Adam/Acton/Acrum fit the phonetics. No human listening claimed."
+  },
+  "232011857": {
+    "text": "Quick march!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en agree; quick_march key resolves small.en Quickmage."
+  },
+  "238862791": {
+    "text": "Attack that flank!",
+    "confidence": "MEDIUM",
+    "evidence": "base.en wording; small.en has the instead of that and medium.en agrees on that flank with a different verb; exposed-flanks context. Article remains a review item."
+  },
+  "245811885": {
+    "text": "No mercy!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; base.en Mashi is a close phonetic error in generic battle response."
+  },
+  "269541903": {
+    "text": "The rebel Spartacus is dead!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; Commander_Spartacus target resolves base.en segmentation errors."
+  },
+  "347707662": {
+    "text": "Repel the enemy!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; sword_parry context, base.en Repal phonetic error."
+  },
+  "350005655": {
+    "text": "For Mars!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; exact Wrath_Of_Mars ability resolves base.en Mos."
+  },
+  "365422516": {
+    "text": "Prepare the tar!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; deployables_place_tar explicitly resolves base.en tower."
+  },
+  "367268088": {
+    "text": "Raise shields!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; raise_shield key resolves base/small Ray Shields homophone."
+  },
+  "374215420": {
+    "text": "March!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; base Munch and small Marge are phonetic candidates; movement stance supports March."
+  },
+  "388827265": {
+    "text": "Glory awaits!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en agree; small.en Gloria waits is a word-boundary error in matchmaking context."
+  },
+  "392924059": {
+    "text": "The traitor Arminius is slain!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; base.en agrees apart from phonetic name; Commander_Arminius target provides spelling."
+  },
+  "394797733": {
+    "text": "Germanicus has fallen!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en agree; Commander_Germanicus target resolves Dramaticus."
+  },
+  "397183804": {
+    "text": "Senses keen!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en agree; Spot ability resolves small.en Sensus."
+  },
+  "402223328": {
+    "text": "Redeem yourselves!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; other models supply close phonetic retain/Reteam; Oath of Perseverance ability context."
+  },
+  "496441393": {
+    "text": "Sparta's king lies dead!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; target Commander_Leonidas resolves base.en Sparters."
+  },
+  "502854807": {
+    "text": "Arm yourself!",
+    "confidence": "HIGH",
+    "evidence": "Original medium and alternative unprompted medium +0.5s/beam10 give Arm yourself; initial On yourself is a word-boundary error. Artillery/firepower sibling context retained."
+  },
+  "538124073": {
+    "text": "Apace!",
+    "confidence": "HIGH",
+    "evidence": "base.en and small.en both produce A PACE, medium variants Of peace/Of PACE; the commander quick-march branch and four speed-order siblings support the one-word Apace. This is contextual/phonetic HIGH, not human listening."
+  },
+  "541325027": {
+    "text": "Leave the siege equipment!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; drop_siege_equipment resolves base.en age equipment."
+  },
+  "557204339": {
+    "text": "By the gods! Xanthippus is dead!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; base/small agree phonetically, exact Commander_Xanthippus target provides spelling."
+  },
+  "622028922": {
+    "text": "The Iceni queen is no more!",
+    "confidence": "HIGH",
+    "evidence": "All models agree except the ethnonym (Icedy/Icede/Icini); Commander_Boudica target and local English Iceni spelling resolve it."
+  },
+  "623488924": {
+    "text": "Hear more! See more!",
+    "confidence": "HIGH",
+    "evidence": "small.en wording; Spot ability and parallel phonetic Himo/Simo hypotheses resolve word boundaries."
+  },
+  "659032318": {
+    "text": "Our allies are firing on us!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; friendly-fire receive event resolves base.en segmentation errors."
+  },
+  "689170268": {
+    "text": "Barricades, now!",
+    "confidence": "HIGH",
+    "evidence": "All three hypotheses agree phonetically (Buttercades/Buttercage/Battercades); exact deployables_place_barricades key supplies spelling."
+  },
+  "705024583": {
+    "text": "Rome needs firepower!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; base.en Row is a close proper-name truncation."
+  },
+  "716725449": {
+    "text": "Tribune of Rome!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en agree; commander title in selection container, small.en Tribute is a consonant error."
+  },
+  "722802430": {
+    "text": "Cease, you fools! We are allies!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; friendly-fire receive event resolves base.en See you fools."
+  },
+  "749253412": {
+    "text": "Glory awaits!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; base/small Gloria waits is a word-boundary error; same wording also occurs in distinct matchmaking performance."
+  },
+  "751570082": {
+    "text": "Sulla has been slain!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree phonetically; Commander_Sulla target provides spelling."
+  },
+  "795784282": {
+    "text": "Our base is under attack!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; exact base-under-attack battle event."
+  },
+  "841416365": {
+    "text": "We've killed Vercingetorix!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; base/small agree on sentence apart from name; Commander_Vercingetorix target supplies spelling."
+  },
+  "857193324": {
+    "text": "Massinissa's end is at hand!",
+    "confidence": "HIGH",
+    "evidence": "All three models preserve the sounds of Massinissa and end at hand; the explicit second vo_actor is Commander_Massinissa and the bank event is a death reaction. The exact proper-name spelling and idiom follow that evidence. This is contextual/phonetic HIGH, not human listening."
+  },
+  "892076001": {
+    "text": "At them!",
+    "confidence": "CONFIRMED",
+    "evidence": "Exact PCM/format identity with Media 228149862, whose Event is linked to localization At them by exact FNV-1. Raw ASR has Adam/Acton/Acrum."
+  },
+  "899080754": {
+    "text": "Deploy caltrops!",
+    "confidence": "HIGH",
+    "evidence": "base.en countrops and small/medium cow drops are close phonetic spellings; exact deployables_place_caltrops resolves the word."
+  },
+  "905948091": {
+    "text": "Our men flee the field, broken!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; base/small closely agree with segmentation errors; unit-routing event supports the sentence."
+  },
+  "916060863": {
+    "text": "Deploy tar pits!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; exact deployables_place_tar resolves carpets/toppits homophones."
+  },
+  "934008952": {
+    "text": "Our men are receiving fire from allied units!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; base/small Im a man of receiving is a segmentation error; exact friendly-fire receive context."
+  },
+  "936613858": {
+    "text": "We've lost our base!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en exact agreement; end_lose_capture context. base.en extra own retained as alternative."
+  },
+  "958162795": {
+    "text": "Advance!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; movement stance resolves base.en Advanced."
+  },
+  "1000804161": {
+    "text": "Dig them out!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; base/small Dick them out is a consonant error; preparing tar pits supports dig."
+  },
+  "1011839257": {
+    "text": "Push!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; exact Push ability resolves base.en Hush."
+  },
+  "1022842783": {
+    "text": "",
+    "confidence": "UNKNOWN",
+    "resolution": "NEEDS_MANUAL_TRANSCRIPTION",
+    "evidence": "User explicitly deferred this utterance to manual transcription; do not infer wording. Keep raw ASR, original WAV and all structural/audio metadata."
+  },
+  "1026965979": {
+    "text": "Spare none!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; warcry context resolves base.en Sper."
+  },
+  "1031813807": {
+    "text": "More!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; quick_reload context. base.en No retained as alternative."
+  },
+  "12766875": {
+    "text": "We have been damaged by friendly fire!",
+    "confidence": "MEDIUM",
+    "evidence": "Largest local model gives this wording in both original and +0.5s/beam10 analysis; smaller models say Were being. Tense remains explicitly uncertain."
+  },
+  "771371121": {
+    "text": "As you were!",
+    "confidence": "HIGH",
+    "evidence": "The medium model repeats As you were in original and alternate onset/beam analysis; the sibling stance-reset commands Stand down/Form up and standard military idiom support were over the smaller-model are. This is contextual/phonetic HIGH, not human listening."
+  },
+  "36538452": {
+    "text": "Xanthippus lies dead!",
+    "confidence": "HIGH",
+    "evidence": "Death reaction explicitly keyed to Commander_Xanthippus; three ASR hypotheses render the name phonetically as Xanthopus."
+  },
+  "664773732": {
+    "text": "Sulla is slain!",
+    "confidence": "HIGH",
+    "evidence": "Death reaction explicitly keyed to Commander_Sulla; ASR Sola/Solar is a phonetic proper-name error."
+  },
+  "294489842": {
+    "text": "Their impaled bodies will be our wall! Place stakes!",
+    "confidence": "HIGH",
+    "evidence": "The branch is deployables place stakes; ASR Play stakes/Playsticks is a phonetic error for the command Place stakes."
+  },
+  "297614768": {
+    "text": "Keep them in sight!",
+    "confidence": "HIGH",
+    "evidence": "base.en has exact command wording and the mark-target trigger establishes the spaced idiom; other ASR runs concatenate in sight."
+  },
+  "692378960": {
+    "text": "Get stakes in the ground!",
+    "confidence": "HIGH",
+    "evidence": "base.en and small.en say stakes and the branch deploys stakes; medium.en incorrectly spells the homophone steaks."
+  },
+  "13156306": {
+    "text": "Ready those stakes!",
+    "confidence": "HIGH",
+    "evidence": "The branch deploys stakes; all three ASR models spell the identical phonetic word steaks."
+  },
+  "568393271": {
+    "text": "Caltrops!",
+    "confidence": "HIGH",
+    "evidence": "The branch deploys caltrops; Cow drops is the identical phonetic ASR rendering, not an in-game object."
+  },
+  "969377576": {
+    "text": "Place caltrops!",
+    "confidence": "HIGH",
+    "evidence": "The branch deploys caltrops; Cow drops is the identical phonetic ASR rendering, not an in-game object."
+  },
+  "825513923": {
+    "text": "Build the barricades!",
+    "confidence": "HIGH",
+    "evidence": "base.en and small.en have barricades and the branch is deployables place barricades; medium.en drops one r."
+  },
+  "974761034": {
+    "text": "Abandon the engines!",
+    "confidence": "HIGH",
+    "evidence": "base.en and small.en have engines and the branch drops siege equipment; medium.en omits the second e."
+  }
+}

@@ -1,0 +1,116 @@
+[
+  {
+    "id": "leonidas",
+    "display_name": "Leonidas",
+    "actor_name": "Commander_Leonidas",
+    "actor_id": 659903553,
+    "culture_names": [
+      "vo_culture_greek"
+    ],
+    "culture_ids": [
+      3154681590
+    ],
+    "db_actor_literal": {
+      "source": "wad.pack:db/arena_commanders_tables/data",
+      "byte_offset": 8103,
+      "exact_fnv1_match": true
+    },
+    "localization_name_key": "arena_commanders_commander_localized_name_gre_leonidas",
+    "frontend_decision_evidence": [
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1402037848,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          659903553
+        ],
+        "container_id": 234981494
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1823898040,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          659903553
+        ],
+        "container_id": 868530902
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 2732370230,
+        "group_ids": [
+          3113488887,
+          112324978,
+          4273992948
+        ],
+        "keys": [
+          3154681590,
+          659903553,
+          0
+        ],
+        "container_id": 359526075
+      }
+    ]
+  },
+  {
+    "id": "scipio-africanus",
+    "display_name": "Scipio Africanus",
+    "actor_name": "Commander_Scipio",
+    "actor_id": 2977514201,
+    "culture_names": [
+      "vo_culture_roman"
+    ],
+    "culture_ids": [
+      3254117665
+    ],
+    "db_actor_literal": {
+      "source": "wad.pack:db/arena_commanders_tables/data",
+      "byte_offset": 12109,
+      "exact_fnv1_match": true
+    },
+    "localization_name_key": "arena_commanders_commander_localized_name_rom_scipio",
+    "frontend_decision_evidence": [
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1402037848,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          2977514201
+        ],
+        "container_id": 926662753
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1823898040,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          2977514201
+        ],
+        "container_id": 807840061
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 2732370230,
+        "group_ids": [
+          3113488887,
+          112324978,
+          4273992948
+        ],
+        "keys": [
+          3254117665,
+          2977514201,
+          0
+        ],
+        "container_id": 979337840
+      }
+    ]
+  }
+]

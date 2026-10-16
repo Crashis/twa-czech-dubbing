@@ -1,0 +1,53 @@
+{
+  "unit_and_metadata_suite": {
+    "command": "python -B -m unittest discover -s tests -v",
+    "tests_discovered": 54,
+    "passed": 40,
+    "integration_tests_skipped_without_private_test_variable": 14,
+    "new_offline_tts_regressions_passed": 4
+  },
+  "canonical_pack_mock_integration_suite": {
+    "tests_run": 14,
+    "passed": 13,
+    "failed": 1,
+    "failed_test": "test_real_powershell_wrappers_on_mock",
+    "failure_reason": "The unchanged production process guard refused the mock wrapper operation because real Arena/twa-launcher processes were already running. No guard was bypassed and no real game write was attempted.",
+    "full_pack_reproduction": "PASS",
+    "changed_entries": 305,
+    "unchanged_entries": 16240,
+    "output_pack_sha256": "3405389faa3c5336e6635189e033e117144605356d9042a34f797b2c576df32b",
+    "rsa_input_output": "PASS",
+    "context": "Earlier offline mock test run on the same workspace; not repeated in this text-only preparation phase."
+  },
+  "research_validation": {
+    "leonidas": "PASS",
+    "scipio-africanus": "PASS",
+    "hannibal": "PASS"
+  },
+  "human_listening": "NOT_RUN",
+  "runtime_review_by_this_task": "NOT_RUN",
+  "replacement_audio_float_ww2ogg_qc": "NOT_APPLICABLE_NO_NEW_REPLACEMENT_AUDIO",
+  "tts_calls": 0,
+  "tts_preparation": {
+    "leonidas": {
+      "safe_spoken_media_ids": 257,
+      "english_transcript_complete": 256,
+      "czech_translations_prepared": 257,
+      "unique_tts_performances": 211,
+      "duplicate_ids_saved": 46,
+      "manual_transcript_review_remaining": 1,
+      "ready_for_elevenlabs": false
+    },
+    "scipio-africanus": {
+      "safe_spoken_media_ids": 249,
+      "english_transcript_complete": 246,
+      "czech_translations_prepared": 248,
+      "unique_tts_performances": 207,
+      "duplicate_ids_saved": 42,
+      "manual_transcript_review_remaining": 3,
+      "ready_for_elevenlabs": false
+    }
+  },
+  "new_tts_requests": 0,
+  "new_audio_encoding": "NOT_RUN"
+}

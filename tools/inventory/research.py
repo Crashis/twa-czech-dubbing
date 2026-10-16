@@ -1,0 +1,157 @@
+"""Offline research workspace commands; originals always stay outside the repo."""
+import argparse
+from concurrent.futures import ThreadPoolExecutor
+import json
+from pathlib import Path
+
+from tools.inventory.names import fnv1
+from tools.inventory.original_audio import extract_decode, private_directory, sha256
+from tools.inventory.research_audit import audit_commander, orphan_audit, raw_bank_audit
+from tools.inventory.research_graph import UsageGraph
+from tools.pack.reader import ArenaPack, require
+from tools.resources import ROOT
+
+
+def load(path):
+    return json.loads(Path(path).read_text(encoding='utf-8'))
+
+
+def save(path, value):
+    Path(path).write_text(json.dumps(value, ensure_ascii=False, indent=1) + '\n', encoding='utf-8')
+
+
+def workspace_graph(workspace, profiles=None):
+    return UsageGraph(load(workspace/'corpus/graph.json'), {int(k): v for k, v in load(workspace/'names.json').items()},
+                      {int(k): v for k, v in load(workspace/'event-names.json').items()},
+                      (profiles or {}).get('commander_cultures'))
+
+
+def scan_banks(game_data, workspace):
+    """Read every live PACK index and retain every distinct BNK, without VFS guesses."""
+    game_data = Path(game_data).resolve(strict=True)
+    workspace = private_directory(workspace, [ROOT, game_data.parent])
+    corpus = workspace/'corpus'
+    corpus.mkdir(exist_ok=True)
+    def inspect(path):
+        pack = ArenaPack(path)
+        banks = [{'path': e.path, 'size': e.size, 'sha256': sha256_bytes(pack.read(e))}
+                 for e in pack.entries if e.path.lower().endswith('.bnk')]
+        return {'pack': path.name, 'entry_count': len(pack.entries), 'rsa': 'PASS', 'banks': banks}
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        results = list(pool.map(inspect, sorted(game_data.glob('*.pack'))))
+    # Save scan evidence before detecting conflicting aliases, so a conflict is reviewable.
+    save(corpus/'all-pack-bank-scan.json', results)
+    inputs = []
+    for result in results:
+        if not result['banks']:
+            continue
+        pack = ArenaPack(game_data/result['pack'])
+        by_path = {e.path: e for e in pack.entries}
+        for bank in result['banks']:
+            dest = corpus/Path(bank['path']).name
+            raw = pack.read(by_path[bank['path']])
+            require(not dest.exists() or dest.read_bytes() == raw, 'Conflicting bank aliases: preserve separate corpora before continuing')
+            if not dest.exists():
+                dest.write_bytes(raw)
+            inputs.append({'pack': result['pack'], **bank, 'rsa': 'PASS'})
+    save(corpus/'bank-inputs.json', inputs)
+    return {'pack_indexes': len(results), 'unique_banks': len({b['sha256'] for b in inputs}), 'RSA': 'PASS'}
+
+
+def sha256_bytes(raw):
+    import hashlib
+    return hashlib.sha256(raw).hexdigest()
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--workspace', required=True)
+    sub = parser.add_subparsers(dest='command', required=True)
+    scan = sub.add_parser('scan')
+    scan.add_argument('--game-data', required=True)
+    sub.add_parser('enumerate')
+    sub.add_parser('audit')
+    sub.add_parser('jobs')
+    sub.add_parser('review-jobs')
+    decode = sub.add_parser('decode')
+    decode.add_argument('--pack', required=True)
+    decode.add_argument('--canonical-sha256', required=True)
+    decode.add_argument('--decoder', required=True)
+    decode.add_argument('--game-directory', required=True)
+    args = parser.parse_args()
+    if args.command == 'scan':
+        print(json.dumps(scan_banks(args.game_data, args.workspace)))
+        return
+    workspace = private_directory(args.workspace, [ROOT] + ([args.game_directory] if args.command == 'decode' else []))
+    specs = load(workspace/'specs.json')
+    for spec in specs:
+        require(fnv1(spec['actor_name']) == spec['actor_id'], 'Commander name/hash mismatch')
+        require([fnv1(n) for n in spec['culture_names']] == spec['culture_ids'], 'Culture name/hash mismatch')
+        require(spec['id'].replace('-', '').replace('_', '').isalnum(), 'Invalid workspace commander ID')
+    if args.command in {'enumerate', 'audit'}:
+        usage = workspace_graph(workspace)
+    if args.command == 'enumerate':
+        for spec in specs:
+            folder = workspace/spec['id']
+            folder.mkdir(exist_ok=True)
+            save(folder/'graph-inventory.json', usage.relevant(spec))
+            print(spec['id'], len(usage.relevant(spec, include_advice=False)))
+    elif args.command == 'audit':
+        raw = raw_bank_audit(usage, workspace/'corpus')
+        scan = load(workspace/'corpus/all-pack-bank-scan.json')
+        raw.update(pack_indexes_checked=len(scan), parsed_bank_count=len(usage.banks),
+                   parsed_voicebank_count=len(usage.voice_banks), pack_bank_sources=sum(bool(r.get('banks')) for r in scan))
+        orphans = orphan_audit(usage)
+        save(workspace/'completeness.json', {s['id']: audit_commander(usage, s) | raw | {'all_voice_orphans': orphans} for s in specs})
+        print(json.dumps(raw | {'commander_audits': len(specs), 'voice_orphans': orphans}))
+    elif args.command == 'decode':
+        for spec in specs:
+            ids = load(workspace/spec['id']/'graph-inventory.json')
+            result = extract_decode(args.pack, args.canonical_sha256, ids, workspace/spec['id'], args.decoder,
+                                    [ROOT, args.game_directory], workers=4)
+            print(spec['id'], len(result['results']))
+    elif args.command == 'jobs':
+        jobs = {}
+        for spec in specs:
+            rel = load(workspace/spec['id']/'graph-inventory.json')
+            audio = load(workspace/spec['id']/'original-audio-audit.json')['results']
+            for mid, fact in audio.items():
+                if fact['silent_placeholder'] == 'YES':
+                    continue
+                key = fact['pcm_sha256']
+                job = jobs.setdefault(key, {'key': key, 'wav': str(workspace/spec['id']/'decoded-wav'/(mid+'.wav')), 'media_ids': [], 'priority': 2})
+                job['media_ids'].append(spec['id']+':'+mid)
+                if rel[mid]['explicit_speaker']:
+                    job['priority'] = 0
+        save(workspace/'stt-jobs.json', sorted(jobs.values(), key=lambda j: (j['priority'], j['media_ids'][0])))
+        print(json.dumps({'unique_recordings': len(jobs)}))
+    elif args.command == 'review-jobs':
+        from tools.inventory.research_metadata import similarity, norm, NON_SPEECH_HYPOTHESES
+        models = {}
+        for label in ['base.en', 'small.en', 'medium.en']:
+            models[label] = {}
+            for path in sorted(workspace.glob('stt-'+label+'*.json')):
+                models[label].update(load(path)['results'])
+        primary = set()
+        for spec in specs:
+            path = workspace/spec['id']/'graph-inventory.json'
+            if path.exists():
+                primary.update(spec['id']+':'+mid for mid, context in load(path).items() if not context['advisor_only'])
+        review = []
+        for job in load(workspace/'stt-jobs.json'):
+            key = job['key']
+            if key in models['medium.en'] or not any(m in primary for m in job['media_ids']):
+                continue
+            if key not in models['base.en'] or key not in models['small.en']:
+                continue
+            a, b = [models[m][key].get('text', '') for m in ['base.en', 'small.en']]
+            score = similarity(a, b)
+            if score < .94 or norm(a) in NON_SPEECH_HYPOTHESES or norm(b) in NON_SPEECH_HYPOTHESES:
+                review.append(job | {'prior_similarity': score})
+        review.sort(key=lambda j: j['prior_similarity'])
+        save(workspace/'stt-review-shared-jobs.json', review)
+        print(json.dumps({'additional_uncertain_recordings': len(review)}))
+
+
+if __name__ == '__main__':
+    main()

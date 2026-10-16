@@ -1,0 +1,212 @@
+"""Offline regressions for commander ownership, original facts and research-only exports."""
+import json
+from pathlib import Path
+import shutil
+import tempfile
+import unittest
+
+from tools.inventory.names import fnv1
+from tools.inventory.localization import emote_spellings
+from tools.inventory.crosscheck import recording_links
+from tools.inventory.research_audit import audit_commander
+from tools.inventory.original_audio import extract_decode, private_directory
+from tools.inventory.research_graph import UsageGraph, ACTOR, safety
+from tools.inventory.research_metadata import FIELDS, duplicate_groups, read_csv, write_csv, transcript, validate_rows, validate_research
+from tools.inventory.voice_map import resolve_bank
+from tools.installer.catalog import discover
+from tools.resources import ROOT
+
+
+def field(value):
+    return {'value': str(value)}
+
+
+def sound(sid, mid=42):
+    return {'id': sid, 'type': 'CAkSound', 'sourceID': [field(mid)], 'ulPluginID': [field(262145)],
+            'StreamType': [field(2)], 'children': [], 'actions': []}
+
+
+def event(branches, groups=None):
+    return {'id': 1, 'type': 'CAkDialogueEvent', 'actions': [], 'children': [],
+            'groups': [{'group': field(g)} for g in (groups or [ACTOR])],
+            'branches': [{'keys': [field(v) for v in keys], 'target': field(target),
+                          'weight': 50, 'probability': 100} for keys, target in branches]}
+
+
+def usage(nodes, cultures=None):
+    return UsageGraph({'parser_errors_or_skips': [], 'banks': {'test.bnk': {'nodes': nodes}}},
+                      {7: 'Commander_A', 8: 'Commander_B'}, {}, cultures)
+
+
+def row():
+    value = dict.fromkeys(FIELDS, '')
+    value.update(commander='example', media_id='42', wem_filename='42.wem', sharing_scope='COMMANDER_SPECIFIC',
+                 silent_placeholder='NO', safe_to_replace_for_commander='YES', safe_to_replace_for_example='YES',
+                 reverse_reference_check='PASS', original_duration=1, original_size_bytes=500,
+                 sample_rate=32000, channels=1, sample_count=32000, decode_status='PASS_PCM16',
+                 original_wem_sha256='a'*64, pcm_sha256='b'*64, transcript_confidence='HIGH', trigger_confidence='HIGH')
+    return value
+
+
+class OwnershipTests(unittest.TestCase):
+    def test_shared_id_cannot_be_safe(self):
+        graph = usage([event([([7], 2), ([8], 3)]), sound(2), sound(3)])
+        scope, owners, audit = graph.classify(42, {'actor_name': 'Commander_A'})
+        self.assertEqual(scope, 'GLOBAL_SHARED')
+        self.assertEqual(len(owners), 2)
+        self.assertEqual(safety(scope, False), 'NO_SHARED')
+        self.assertEqual(audit['forward_count'], audit['reverse_count'])
+        self.assertFalse(audit['missing_forward'] or audit['missing_reverse'])
+
+    def test_same_culture_commanders_still_shared(self):
+        graph = usage([event([([7], 2), ([8], 3)]), sound(2), sound(3)], {'Commander_A': [10], 'Commander_B': [10]})
+        self.assertEqual(graph.classify(42, {'actor_name': 'Commander_A'})[0], 'CULTURE_SHARED')
+
+    def test_second_actor_is_reaction_target(self):
+        graph = usage([event([([7, 8], 2)], [ACTOR, ACTOR]), sound(2)])
+        ref = graph.refs[42][0]
+        self.assertEqual(graph.owner(ref), 'commander:Commander_A')
+        self.assertFalse(graph.keyed(ref, {'actor_name': 'Commander_B', 'actor_id': 8}))
+
+    def test_unrooted_same_media_blocks_safety(self):
+        graph = usage([event([([7], 2)]), sound(2), sound(3)])
+        self.assertEqual(graph.classify(42, {'actor_name': 'Commander_A'})[0], 'UNKNOWN_SHARED_SCOPE')
+
+    def test_empty_random_container_is_no_audio(self):
+        container = {'id': 2, 'type': 'CAkRanSeqCntr', 'children': [], 'playlist': []}
+        self.assertEqual(resolve_bank('test.bnk', {'nodes': [event([([7], 2)]), container]}), [])
+        container['playlist'] = [{'target': field(99)}]
+        with self.assertRaises(ValueError):
+            resolve_bank('test.bnk', {'nodes': [event([([7], 2)]), container]})
+
+    def test_external_source_cookie_is_not_a_wem(self):
+        node = sound(2)
+        node['ulPluginID'] = [field(524289)]
+        graph = usage([event([([7], 2)]), node])
+        self.assertFalse(graph.refs)
+        self.assertEqual(len(graph.non_file_sources), 1)
+
+    def test_parent_pool_catches_unmapped_emote_event(self):
+        first, second = sound(2), sound(3, 43)
+        first['DirectParentID'] = second['DirectParentID'] = [field(5)]
+        parent = {'id': 5, 'type': 'CAkRanSeqCntr', 'children': [field(2), field(3)],
+                  'playlist': [{'target': field(2)}, {'target': field(3)}]}
+        graph = UsageGraph({'parser_errors_or_skips': [], 'banks': {
+            'battle_vo_emotes.bnk': {'nodes': [event([([7], 2)]), first, second, parent,
+                {'id': 9, 'type': 'CAkEvent', 'actions': [field(10)], 'children': []},
+                {'id': 10, 'type': 'CAkActionPlay', 'target': [field(3)], 'children': []}]}}},
+            {7: 'Commander_A'}, {})
+        with self.assertRaises(ValueError):
+            audit_commander(graph, {'actor_name': 'Commander_A', 'actor_id': 7, 'culture_ids': [20]})
+
+    def test_emote_punctuation_normalization_needs_exact_event_match(self):
+        candidates = emote_spellings('prefix_quote_a_-_b')
+        self.assertIn('prefix_quote_a_b', candidates)
+        self.assertEqual(fnv1('Play_rom_scipio_emote_quote_gods_hear_me_bring_us_victory'), 2876436639)
+
+
+class MetadataTests(unittest.TestCase):
+    def test_uniqueness_classification_silence_and_safety(self):
+        valid = row()
+        self.assertEqual(validate_rows([valid], 'example')['status'], 'PASS')
+        for changes in [None, {'sharing_scope': 'CULTURE_SHARED'}, {'sharing_scope': 'BAD'},
+                        {'silent_placeholder': 'YES'}, {'original_duration': ''}, {'sample_count': 1},
+                        {'reverse_reference_check': 'FAIL'}, {'shared_with': 'Commander_B'}]:
+            with self.subTest(changes=changes), self.assertRaises((ValueError, TypeError)):
+                if changes is None:
+                    validate_rows([valid, valid], 'example')
+                else:
+                    validate_rows([valid | changes], 'example')
+
+    def test_duplicate_group_is_pcm_based(self):
+        facts = {'sample_rate': 32000, 'channels': 1, 'sample_count': 32000, 'pcm_sha256': 'b'*64}
+        groups = duplicate_groups({'42': facts, '43': facts})
+        self.assertEqual(groups['43']['duplicate_content_of'], '42')
+        first, second = row(), row() | {'media_id': '43', 'wem_filename': '43.wem'}
+        for item in [first, second]:
+            item.update({k: v for k, v in groups[item['media_id']].items() if k != 'members'})
+        validate_rows([first, second], 'example')
+        second['pcm_sha256'] = 'c'*64
+        with self.assertRaises(ValueError):
+            validate_rows([first, second], 'example')
+
+    def test_advisor_copy_is_not_a_second_commander_recording(self):
+        fact = {'pcm_sha256': 'b'*64, 'sample_rate': 32000, 'channels': 1, 'sample_count': 32000}
+        primary = {'first': {'42': fact}, 'second': {}}
+        advisory = {'first': {'43': fact}, 'second': {'43': fact}}
+        rows, groups, advisor_groups = recording_links(primary, advisory)
+        self.assertFalse(groups)
+        self.assertEqual(len(advisor_groups), 1)
+        self.assertEqual(next(r for r in rows if r['media_id'] == '43')['primary_inventories'], '')
+        primary['second']['44'] = fact
+        self.assertEqual(len(recording_links(primary, advisory)[1]), 1)
+
+    def test_ui_text_without_audio_agreement_is_not_confirmed(self):
+        result = transcript({'base.en': {'text': 'A different sentence'}}, {'text': 'For Sparta!'})
+        self.assertEqual(result['english_text'], 'A different sentence')
+        self.assertEqual(result['transcript_confidence'], 'LOW')
+
+    def test_exact_event_link_and_audio_agreement(self):
+        result = transcript({'small.en': {'text': 'For Sparta!'}}, {'text': 'For Sparta!'})
+        self.assertEqual(result['transcript_confidence'], 'CONFIRMED')
+
+    def test_manual_transcription_deferral_keeps_raw_and_never_guesses(self):
+        result = transcript({'medium.en': {'text': 'Unreliable words'}}, correction={
+            'resolution': 'NEEDS_MANUAL_TRANSCRIPTION', 'text': '', 'confidence': 'UNKNOWN'})
+        self.assertEqual(result['raw_transcript'], 'Unreliable words')
+        self.assertEqual(result['english_text'], '')
+        self.assertEqual(result['transcript_confidence'], 'UNKNOWN')
+        self.assertEqual(result['transcript_resolution'], 'NEEDS_MANUAL_TRANSCRIPTION')
+        validate_rows([row() | result], 'example')
+        with self.assertRaises(ValueError):
+            validate_rows([row() | result | {'english_text': 'Guessed wording'}], 'example')
+
+    def test_independent_usage_and_original_audit_reject_tampering(self):
+        source = ROOT/'data/commanders/leonidas/research'
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)/'commanders'
+            folder = root/'leonidas/research'
+            shutil.copytree(source, folder)
+            (root/'shared-research').mkdir()
+            shutil.copyfile(ROOT/'data/commanders/shared-research/cross-commander-duplicate-recordings.csv',
+                            root/'shared-research/cross-commander-duplicate-recordings.csv')
+            safe = next(r['media_id'] for r in read_csv(folder/'voice-lines.csv')
+                        if r['safe_to_replace_for_commander'] == 'YES')
+            path = folder/'usage-paths.csv'
+            original = path.read_bytes()
+            usages = read_csv(path)
+            next(r for r in usages if r['media_id'] == safe)['owner'] = 'commander:Other'
+            write_csv(path, usages)
+            with self.assertRaisesRegex(ValueError, 'Shared usage cannot be safe'):
+                validate_research(folder, 'leonidas')
+            path.write_bytes(original)
+            path = folder/'original-audio-audit.json'
+            audio = json.loads(path.read_text(encoding='utf-8'))
+            audio['results'][safe]['original_size_bytes'] += 1
+            path.write_text(json.dumps(audio), encoding='utf-8')
+            with self.assertRaisesRegex(ValueError, 'Original audio fact differs'):
+                validate_research(folder, 'leonidas')
+
+    def test_research_datasets_and_installer_exclusion(self):
+        for name in ['leonidas', 'scipio-africanus']:
+            self.assertEqual(validate_research(ROOT/'data/commanders'/name/'research', name)['status'], 'PASS')
+        self.assertEqual([m['commander'] for m in discover()], ['hannibal'])
+
+    def test_no_original_audio_in_repository_candidates(self):
+        from tools.validation.repository import audit
+        self.assertEqual(audit()['prohibited_asset_files'], [])
+
+    def test_original_output_guard_and_unknown_base_stop(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            with self.assertRaises(ValueError):
+                private_directory(root/'protected'/'audio', [root/'protected'])
+            source = root/'unknown.pack'
+            source.write_bytes(b'unsupported')
+            with self.assertRaises(ValueError):
+                extract_decode(source, '0'*64, ['42'], root/'output', root/'decoder', [root/'protected'])
+            self.assertFalse((root/'output').exists())
+
+
+if __name__ == '__main__':
+    unittest.main()

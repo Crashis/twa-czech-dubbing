@@ -1,0 +1,221 @@
+{
+  "schema_version": 1,
+  "provenance": "Existing archived event-level static/content research; event IDs and source bank bytes revalidated. Unknown symbols remain numeric. Trigger confidence is independent of transcript confidence.",
+  "events": {
+    "1402037848": {
+      "category": "FRONTEND",
+      "trigger": "unknown frontend random quote event; no call site found in prior static analysis",
+      "confidence": "UNKNOWN"
+    },
+    "2732370230": {
+      "category": "FRONTEND",
+      "trigger": "open/select/unlock commander card (static game.dll delays 32-34; not newly runtime tested)",
+      "confidence": "HIGH"
+    },
+    "1823898040": {
+      "category": "FRONTEND",
+      "trigger": "matchmaking / battle search starts with selected commander (static game.dll COMMANDER_FRONTEND_MATCHMAKE_VO_DELAY)",
+      "confidence": "HIGH"
+    },
+    "1419778157": {
+      "category": "UNIT_SELECT",
+      "trigger": "unit selected; explicit vo_unit_type callout, also reused on frontend unit card",
+      "confidence": "HIGH"
+    },
+    "165328208": {
+      "category": "ORDER_ACK",
+      "trigger": "unit order acknowledgement: halt / stop (content: Stop!, Hold!, Halt!); inherited event-level content analysis, not a new runtime observation",
+      "confidence": "MEDIUM"
+    },
+    "966273518": {
+      "category": "ORDER_ACK",
+      "trigger": "unit order acknowledgement: generic (content: Understood!, Obeying orders!, At once!; ~20 game.dll call sites); inherited event-level content analysis, not a new runtime observation",
+      "confidence": "MEDIUM"
+    },
+    "1043757175": {
+      "category": "ORDER_ACK",
+      "trigger": "unit selected: default selection response (content: Yours to command!, Ready to serve!, Awaiting orders; co-referenced with select DE 1419778157); inherited event-level content analysis, not a new runtime observation",
+      "confidence": "MEDIUM"
+    },
+    "1084519251": {
+      "category": "ORDER_ACK",
+      "trigger": "unit order acknowledgement: withdraw / pull back (content: Pull back!, Withdraw!; no game.dll immediate found); inherited event-level content analysis, not a new runtime observation",
+      "confidence": "MEDIUM"
+    },
+    "1103581321": {
+      "category": "ORDER_ACK",
+      "trigger": "unit order acknowledgement: attack (content: Attack!, Slay them!, Destroy!); inherited event-level content analysis, not a new runtime observation",
+      "confidence": "MEDIUM"
+    },
+    "1810228062": {
+      "category": "ORDER_ACK",
+      "trigger": "unit order acknowledgement: move (speed=* : March!, Moving out!) / run (speed=fast : Double time!, Quick march!); inherited event-level content analysis, not a new runtime observation",
+      "confidence": "HIGH"
+    },
+    "2765692025": {
+      "category": "ORDER_ACK",
+      "trigger": "unit order acknowledgement: aggressive engage / charge-type order (content: To battle!, No mercy!, On to glory!; no game.dll immediate found); inherited event-level content analysis, not a new runtime observation",
+      "confidence": "LOW"
+    },
+    "4204832478": {
+      "category": "ORDER_ACK",
+      "trigger": "unit selected / ready response, alternative set (content: Ready!, Battle ready!; co-referenced with select DEs); inherited event-level content analysis, not a new runtime observation",
+      "confidence": "LOW"
+    },
+    "817444388": {
+      "category": "CONVERSATIONAL",
+      "trigger": "enemy behind us / attacked from the rear (Look to the rear!); semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "843237063": {
+      "category": "CONVERSATIONAL",
+      "trigger": "battle cry vs. enemy culture (2nd vo_culture = enemy culture) by phase state_3400800153; semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "864334726": {
+      "category": "CONVERSATIONAL",
+      "trigger": "reloading (artillery/missile); semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "898772707": {
+      "category": "CONVERSATIONAL",
+      "trigger": "loading/preparing artillery; repeated Greek/Roman voice content, exact runtime scheduling not observed",
+      "confidence": "MEDIUM"
+    },
+    "1902075276": {
+      "category": "CONVERSATIONAL",
+      "trigger": "firing / loose (Loose!, Fire!, Release!); semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "1939480686": {
+      "category": "CONVERSATIONAL",
+      "trigger": "unit routing / panic (Run! Save yourselves!); semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "2237459312": {
+      "category": "CONVERSATIONAL",
+      "trigger": "assaulting the enemy base / defences (Storm this place!); semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "2554586010": {
+      "category": "CONVERSATIONAL",
+      "trigger": "being flanked (They are flanking us!); semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "2866614660": {
+      "category": "CONVERSATIONAL",
+      "trigger": "enemy breaking / pursuing (Finish them!, We have broken them!); semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "2950737237": {
+      "category": "CONVERSATIONAL",
+      "trigger": "enemy charge incoming (Enemy charge! Hold!); semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "3305040161": {
+      "category": "CONVERSATIONAL",
+      "trigger": "own morale failing / battle turning (The tide of battle has turned!); semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "3414335568": {
+      "category": "CONVERSATIONAL",
+      "trigger": "allied units fleeing (Allied units are fleeing!); semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "3470695848": {
+      "category": "CONVERSATIONAL",
+      "trigger": "defending own base (Man the defences!); semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "3554104647": {
+      "category": "CONVERSATIONAL",
+      "trigger": "enemy chariots incoming (Look out, chariots!); semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "3703533926": {
+      "category": "CONVERSATIONAL",
+      "trigger": "long march / moving (Ever onward!, We will rest when we are dead); semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "4168189963": {
+      "category": "CONVERSATIONAL",
+      "trigger": "outnumbered / overpowered (The enemy is too strong!); semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "2178778755": {
+      "category": "CONVERSATIONAL",
+      "trigger": "enemy culture heard as Northmen/Viking (name not recovered); semantic context inferred from sibling content and prior research",
+      "confidence": "MEDIUM"
+    },
+    "4168474204": {
+      "category": "BATTLE_EVENT",
+      "trigger": "commander announcer event selected by battle-state argument",
+      "confidence": "HIGH",
+      "states": {
+        "your_base_is_under_attack": "your base is under attack",
+        "first_blood_by_your_alliance": "your team draws first blood",
+        "first_blood_by_enemy_alliance": "the enemy team draws first blood",
+        "end_lose_capture": "defeat because the enemy captured your base",
+        "end_lose_annihilate": "defeat because your army was annihilated",
+        "end_lose_points": "defeat on points",
+        "end_win_capture": "victory by capturing the enemy base",
+        "end_win_annihilate": "victory by annihilating the enemy army",
+        "end_win_points": "victory on points",
+        "timer_low_lose": "time running out while your team is losing",
+        "timer_low_neutral": "time running out with an even score",
+        "timer_low_win": "time running out while your team is winning",
+        "your_unit_is_routing": "one of your units routes",
+        "your_unit_has_recovered": "one of your units rallies/recovers",
+        "your_unit_is_under_attack": "one of your units is attacked",
+        "your_commander_dead": "your commander dies",
+        "objective_capture_enemy_base": "battle-start objective to capture the enemy base",
+        "your_team_is_capturing": "your team is capturing the enemy base",
+        "ff_cause": "your missile fire damages allies",
+        "ff_cause_melee": "your melee attacks damage allies",
+        "ff_receive": "your units receive allied missile fire",
+        "ff_receive_melee": "your units receive allied melee damage",
+        "deployables_ff_stakes_receive": "your units are damaged by allied stakes",
+        "deployables_ff_stakes_cause": "your stakes damage allies",
+        "deployables_ff_tar_receive": "your units are damaged by allied tar",
+        "deployables_ff_tar_cause": "your tar damage allies",
+        "deployables_ff_caltrops_receive": "your units are damaged by allied caltrops",
+        "deployables_ff_caltrops_cause": "your caltrops damage allies"
+      }
+    }
+  },
+  "commanders": {
+    "leonidas": {
+      "own_abilities": [
+        "vo_ua_Shield_Bash",
+        "vo_ua_HOLD_THE_LINE",
+        "vo_ua_Fight_In_The_Shade"
+      ]
+    },
+    "scipio-africanus": {
+      "own_abilities": [
+        "vo_ua_quick_march",
+        "vo_ua_Warcry",
+        "vo_ua_Wrath_Of_Mars",
+        "vo_ua_oath_of_perserverance"
+      ]
+    }
+  },
+  "commander_cultures": {
+    "Commander_Leonidas": [
+      3154681590
+    ],
+    "Commander_Miltiades": [
+      3154681590
+    ],
+    "Commander_Scipio": [
+      3254117665
+    ],
+    "Commander_Hannibal": [
+      1422687991
+    ],
+    "Commander_Hasdrubal": [
+      1422687991
+    ]
+  },
+  "culture_mapping_evidence": "Commander DB faction fields and supported-corpus culture/actor branches; affiliation never proves media ownership."
+}
