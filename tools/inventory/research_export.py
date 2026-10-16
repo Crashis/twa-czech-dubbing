@@ -27,6 +27,10 @@ def describe(usage, ref, spec, profiles):
         if '_emote_' in event.get('name', '').lower():
             kind = event['name'].lower().split('_emote_')[1].split('_')[0]
             return 'EMOTE', 'player selects emote: ' + kind, 'HIGH'
+        if event.get('owner') == 'commander:' + spec['actor_name'] and '_tutorial_' in event.get('name', '').lower():
+            # Exact Event name literal found in the requesting tutorial script.
+            verified = event.get('literal_byte_offset') is not None
+            return 'TUTORIAL', 'tutorial script VO request ' + event['name'] + ' (' + event.get('source', 'unknown script') + ')', 'HIGH' if verified else 'MEDIUM'
         return 'ADVISOR', 'generic advisor/tutorial event ' + eid + '; exact request not recovered', 'LOW'
     if ref['event_id'] == 825794328:
         ability = ref['keys'][ref['groups'].index(ABILITY)]
@@ -188,6 +192,49 @@ def pilot_battle(rows, candidates, limit=25):
     return selected
 
 
+PILOT_BUCKETS = [
+    ('battle', lambda r, t: r['category'] == 'BATTLE_EVENT'),
+    ('aggressive order', lambda r, t: r['category'] == 'ORDER' and any(x in t for x in ['charge', 'chase', 'piercing', 'strain', 'push'])),
+    ('standard order', lambda r, t: r['category'] == 'ORDER' and any(x in t for x in ['defence', 'brace', 'shield', 'formation', 'speed', 'march'])),
+    ('ability', lambda r, t: r['category'] == 'ABILITY'),
+    ('battlecry', lambda r, t: r['category'] == 'EMOTE' and 'battlecry' in t),
+    ('emote', lambda r, t: r['category'] == 'EMOTE'),
+    ('result', lambda r, t: r['category'] in {'VICTORY', 'DEFEAT'}),
+]
+
+
+def pilot_battle_mix(rows, candidates, limit=25):
+    """Round-robin whole random groups across battle-event, order, ability, emote and result buckets."""
+    eligible = {r['media_id'] for r in candidates}
+    common = ['objective capture enemy base', 'base is under attack', 'unit is under attack', 'is attacked',
+              'routes', 'rallies', 'first blood', 'capturing']
+    groups = defaultdict(list)
+    for row in rows:
+        if row['category'] != 'FRONTEND':
+            groups[row['bank'], row['random_group_id'] or 'single:' + row['media_id']].append(row)
+    buckets = {name: [] for name, _ in PILOT_BUCKETS}
+    for group in groups.values():
+        if not all(r['media_id'] in eligible for r in group):
+            continue
+        trigger = (group[0]['trigger'] + ' ' + group[0]['decision_tree_path']).lower().replace('_', ' ')
+        name = next((n for n, test in PILOT_BUCKETS if test(group[0], trigger)), None)
+        if name and (name != 'battle' or any(token in trigger for token in common)):
+            rank = min((i for i, token in enumerate(common) if token in trigger), default=0)
+            buckets[name].append((rank, int(group[0]['event_id']), int(group[0]['media_id']), group))
+    for items in buckets.values():
+        items.sort(key=lambda item: item[:3])
+    selected = []
+    while any(buckets.values()):
+        for name, _ in PILOT_BUCKETS:
+            if buckets[name]:
+                group = buckets[name].pop(0)[3]
+                if len(selected) + len(group) <= limit:
+                    selected.extend(group)
+        if len(selected) >= limit:
+            break
+    return selected
+
+
 def export_commander(folder, spec, rows, paths, complete, canonical_hash):
     folder.mkdir(parents=True, exist_ok=True)
     fields = FIELDS + ['safe_to_replace_for_' + spec['id']]
@@ -203,7 +250,7 @@ def export_commander(folder, spec, rows, paths, complete, canonical_hash):
     candidates = [r for r in rows if r['safe_to_replace_for_commander'] == 'YES' and r['transcript_confidence'] in {'CONFIRMED', 'HIGH'}
                   and r['trigger_confidence'] in {'CONFIRMED', 'HIGH'}]
     menu = [r for r in candidates if r['category'] == 'FRONTEND'][:15]
-    battle = pilot_battle(rows, candidates)
+    battle = pilot_battle_mix(rows, candidates) if spec.get('pilot_mix') else pilot_battle(rows, candidates)
     write_csv(folder / 'pilot-menu.csv', menu, fields)
     write_csv(folder / 'pilot-battle.csv', battle, fields)
     summary = summarize(rows) | {'pilot_menu': len(menu), 'pilot_battle': len(battle)}

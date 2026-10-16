@@ -112,5 +112,138 @@
         "container_id": 979337840
       }
     ]
+  },
+  {
+    "id": "spartacus",
+    "display_name": "Spartacus",
+    "actor_name": "Commander_Spartacus",
+    "actor_id": 3851535672,
+    "culture_names": [
+      "vo_culture_Gladiators"
+    ],
+    "culture_ids": [
+      1744534504
+    ],
+    "db_actor_literal": {
+      "source": "wad.pack:db/arena_commanders_tables/data",
+      "byte_offset": 6250,
+      "exact_fnv1_match": true
+    },
+    "db_commander_key": "gla_spartacus",
+    "db_faction": "rom_gladiators",
+    "localization_name_key": "arena_commanders_commander_localized_name_gla_spartacus",
+    "frontend_decision_evidence": [
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1402037848,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          3851535672
+        ],
+        "container_id": 1004825493
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1823898040,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          3851535672
+        ],
+        "container_id": 1004825493
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 2732370230,
+        "group_ids": [
+          3113488887,
+          112324978,
+          4273992948
+        ],
+        "keys": [
+          1744534504,
+          3851535672,
+          0
+        ],
+        "container_id": 889740473
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 2732370230,
+        "group_ids": [
+          3113488887,
+          112324978,
+          4273992948
+        ],
+        "keys": [
+          3254117665,
+          3851535672,
+          0
+        ],
+        "container_id": 217438493
+      }
+    ]
+  },
+  {
+    "id": "germanicus",
+    "display_name": "Germanicus",
+    "actor_name": "Commander_Germanicus",
+    "actor_id": 728465726,
+    "culture_names": [
+      "vo_culture_roman"
+    ],
+    "culture_ids": [
+      3254117665
+    ],
+    "db_actor_literal": {
+      "source": "wad.pack:db/arena_commanders_tables/data",
+      "byte_offset": 11040,
+      "exact_fnv1_match": true
+    },
+    "db_commander_key": "rom_germanicus",
+    "db_faction": "rom_rome",
+    "localization_name_key": "arena_commanders_commander_localized_name_rom_germanicus",
+    "frontend_decision_evidence": [
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1402037848,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          728465726
+        ],
+        "container_id": 930775141
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1823898040,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          728465726
+        ],
+        "container_id": 466137370
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 2732370230,
+        "group_ids": [
+          3113488887,
+          112324978,
+          4273992948
+        ],
+        "keys": [
+          3254117665,
+          728465726,
+          0
+        ],
+        "container_id": 1031265027
+      }
+    ]
   }
 ]

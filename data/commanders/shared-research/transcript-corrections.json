@@ -519,5 +519,720 @@
     "text": "Abandon the engines!",
     "confidence": "HIGH",
     "evidence": "base.en and small.en have engines and the branch drops siege equipment; medium.en omits the second e."
+  },
+  "24289716": {
+    "text": "Quickly!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; speed-stance branch."
+  },
+  "39658986": {
+    "text": "Prepare to fire!",
+    "confidence": "HIGH",
+    "evidence": "film/fun/farm are variants of fire; Hannibal's state-586209189 container has the same script set (Prepare to fire!/Ready the artillery!/Prepare the artillery!/Artillery, stand ready!); Germanicus has Prepare to fire! in the same state."
+  },
+  "40210290": {
+    "text": "Stakes out!",
+    "confidence": "HIGH",
+    "evidence": "All readings Stanks/Stags out; explicit deployables_place_stakes; Germanicus sibling Stakes, out!."
+  },
+  "64241352": {
+    "text": "Evade them!",
+    "confidence": "HIGH",
+    "evidence": "small.en Evide them; others Invite them; unit_light_dodge branch whose siblings are all evasion commands (Dodge them!/Avoid attack!)."
+  },
+  "71837665": {
+    "text": "You are free men!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; Freeman homophone; heartening_cry branch."
+  },
+  "72509232": {
+    "text": "Our base is being attacked!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; base-under-attack state."
+  },
+  "123533271": {
+    "text": "Deploy stakes!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; deployables_place_stakes."
+  },
+  "138158865": {
+    "text": "Take down the artillery!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "149906710": {
+    "text": "Victory is in our grasp!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "153098478": {
+    "text": "I salute you, fallen Iceni queen!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; second vo_actor Commander_Boudica (queen of the Iceni)."
+  },
+  "194179632": {
+    "text": "Fire!",
+    "confidence": "HIGH",
+    "evidence": "medium.en Fire; File/Foil variants; UNIT_focus_fire branch with siblings Release!/Loose!."
+  },
+  "222260119": {
+    "text": "We're being attacked by allies!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; allied melee damage state."
+  },
+  "227574304": {
+    "text": "Artillery! Cease fire!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; cease-fire state 3186949806."
+  },
+  "234193043": {
+    "text": "To battle!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; JOBATO/Joe Bazzo are phonetic variants; Inspire_Group branch."
+  },
+  "243600060": {
+    "text": "Prepare artillery!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en agree; this speaker's \"artillery\" is consistently heard as January/generate/itinerary; same container siblings are artillery commands."
+  },
+  "253804238": {
+    "text": "Cease fire!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "270799446": {
+    "text": "So dies Arminius!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; second vo_actor Commander_Arminius."
+  },
+  "278831124": {
+    "text": "Sulla! You were no match for me!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; base.en also has were; second vo_actor Commander_Sulla."
+  },
+  "294247916": {
+    "text": "We bested Alexander!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; second vo_actor Commander_Alexander."
+  },
+  "296017093": {
+    "text": "Fight!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "298823184": {
+    "text": "Ready those stakes!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 give steaks (stakes homophone); deployables_place_stakes; base/small things."
+  },
+  "330295081": {
+    "text": "Cease fire! We are attacking our allies!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "332561560": {
+    "text": "Find them all!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; base/small Find demo is the same sound."
+  },
+  "349082548": {
+    "text": "A feeble charge!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; Germanicus sibling in the same state: A weak charge!."
+  },
+  "358343302": {
+    "text": "Spartacus!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; actual speaker Commander_Spartacus."
+  },
+  "361681951": {
+    "text": "Battle calls!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; Germanicus sibling Battle calls!."
+  },
+  "368631366": {
+    "text": "Caltrops!",
+    "confidence": "HIGH",
+    "evidence": "alternative unprompted medium.en +0.5s/beam10 gives Caltrops; base Cal drops; deployables_place_caltrops."
+  },
+  "395601182": {
+    "text": "Drop shields!",
+    "confidence": "HIGH",
+    "evidence": "All readings DROP SH(ILLS/ELVES/ELLS); state 276550336 targets the same Spartacus container as vo_ua_drop_shields; sibling Leave your shields!."
+  },
+  "399364011": {
+    "text": "Mark targets!",
+    "confidence": "HIGH",
+    "evidence": "All models agree; capitalization only."
+  },
+  "417297831": {
+    "text": "Beware! Allied traps!",
+    "confidence": "HIGH",
+    "evidence": "base.en wording; state 1644289067 siblings Allied traps are close!/Take heed! Allied traps!."
+  },
+  "449962500": {
+    "text": "The tyrant Miltiades falls!",
+    "confidence": "HIGH",
+    "evidence": "All readings keep tyrant + Milty-ades + falls; second vo_actor Commander_Miltiades."
+  },
+  "486453467": {
+    "text": "Prepare the artillery!",
+    "confidence": "HIGH",
+    "evidence": "All models: Prepare the + artillery variant; this speaker's \"artillery\" is consistently heard as January/generate/itinerary; same container siblings are artillery commands; Hannibal's state-586209189 container has the same script set (Prepare to fire!/Ready the artillery!/Prepare the artillery!/Artillery, stand ready!)."
+  },
+  "525559754": {
+    "text": "Ready the tar!",
+    "confidence": "HIGH",
+    "evidence": "Readings Ready that saw/that's all/that's up keep ready + th- + tar; Hannibal's deployables_place_tar container has the same script set (Ready Tar Pits!/Ready the tar!/Prepare the tar)."
+  },
+  "532099339": {
+    "text": "Quick march!",
+    "confidence": "HIGH",
+    "evidence": "All readings Quick + munch/murge; unit_medium_speed_stance with speed siblings Double time!/Apace!."
+  },
+  "542545926": {
+    "text": "Retreat!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; withdraw state 3233209236."
+  },
+  "549329": {
+    "text": "Discard engines!",
+    "confidence": "HIGH",
+    "evidence": "base.en and alternative unprompted medium.en +0.5s/beam10 agree; drop_siege_equipment; Hannibal approved Discard engines!."
+  },
+  "576346739": {
+    "text": "Leave siege equipment!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "577664843": {
+    "text": "Dodge their attacks!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "580626342": {
+    "text": "Our allies' countermeasures have caught us!",
+    "confidence": "HIGH",
+    "evidence": "base.en, small.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "594443823": {
+    "text": "Do not waver!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "604171952": {
+    "text": "Shields high!",
+    "confidence": "HIGH",
+    "evidence": "alternative unprompted medium.en +0.5s/beam10 gives SHIELDS HIGH; base/small/medium TIME/TIE; raise_shield branch."
+  },
+  "616297100": {
+    "text": "Spears, form up!",
+    "confidence": "HIGH",
+    "evidence": "Spares/Spiz/Space are variants of spears; phalanx_standard branch; sibling Spears, at the ready!."
+  },
+  "639753636": {
+    "text": "Prepare the artillery!",
+    "confidence": "HIGH",
+    "evidence": "All models: Prepare the + artillery variant; this speaker's \"artillery\" is consistently heard as January/generate/itinerary; same container siblings are artillery commands."
+  },
+  "648803607": {
+    "text": "Prepare the tar!",
+    "confidence": "HIGH",
+    "evidence": "jaw/jar/tour are variants of tar; Hannibal's deployables_place_tar container has the same script set (Ready Tar Pits!/Ready the tar!/Prepare the tar)."
+  },
+  "651041312": {
+    "text": "Man siege weapons!",
+    "confidence": "HIGH",
+    "evidence": "base.en and alternative unprompted medium.en +0.5s/beam10 agree; Hannibal approved Man siege weapons!."
+  },
+  "657548706": {
+    "text": "Artillery! Stand ready!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; Hannibal's state-586209189 container has the same script set (Prepare to fire!/Ready the artillery!/Prepare the artillery!/Artillery, stand ready!)."
+  },
+  "668717718": {
+    "text": "Ready artillery!",
+    "confidence": "HIGH",
+    "evidence": "Ready + or January/our generate/itinerary are variants of artillery; this speaker's \"artillery\" is consistently heard as January/generate/itinerary; same container siblings are artillery commands; Hannibal approved Ready artillery!."
+  },
+  "679148311": {
+    "text": "Hasdrubal is dead!",
+    "confidence": "HIGH",
+    "evidence": "All readings keep the name sounds + is dead; second vo_actor Commander_Hasdrubal."
+  },
+  "680664673": {
+    "text": "Raise shields!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "699505853": {
+    "text": "Ready tar pits!",
+    "confidence": "HIGH",
+    "evidence": "Toppits/topics are variants of tar pits; Hannibal's deployables_place_tar container has the same script set (Ready Tar Pits!/Ready the tar!/Prepare the tar)."
+  },
+  "704551274": {
+    "text": "Our allies fire on us!",
+    "confidence": "HIGH",
+    "evidence": "small.en fire on us, base foreign us; allied missile fire state (medium/alternative fall on us)."
+  },
+  "719855124": {
+    "text": "So falls Massinissa!",
+    "confidence": "HIGH",
+    "evidence": "small/medium/alternative agree on the sentence; second vo_actor Commander_Massinissa."
+  },
+  "743911990": {
+    "text": "Queen Teuta fights no more!",
+    "confidence": "HIGH",
+    "evidence": "All models agree on Queen + fights no more; second vo_actor Commander_Teuta."
+  },
+  "755978163": {
+    "text": "Out of their way!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "775437610": {
+    "text": "Brace, comrades!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; Brace branch."
+  },
+  "787420113": {
+    "text": "Run!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; speed-stance branch; Germanicus sibling RUN!."
+  },
+  "794088328": {
+    "text": "Cease firing!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "796221388": {
+    "text": "Up shields!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 Upshields; raise_shield branch."
+  },
+  "802573952": {
+    "text": "Spears, at the ready!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; phalanx_standard."
+  },
+  "807304360": {
+    "text": "Xanthippus is slain!",
+    "confidence": "HIGH",
+    "evidence": "All models agree on the sentence; second vo_actor Commander_Xanthippus."
+  },
+  "807724314": {
+    "text": "Careful! Allied traps!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 Careful + traps; I like is the Allied homophone; Germanicus sibling Careful! Allied traps!."
+  },
+  "837940415": {
+    "text": "Our base has fallen!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "858224357": {
+    "text": "Apace!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; speed-stance branch."
+  },
+  "871137495": {
+    "text": "March!",
+    "confidence": "HIGH",
+    "evidence": "All models hear MATCH; state 1859526091 siblings Moving out!/Onward!/Forward!/Advance! (quick-march homophone precedent)."
+  },
+  "873102606": {
+    "text": "Deploy caltrops!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "877163736": {
+    "text": "Allied friendly fire!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "891428645": {
+    "text": "Vercingetorix is no more!",
+    "confidence": "HIGH",
+    "evidence": "alternative unprompted medium.en +0.5s/beam10 gives the exact name; second vo_actor Commander_Vercingetorix."
+  },
+  "926821168": {
+    "text": "Allied traps nearby!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; state 1644289067 siblings."
+  },
+  "931017787": {
+    "text": "Well held, comrades!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "939659370": {
+    "text": "Withdraw!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "947998020": {
+    "text": "We destroyed Germanicus!",
+    "confidence": "HIGH",
+    "evidence": "base.en hears destroyed; the d+G coarticulation explains DESTROY in the other readings; second vo_actor Commander_Germanicus; sibling reactions use past tense (We killed Hannibal!/We bested Alexander!)."
+  },
+  "956463774": {
+    "text": "Cynane lies dead!",
+    "confidence": "HIGH",
+    "evidence": "All models agree on the sentence; second vo_actor Commander_Cynane supplies the spelling."
+  },
+  "958160339": {
+    "text": "Place caltrops!",
+    "confidence": "HIGH",
+    "evidence": "PLACE CALTRUMS/CULTRUPS and alternative PLAY SCALTROPS segment place caltrops; deployables_place_caltrops."
+  },
+  "960593352": {
+    "text": "Our allies' countermeasures damage us!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en wording; possessive punctuation only."
+  },
+  "971531164": {
+    "text": "Assemble artillery!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; Hannibal approved Assemble artillery!."
+  },
+  "996598724": {
+    "text": "Locate the enemy!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "998963741": {
+    "text": "Scipio meets his end!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; second vo_actor Commander_Scipio."
+  },
+  "1009371067": {
+    "text": "Hold fire!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "1045215858": {
+    "text": "Artillery, hold!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "69788367": {
+    "text": "Victory, my friends!",
+    "confidence": "HIGH",
+    "evidence": "All models agree; punctuation only."
+  },
+  "697820721": {
+    "text": "Strike through!",
+    "confidence": "MEDIUM",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 say STRIKE THROUGH; base/small Strike two; true/through/two remain ambiguous for Execute; Crixus Execute lines are a different script."
+  },
+  "14679398": {
+    "text": "Place the caltrops!",
+    "confidence": "HIGH",
+    "evidence": "All ASR readings keep Place the + a cal-trops phonetic variant (count drops/cow jobs/cow jabs); explicit deployables_place_caltrops branch."
+  },
+  "18455341": {
+    "text": "The gods honor us!",
+    "confidence": "HIGH",
+    "evidence": "small.en wording; base.en \"on us\" and medium.en/alternative unprompted medium.en +0.5s/beam10 \"order us\" are phonetic variants; victory-on-points state."
+  },
+  "21938761": {
+    "text": "In formation!",
+    "confidence": "HIGH",
+    "evidence": "All models segment the phrase as \"information\"; explicit normal_formation branch with sibling Form up!/Formation, move!."
+  },
+  "29734546": {
+    "text": "Vercingetorix is dead!",
+    "confidence": "HIGH",
+    "evidence": "All models agree on \"is dead\"; second vo_actor is exactly Commander_Vercingetorix; localized spelling."
+  },
+  "44503140": {
+    "text": "Formation, move!",
+    "confidence": "HIGH",
+    "evidence": "All models agree; capitalization only; normal_formation branch."
+  },
+  "53611459": {
+    "text": "Their base is ours!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; victory-by-capture state."
+  },
+  "72728027": {
+    "text": "Push!",
+    "confidence": "HIGH",
+    "evidence": "PUTS/PUNCH are one-syllable variants; explicit vo_ua_Push state where Leonidas, Scipio and Spartacus all have exactly Push! (shared script)."
+  },
+  "217263886": {
+    "text": "We have killed Sulla!",
+    "confidence": "HIGH",
+    "evidence": "All models agree on the sentence; second vo_actor Commander_Sulla supplies the spelling."
+  },
+  "212152118": {
+    "text": "Victory awaits!",
+    "confidence": "HIGH",
+    "evidence": "base.en wording; small/medium agree on words; punctuation only."
+  },
+  "97502205": {
+    "text": "Beware! Allied fire!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; allied missile fire state; base/small \"I like/I light\" are phonetic variants of Allied."
+  },
+  "97581645": {
+    "text": "We have their base!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; victory-by-capture state."
+  },
+  "111712692": {
+    "text": "Man siege weapons!",
+    "confidence": "HIGH",
+    "evidence": "All models keep Man + s(eeds/eats/eize) weapons; state 2486100005 sibling Prepare siege weapons!; Hannibal approved Man siege weapons!."
+  },
+  "111845059": {
+    "text": "Stakes, out!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; small.en steaks homophone; deployables_place_stakes."
+  },
+  "117848761": {
+    "text": "Quick march!",
+    "confidence": "HIGH",
+    "evidence": "All models hear quick + match; explicit quick_march branch resolves march."
+  },
+  "135114617": {
+    "text": "Attack the flank!",
+    "confidence": "HIGH",
+    "evidence": "base.en and small.en flank; medium.en flag is this speaker's systematic flank homophone; exposed_flanks branch."
+  },
+  "151798854": {
+    "text": "Draw weapons!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; small.en JAW is a close mishearing."
+  },
+  "164197349": {
+    "text": "Ready the stakes!",
+    "confidence": "HIGH",
+    "evidence": "medium.en wording; base/small steaks homophone; deployables_place_stakes branch."
+  },
+  "196020211": {
+    "text": "Barricades, now!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; deployables_place_barricades."
+  },
+  "241264325": {
+    "text": "Our base is overrun!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; defeat-by-capture state."
+  },
+  "294124967": {
+    "text": "We must avenge the fallen!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; defeat state."
+  },
+  "303759062": {
+    "text": "Hannibal Barca is slain!",
+    "confidence": "HIGH",
+    "evidence": "alternative unprompted medium.en +0.5s/beam10 gives Hannibal Barca; base/small Baca; second vo_actor is Commander_Hannibal."
+  },
+  "355608982": {
+    "text": "Mark targets!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; mark_target branch."
+  },
+  "382560417": {
+    "text": "Boudica is dead!",
+    "confidence": "HIGH",
+    "evidence": "small/medium/alternative agree on the name sounds; second vo_actor Commander_Boudica; localized spelling Boudica."
+  },
+  "390343415": {
+    "text": "Their flank is weak!",
+    "confidence": "HIGH",
+    "evidence": "All models say flag; exposed_flanks branch and the same speaker's sibling Attack the flank! (also heard as flag by medium.en) resolve the homophone."
+  },
+  "392385534": {
+    "text": "Abandon siege equipment!",
+    "confidence": "HIGH",
+    "evidence": "base.en wording; others Abandoned; drop_siege_equipment branch."
+  },
+  "459598669": {
+    "text": "No mercy!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "460789457": {
+    "text": "We have drawn first blood!",
+    "confidence": "HIGH",
+    "evidence": "base.en first; small/medium fast homophone; first_blood_by_your_alliance state."
+  },
+  "501977689": {
+    "text": "Parry!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; base/small Perry homophone; sword_parry branch."
+  },
+  "505141683": {
+    "text": "Let Bellona lead your blades!",
+    "confidence": "HIGH",
+    "evidence": "All models hear Let B(a/e)l(l)ona/Bologna lead your blades; Bellona is the Roman war goddess; heavy infantry charge ability."
+  },
+  "525673606": {
+    "text": "Aim! Fire!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; base/small I AM FIRE is a segmentation error; state 2257448314 siblings Fire!/Loose!."
+  },
+  "542739608": {
+    "text": "Dismantle the artillery!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "545423173": {
+    "text": "Deploy caltrops!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; deployables_place_caltrops."
+  },
+  "554521134": {
+    "text": "Advance!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; speed-stance siblings."
+  },
+  "586950078": {
+    "text": "Massinissa has been slain!",
+    "confidence": "HIGH",
+    "evidence": "medium/alternative agree; second vo_actor Commander_Massinissa; existing project spelling."
+  },
+  "597515705": {
+    "text": "We have killed their general!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; base/small differ only in the determiner."
+  },
+  "645474074": {
+    "text": "We're firing at our allies!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree; friendly-fire cause state."
+  },
+  "680788415": {
+    "text": "Glory awaits!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; base/small Gloria waits is a segmentation variant."
+  },
+  "681569616": {
+    "text": "Gather yourselves!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "687736292": {
+    "text": "Beware! Allied traps!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; sibling Careful! Allied traps!."
+  },
+  "713700410": {
+    "text": "Apace!",
+    "confidence": "HIGH",
+    "evidence": "alternative unprompted medium.en +0.5s/beam10 gives APACE; base/small A PEACE/A PACE; explicit quick_march branch (Leonidas/Scipio precedent)."
+  },
+  "779439379": {
+    "text": "Miltiades breathes no more!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 agree; second vo_actor Commander_Miltiades."
+  },
+  "806834148": {
+    "text": "Deploy tar pits!",
+    "confidence": "HIGH",
+    "evidence": "All models hear topics for tar pits; explicit deployables_place_tar branch; project wording Deploy tar pits!."
+  },
+  "817684451": {
+    "text": "Allied friendly fire!",
+    "confidence": "HIGH",
+    "evidence": "base/small I like, medium All right, alternative Alight are phonetic variants of Allied; allied missile fire state; Spartacus sibling Allied friendly fire!."
+  },
+  "857430958": {
+    "text": "Cease fire!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "880062500": {
+    "text": "Xanthippus has fallen!",
+    "confidence": "HIGH",
+    "evidence": "medium/alternative agree; second vo_actor Commander_Xanthippus."
+  },
+  "901080395": {
+    "text": "I am Germanicus.",
+    "confidence": "HIGH",
+    "evidence": "base.en and small.en agree; actual speaker Commander_Germanicus resolves medium.en name error."
+  },
+  "924143572": {
+    "text": "Prepare tar pits!",
+    "confidence": "HIGH",
+    "evidence": "All models hear topics for tar pits; deployables_place_tar branch."
+  },
+  "944124316": {
+    "text": "Raise the eagle! Cynane has fallen!",
+    "confidence": "HIGH",
+    "evidence": "small/medium/alternative agree on the sentence; second vo_actor Commander_Cynane supplies the spelling."
+  },
+  "980390510": {
+    "text": "Our victory draws near!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "1047015816": {
+    "text": "Withdraw!",
+    "confidence": "HIGH",
+    "evidence": "All models agree; capitalization only."
+  },
+  "1050057602": {
+    "text": "To battle!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative unprompted medium.en +0.5s/beam10 agree."
+  },
+  "1071572755": {
+    "text": "Tortoise!",
+    "confidence": "HIGH",
+    "evidence": "TOTES/TOTUS/TOTUS/TORTAS are phonetic variants of tortoise; attacking_testudo ability (testudo means tortoise) with sibling Testudo!."
+  },
+  "447969824": {
+    "text": "For the glory of Rome.",
+    "confidence": "HIGH",
+    "evidence": "All models agree; capitalization only."
+  },
+  "88585546": {
+    "text": "Take heed! Allied traps!",
+    "confidence": "HIGH",
+    "evidence": "All models agree on the words; base.en/small.en spelling and punctuation retained."
+  },
+  "149394479": {
+    "text": "We're attacking allied units!",
+    "confidence": "HIGH",
+    "evidence": "All models agree on the words; base.en/small.en spelling and punctuation retained."
+  },
+  "410775061": {
+    "text": "Shield up!",
+    "confidence": "HIGH",
+    "evidence": "base.en and small.en SHIELD UP!; medium.en SHIELDS UP differs only by plural; raise_shield branch."
+  },
+  "584033140": {
+    "text": "Reload weapons!",
+    "confidence": "HIGH",
+    "evidence": "All models agree on the words; base.en/small.en spelling and punctuation retained."
+  },
+  "671223197": {
+    "text": "Reload! Now!",
+    "confidence": "HIGH",
+    "evidence": "All models agree on the words; base.en/small.en spelling and punctuation retained."
+  },
+  "749518639": {
+    "text": "Quick reload!",
+    "confidence": "HIGH",
+    "evidence": "All models agree on the words; base.en/small.en spelling and punctuation retained."
+  },
+  "861583543": {
+    "text": "Defensive positions!",
+    "confidence": "HIGH",
+    "evidence": "All models agree on the words; base.en/small.en spelling and punctuation retained."
+  },
+  "896811850": {
+    "text": "Stop! We're firing on allied troops!",
+    "confidence": "HIGH",
+    "evidence": "All models agree on the words; base.en/small.en spelling and punctuation retained."
+  },
+  "1026677895": {
+    "text": "Abandon the engines!",
+    "confidence": "HIGH",
+    "evidence": "All models agree on the words; base.en/small.en spelling and punctuation retained."
   }
 }

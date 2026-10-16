@@ -6,8 +6,9 @@ import tempfile
 import unittest
 
 from tools.inventory.names import fnv1
-from tools.inventory.localization import emote_spellings
-from tools.inventory.crosscheck import recording_links
+from tools.inventory.localization import CHAT_TAG_PREFIX, chat_tag_events, emote_spellings
+from tools.inventory.crosscheck import pair_overlaps, recording_links
+from tools.inventory.research_export import describe, pilot_battle_mix
 from tools.inventory.research_audit import audit_commander
 from tools.inventory.original_audio import extract_decode, private_directory
 from tools.inventory.research_graph import UsageGraph, ACTOR, safety
@@ -103,6 +104,53 @@ class OwnershipTests(unittest.TestCase):
         candidates = emote_spellings('prefix_quote_a_-_b')
         self.assertIn('prefix_quote_a_b', candidates)
         self.assertEqual(fnv1('Play_rom_scipio_emote_quote_gods_hear_me_bring_us_victory'), 2876436639)
+
+    def test_typographic_apostrophe_is_dropped_only_for_an_actual_event(self):
+        key = CHAT_TAG_PREFIX + 'gla_spartacus_emote_quote_freedom_doesn’t_come_without_a_fight'
+        self.assertIn('gla_spartacus_emote_quote_freedom_doesnt_come_without_a_fight',
+                      emote_spellings(key.removeprefix(CHAT_TAG_PREFIX)))
+        rows = [(key, 'Freedom doesn’t come without a fight.')]
+        found = chat_tag_events(rows, {1571957801}, ['Commander_Spartacus'], 'test.loc')
+        self.assertEqual(found[1571957801]['name'], 'Play_gla_spartacus_emote_quote_freedom_doesnt_come_without_a_fight')
+        self.assertEqual(found[1571957801]['owner'], 'commander:Commander_Spartacus')
+        self.assertEqual(chat_tag_events(rows, {42}, ['Commander_Spartacus'], 'test.loc'), {})
+
+    def test_commander_tutorial_event_is_not_generic_advice(self):
+        graph = usage([event([([7], 2)]), sound(2)])
+        graph.event_names = {5: {'name': 'Play_A_Tutorial_VO_Request_01', 'owner': 'commander:Commander_A',
+                                 'source': 'script.lua', 'literal_byte_offset': 10},
+                             6: {'name': 'Play_Advice_01', 'owner': 'global:tutorial-advisor'}}
+        spec = {'actor_name': 'Commander_A'}
+        self.assertEqual(describe(graph, {'event_type': 'Event', 'event_id': 5}, spec, {})[0::2], ('TUTORIAL', 'HIGH'))
+        self.assertEqual(describe(graph, {'event_type': 'Event', 'event_id': 6}, spec, {})[0::2], ('ADVISOR', 'LOW'))
+        # Another commander's tutorial request stays a generic advice reference.
+        other = {'actor_name': 'Commander_B'}
+        self.assertEqual(describe(graph, {'event_type': 'Event', 'event_id': 5}, other, {})[0::2], ('ADVISOR', 'LOW'))
+
+    def test_mixed_battle_pilot_keeps_whole_safe_groups_across_categories(self):
+        def pilot_row(mid, category, trigger, group):
+            return {'media_id': str(mid), 'category': category, 'trigger': trigger, 'decision_tree_path': '',
+                    'bank': 'b', 'random_group_id': group, 'event_id': '1'}
+        rows = [pilot_row(1, 'ORDER', 'unit ability ordered: unit manual charge', 'g1'),
+                pilot_row(2, 'ORDER', 'unit ability ordered: unit manual charge', 'g1'),
+                pilot_row(3, 'ORDER', 'unit ability ordered: unit brace', 'g2'),
+                pilot_row(4, 'EMOTE', 'player selects emote: battlecry', 'g3'),
+                pilot_row(5, 'BATTLE_EVENT', 'battle event: your base is under attack', 'g4'),
+                pilot_row(6, 'ABILITY', 'commander ability activation: uprising', 'g5'),
+                pilot_row(7, 'ABILITY', 'commander ability activation: uprising', 'g5')]
+        eligible = [r for r in rows if r['media_id'] != '7']
+        selected = pilot_battle_mix(rows, eligible, limit=5)
+        self.assertEqual([r['media_id'] for r in selected], ['5', '1', '2', '3', '4'])
+
+    def test_pair_overlap_flags_any_shared_safe_id(self):
+        datasets = {'a': {'1': {'safe_to_replace_for_commander': 'YES'}, '2': {'safe_to_replace_for_commander': 'NO_SHARED'}},
+                    'b': {'2': {'safe_to_replace_for_commander': 'NO_SHARED'}, '3': {'safe_to_replace_for_commander': 'YES'}},
+                    'hannibal': {'1': {'safe_to_replace_for_hannibal': 'NO_SHARED'}}}
+        result = pair_overlaps(datasets, [('a', 'b'), ('a', 'hannibal'), ('b', 'hannibal')])
+        self.assertEqual(result['a', 'b']['status'], 'SHARED_NOT_SAFE')
+        self.assertEqual(result['a', 'hannibal']['safe_conflicts'], ['1'])
+        self.assertEqual(result['a', 'hannibal']['status'], 'CONFLICT')
+        self.assertEqual(result['b', 'hannibal']['status'], 'NO_OVERLAP')
 
 
 class MetadataTests(unittest.TestCase):

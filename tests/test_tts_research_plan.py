@@ -1,11 +1,14 @@
 """Safety and evidence regressions for offline commander TTS preparation."""
 from collections import defaultdict
 import json
+from pathlib import Path
+import tempfile
 import unittest
 
 from tools.inventory.research_metadata import read_csv
 from tools.resources import ROOT
-from tools.tts.research_plan import budget_risk, performance_key, translation_memory
+from tools.tts.research_plan import (budget_risk, check_delivery, performance_key, plan_delivery,
+                                     read_memory, translation_memory)
 
 
 class ResearchPlanTests(unittest.TestCase):
@@ -79,6 +82,43 @@ class ResearchPlanTests(unittest.TestCase):
     def test_budget_labels_do_not_claim_encoding(self):
         self.assertEqual(budget_risk(5000,1,'Go!','Běžte!'),'HIGH')
         self.assertEqual(budget_risk(12000,2,'Forward!','Vpřed!'),'LOW')
+
+    def test_v3_is_only_for_shouted_expressive_delivery(self):
+        self.assertEqual(check_delivery('BATTLE_SHOUT','eleven_v3','[fierce, shouting]')[1],'eleven_v3')
+        for bad in [('BATTLE_SHOUT','eleven_v4','[fierce, shouting]'), ('AUTHORITATIVE','eleven_v3','[authoritative]'),
+                    ('AUTHORITATIVE','eleven_v4','[proud, calm, authoritative]'), ('AUTHORITATIVE','eleven_v5','[calm]'),
+                    ('AUTHORITATIVE','eleven_v4','authoritative')]:
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                check_delivery(*bad)
+
+    def test_profiled_routing_follows_hannibal_context_rules(self):
+        def row(category, trigger, english='Line!'):
+            return {'category':category,'trigger':trigger,'english_text':english}
+        decide = lambda commander, *rows: plan_delivery(list(rows), commander, {})
+        self.assertEqual(decide('spartacus', row('EMOTE','player selects emote: battlecry'))[1:], ('eleven_v3','[fierce, shouting]'))
+        self.assertEqual(decide('germanicus', row('ORDER','unit ability ordered: unit manual charge'))[1:], ('eleven_v3','[shouting, commanding]'))
+        self.assertEqual(decide('germanicus', row('ORDER','unit ability ordered: unit medium defence stance'))[1], 'eleven_v4')
+        self.assertEqual(decide('spartacus', row('BATTLE_EVENT','battle event: one of your units routes'))[1:], ('eleven_v3','[angry, shouting]'))
+        self.assertEqual(decide('spartacus', row('BATTLE_EVENT','battle event: your team draws first blood'))[1], 'eleven_v4')
+        self.assertEqual(decide('germanicus', row('FRONTEND','open/select commander'))[2], '[proud, authoritative]')
+        # A reviewed per-phrase decision wins over context rules.
+        reviewed = {'line!': ('DEFIANT','eleven_v4','[defiant]')}
+        self.assertEqual(plan_delivery([row('EMOTE','player selects emote: battlecry')],'spartacus',reviewed)[1],'eleven_v4')
+        # Commanders without a profile keep the published legacy routing.
+        self.assertEqual(decide('scipio-africanus', row('ORDER','unit ability ordered: unit manual charge'))[1], 'eleven_v4')
+
+    def test_memory_accepts_reviewed_delivery_columns_only_when_valid(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp)/'memory.tsv'
+            path.write_text('english_text\tczech_text\tdelivery_style\trecommended_model\trecommended_tags\n'
+                            'Charge!\tVpřed!\tBATTLE_SHOUT\televen_v3\t[fierce, shouting]\nHold!\tStát!\t\t\t\n', encoding='utf-8')
+            memory, decisions = read_memory(path)
+            self.assertEqual(memory, {'charge!':'Vpřed!','hold!':'Stát!'})
+            self.assertEqual(decisions, {'charge!':('BATTLE_SHOUT','eleven_v3','[fierce, shouting]')})
+            path.write_text('english_text\tczech_text\tdelivery_style\trecommended_model\trecommended_tags\n'
+                            'Hold!\tStát!\tAUTHORITATIVE\televen_v3\t[authoritative]\n', encoding='utf-8')
+            with self.assertRaises(ValueError):
+                read_memory(path)
 
 
 if __name__=='__main__':

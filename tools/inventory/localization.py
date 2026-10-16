@@ -30,4 +30,32 @@ def loc_rows(data):
 
 
 def emote_spellings(stem):
-    return {stem, stem.replace('-', '_'), re.sub('_+', '_', stem.replace('-', '_'))}
+    variants = {stem, stem.replace('-', '_'), re.sub('_+', '_', stem.replace('-', '_'))}
+    # Typographic punctuation (e.g. U+2019 in "doesn’t") is absent from event names.
+    return variants | {v.encode('ascii', 'ignore').decode('ascii') for v in variants}
+
+
+CHAT_TAG_PREFIX = 'arena_localised_chat_tags_value_'
+
+
+def chat_tag_events(rows, event_ids, actor_names, source):
+    """Exact Play_<chat tag> names for real Event IDs, with the speaking owner."""
+    from tools.inventory.names import fnv1
+    found = {}
+    for key, text in rows:
+        if not key.startswith(CHAT_TAG_PREFIX):
+            continue
+        stem = key.removeprefix(CHAT_TAG_PREFIX)
+        actor_stem = re.split('_emote_|_EMO_', stem)[0]
+        short = actor_stem.split('_', 1)[-1]
+        actor = next((n for n in actor_names if n.lower() == 'commander_' + short.lower()), None)
+        for spelling in sorted(emote_spellings(stem)):
+            name = 'Play_' + spelling
+            eid = fnv1(name)
+            if eid not in event_ids:
+                continue
+            require(eid not in found or found[eid]['key'] == key, 'Conflicting chat-tag event hash')
+            found[eid] = {'name': name, 'text': text.replace('\\n', ' '), 'key': key,
+                          'owner': 'commander:' + actor if actor else 'unknown:emote-owner:' + actor_stem,
+                          'source': source, 'normalization': 'exact FNV-1 match against an actual bank Event ID'}
+    return found

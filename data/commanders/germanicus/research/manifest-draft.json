@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "research_schema_version": 1,
+  "id": "germanicus",
+  "display_name": "Germanicus",
+  "status": "research_ready",
+  "inventory_status": "complete_with_confidence_flags",
+  "release_ready": false,
+  "canonical_original_pack_sha256": "d6ee7ec4c4422276d9caba7013f46662a980955c138be13f653b58992ad876ad",
+  "actor_name": "Commander_Germanicus",
+  "actor_id": 728465726,
+  "culture_names": [
+    "vo_culture_roman"
+  ],
+  "culture_ids": [
+    3254117665
+  ],
+  "human_listening": "NOT_RUN",
+  "game_runtime_review": "NOT_RUN",
+  "paid_api_calls": 0,
+  "replacements": [],
+  "total_relevant_media_ids": 1859,
+  "spoken_media_ids": 1859,
+  "silent_placeholders": 0,
+  "commander_specific_media_ids": 234,
+  "explicit_commander_speaker_media_ids": 234,
+  "safe_replacement_media_ids": 234,
+  "shared_media_ids": 1625,
+  "frontend_count": 9,
+  "battle_count": 225,
+  "sharing_counts": {
+    "GLOBAL_SHARED": 1443,
+    "UNIT_TYPE_SHARED": 123,
+    "CULTURE_SHARED": 59,
+    "COMMANDER_SPECIFIC": 234
+  },
+  "category_counts": {
+    "ORDER": 116,
+    "EMOTE": 42,
+    "VICTORY": 6,
+    "DEATH_REACTION": 18,
+    "ABILITY": 9,
+    "FRONTEND": 9,
+    "BATTLE_EVENT": 23,
+    "DEFEAT": 6,
+    "TUTORIAL": 5
+  },
+  "transcript_counts_all": {
+    "HIGH": 1389,
+    "LOW": 64,
+    "CONFIRMED": 83,
+    "MEDIUM": 323
+  },
+  "transcript_counts_commander_specific": {
+    "HIGH": 151,
+    "CONFIRMED": 83
+  },
+  "duplicate_groups": 41,
+  "commander_specific_transcripts_needing_review": 0,
+  "missing_transcripts_all": 0,
+  "manually_deferred_transcript_ids": [],
+  "unique_commander_specific_recordings": 191,
+  "ready_for_translation_tts": true,
+  "pilot_menu": 6,
+  "pilot_battle": 25
+}

@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "research_schema_version": 1,
+  "id": "spartacus",
+  "display_name": "Spartacus",
+  "status": "research_ready",
+  "inventory_status": "structural_complete_transcript_review_required",
+  "release_ready": false,
+  "canonical_original_pack_sha256": "d6ee7ec4c4422276d9caba7013f46662a980955c138be13f653b58992ad876ad",
+  "actor_name": "Commander_Spartacus",
+  "actor_id": 3851535672,
+  "culture_names": [
+    "vo_culture_Gladiators"
+  ],
+  "culture_ids": [
+    1744534504
+  ],
+  "human_listening": "NOT_RUN",
+  "game_runtime_review": "NOT_RUN",
+  "paid_api_calls": 0,
+  "replacements": [],
+  "total_relevant_media_ids": 1406,
+  "spoken_media_ids": 1406,
+  "silent_placeholders": 0,
+  "commander_specific_media_ids": 304,
+  "explicit_commander_speaker_media_ids": 309,
+  "safe_replacement_media_ids": 304,
+  "shared_media_ids": 1102,
+  "frontend_count": 10,
+  "battle_count": 294,
+  "sharing_counts": {
+    "COMMANDER_SPECIFIC": 304,
+    "CULTURE_SHARED": 807,
+    "UNIT_TYPE_SHARED": 66,
+    "GLOBAL_SHARED": 229
+  },
+  "category_counts": {
+    "ORDER": 162,
+    "FRONTEND": 10,
+    "BATTLE_EVENT": 35,
+    "DEFEAT": 6,
+    "EMOTE": 53,
+    "VICTORY": 6,
+    "ABILITY": 12,
+    "DEATH_REACTION": 20
+  },
+  "transcript_counts_all": {
+    "HIGH": 1074,
+    "MEDIUM": 208,
+    "LOW": 26,
+    "CONFIRMED": 98
+  },
+  "transcript_counts_commander_specific": {
+    "HIGH": 205,
+    "CONFIRMED": 98,
+    "MEDIUM": 1
+  },
+  "duplicate_groups": 46,
+  "commander_specific_transcripts_needing_review": 1,
+  "missing_transcripts_all": 0,
+  "manually_deferred_transcript_ids": [],
+  "unique_commander_specific_recordings": 259,
+  "ready_for_translation_tts": false,
+  "pilot_menu": 5,
+  "pilot_battle": 25
+}

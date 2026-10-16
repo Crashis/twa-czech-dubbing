@@ -1,0 +1,29 @@
+{
+  "commander": "germanicus",
+  "safe_spoken_media_ids": 234,
+  "research_voice_lines_sha256": "d0cbba92c2786fe835f4011a3a5be0b0e75a0f257bbde75a602695805bf0c3e9",
+  "translation_memory_content_sha256": "6dd2db67fa661e0ea5c6dbd8e40bd328a115e5f740ab48488b12ec4976debef6",
+  "english_transcript_complete": 234,
+  "english_candidates_nonempty": 234,
+  "czech_translations_prepared": 234,
+  "translations_with_reliable_english": 234,
+  "provisional_english": 0,
+  "manual_transcript_missing": 0,
+  "unique_tts_performances": 191,
+  "duplicate_ids_saved": 43,
+  "byte_identical_original_wem_duplicate_groups": 0,
+  "pcm_only_duplicate_groups": 40,
+  "v3_planned": 19,
+  "v4_planned": 172,
+  "high_wem_budget_risk": 1,
+  "high_wem_budget_risk_ids": [
+    "58911812"
+  ],
+  "manual_transcript_review_remaining": 0,
+  "manual_review_ids": [],
+  "original_review_targets_resolved": 7,
+  "ready_for_elevenlabs": true,
+  "tts_api_calls": 0,
+  "human_listening": "NOT_RUN",
+  "audio_encoding": "NOT_RUN"
+}

@@ -1,6 +1,6 @@
 # Offline voice inventory
 
-Research data lives under `data/commanders/<id>/research/`. It is deliberately excluded from installer discovery, which only reads production `*/manifest.json`. `manifest-draft.json` has `status: research_ready`, `release_ready: false`, an explicit inventory status and separate translation/TTS readiness. A metadata validation PASS does not approve uncertain wording, a performance or a release.
+Research data lives under `data/commanders/<id>/research/` for Leonidas, Scipio Africanus, Spartacus and Germanicus. It is deliberately excluded from installer discovery, which only reads production `*/manifest.json`. `manifest-draft.json` has `status: research_ready`, `release_ready: false`, an explicit inventory status and separate translation/TTS readiness. A metadata validation PASS does not approve uncertain wording, a performance or a release.
 
 The Leonidas and Scipio outputs contain one row per Media ID, plus `usage-paths.csv` with every bank-scoped event/branch/container/Sound path. `scope` retains the commander-specific alias; `sharing_scope` uses the common classification. Both `safe_to_replace_for_commander` and the commander-specific safety column are present. Original WEM hashes are explicitly original hashes, never replacement hashes. Czech text is empty.
 
@@ -46,6 +46,29 @@ python -B -m tools.mod --commander scipio-africanus validate
 python -B -m unittest discover -s tests -v
 python -B -m tools.validation.repository
 ```
+
+Adding commanders to an existing workspace must not rewrite earlier results. Append their specs, then limit every step with the global `--commander` option; `audit` merges the selected entries into `completeness.json`. `emote-events` adds only chat-tag spellings whose exact FNV-1 equals a real bank Event ID (typographic apostrophes such as U+2019 are dropped, e.g. Spartacus’s `freedom_doesnt_come_without_a_fight` quote) and refuses owner/key conflicts. `jobs --pending-model` omits recordings already transcribed by that model, so new result files contain only new PCM keys:
+
+```powershell
+python -B -m tools.inventory.research --workspace $researchWorkspace emote-events --localization "$gameData/local_en.pack.orig"
+python -B -m tools.inventory.research --workspace $researchWorkspace --commander spartacus --commander germanicus enumerate
+python -B -m tools.inventory.research --workspace $researchWorkspace --commander spartacus --commander germanicus audit
+python -B -m tools.inventory.research --workspace $researchWorkspace --commander spartacus --commander germanicus decode --pack $canonicalOriginal --canonical-sha256 $canonicalHash --decoder $vgmstream --game-directory $gameDirectory
+python -B -m tools.inventory.research --workspace $researchWorkspace --commander spartacus --commander germanicus jobs --output stt-jobs-sg-small.en.json --pending-model small.en
+python -B -m tools.inventory.research --workspace $researchWorkspace --commander spartacus --commander germanicus jobs --output stt-jobs-sg-medium.en-explicit.json --pending-model medium.en --explicit-only
+
+# One export per commander keeps duplicate references inside that commander's inventory.
+python -B -m tools.inventory.research_export --workspace $researchWorkspace --output-root data/commanders --profiles data/commanders/shared-research/event-profiles.json --commander spartacus
+python -B -m tools.inventory.research_export --workspace $researchWorkspace --output-root data/commanders --profiles data/commanders/shared-research/event-profiles.json --commander germanicus
+python -B -m tools.inventory.crosscheck --workspace $researchWorkspace --commander-root data/commanders --left spartacus --right germanicus --reference hannibal --reference leonidas --reference scipio-africanus --reference-audio-audit "hannibal=$researchWorkspace/reference-hannibal/original-audio-audit.json" --output data/commanders/shared-research --stem spartacus-germanicus-crosscheck --duplicates-output spartacus-germanicus-duplicate-recordings.csv --shared-analysis-output ''
+python -B -m tools.inventory.research_report data/commanders/spartacus/research data/commanders/germanicus/research --integrity-audit spartacus-germanicus-integrity-audit.json
+```
+
+`event-profiles.json` lists each commander’s own ability states (from `arena_commanders_to_com_abilities`) and may set `pilot_mix`, which selects the battle pilot round-robin across battle events, aggressive and standard orders, abilities, emotes and results instead of the legacy priority order. Spartacus and Germanicus use it; Leonidas and Scipio keep the published selection.
+
+Regenerating the published Leonidas/Scipio research from the current workspace reproduces every commander row, safety flag and TTS plan byte for byte. Only their generic `battle-advice-global-reference.csv` would gain medium.en hypotheses for five Germanicus tutorial recordings (catalogued in every inventory as advisor references); those published files were intentionally left unchanged.
+
+The crosscheck CSV has one column per inventory plus `safe` (each inventory’s own flag). Every pair is reported as `NO_OVERLAP`, `SHARED_NOT_SAFE` or `CONFLICT`; any shared ID that either side marks safe is a conflict. Commander-owned tutorial Events (Germanicus’s `Play_Germanicus_Tutorial_VO_Request_0X`, literal in the tutorial scripts) are category `TUTORIAL`, not generic advice.
 
 For the current analysis, base.en and small.en process the full distinct-PCM corpus; medium.en covers commander-specific performances and selected uncertainty. Each run has no prompt/hotwords and records its settings. Shards use separate output files (`--shard 0/2` etc.); the exporter merges their evidence. Alternative onset/beam analyses are kept separately and never counted as independent models. `--leading-silence` only prepends zeros to the in-memory ASR input; original WAVs remain immutable.
 

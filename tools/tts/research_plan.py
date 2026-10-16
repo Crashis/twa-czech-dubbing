@@ -38,16 +38,40 @@ def english_key(value):
     return ' '.join(value.casefold().split())
 
 
-def translation_memory(path):
+MEMORY_FIELDS = ['english_text', 'czech_text']
+DELIVERY_FIELDS = ['delivery_style', 'recommended_model', 'recommended_tags']
+V3_STYLES = {'BATTLE_SHOUT', 'CHARGE', 'RAGE', 'FIERCE', 'ANGRY_SHOUT', 'URGENT_SHOUT'}
+
+
+def check_delivery(style, model, tags):
+    """eleven_v3 is reserved for genuinely shouted, expressive performances."""
+    properties = [p.strip() for p in tags[1:-1].split(',')] if tags.startswith('[') and tags.endswith(']') else []
+    require(1 <= len(properties) <= 2 and all(properties), 'Delivery tags need one or two properties: ' + tags)
+    require(model in {'eleven_v3', 'eleven_v4'}, 'Unknown TTS model route: ' + model)
+    require((model == 'eleven_v3') == (style in V3_STYLES) == ('shouting' in properties),
+            'eleven_v3 only for shouted expressive delivery: ' + style + ' ' + tags)
+    return style, model, tags
+
+
+def read_memory(path):
+    """Two-column memory, optionally with reviewed per-phrase delivery decisions."""
     with Path(path).open(encoding='utf-8-sig', newline='') as stream:
         reader = csv.DictReader(stream, delimiter='\t')
-        require(reader.fieldnames == ['english_text', 'czech_text'], 'Translation memory requires exact two-column schema')
-        memory = {}
+        require(reader.fieldnames in (MEMORY_FIELDS, MEMORY_FIELDS + DELIVERY_FIELDS),
+                'Translation memory requires english_text/czech_text and optional delivery columns')
+        memory, decisions = {}, {}
         for row in reader:
             key = english_key(row['english_text'])
             require(key and row['czech_text'].strip() and key not in memory, 'Blank or duplicate translation memory entry')
             memory[key] = row['czech_text'].strip()
-    return memory
+            values = [(row.get(f) or '').strip() for f in DELIVERY_FIELDS]
+            if any(values):
+                decisions[key] = check_delivery(*values)
+    return memory, decisions
+
+
+def translation_memory(path):
+    return read_memory(path)[0]
 
 
 def performance_key(row, czech):
@@ -87,6 +111,93 @@ def delivery(group, commander):
         'CALM_COMMANDING', 'eleven_v4', '[serious, commanding]')
 
 
+# Hannibal's runtime-reviewed routing (42 of 305 lines on eleven_v3): battle
+# cries, charge-type/aggressive unit orders and urgent or angry announcer yells.
+# Standard commands stay on eleven_v4. Ability names follow the research trigger text.
+V3_ORDER_ABILITIES = {'charge', 'unit manual charge', 'cavalry charge', 'infantry charge', 'frenzied charge',
+                      'heavy infantry charge', 'unit light chase stance', 'spear piercing blows',
+                      'unit spear piercing blows', 'sword heavy strikes', 'unit sword heavy strikes',
+                      'strain', 'push', 'pursuit', 'vicious assault', 'execute', 'berserk'}
+# Friendly-fire and winning-timer states default to v4: Hannibal used v3 there only for an
+# explicit "Stop!/Cease fire!" or "finish them" yell, which a reviewed phrase decision records.
+V3_BATTLE_STATES = {'your base is under attack': 'urgent_shout', 'one of your units is attacked': 'urgent_shout',
+                    'time running out while your team is losing': 'urgent_shout',
+                    'one of your units routes': 'angry_shout'}
+VOICE_PROFILES = {
+    # Escaped gladiator and rebel leader: direct, hard, defiant, never aristocratic.
+    'spartacus': {'shout': ('BATTLE_SHOUT', '[fierce, shouting]'),
+                  'urgent_shout': ('URGENT_SHOUT', '[urgent, shouting]'), 'angry_shout': ('ANGRY_SHOUT', '[angry, shouting]'),
+                  'shout_abilities': {'blaze of glory', 'uprising'},
+                  'frontend': ('DEFIANT', '[defiant, proud]'), 'quote': ('DEFIANT', '[defiant]'),
+                  'affirmative': ('ENCOURAGING', '[encouraging]'), 'negative': ('DISAPPOINTED', '[disappointed]'),
+                  'getready': ('URGENT_COMMAND', '[urgent, commanding]'), 'intimidate': ('THREATENING', '[threatening, restrained]'),
+                  'victory': ('TRIUMPHANT', '[triumphant]'), 'defeat': ('DEFIANT', '[defiant]'),
+                  'urgent': ('URGENT_COMMAND', '[urgent, commanding]'), 'reaction': ('TRIUMPHANT', '[triumphant]'),
+                  'own_death': ('FIERCE', '[defiant, shouting]'),
+                  'tutorial': ('DETERMINED', '[determined, commanding]'), 'default': ('DETERMINED', '[determined, commanding]')},
+    # Roman field commander: disciplined, confident and precise; harder than Scipio's strategic calm.
+    'germanicus': {'shout': ('BATTLE_SHOUT', '[shouting, commanding]'),
+                   'urgent_shout': ('URGENT_SHOUT', '[urgent, shouting]'), 'angry_shout': ('ANGRY_SHOUT', '[angry, shouting]'),
+                   'shout_abilities': {'heavy infantry charge'},
+                   'frontend': ('PROUD', '[proud, authoritative]'), 'quote': ('PROUD', '[proud, authoritative]'),
+                   'affirmative': ('CONFIDENT', '[confident]'), 'negative': ('STERN', '[stern]'),
+                   'getready': ('FIELD_COMMAND', '[firm, commanding]'), 'intimidate': ('THREATENING', '[threatening, restrained]'),
+                   'victory': ('TRIUMPHANT', '[triumphant]'), 'defeat': ('DEFIANT', '[defiant]'),
+                   'urgent': ('URGENT_COMMAND', '[urgent, commanding]'), 'reaction': ('TRIUMPHANT', '[proud, triumphant]'),
+                   'own_death': ('SOLEMN', '[solemn]'),
+                   'tutorial': ('CALM_COMMANDING', '[calm, commanding]'), 'default': ('FIELD_COMMAND', '[firm, commanding]')},
+}
+
+
+def profiled_delivery(group, profile):
+    """Context routing for commanders with an explicit voice profile."""
+    triggers = [r['trigger'].lower() for r in group]
+    trigger = ' '.join(triggers)
+    categories = {r['category'] for r in group}
+    kinds = {t.split('player selects emote: ', 1)[1].split()[0] for t in triggers if 'player selects emote: ' in t}
+    abilities = {t.split(': ', 1)[1].split(';')[0].strip() for r, t in zip(group, triggers)
+                 if r['category'] in {'ORDER', 'ABILITY'} and ': ' in t}
+
+    def pick(name):
+        style, tags = profile[name]
+        return style, 'eleven_v3' if style in V3_STYLES else 'eleven_v4', tags
+    if 'battlecry' in kinds or 'warcry' in trigger or abilities & (V3_ORDER_ABILITIES | profile['shout_abilities']):
+        return pick('shout')
+    if 'BATTLE_EVENT' in categories:
+        for state, name in V3_BATTLE_STATES.items():
+            if state in trigger:
+                return pick(name)
+    if 'VICTORY' in categories or ('BATTLE_EVENT' in categories and 'winning' in trigger):
+        return pick('victory')
+    if 'DEFEAT' in categories:
+        return pick('defeat')
+    if 'BATTLE_EVENT' in categories and any(x in trigger for x in ['under attack', 'damaged', 'firing on', 'damages allies', 'damage allies']):
+        return pick('urgent')
+    if 'your commander dies' in trigger:
+        return pick('own_death')
+    if 'DEATH_REACTION' in categories:
+        return pick('reaction')
+    if 'intimidate' in kinds or any('intimidate' in a for a in abilities):
+        return pick('intimidate')
+    for kind in ['quote', 'affirmative', 'negative', 'getready']:
+        if kind in kinds:
+            return pick(kind)
+    if 'FRONTEND' in categories:
+        return pick('frontend')
+    if 'TUTORIAL' in categories:
+        return pick('tutorial')
+    return pick('default')
+
+
+def plan_delivery(group, commander, decisions):
+    reviewed = decisions.get(english_key(group[0]['english_text']))
+    if reviewed:
+        return reviewed
+    if commander in VOICE_PROFILES:
+        return check_delivery(*profiled_delivery(group, VOICE_PROFILES[commander]))
+    return check_delivery(*delivery(group, commander))
+
+
 def budget_risk(original_size_bytes, original_duration, english, czech):
     """Planning heuristic only; encoding, fit and intelligibility remain untested."""
     size, duration = int(original_size_bytes), float(original_duration)
@@ -105,7 +216,7 @@ def manual_resolution(row):
             else 'NEEDS_MANUAL_WORDING_VERIFICATION')
 
 
-def prepare(commander, commander_root, memory, output_root=None):
+def prepare(commander, commander_root, memory, output_root=None, delivery_decisions=None, archive_root=None):
     commander_root = Path(commander_root)
     research = commander_root/commander/'research'
     validate_research(research, commander)
@@ -136,7 +247,7 @@ def prepare(commander, commander_root, memory, output_root=None):
         group.sort(key=lambda r: int(r['media_id']))
         source_id = group[0]['media_id']
         identifier = 'PCM-'+key[3][:16]+'-'+hashlib.sha256((key[4]+'\0'+key[5]).encode('utf-8')).hexdigest()[:8]
-        style, model, tags = delivery(group, commander)
+        style, model, tags = plan_delivery(group, commander, delivery_decisions or {})
         czech = translated[source_id]
         require(all(english_key(r['english_text']) == english_key(group[0]['english_text'])
                     and translated[r['media_id']] == czech for r in group), 'Performance wording conflict')
@@ -211,20 +322,32 @@ def prepare(commander, commander_root, memory, output_root=None):
     manual.sort(key=lambda r: int(r['media_id']))
     decisions.sort(key=lambda r: int(r['media_id']))
     write_csv(output/'transcript-review-decisions.csv', decisions, REVIEW_FIELDS)
-    if manual:
-        package = [f'# {manifest["display_name"]} — manual transcript review', '',
-                   'Audio references below are relative to the private archive root. The candidate is not an approved final transcript. No human listening is recorded.', '']
-        for row in manual:
-            package += [f'## Media ID {row["media_id"]}', '',
-                        f'- Candidate English: {row["current_transcript"] or "UNKNOWN"}',
-                        f'- Resolution: {row["transcript_resolution"]}; confidence: {row["transcript_confidence"]}',
-                        f'- Category/trigger: {row["category"]}; {row["trigger"]}',
-                        f'- Original duration/size: {row["original_duration"]} s / {row["original_size_bytes"]} B',
-                        f'- Context: {row["bank"]}; Event {row["event_id"]}; container {row["container_id"]}; Sound {row["sound_id"]}',
-                        f'- Decision path: {row["decision_tree_path"]}',
-                        f'- Evidence: {row["evidence"]}',
-                        f'- Archive WAV: `{row["archive_wav_reference"]}`', '']
-        (research/'manual-transcript-review.md').write_text('\n'.join(package),encoding='utf-8')
+    header = [f'# {manifest["display_name"]} — manual transcript review', '',
+              'Audio references below are relative to the private archive root. The candidate is not an approved final transcript. No human listening is recorded.', '']
+    package, local = list(header), list(header[:2]) + [
+        'PRIVATE local copy: absolute paths to original decoded WAVs. Never copy this file into the repository.', '']
+    for row in manual:
+        entry = [f'## Media ID {row["media_id"]}', '',
+                 f'- Candidate English: {row["current_transcript"] or "UNKNOWN"}',
+                 f'- Resolution: {row["transcript_resolution"]}; confidence: {row["transcript_confidence"]}',
+                 f'- Category/trigger: {row["category"]}; {row["trigger"]}',
+                 f'- Original duration/size: {row["original_duration"]} s / {row["original_size_bytes"]} B',
+                 f'- Context: {row["bank"]}; Event {row["event_id"]}; container {row["container_id"]}; Sound {row["sound_id"]}',
+                 f'- Decision path: {row["decision_tree_path"]}',
+                 f'- Evidence: {row["evidence"]}']
+        package += entry + [f'- Archive WAV: `{row["archive_wav_reference"]}`', '']
+        if archive_root:
+            wav = Path(archive_root)/row['archive_wav_reference']
+            require(wav.is_file(), 'Missing private review WAV: '+row['media_id'])
+            local += entry + [f'- Local WAV: `{wav}`', '']
+    if not manual:
+        package += ['No safe commander-specific line requires manual transcription or wording review.', '']
+        local += ['No safe commander-specific line requires manual transcription or wording review.', '']
+    (research/'manual-transcript-review.md').write_text('\n'.join(package),encoding='utf-8')
+    if archive_root:
+        private = Path(archive_root)/'commander-research'/commander
+        require(private.is_dir() and not private.resolve().is_relative_to(ROOT), 'Private review package must stay outside the repository')
+        (private/'manual-transcript-review-local.md').write_text('\n'.join(local), encoding='utf-8')
     for filename in ['pilot-menu.csv','pilot-battle.csv']:
         pilots = []
         for item in read_csv(research/filename):
@@ -296,8 +419,9 @@ def main():
     parser.add_argument('--commander-root',default=str(ROOT/'data/commanders'))
     parser.add_argument('--translation-memory',required=True)
     parser.add_argument('--output-root')
+    parser.add_argument('--archive-root', help='Private archive root; writes an absolute-path review copy there only')
     args=parser.parse_args()
-    memory=translation_memory(args.translation_memory)
+    memory,decisions=read_memory(args.translation_memory)
     used=set()
     for name in args.commander:
         folder=Path(args.commander_root)/name/'research'
@@ -305,7 +429,7 @@ def main():
                     if r['safe_to_replace_for_commander']=='YES' and r['english_text'])
     require(used==set(memory), 'Translation memory contains unused or missing non-commander phrases')
     for name in args.commander:
-        print(json.dumps(prepare(name,args.commander_root,memory,args.output_root),ensure_ascii=False))
+        print(json.dumps(prepare(name,args.commander_root,memory,args.output_root,decisions,args.archive_root),ensure_ascii=False))
 
 
 if __name__=='__main__':

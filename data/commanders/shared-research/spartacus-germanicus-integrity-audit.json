@@ -1,0 +1,54 @@
+{
+ "scope": "Spartacus and Germanicus offline voice inventory, transcript and Czech TTS planning",
+ "canonical_original_pack_sha256": "d6ee7ec4c4422276d9caba7013f46662a980955c138be13f653b58992ad876ad",
+ "game_file_set_size_mtime": "EXTERNAL_ACTIVITY_OBSERVED",
+ "game_files_at_start": 619,
+ "game_files_at_final_check": 619,
+ "new_game_files": [],
+ "missing_game_files": [],
+ "size_or_mtime_changed": [
+  "CurseVoice.json",
+  "game.dll",
+  "npl-base.dll",
+  "npl-sdk.dll",
+  "stack_config.json",
+  "twa_mod.dll",
+  "twa_mod.lua"
+ ],
+ "game_source_pack_content_hashes": "PASS_UNCHANGED",
+ "game_source_pack_hashes_checked": 12,
+ "protected_repository_files_checked": 694,
+ "hannibal_leonidas_scipio_release_files": "PASS_UNCHANGED",
+ "locked_files_changed": [],
+ "shared_research_files_extended": [
+  "data/commanders/shared-research/commander-identification.json",
+  "data/commanders/shared-research/event-profiles.json",
+  "data/commanders/shared-research/transcript-corrections.json",
+  "data/commanders/shared-research/transcript-review-targets.json"
+ ],
+ "shared_research_files_added": [
+  "data/commanders/shared-research/spartacus-germanicus-crosscheck.csv",
+  "data/commanders/shared-research/spartacus-germanicus-crosscheck.md",
+  "data/commanders/shared-research/spartacus-germanicus-duplicate-recordings.csv",
+  "data/commanders/shared-research/spartacus-germanicus-integrity-audit.json"
+ ],
+ "original_audio_asset_reverification": {
+  "spartacus": 1621,
+  "germanicus": 2069,
+  "status": "PASS_EXACT_WEM_AND_PCM16_WAV",
+  "location": "private archive commander-research/<id>/"
+ },
+ "real_game_writes_by_this_task": 0,
+ "real_game_launcher_runs_by_this_task": 0,
+ "external_game_launcher_processes_observed": [
+  "Arena",
+  "twa-launcher"
+ ],
+ "processes_stopped_by_this_task": 0,
+ "paid_api_calls": 0,
+ "tts_generations": 0,
+ "czech_wem_created": 0,
+ "git_commit_push_upload": 0,
+ "human_listening": "NOT_RUN",
+ "game_runtime_review": "NOT_RUN"
+}

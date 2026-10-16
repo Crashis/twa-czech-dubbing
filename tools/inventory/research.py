@@ -66,13 +66,21 @@ def sha256_bytes(raw):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--workspace', required=True)
+    parser.add_argument('--commander', action='append',
+                        help='Limit enumerate/audit/decode/jobs to these spec IDs; other workspace results stay untouched')
     sub = parser.add_subparsers(dest='command', required=True)
     scan = sub.add_parser('scan')
     scan.add_argument('--game-data', required=True)
     sub.add_parser('enumerate')
     sub.add_parser('audit')
-    sub.add_parser('jobs')
-    sub.add_parser('review-jobs')
+    jobs_parser = sub.add_parser('jobs')
+    jobs_parser.add_argument('--output', default='stt-jobs.json')
+    jobs_parser.add_argument('--pending-model', help='Omit recordings already present in stt-<model>*.json results')
+    jobs_parser.add_argument('--explicit-only', action='store_true', help='Only recordings with an explicit commander speaker')
+    review = sub.add_parser('review-jobs')
+    review.add_argument('--output', default='stt-review-shared-jobs.json')
+    emotes = sub.add_parser('emote-events')
+    emotes.add_argument('--localization', required=True, help='Original localization PACK containing chat tags')
     decode = sub.add_parser('decode')
     decode.add_argument('--pack', required=True)
     decode.add_argument('--canonical-sha256', required=True)
@@ -88,6 +96,9 @@ def main():
         require(fnv1(spec['actor_name']) == spec['actor_id'], 'Commander name/hash mismatch')
         require([fnv1(n) for n in spec['culture_names']] == spec['culture_ids'], 'Culture name/hash mismatch')
         require(spec['id'].replace('-', '').replace('_', '').isalnum(), 'Invalid workspace commander ID')
+    if args.commander:
+        require(set(args.commander) <= {s['id'] for s in specs}, 'Unknown workspace commander')
+        specs = [s for s in specs if s['id'] in args.commander]
     if args.command in {'enumerate', 'audit'}:
         usage = workspace_graph(workspace)
     if args.command == 'enumerate':
@@ -102,8 +113,33 @@ def main():
         raw.update(pack_indexes_checked=len(scan), parsed_bank_count=len(usage.banks),
                    parsed_voicebank_count=len(usage.voice_banks), pack_bank_sources=sum(bool(r.get('banks')) for r in scan))
         orphans = orphan_audit(usage)
-        save(workspace/'completeness.json', {s['id']: audit_commander(usage, s) | raw | {'all_voice_orphans': orphans} for s in specs})
+        path = workspace/'completeness.json'
+        complete = load(path) if args.commander and path.exists() else {}
+        complete.update({s['id']: audit_commander(usage, s) | raw | {'all_voice_orphans': orphans} for s in specs})
+        save(path, complete)
         print(json.dumps(raw | {'commander_audits': len(specs), 'voice_orphans': orphans}))
+    elif args.command == 'emote-events':
+        from tools.inventory.localization import chat_tag_events, loc_rows
+        graph = load(workspace/'corpus/graph.json')
+        event_ids = {n['id'] for info in graph['banks'].values() for n in info['nodes'] if n['type'] == 'CAkEvent'}
+        events = load(workspace/'event-names.json')
+        actors = [n for n in load(workspace/'names.json').values() if n.startswith('Commander_')]
+        pack = ArenaPack(args.localization)  # validates RSA
+        found = {}
+        for entry in pack.entries:
+            if 'chat_tags' in entry.path and entry.path.endswith('.loc'):
+                found.update(chat_tag_events(loc_rows(pack.read(entry)), event_ids, actors,
+                                             Path(args.localization).name + ':' + entry.path))
+        added = {}
+        for eid, event in found.items():
+            prior = events.get(str(eid))
+            if prior:
+                require(prior['owner'] == event['owner'] and prior.get('key') == event['key'], 'Conflicting event-name hash')
+            else:
+                added[str(eid)] = event
+        events.update(added)
+        save(workspace/'event-names.json', events)
+        print(json.dumps({'chat_tag_events_matched': len(found), 'added': {k: v['name'] for k, v in added.items()}}))
     elif args.command == 'decode':
         for spec in specs:
             ids = load(workspace/spec['id']/'graph-inventory.json')
@@ -112,6 +148,10 @@ def main():
             print(spec['id'], len(result['results']))
     elif args.command == 'jobs':
         jobs = {}
+        done = set()
+        if args.pending_model:
+            for path in workspace.glob('stt-' + args.pending_model + '*.json'):
+                done.update(load(path)['results'])
         for spec in specs:
             rel = load(workspace/spec['id']/'graph-inventory.json')
             audio = load(workspace/spec['id']/'original-audio-audit.json')['results']
@@ -123,8 +163,10 @@ def main():
                 job['media_ids'].append(spec['id']+':'+mid)
                 if rel[mid]['explicit_speaker']:
                     job['priority'] = 0
-        save(workspace/'stt-jobs.json', sorted(jobs.values(), key=lambda j: (j['priority'], j['media_ids'][0])))
-        print(json.dumps({'unique_recordings': len(jobs)}))
+        selected = [j for j in jobs.values() if j['key'] not in done and (j['priority'] == 0 or not args.explicit_only)]
+        require(Path(args.output).name == args.output and args.output.endswith('.json'), 'Jobs output must be a workspace file name')
+        save(workspace/args.output, sorted(selected, key=lambda j: (j['priority'], j['media_ids'][0])))
+        print(json.dumps({'unique_recordings': len(jobs), 'selected': len(selected), 'already_transcribed': len(jobs) - len(selected)}))
     elif args.command == 'review-jobs':
         from tools.inventory.research_metadata import similarity, norm, NON_SPEECH_HYPOTHESES
         models = {}
@@ -138,7 +180,11 @@ def main():
             if path.exists():
                 primary.update(spec['id']+':'+mid for mid, context in load(path).items() if not context['advisor_only'])
         review = []
-        for job in load(workspace/'stt-jobs.json'):
+        jobs = {}
+        for path in sorted(workspace.glob('stt-jobs*.json')):
+            for job in load(path):
+                jobs.setdefault(job['key'], job)
+        for job in jobs.values():
             key = job['key']
             if key in models['medium.en'] or not any(m in primary for m in job['media_ids']):
                 continue
@@ -149,7 +195,8 @@ def main():
             if score < .94 or norm(a) in NON_SPEECH_HYPOTHESES or norm(b) in NON_SPEECH_HYPOTHESES:
                 review.append(job | {'prior_similarity': score})
         review.sort(key=lambda j: j['prior_similarity'])
-        save(workspace/'stt-review-shared-jobs.json', review)
+        require(Path(args.output).name == args.output and args.output.endswith('.json'), 'Jobs output must be a workspace file name')
+        save(workspace/args.output, review)
         print(json.dumps({'additional_uncertain_recordings': len(review)}))
 
 

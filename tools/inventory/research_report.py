@@ -7,7 +7,7 @@ from pathlib import Path
 from tools.inventory.research_metadata import read_csv
 
 
-def report(folder):
+def report(folder, integrity='integrity-audit.json'):
     manifest = json.loads((folder/'manifest-draft.json').read_text(encoding='utf-8'))
     complete = json.loads((folder/'completeness.json').read_text(encoding='utf-8'))
     rows = read_csv(folder/'voice-lines.csv')
@@ -66,7 +66,7 @@ def report(folder):
               'Exact duplicate groups use decoded PCM plus format/sample count. Original WEM hashes additionally distinguish byte-identical payloads from different encodes/headers. Equal text alone never merges performances. Cross-inventory groups resolve through the shared research duplicate table.', '',
               'Original English WEMs and direct PCM16 WAVs are held only in the private archive. All original rate/channel/sample counts match direct decode. Original signal peaks and clipping flags are descriptive; no original audio was altered. Float/ww2ogg replacement QC does not apply because this phase creates no replacement audio.', '',
               'Human listening: **NOT RUN**. Game/launcher/runtime test: **NOT RUN**. Paid API/TTS calls: **0**. Installer release manifest: **not created**.', '',
-              'The [integrity audit](../../shared-research/integrity-audit.json) compares source PACK hashes and all Hannibal files with the initial baseline. It also records externally running game/launcher processes and installation timestamp changes; this task did not start or stop those processes.', '',
+              f'The [integrity audit](../../shared-research/{integrity}) compares source PACK hashes and all Hannibal files with the initial baseline. It also records externally running game/launcher processes and installation timestamp changes; this task did not start or stop those processes.', '',
               'Open commander-specific wording review (audio paths are relative to the private archive root):', '',
               '| Media ID | Candidate text | Confidence / resolution | Archive WAV reference |', '|---|---|---|---|']
     for row in review:
@@ -84,9 +84,11 @@ def report(folder):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('folders', nargs='+')
+    parser.add_argument('--integrity-audit', default='integrity-audit.json',
+                        help='File name of the run integrity audit in shared-research')
     args = parser.parse_args()
     for folder in args.folders:
-        report(Path(folder))
+        report(Path(folder), args.integrity_audit)
 
 
 if __name__ == '__main__':

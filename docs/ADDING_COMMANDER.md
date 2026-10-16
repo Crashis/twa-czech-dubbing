@@ -1,6 +1,6 @@
 # Přidání dalšího commandera
 
-Postup navazuje na Hannibala. Leonidas a Scipio Africanus mají samostatná výzkumná metadata v `research/`; nejde o instalovatelné releasy. Offline inventuru a její validační příkazy popisuje [VOICE_INVENTORY](VOICE_INVENTORY.md), následnou přípravu českého textového plánu [TTS_PREPARATION](TTS_PREPARATION.md). Nový commander je nový dataset a release nad ověřeným originálem, nikoli další zásah do již modifikovaného PACKu. `--commander` vybírá manifest, ne automatickou sadu všech nainstalovaných hlasů.
+Postup navazuje na Hannibala. Leonidas, Scipio Africanus, Spartacus a Germanicus mají samostatná výzkumná metadata v `research/` a textový plán v `tts-plan/`; nejde o instalovatelné releasy. Další commander se do existujícího soukromého workspace přidává s volbou `--commander`, aby se nepřepsaly dřívější výsledky. Offline inventuru a její validační příkazy popisuje [VOICE_INVENTORY](VOICE_INVENTORY.md), následnou přípravu českého textového plánu [TTS_PREPARATION](TTS_PREPARATION.md). Nový commander je nový dataset a release nad ověřeným originálem, nikoli další zásah do již modifikovaného PACKu. `--commander` vybírá manifest, ne automatickou sadu všech nainstalovaných hlasů.
 
 ## 1. Základ, banky a inventory
 

@@ -198,6 +198,22 @@
         "vo_ua_Wrath_Of_Mars",
         "vo_ua_oath_of_perserverance"
       ]
+    },
+    "spartacus": {
+      "own_abilities": [
+        "vo_ua_blaze_of_glory",
+        "vo_ua_Champion",
+        "vo_ua_uprising"
+      ],
+      "pilot_mix": true
+    },
+    "germanicus": {
+      "own_abilities": [
+        "vo_ua_heavy_infantry_charge",
+        "vo_ua_attacking_testudo",
+        "vo_ua_Vengeance"
+      ],
+      "pilot_mix": true
     }
   },
   "commander_cultures": {
@@ -217,5 +233,22 @@
       1422687991
     ]
   },
-  "culture_mapping_evidence": "Commander DB faction fields and supported-corpus culture/actor branches; affiliation never proves media ownership."
+  "culture_mapping_evidence": "Commander DB faction fields and supported-corpus culture/actor branches; affiliation never proves media ownership. Spartacus (DB faction rom_gladiators, vo_culture_Gladiators) and Germanicus (rom_rome, vo_culture_roman) are documented in commander-identification.json but intentionally not added here: no primary Spartacus/Germanicus Media ID is shared only between commanders, and adding them would relabel other inventories’ generic advisor references.",
+  "commander_ability_evidence": {
+    "source": "wad.pack:db/arena_commanders_to_com_abilities_tables; voice state names are exact FNV-1 members of battle_vo_orders.bnk DialogueEvent 825794328 ability group under the commander actor key",
+    "spartacus": {
+      "gla_spartacus": [
+        "com_blaze_of_glory",
+        "com_champion",
+        "com_uprising"
+      ]
+    },
+    "germanicus": {
+      "rom_germanicus": [
+        "com_heavy_infantry_charge",
+        "com_testudo",
+        "com_vengeance"
+      ]
+    }
+  }
 }
