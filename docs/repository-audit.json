@@ -1,0 +1,91 @@
+{
+  "secret_scan": "SECRET SCAN PASS",
+  "secret_finding_files": [],
+  "prohibited_asset_files": [],
+  "git_candidate_bytes": 7203381,
+  "git_candidate_files": 356,
+  "largest_files": [
+    {
+      "file": "data/commanders/hannibal/media-inventory.csv",
+      "bytes": 1248500
+    },
+    {
+      "file": "data/commanders/hannibal/audio-qa.json",
+      "bytes": 390396
+    },
+    {
+      "file": "data/commanders/hannibal/cleanup-audio-qa.json",
+      "bytes": 279371
+    },
+    {
+      "file": "data/commanders/hannibal/manifest.json",
+      "bytes": 98648
+    },
+    {
+      "file": "data/commanders/hannibal/voice-lines.csv",
+      "bytes": 90756
+    },
+    {
+      "file": "replacements/hannibal/wem/42766015.wem",
+      "bytes": 31230
+    },
+    {
+      "file": "replacements/hannibal/wem/34089947.wem",
+      "bytes": 29449
+    },
+    {
+      "file": "replacements/hannibal/wem/583630936.wem",
+      "bytes": 29016
+    },
+    {
+      "file": "replacements/hannibal/wem/24232323.wem",
+      "bytes": 27868
+    },
+    {
+      "file": "replacements/hannibal/wem/125895013.wem",
+      "bytes": 27834
+    },
+    {
+      "file": "replacements/hannibal/wem/353101255.wem",
+      "bytes": 27286
+    },
+    {
+      "file": "replacements/hannibal/wem/1018750797.wem",
+      "bytes": 26831
+    },
+    {
+      "file": "replacements/hannibal/wem/804596030.wem",
+      "bytes": 26570
+    },
+    {
+      "file": "replacements/hannibal/wem/1011132554.wem",
+      "bytes": 26536
+    },
+    {
+      "file": "replacements/hannibal/wem/47522607.wem",
+      "bytes": 26160
+    },
+    {
+      "file": "replacements/hannibal/wem/17388554.wem",
+      "bytes": 26132
+    },
+    {
+      "file": "replacements/hannibal/wem/345866214.wem",
+      "bytes": 25533
+    },
+    {
+      "file": "replacements/hannibal/wem/1019790500.wem",
+      "bytes": 25385
+    },
+    {
+      "file": "replacements/hannibal/wem/925898466.wem",
+      "bytes": 25343
+    },
+    {
+      "file": "replacements/hannibal/wem/257704217.wem",
+      "bytes": 25310
+    }
+  ],
+  "files_over_50_mib": [],
+  "files_over_100_mib": []
+}

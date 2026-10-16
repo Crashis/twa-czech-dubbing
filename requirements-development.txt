@@ -1,0 +1,2 @@
+# Optional: established 24 -> 32 kHz PCM preparation only.
+numpy==2.5.4

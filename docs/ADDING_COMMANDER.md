@@ -1,0 +1,50 @@
+# Přidání dalšího commandera
+
+Postup navazuje na Hannibala; Leonidas ani Germanicus zatím nejsou implementovaní. Nový commander je nový dataset a release nad ověřeným originálem, nikoli další zásah do již modifikovaného PACKu. `--commander` vybírá manifest, ne automatickou sadu všech nainstalovaných hlasů.
+
+## 1. Základ, banky a inventory
+
+1. Získejte vlastní podporovanou instalaci. Zaznamenejte SHA-256, velikost a počet entries originálu; pracujte s kopií mimo hru. Archivujte původní soubory soukromě. Neodvozujte podporu jen z názvu launcheru.
+2. Read-only inventurou PACKů najděte relevantní Wwise banky. Hannibal používal `frontend_vo`, `battle_vo_orders`, `battle_vo_announcer`, `battle_vo_conversational`, `battle_vo_emotes` a `battle_advice`. Pro shared audit zahrňte i další banky, které odkazují na stejná média. Samotný výběr voice bank nestačí.
+3. Extrahujte potřebné BNK pouze lokálně. Zkontrolujte BKHD version/language. Pomocí wwiser vytvořte XML; zachovejte jeho původní offsets a parser errors/skips. Přesné CLI použitého vydání ověřte jeho `--help`.
+4. `python -B -m tools.inventory.banks --xml work/banks.xml --output work/graph.json` zpracuje i zřetězené XML dokumenty wwiser. `voice_map` následně rozvine reference. Při parse errors/skips nebo nevyřešených vazbách se nesmí vyhlásit úplné pokrytí.
+5. Inventarizujte `DialogueEvent` ID a pořadí argumentových skupin. Kořen decision tree je sentinel. Ukládejte skutečné podmínky, váhy, pravděpodobnosti a target; nulová větev znamená žádné audio.
+6. Rozviňte `audioNodeId` přes kontejnery do `CAkSound`; kontrolujte children/playlist, cykly, neznámé uzly a zděděné vlastnosti mute/loop. Identifikujte externí `sourceID` / Media ID a codec plugin. Sound ID a Media ID nezaměňujte.
+7. Zpracujte také běžné `CAkEvent → CAkActionPlay` vazby, důležité zejména pro emote wheel. `voice_map` vrací event reference i všechny SoundReference napříč bankami. Plugin bez externího Vorbis média není automaticky chybějící WEM.
+8. Pro kandidátní názvy použijte lowercase **FNV-1**, nikoli FNV-1a: `python -B -m tools.inventory.names Commander_Hannibal`. Hashová shoda se musí opřít o význam skupiny a další evidence; volné hledání jmen libovolných uzlů je náchylné ke kolizím. U Hannibala pomohly localization/ability tokeny a vazba `Play_<chat-tag-stem>`, někdy s `-` nahrazeným `_`.
+
+## 2. Vlastnictví, ticho a původní audio
+
+9. Sesbírejte **všechny** reference každého Media ID. Rozlišujte skutečného mluvčího v první `vo_actor` skupině od dalšího commandera, na něhož hláška reaguje. Wildcard větve a faction/unit hlasy nesmí být připsané commanderovi jen proto, že jsou pro něj dosažitelné.
+10. Klasifikujte commander-specific, faction-shared, unit-type-shared, global-shared a unknown. Cokoli unknown/shared z commander-only allowlist vyřaďte. `names.match_branch` nabízí konzervativní exact/wildcard model pro analýzu dosažitelnosti; není důkazem všech detailů runtime Wwise selectoru. Vyhodnoťte různé argumenty včetně fallbacků a nenulového sentinel stavu pro neznámé hodnoty.
+11. Původní WEM extrahujte z hashově ověřeného originálu. Uložte interní cestu, offset, velikost a SHA-256. `python -B -m tools.pack.inspect ORIGINAL.pack --media-id 123 --output work/123.wem` nikdy nepřepisuje existující výstup. Původní WEM ani BNK necommitujte.
+12. Dekódujte lokálně vgmstreamem. Zapište sample count, duration, rate/channels a PCM hash. Digitální ticho potvrďte ze vzorků, ne z neúspěchu STT. UI text neznamená, že k němu hra obsahuje řeč. Silent placeholder ponechte původní a mimo spoken metadata i náhrady.
+
+## 3. Transcript, kontext a překlad
+
+13. Uchovejte jednotlivé STT hypotézy a jejich provenance. Hannibal porovnával lokální Whisper `base.en`, `small.en`, `medium.en`; shoda modelů zvyšuje důvěru, ale není lidským poslechem. Nízkou důvěru a odlišnosti explicitně označte.
+14. K transcriptu připojte bank/event/branch, ability nebo battle-event token, localization/chat tag, sousední varianty a předpokládaný trigger. Označte trigger confidence. Hláška reagující na Hannibalovu smrt není automaticky Hannibalovým hlasem.
+15. Sporná slova opravujte doloženým poslechem nebo označenou kontextovou rekonstrukcí. Hannibalovy opravy `tower → tar` a `Throw → Draw your blades` vycházely z ability/sibling evidence; nízká důvěra se nesmí skrýt. Finální `voice-lines.csv` má přednost před starším inventárním transcriptem.
+16. Přeložte význam a herní funkci do přirozené češtiny, zaznamenejte schválení a delivery. Shodný text neprokazuje shodnou nahrávku: pro případné sdílení českého výkonu vyžadujte shodný původní PCM i formát, zaznamenejte původ a stále validujte každý samostatný Media ID.
+
+## 4. Návrh hlasu a řízená generace
+
+17. S uživatelem schvalte hlas, styl a krátké ukázky. Generování je samostatná placená činnost vyžadující výslovné zadání a rozpočet. Tento repozitář neobsahuje síťový TTS klient; instalace žádné kredity nepotřebuje.
+18. Historický Hannibal používal `eleven_v4` jako výchozí routing a `eleven_v3` pro skutečný bojový křik s konkrétními schválenými tags. Tyto model IDs jsou provenance, nikoli příslib dnešní dostupnosti nebo ceny API. Pro další práci ověřte aktuální nabídku samostatně.
+19. `python -B -m tools.tts.plan SCRIPT.csv --output work/tts-plan.json` pouze vytvoří offline plán. `model`, `czech` a `delivery_tags` musí být explicitní. Počítá Unicode codepoints včetně tags, mezer a interpunkce; nepočítá současnou cenu a sám nededuplikuje výkony. Zaznamenejte request hash, hlas/model/settings, receipt/cost a výstupní WAV hash. Jedna generace na schválený výkon; regenerace jen po samostatném povolení. API klíč nikdy nelogujte.
+20. Původní TTS WAV uchovejte neměnný soukromě. Kontrolujte decode/truncation, PCM formát, prázdný nebo téměř tichý signál, clipping, duration ratio a dlouhá ticha. Hannibal flagoval duration ratio mimo 0,45–1,8, lead >0,6 s, tail >0,8 s nebo interní ticho >0,8 s; jsou to review prahy, ne automatický důvod k nové generaci. Oprava gainu neobnoví již ztracené clipped waveform.
+
+## 5. Příprava a exact-size encoding
+
+21. Připravte 32 kHz mono PCM16. `tools.wem.prepare` zachovává ověřený 24→32 kHz Lanczos postup Hannibala: pouze excess edge silence, rezervy, 5ms fade, gain cap −4 dBFS. Pro jiný zdrojový formát vytvořte doloženou novou přípravnou cestu; neořezávejte řeč a nepoužívejte time-stretch kvůli velikosti.
+22. Použijte připnutý `wav2wem` a kompatibilní aoTuV codebooks. `tools.wem.encode` dělá omezenou coarse/fine quality search. `--size` je původní PACK entry size; `--media-id` zajišťuje stabilní seed. Pokud standardní profil neprojde, samostatně přezkoumejte encoder-only nastavení jako lowpass/impulse tuning; QC reference musí zůstat stejný. Historická jemná dohledávání a výjimečné profily jsou zachované v soukromém archivu a popsané v technickém dokumentu.
+23. Chybějící bytes dorovnejte platným RIFF JUNK pomocí `tools.wem.exact_size`. Povolený rozdíl je 0 nebo sudá hodnota alespoň 8 B. Nikdy neodřezávejte encoded audio ani nepřidávejte bytes mimo RIFF. Ověřte nezměněné původní chunk bodies i PCM před/po paddingu.
+24. Spusťte fingerprint a plné QC přes `tools.wem.validate`: PCM16 + float32 decode, bez clippingu, sample counts, korelace >0,95, SNR >15 dB vůči neupravenému připravenému PCM a ww2ogg rekonstrukce s opravenými granules. Nezaměňujte strukturální validaci s poslechem nebo ověřením významu věty.
+
+## 6. Manifest, build, test a release
+
+25. Vytvořte `data/commanders/<name>/manifest.json`, `voice-lines.csv`, `media-inventory.csv` a `replacements/<name>/wem/<id>.wem`. Použijte schema 1 podle Hannibala. Inventory scope je `<NAME>_SPECIFIC`, bezpečnostní sloupec `safe_to_replace_for_<name>`. V inventory znamená `wem_sha256` původní WEM; ve voice-lines a náhradách finální český WEM. Manifest určuje base hash/size/count/flags a hashe chráněných částí, silent IDs, formát, přesné replacement cesty/offsety/velikosti a oba payload hashe. Doplňte finální whole-PACK release hash a počty.
+26. První kandidátní hash odvoďte z kopie ověřeného originálu po individuálním schválení payloadů. Produkční builder vyžaduje známý finální hash: nevypínejte tuto kontrolu v releasu. Poté kandidáta znovu vytvořte generickým builderem z originálu a ověřte byte-identical reprodukci, RSA, index/header/offsets/Appendix a přesnou changed allowlist. Testujte na pracovní kopii; do hry se instaluje až po tomto výsledku a záloze.
+27. Runtime test provádí člověk nebo agent jen s výslovným svolením ke spuštění hry. Pokryjte menu, schopnosti, reakce, emotes, varianty a ticho. Zaznamenejte build/slot/hash, dosažené triggery, poslech a známé limity. Teprve potom schvalte stav v metadata, znovu spusťte tests/secret/asset/size audit a připravte release obsahující české WEMy, metadata a tooling. Kompletní PACK ani původní zvuky do repozitáře nepatří.
+
+Instalace dalšího commandera nahradí celý podporovaný slot jedním samostatným releasem. Kombinovaný mod vyžaduje samostatný společný manifest, kontrolu průniku Media IDs a nový hash; nelze vrstvit jednotlivé releasy na sebe.

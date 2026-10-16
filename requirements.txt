@@ -1,0 +1,2 @@
+# Installation, build, verification, restore and the default tests use only
+# the Python 3.11+ standard library. No pip dependencies are required.

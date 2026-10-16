@@ -1,0 +1,49 @@
+# Private local configuration
+.env
+.env.*
+!.env.example
+
+# Original game assets, complete PACKs and local rollback files
+*.pack
+*.pack.*
+*.orig
+*.bnk
+backup/
+backups/
+.twa-czech-dubbing/
+extracted*/
+decoded*/
+analysis/
+work/
+vendor/
+
+# Intermediate audio (final replacements/<commander>/wem/*.wem are tracked)
+*.wav
+*.ogg
+*.mp3
+*.flac
+
+# Toolchains, binaries and reproducible build output
+*.exe
+*.dll
+*.pyd
+*.zip
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+node_modules/
+build/
+dist/
+tmp/
+temp/
+cache/
+*.partial
+*.log
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

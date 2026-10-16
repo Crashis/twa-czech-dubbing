@@ -1,0 +1,29 @@
+{
+  "status": "PASS",
+  "kind": "modified",
+  "sha256": "3405389faa3c5336e6635189e033e117144605356d9042a34f797b2c576df32b",
+  "size": 244019593,
+  "RSA": "PASS",
+  "entry_count": 16545,
+  "header": "PASS",
+  "dependencies": "PASS",
+  "encrypted_index": "PASS",
+  "offsets": "PASS",
+  "appendix": "PASS",
+  "replacement_hashes": "PASS",
+  "expected_replacements": 305,
+  "changed_entries": 305,
+  "unchanged_entries": 16240,
+  "counts_basis": "full byte comparison of every entry against canonical original",
+  "diff_outside_allowed_payloads": 0,
+  "data": {
+    "status": "PASS",
+    "commander": "hannibal",
+    "replacement_wems": 305,
+    "metadata_rows": 305,
+    "silent_placeholders": 16,
+    "shared_replacements": 0,
+    "fingerprints": "PASS"
+  },
+  "byte_identical_to_batch04": true
+}
