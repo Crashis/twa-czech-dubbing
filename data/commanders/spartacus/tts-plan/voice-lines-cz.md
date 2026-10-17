@@ -191,7 +191,7 @@ Commander-specific safe Media IDs only. English MEDIUM/UNKNOWN wording and its C
 | 680664673 | Raise shields! | Zvedněte štíty! | PREPARED | 680664673 | eleven_v4 | LOW |
 | 680827967 | Prepare the barricades! | Připravte zátarasy! | PREPARED | 680827967 | eleven_v4 | LOW |
 | 697353786 | We've been hurt by our allies' countermeasures! | Zranily nás spojenecké nástrahy! | PREPARED | 697353786 | eleven_v4 | LOW |
-| 697820721 | Strike through! | Prorazte je! | PROVISIONAL_ENGLISH | 697820721 | eleven_v3 | LOW |
+| 697820721 | Strike through! | Prorazte je! | PREPARED | 697820721 | eleven_v3 | LOW |
 | 697822950 | Our cause is just! | Naše věc je spravedlivá! | PREPARED | 697822950 | eleven_v4 | MEDIUM |
 | 699505853 | Ready tar pits! | Dehtové jámy! | PREPARED | 699505853 | eleven_v4 | LOW |
 | 704551274 | Our allies fire on us! | Spojenci po nás střílejí! | PREPARED | 704551274 | eleven_v4 | LOW |

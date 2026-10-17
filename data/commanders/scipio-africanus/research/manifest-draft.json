@@ -4,7 +4,7 @@
   "id": "scipio-africanus",
   "display_name": "Scipio Africanus",
   "status": "research_ready",
-  "inventory_status": "structural_complete_transcript_review_required",
+  "inventory_status": "complete_with_confidence_flags",
   "release_ready": false,
   "canonical_original_pack_sha256": "d6ee7ec4c4422276d9caba7013f46662a980955c138be13f653b58992ad876ad",
   "actor_name": "Commander_Scipio",
@@ -45,26 +45,21 @@
     "VICTORY": 6
   },
   "transcript_counts_all": {
-    "HIGH": 1400,
+    "HIGH": 1403,
     "CONFIRMED": 84,
     "LOW": 64,
-    "MEDIUM": 325,
-    "UNKNOWN": 1
+    "MEDIUM": 323
   },
   "transcript_counts_commander_specific": {
     "CONFIRMED": 84,
-    "HIGH": 162,
-    "MEDIUM": 2,
-    "UNKNOWN": 1
+    "HIGH": 165
   },
   "duplicate_groups": 43,
-  "commander_specific_transcripts_needing_review": 3,
-  "missing_transcripts_all": 1,
-  "manually_deferred_transcript_ids": [
-    "1022842783"
-  ],
+  "commander_specific_transcripts_needing_review": 0,
+  "missing_transcripts_all": 0,
+  "manually_deferred_transcript_ids": [],
   "unique_commander_specific_recordings": 207,
-  "ready_for_translation_tts": false,
+  "ready_for_translation_tts": true,
   "pilot_menu": 6,
   "pilot_battle": 25
 }

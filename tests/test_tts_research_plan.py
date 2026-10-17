@@ -2,13 +2,14 @@
 from collections import defaultdict
 import json
 from pathlib import Path
+import shutil
 import tempfile
 import unittest
 
-from tools.inventory.research_metadata import read_csv
+from tools.inventory.research_metadata import read_csv, write_csv
 from tools.resources import ROOT
-from tools.tts.research_plan import (budget_risk, check_delivery, performance_key, plan_delivery,
-                                     read_memory, translation_memory)
+from tools.tts.research_plan import (budget_risk, check_delivery, english_key, performance_key, plan_delivery,
+                                     prepare, read_memory, translation_memory)
 
 
 class ResearchPlanTests(unittest.TestCase):
@@ -65,19 +66,50 @@ class ResearchPlanTests(unittest.TestCase):
                 decisions = read_csv(folder/'tts-plan/transcript-review-decisions.csv')
                 expected_review = {'leonidas': 3, 'scipio-africanus': 5}[name]
                 self.assertEqual(len(decisions), expected_review)
-                self.assertEqual(sum(bool(r['final_transcript']) for r in decisions),2)
+                # Every originally disputed line is now resolved (second opinion or final human decision).
+                self.assertEqual(sum(bool(r['final_transcript']) for r in decisions), expected_review)
 
     def test_manual_deferral_never_becomes_a_tts_request(self):
-        folder = ROOT/'data/commanders/scipio-africanus'
-        voices={r['media_id']:r for r in read_csv(folder/'tts-plan/voice-lines-cz.csv')}
-        row=voices['1022842783']
-        self.assertEqual(row['translation_status'],'NEEDS_MANUAL_TRANSCRIPTION')
-        self.assertEqual((row['english_text'],row['czech_text']),('',''))
-        decisions={r['media_id']:r for r in read_csv(folder/'tts-plan/transcript-review-decisions.csv')}
-        self.assertEqual(decisions['1022842783']['transcript_resolution'],'NEEDS_MANUAL_TRANSCRIPTION')
-        self.assertEqual(decisions['1022842783']['final_transcript'],'')
-        self.assertTrue(decisions['1022842783']['archive_wav_reference'].endswith('/1022842783.wav'))
-        self.assertFalse(json.loads((folder/'tts-plan/plan-summary.json').read_text(encoding='utf-8'))['ready_for_elevenlabs'])
+        # No live deferral remains, so a disposable copy of real research data simulates one.
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)/'commanders'
+            shutil.copytree(ROOT/'data/commanders/zhuge-liang/research', root/'zhuge-liang/research')
+            path = root/'zhuge-liang/research/voice-lines.csv'
+            rows = read_csv(path)
+            next(r for r in rows if r['media_id'] == '32253270').update(
+                english_text='', final_transcript='', transcript_confidence='UNKNOWN',
+                transcript_resolution='NEEDS_MANUAL_TRANSCRIPTION', transcript_review_required='YES')
+            write_csv(path, rows, list(rows[0]))
+            memory, decisions = read_memory(ROOT/'data/commanders/zhuge-liang/tts-plan/translation-memory.tsv')
+            memory.pop(english_key('Watch the wind, Zhou Yu!'))
+            summary = prepare('zhuge-liang', root, memory, delivery_decisions=decisions)
+            row = {r['media_id']: r for r in read_csv(root/'zhuge-liang/tts-plan/voice-lines-cz.csv')}['32253270']
+            self.assertEqual((row['translation_status'], row['english_text'], row['czech_text']), ('NEEDS_MANUAL_TRANSCRIPTION', '', ''))
+            review = {r['media_id']: r for r in read_csv(root/'zhuge-liang/tts-plan/transcript-review-decisions.csv')}['32253270']
+            self.assertEqual((review['transcript_resolution'], review['final_transcript']), ('NEEDS_MANUAL_TRANSCRIPTION', ''))
+            self.assertTrue(review['archive_wav_reference'].endswith('/32253270.wav'))
+            self.assertEqual((summary['ready_for_elevenlabs'], summary['manual_review_ids']), (False, ['32253270']))
+
+    def test_final_transcript_decisions_are_applied_and_every_plan_is_ready(self):
+        expected = {('leonidas', '12766875'): ("We're being damaged by friendly fire!", 'CONFIRMED', 'HUMAN_CONFIRMED'),
+                    ('zhuge-liang', '32253270'): ('Watch the wind, Zhou Yu!', 'CONFIRMED', 'HUMAN_CONFIRMED'),
+                    ('zhuge-liang', '801277871'): ('Your arrogance ends, Lu Bu!', 'CONFIRMED', 'HUMAN_CONFIRMED'),
+                    ('scipio-africanus', '191571653'): ("The flank's exposed!", 'HIGH', 'SECOND_OPINION_RESOLVED'),
+                    ('scipio-africanus', '238862791'): ('Attack the flank!', 'HIGH', 'SECOND_OPINION_RESOLVED'),
+                    ('scipio-africanus', '1022842783'): ('Onward!', 'HIGH', 'SECOND_OPINION_RESOLVED'),
+                    ('spartacus', '697820721'): ('Strike through!', 'HIGH', 'SECOND_OPINION_RESOLVED')}
+        for (name, mid), (english, confidence, resolution) in expected.items():
+            with self.subTest(media_id=mid):
+                folder = ROOT/'data/commanders'/name
+                row = {r['media_id']: r for r in read_csv(folder/'tts-plan/voice-lines-cz.csv')}[mid]
+                self.assertEqual((row['english_text'], row['transcript_confidence'], row['transcript_resolution'], row['translation_status']),
+                                 (english, confidence, resolution, 'PREPARED'))
+                self.assertTrue(row['czech_text'])
+                review = {r['media_id']: r for r in read_csv(folder/'tts-plan/transcript-review-decisions.csv')}[mid]
+                self.assertEqual((review['transcript_resolution'], review['final_transcript']), (resolution, english))
+        for name in ['leonidas', 'scipio-africanus', 'spartacus', 'germanicus', 'zhuge-liang']:
+            summary = json.loads((ROOT/'data/commanders'/name/'tts-plan/plan-summary.json').read_text(encoding='utf-8'))
+            self.assertEqual((summary['ready_for_elevenlabs'], summary['manual_review_ids']), (True, []), name)
 
     def test_budget_labels_do_not_claim_encoding(self):
         self.assertEqual(budget_risk(5000,1,'Go!','Běžte!'),'HIGH')
@@ -106,6 +138,29 @@ class ResearchPlanTests(unittest.TestCase):
         self.assertEqual(plan_delivery([row('EMOTE','player selects emote: battlecry')],'spartacus',reviewed)[1],'eleven_v4')
         # Commanders without a profile keep the published legacy routing.
         self.assertEqual(decide('scipio-africanus', row('ORDER','unit ability ordered: unit manual charge'))[1], 'eleven_v4')
+
+    def test_composed_profile_needs_shouted_original_for_v3(self):
+        def row(category, trigger, english, raw=''):
+            return {'category':category,'trigger':trigger,'english_text':english,'raw_transcript':raw}
+        decide = lambda *rows: plan_delivery(list(rows), 'zhuge-liang', {})
+        charge = 'unit ability ordered: unit manual charge'
+        self.assertEqual(decide(row('ORDER', charge, 'Charge!'))[1:], ('eleven_v4', '[urgent, commanding]'))
+        self.assertEqual(decide(row('ORDER', charge, 'CHARGE!'))[1:], ('eleven_v3', '[shouting, commanding]'))
+        base = 'battle event: your base is under attack'
+        self.assertEqual(decide(row('BATTLE_EVENT', base, 'Our base is under attack!'))[1:], ('eleven_v4', '[urgent, commanding]'))
+        # Localized wording keeps normal case; the raw local hypothesis still carries the shouted delivery.
+        self.assertEqual(decide(row('BATTLE_EVENT', base, 'Our base is under attack!', 'OUR BASE IS UNDER ATTACK!'))[1:],
+                         ('eleven_v3', '[urgent, shouting]'))
+        self.assertEqual(decide(row('EMOTE', 'player selects emote: quote', 'A prepared mind.'))[1:],
+                         ('eleven_v4', '[strategic, composed]'))
+        # Germanicus has no such requirement: the context rule alone routes a charge to v3.
+        self.assertEqual(plan_delivery([row('ORDER', charge, 'Charge!')], 'germanicus', {})[1], 'eleven_v3')
+        # Chinese chat-tag kinds yes/no map to affirmative/negative; extra kinds use the profile when it defines them.
+        self.assertEqual(decide(row('EMOTE', 'player selects emote: yes', 'Yes.'))[2], '[confident, restrained]')
+        self.assertEqual(decide(row('EMOTE', 'player selects emote: no', 'This seems unwise.'))[2], '[calm, serious]')
+        self.assertEqual(decide(row('EMOTE', 'player selects emote: insult', 'As predicted!'))[2], '[confident, restrained]')
+        self.assertEqual(decide(row('DEFEAT', 'battle event: defeat because your army was annihilated', 'We must plan better.'))[2],
+                         '[calm, serious]')
 
     def test_memory_accepts_reviewed_delivery_columns_only_when_valid(self):
         with tempfile.TemporaryDirectory() as temp:

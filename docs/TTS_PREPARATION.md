@@ -1,8 +1,8 @@
 # Offline příprava textů pro další commandery
 
-Leonidas, Scipio Africanus, Spartacus a Germanicus mají v `data/commanders/<id>/tts-plan/` české textové návrhy pro bezpečná commander-specific Media ID. Vstupem je nezávisle ověřená `research/voice-lines.csv`; do plánu nesmí proniknout culture, unit ani global shared hlas. `voice-lines-cz.csv` obsahuje jeden řádek pro každý bezpečný Media ID, `tts-plan.csv` jeden řádek pro každý odlišný plánovaný hlasový výkon. Obojí jsou textová metadata, nikoli pokyn k automatické placené generaci.
+Leonidas, Scipio Africanus, Spartacus, Germanicus a Zhuge Liang mají v `data/commanders/<id>/tts-plan/` české textové návrhy pro bezpečná commander-specific Media ID. Vstupem je nezávisle ověřená `research/voice-lines.csv`; do plánu nesmí proniknout culture, unit ani global shared hlas. `voice-lines-cz.csv` obsahuje jeden řádek pro každý bezpečný Media ID, `tts-plan.csv` jeden řádek pro každý odlišný plánovaný hlasový výkon. Obojí jsou textová metadata, nikoli pokyn k automatické placené generaci.
 
-České návrhy Leonidase a Scipia jsou v `data/commanders/shared-research/commander-translation-memory.tsv`. Spartacus a Germanicus mají vlastní `data/commanders/<id>/tts-plan/translation-memory.tsv`, protože stejná anglická fráze („Cut them down!“) má u vzbouřeného gladiátora a u římského velitele znít jinak. Soubor pokrývá jen anglické fráze použité v bezpečné sadě daného běhu. Generátor odmítne chybějící i nadbytečnou položku. Při změně anglického přepisu je nutné opravit překlad a znovu vytvořit plány:
+České návrhy Leonidase a Scipia jsou v `data/commanders/shared-research/commander-translation-memory.tsv`. Spartacus, Germanicus a Zhuge Liang mají vlastní `data/commanders/<id>/tts-plan/translation-memory.tsv`, protože stejná anglická fráze („Cut them down!“) má u vzbouřeného gladiátora a u římského velitele znít jinak. Soubor pokrývá jen anglické fráze použité v bezpečné sadě daného běhu. Generátor odmítne chybějící i nadbytečnou položku. Při změně anglického přepisu je nutné opravit překlad a znovu vytvořit plány:
 
 ```powershell
 python -B -m tools.tts.research_plan --commander leonidas --commander scipio-africanus --translation-memory data/commanders/shared-research/commander-translation-memory.tsv
@@ -11,7 +11,7 @@ python -B -m tools.mod --commander scipio-africanus validate
 python -B -m tools.validation.repository
 ```
 
-`PREPARED` označuje český návrh nad angličtinou s úrovní CONFIRMED/HIGH; nejde o tvrzení, že člověk nahrávku poslechl nebo schválil herecký projev. `PROVISIONAL_ENGLISH` má český pracovní návrh, ale původní anglické slovo čeká na ověření. `NEEDS_MANUAL_TRANSCRIPTION` nemá použitelný anglický text ani český návrh. Požadované WAVy zůstávají mimo repository v soukromém `commander-research`; cesty jsou uvedeny v `research/manual-transcript-review.md` a `tts-plan/transcript-review-decisions.csv`.
+`PREPARED` označuje český návrh nad angličtinou s úrovní CONFIRMED/HIGH; nejde o tvrzení, že člověk nahrávku poslechl nebo schválil herecký projev. `PROVISIONAL_ENGLISH` má český pracovní návrh, ale původní anglické slovo čeká na ověření. `NEEDS_MANUAL_TRANSCRIPTION` nemá použitelný anglický text ani český návrh. Finální rozhodnutí o přepisu se zapisují jako oprava v `transcript-corrections.json` s explicitním `resolution`. `HUMAN_CONFIRMED` (vždy s CONFIRMED) je text převzatý doslova od majitele projektu. `SECOND_OPINION_RESOLVED` (vždy s HIGH) je výsledek nezávislé druhé analýzy. Tyto štítky se propisují do `transcript_resolution` i do `transcript-review-decisions.csv`. Surové ASR hypotézy zůstávají ve sloupcích `raw_transcript` a `stt_*`. Požadované WAVy zůstávají mimo repository v soukromém `commander-research`; cesty jsou uvedeny v `research/manual-transcript-review.md` a `tts-plan/transcript-review-decisions.csv`.
 
 Jeden budoucí výkon může pokrýt více Media IDs jen při shodném dekódovaném PCM, formátu, anglickém znění a českém návrhu. Jeden originální výkon může být ve Wwise použit jako emote i povel; plán sjednotí styl/model/tags pro celou takovou skupinu. Rozdílné WEM bajty nejsou překážkou pro společnou budoucí nahrávku, ale každé ID bude potřebovat samostatný přesně velký WEM a vlastní kontrolu. Skupiny nikdy nesdílejí výkon mezi dvěma novými commandery.
 
@@ -22,7 +22,10 @@ Spartacus a Germanicus mají v `tools/tts/research_plan.py` explicitní voice pr
 ```powershell
 python -B -m tools.tts.research_plan --commander spartacus --translation-memory data/commanders/spartacus/tts-plan/translation-memory.tsv --archive-root $archiveRoot
 python -B -m tools.tts.research_plan --commander germanicus --translation-memory data/commanders/germanicus/tts-plan/translation-memory.tsv --archive-root $archiveRoot
+python -B -m tools.tts.research_plan --commander zhuge-liang --translation-memory data/commanders/zhuge-liang/tts-plan/translation-memory.tsv --archive-root $archiveRoot
 ```
+
+Zhuge Liang má klidný profil stratéga s příznakem `shout_needs_audio_evidence`. Kontextová v3 pravidla (charge a další agresivní povely, battlecry, urgentní/rozzlobený announcer) u něj platí jen tehdy, když originál prokazatelně křičí. Důkazem je, že některá lokální Whisper hypotéza je celá velkými písmeny; stejný princip projekt už používá u `.isupper()` pro schopnosti Leonidase a Scipia. Jinak řádek zůstává na v4 s `[urgent, commanding]`. Profily bez příznaku se nemění: plány Leonidase, Scipia, Spartaca i Germanica se z nové verze generují bajtově shodně. Tagy `strategic` a `composed` jsou v projektu nové, dosud nebyly ověřené runtime poslechem. Ověří je až pilot (frontend citáty) před dalšími požadavky.
 
 `--archive-root` navíc zapíše soukromou kopii `commander-research/<id>/manual-transcript-review-local.md` s absolutními cestami k WAV mimo repozitář; veřejná verze v `research/` obsahuje jen cesty relativní k archivu. `manual-transcript-review.md` vzniká vždy, i když žádná položka nezbývá. `pilot-menu.csv` a `pilot-battle.csv` v research i tts-plan nyní obsahují angličtinu, češtinu, styl, model a tags; vybírají jen bezpečné texty s CONFIRMED/HIGH přepisem a doloženým triggerem.
 

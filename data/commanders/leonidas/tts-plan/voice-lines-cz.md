@@ -8,7 +8,7 @@ Commander-specific safe Media IDs only. English MEDIUM/UNKNOWN wording and its C
 | 8097577 | Never! | Nikdy! | PREPARED | 8097577 | eleven_v4 | HIGH |
 | 10448901 | Brace! | Zapřít! | PREPARED | 10448901 | eleven_v4 | MEDIUM |
 | 11213933 | More shot! Again! | Další střely! Znovu! | PREPARED | 11213933 | eleven_v4 | LOW |
-| 12766875 | We have been damaged by friendly fire! | Zasáhla nás palba vlastních! | PROVISIONAL_ENGLISH | 12766875 | eleven_v4 | LOW |
+| 12766875 | We're being damaged by friendly fire! | Zasáhla nás palba vlastních! | PREPARED | 12766875 | eleven_v4 | LOW |
 | 16809110 | They cannot break us! | Nás nezlomí! | PREPARED | 16809110 | eleven_v4 | LOW |
 | 17786014 | We have killed Cynane! | Zabili jsme Kynané! | PREPARED | 17786014 | eleven_v4 | LOW |
 | 23523754 | Defeat will only make us stronger! | Porážka nás jen posílí! | PREPARED | 23523754 | eleven_v4 | LOW |

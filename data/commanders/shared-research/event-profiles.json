@@ -214,6 +214,23 @@
         "vo_ua_Vengeance"
       ],
       "pilot_mix": true
+    },
+    "zhuge-liang": {
+      "own_abilities": [
+        "vo_ua_Masters_Patience",
+        "vo_ua_Sight_Of_The_Dragon",
+        "vo_ua_Way_Of_The_Wind"
+      ],
+      "pilot_triggers": [
+        "battle-start objective",
+        "your base is under attack",
+        "units routes",
+        "units rallies",
+        "unit manual charge",
+        "ordered: brace",
+        "sight of the dragon",
+        "player selects emote: yes"
+      ]
     }
   },
   "commander_cultures": {
@@ -233,7 +250,7 @@
       1422687991
     ]
   },
-  "culture_mapping_evidence": "Commander DB faction fields and supported-corpus culture/actor branches; affiliation never proves media ownership. Spartacus (DB faction rom_gladiators, vo_culture_Gladiators) and Germanicus (rom_rome, vo_culture_roman) are documented in commander-identification.json but intentionally not added here: no primary Spartacus/Germanicus Media ID is shared only between commanders, and adding them would relabel other inventories’ generic advisor references.",
+  "culture_mapping_evidence": "Commander DB faction fields and supported-corpus culture/actor branches; affiliation never proves media ownership. Spartacus (DB faction rom_gladiators, vo_culture_Gladiators) and Germanicus (rom_rome, vo_culture_roman) are documented in commander-identification.json but intentionally not added here: no primary Spartacus/Germanicus Media ID is shared only between commanders, and adding them would relabel other inventories’ generic advisor references. Zhuge Liang (DB faction rom_china, vo_culture_China) is likewise not added: no Zhuge Liang Media ID is shared only between commanders (his shared IDs are vo_culture_China unit sets), and adding all seven rom_china commanders changes no classification in any inventory.",
   "commander_ability_evidence": {
     "source": "wad.pack:db/arena_commanders_to_com_abilities_tables; voice state names are exact FNV-1 members of battle_vo_orders.bnk DialogueEvent 825794328 ability group under the commander actor key",
     "spartacus": {
@@ -249,6 +266,14 @@
         "com_testudo",
         "com_vengeance"
       ]
-    }
+    },
+    "zhuge-liang": {
+      "chi_zhuge_liang": [
+        "com_masters_patience",
+        "com_sight_of_the_dragon",
+        "com_way_of_the_wind"
+      ]
+    },
+    "zhuge-liang_db_note": "chi_zhuge_liang has tiered com_masters_patience_*, com_sight_of_the_dragon_* and com_way_of_the_wind_* rows; in this DB build the untiered base row com_masters_patience is keyed to chi_sun_ren and chi_zhuge_liang carries an untiered com_adrenaline_rush row. Voice ownership uses the three exact FNV-1 states under the Commander_Zhuge_Liang actor key in DialogueEvent 825794328, consistent with the localized matchmaking hint (Sight of the Dragon, Master's Patience); there is no Zhuge Liang adrenaline-rush voice branch."
   }
 }

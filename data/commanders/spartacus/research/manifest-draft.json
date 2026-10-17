@@ -4,7 +4,7 @@
   "id": "spartacus",
   "display_name": "Spartacus",
   "status": "research_ready",
-  "inventory_status": "structural_complete_transcript_review_required",
+  "inventory_status": "complete_with_confidence_flags",
   "release_ready": false,
   "canonical_original_pack_sha256": "d6ee7ec4c4422276d9caba7013f46662a980955c138be13f653b58992ad876ad",
   "actor_name": "Commander_Spartacus",
@@ -45,22 +45,21 @@
     "DEATH_REACTION": 20
   },
   "transcript_counts_all": {
-    "HIGH": 1074,
-    "MEDIUM": 208,
+    "HIGH": 1075,
+    "MEDIUM": 207,
     "LOW": 26,
     "CONFIRMED": 98
   },
   "transcript_counts_commander_specific": {
-    "HIGH": 205,
-    "CONFIRMED": 98,
-    "MEDIUM": 1
+    "HIGH": 206,
+    "CONFIRMED": 98
   },
   "duplicate_groups": 46,
-  "commander_specific_transcripts_needing_review": 1,
+  "commander_specific_transcripts_needing_review": 0,
   "missing_transcripts_all": 0,
   "manually_deferred_transcript_ids": [],
   "unique_commander_specific_recordings": 259,
-  "ready_for_translation_tts": false,
+  "ready_for_translation_tts": true,
   "pilot_menu": 5,
   "pilot_battle": 25
 }

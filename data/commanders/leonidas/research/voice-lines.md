@@ -27,7 +27,7 @@ Metadata only. Original WEM and decoded WAV files are held in the private comman
 | 11213933 | COMMANDER_SPECIFIC / YES | ORDER | More shot! Again! | HIGH | unit ability ordered: quick reload |
 | 11470390 | CULTURE_SHARED / NO_SHARED | CONVERSATIONAL | History will remember us! | HIGH | battle cry vs. enemy culture (2nd vo_culture = enemy culture) by phase state_3400800153; semantic context inferred from sibling content and prior research |
 | 12689857 | CULTURE_SHARED / NO_SHARED | CONVERSATIONAL | We've broken them! | HIGH | enemy breaking / pursuing (Finish them!, We have broken them!); semantic context inferred from sibling content and prior research |
-| 12766875 | COMMANDER_SPECIFIC / YES | BATTLE_EVENT | We have been damaged by friendly fire! | MEDIUM | battle event: your units are damaged by allied stakes |
+| 12766875 | COMMANDER_SPECIFIC / YES | BATTLE_EVENT | We're being damaged by friendly fire! | CONFIRMED | battle event: your units are damaged by allied stakes |
 | 14050376 | UNIT_TYPE_SHARED / NO_SHARED | UNIT_SELECT | elephants! | HIGH | unit selected; explicit vo_unit_type callout, also reused on frontend unit card |
 | 14198050 | CULTURE_SHARED / NO_SHARED | CONVERSATIONAL | We cannot fight our destiny! | HIGH | battle cry vs. enemy culture (2nd vo_culture = enemy culture) by phase state_3400800153; semantic context inferred from sibling content and prior research |
 | 14765540 | CULTURE_SHARED / NO_SHARED | ORDER_ACK | On what? | HIGH | unit order acknowledgement: move (speed=* : March!, Moving out!) / run (speed=fast : Double time!, Quick march!); inherited event-level content analysis, not a new runtime observation |

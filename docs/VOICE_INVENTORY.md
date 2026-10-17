@@ -1,6 +1,6 @@
 # Offline voice inventory
 
-Research data lives under `data/commanders/<id>/research/` for Leonidas, Scipio Africanus, Spartacus and Germanicus. It is deliberately excluded from installer discovery, which only reads production `*/manifest.json`. `manifest-draft.json` has `status: research_ready`, `release_ready: false`, an explicit inventory status and separate translation/TTS readiness. A metadata validation PASS does not approve uncertain wording, a performance or a release.
+Research data lives under `data/commanders/<id>/research/` for Leonidas, Scipio Africanus, Spartacus, Germanicus and Zhuge Liang. It is deliberately excluded from installer discovery, which only reads production `*/manifest.json`. `manifest-draft.json` has `status: research_ready`, `release_ready: false`, an explicit inventory status and separate translation/TTS readiness. A metadata validation PASS does not approve uncertain wording, a performance or a release.
 
 The Leonidas and Scipio outputs contain one row per Media ID, plus `usage-paths.csv` with every bank-scoped event/branch/container/Sound path. `scope` retains the commander-specific alias; `sharing_scope` uses the common classification. Both `safe_to_replace_for_commander` and the commander-specific safety column are present. Original WEM hashes are explicitly original hashes, never replacement hashes. Czech text is empty.
 
@@ -64,7 +64,20 @@ python -B -m tools.inventory.crosscheck --workspace $researchWorkspace --command
 python -B -m tools.inventory.research_report data/commanders/spartacus/research data/commanders/germanicus/research --integrity-audit spartacus-germanicus-integrity-audit.json
 ```
 
-`event-profiles.json` lists each commander’s own ability states (from `arena_commanders_to_com_abilities`) and may set `pilot_mix`, which selects the battle pilot round-robin across battle events, aggressive and standard orders, abilities, emotes and results instead of the legacy priority order. Spartacus and Germanicus use it; Leonidas and Scipio keep the published selection.
+Zhuge Liang was added the same way, as a single new commander. Chinese commanders name chat-tag events `Play_<ACTOR>_EMO_<kind>_<n>`, not `_emote_`. The exporter accepts both. Three of his emote kinds (`follow`, `help`, `stop`) have no chat-tag localization row, so the emote parent-pool check stopped the audit. `emote-pool-events` recovers such names. A candidate `<stem><kind>_<n>` is accepted only when its exact FNV-1 equals an unnamed Event that plays a Sound in the commander's own emote pool, and the stem comes from that commander's localized emote Events. A hash anywhere else in the bank is ignored. Without `--right`, the crosscheck compares one new inventory with every reference:
+
+```powershell
+python -B -m tools.inventory.research --workspace $researchWorkspace --commander zhuge-liang enumerate
+python -B -m tools.inventory.research --workspace $researchWorkspace --commander zhuge-liang emote-pool-events --kinds follow,help,stop
+python -B -m tools.inventory.research --workspace $researchWorkspace --commander zhuge-liang enumerate
+python -B -m tools.inventory.research --workspace $researchWorkspace --commander zhuge-liang audit
+python -B -m tools.inventory.research --workspace $researchWorkspace --commander zhuge-liang decode --pack $canonicalOriginal --canonical-sha256 $canonicalHash --decoder $vgmstream --game-directory $gameDirectory
+python -B -m tools.inventory.research_export --workspace $researchWorkspace --output-root data/commanders --profiles data/commanders/shared-research/event-profiles.json --commander zhuge-liang
+python -B -m tools.inventory.crosscheck --workspace $researchWorkspace --commander-root data/commanders --left zhuge-liang --reference hannibal --reference leonidas --reference scipio-africanus --reference spartacus --reference germanicus --reference-audio-audit "hannibal=$researchWorkspace/reference-hannibal/original-audio-audit.json" --output data/commanders/shared-research --stem zhuge-liang-crosscheck --duplicates-output zhuge-liang-duplicate-recordings.csv --shared-analysis-output ''
+python -B -m tools.inventory.research_report data/commanders/zhuge-liang/research --integrity-audit zhuge-liang-integrity-audit.json
+```
+
+`event-profiles.json` lists each commander’s own ability states (from `arena_commanders_to_com_abilities`) and may set `pilot_mix`, which selects the battle pilot round-robin across battle events, aggressive and standard orders, abilities, emotes and results instead of the legacy priority order. Spartacus, Germanicus and Zhuge Liang use it; Leonidas and Scipio keep the published selection.
 
 Regenerating the published Leonidas/Scipio research from the current workspace reproduces every commander row, safety flag and TTS plan byte for byte. Only their generic `battle-advice-global-reference.csv` would gain medium.en hypotheses for five Germanicus tutorial recordings (catalogued in every inventory as advisor references); those published files were intentionally left unchanged.
 

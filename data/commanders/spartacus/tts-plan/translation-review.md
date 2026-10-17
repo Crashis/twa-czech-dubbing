@@ -1,6 +1,6 @@
 # Spartacus — translation review
 
-Safe spoken IDs: 304. Czech drafts: 304. English-supported drafts: 303. Provisional English: 1. Missing English: 0.
+Safe spoken IDs: 304. Czech drafts: 304. English-supported drafts: 304. Provisional English: 0. Missing English: 0.
 
 Unique future performances: 259; repeated Media IDs covered: 45. Byte-identical original WEM duplicate groups: 0; exact decoded PCM duplicates with different WEM bytes: 45. Model routing: eleven_v3 34, eleven_v4 225 per unique performance.
 
@@ -10,8 +10,8 @@ The original PCM fingerprint plus matching English/Czech wording defines a perfo
 
 High WEM budget risk IDs (1): 787420113.
 
-Originally disputed IDs resolved with local context/phonetic evidence: 8. Individual decisions and the unresolved candidate wording are in `transcript-review-decisions.csv`.
+Originally disputed IDs resolved with local context/phonetic evidence: 8. Human-confirmed by the project owner: 0; resolved by the independent second opinion: 1 (labels in `transcript_resolution`, evidence in shared `transcript-corrections.json`). Individual decisions and the unresolved candidate wording are in `transcript-review-decisions.csv`.
 
-Manual English review: 697820721. See `manual-transcript-review.md` in the research folder and `transcript-review-decisions.csv` here.
+Manual English review: none. See `manual-transcript-review.md` in the research folder and `transcript-review-decisions.csv` here.
 
-READY FOR ELEVENLABS: **NO**. No ElevenLabs request, audio generation, game write or human listening is claimed.
+READY FOR ELEVENLABS: **YES**. No ElevenLabs request, audio generation, game write or human listening is claimed.

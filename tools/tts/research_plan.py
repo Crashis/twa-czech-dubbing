@@ -9,7 +9,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from tools.inventory.research_metadata import read_csv, validate_research, write_csv
+from tools.inventory.research_metadata import FINAL_RESOLUTIONS, read_csv, validate_research, write_csv
 from tools.pack.reader import require
 from tools.resources import ROOT
 
@@ -146,7 +146,30 @@ VOICE_PROFILES = {
                    'urgent': ('URGENT_COMMAND', '[urgent, commanding]'), 'reaction': ('TRIUMPHANT', '[proud, triumphant]'),
                    'own_death': ('SOLEMN', '[solemn]'),
                    'tutorial': ('CALM_COMMANDING', '[calm, commanding]'), 'default': ('FIELD_COMMAND', '[firm, commanding]')},
+    # Master strategist: calm, precise, cultivated authority. v3 only where the original is audibly yelled.
+    'zhuge-liang': {'shout': ('BATTLE_SHOUT', '[shouting, commanding]'),
+                    'urgent_shout': ('URGENT_SHOUT', '[urgent, shouting]'), 'angry_shout': ('ANGRY_SHOUT', '[angry, shouting]'),
+                    'shout_abilities': set(), 'shout_needs_audio_evidence': True,
+                    'frontend': ('STRATEGIC', '[strategic, composed]'), 'quote': ('STRATEGIC', '[strategic, composed]'),
+                    'affirmative': ('CONFIDENT', '[confident, restrained]'), 'negative': ('MEASURED', '[calm, serious]'),
+                    'getready': ('CALM_COMMANDING', '[calm, commanding]'), 'intimidate': ('SUPERIOR', '[confident, restrained]'),
+                    'insult': ('SUPERIOR', '[confident, restrained]'), 'congratulate': ('ENCOURAGING', '[encouraging]'),
+                    'help': ('URGENT_COMMAND', '[urgent, commanding]'),
+                    'victory': ('TRIUMPHANT', '[triumphant]'), 'defeat': ('MEASURED', '[calm, serious]'),
+                    'urgent': ('URGENT_COMMAND', '[urgent, commanding]'), 'reaction': ('COMPOSED', '[confident, restrained]'),
+                    'own_death': ('SOLEMN', '[solemn]'),
+                    'tutorial': ('CALM_COMMANDING', '[calm, commanding]'), 'default': ('CALM_COMMANDING', '[calm, commanding]')},
 }
+
+
+# Chinese chat tags name the affirmative/negative emotes yes/no.
+EMOTE_KIND_ALIASES = {'yes': 'affirmative', 'no': 'negative'}
+
+
+def shouted(row):
+    """Local Whisper renders clearly yelled speech in capitals; localized text keeps normal case."""
+    texts = [row.get(k) or '' for k in ('english_text', 'raw_transcript', 'stt_medium_en', 'stt_small_en')]
+    return any(sum(c.isalpha() for c in t) >= 2 and t == t.upper() for t in texts)
 
 
 def profiled_delivery(group, profile):
@@ -155,18 +178,21 @@ def profiled_delivery(group, profile):
     trigger = ' '.join(triggers)
     categories = {r['category'] for r in group}
     kinds = {t.split('player selects emote: ', 1)[1].split()[0] for t in triggers if 'player selects emote: ' in t}
+    kinds = {EMOTE_KIND_ALIASES.get(k, k) for k in kinds}
     abilities = {t.split(': ', 1)[1].split(';')[0].strip() for r, t in zip(group, triggers)
                  if r['category'] in {'ORDER', 'ABILITY'} and ': ' in t}
 
     def pick(name):
         style, tags = profile[name]
         return style, 'eleven_v3' if style in V3_STYLES else 'eleven_v4', tags
+    # A composed profile keeps context-rule v3 routes for originals that are actually shouted.
+    loud = not profile.get('shout_needs_audio_evidence') or all(shouted(r) for r in group)
     if 'battlecry' in kinds or 'warcry' in trigger or abilities & (V3_ORDER_ABILITIES | profile['shout_abilities']):
-        return pick('shout')
+        return pick('shout' if loud else 'urgent')
     if 'BATTLE_EVENT' in categories:
         for state, name in V3_BATTLE_STATES.items():
             if state in trigger:
-                return pick(name)
+                return pick(name if loud else 'urgent')
     if 'VICTORY' in categories or ('BATTLE_EVENT' in categories and 'winning' in trigger):
         return pick('victory')
     if 'DEFEAT' in categories:
@@ -179,8 +205,8 @@ def profiled_delivery(group, profile):
         return pick('reaction')
     if 'intimidate' in kinds or any('intimidate' in a for a in abilities):
         return pick('intimidate')
-    for kind in ['quote', 'affirmative', 'negative', 'getready']:
-        if kind in kinds:
+    for kind in ['quote', 'affirmative', 'negative', 'getready', 'insult', 'congratulate', 'help']:
+        if kind in kinds and kind in profile:
             return pick(kind)
     if 'FRONTEND' in categories:
         return pick('frontend')
@@ -312,7 +338,8 @@ def prepare(commander, commander_root, memory, output_root=None, delivery_decisi
                 'final_transcript': row['english_text'] if resolved else '',
                 'evidence': row['transcript_resolution']+'; alternative local ASR: '+row['stt_alternative_evidence'],
                 'transcript_confidence': row['transcript_confidence'],
-                'transcript_resolution': 'RESOLVED_WITH_LOCAL_EVIDENCE' if resolved else manual_resolution(row),
+                'transcript_resolution': (row['transcript_resolution'] if row['transcript_resolution'] in FINAL_RESOLUTIONS
+                                          else 'RESOLVED_WITH_LOCAL_EVIDENCE' if resolved else manual_resolution(row)),
                 'source_transcript_resolution': row['transcript_resolution'],
                 **{k: row[k] for k in ['category','trigger','original_duration','original_size_bytes',
                      'decision_tree_path','bank','event_id','container_id','sound_id','archive_wav_reference']}}
@@ -387,6 +414,7 @@ def prepare(commander, commander_root, memory, output_root=None, delivery_decisi
                'ready_for_elevenlabs': len(manual)==0 and counts['PREPARED']==len(voices),
                'tts_api_calls':0,'human_listening':'NOT_RUN','audio_encoding':'NOT_RUN'}
     (output/'plan-summary.json').write_text(json.dumps(summary,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+    labelled = Counter(d['transcript_resolution'] for d in decisions if d['transcript_resolution'] in FINAL_RESOLUTIONS)
     review = [f'# {manifest["display_name"]} — translation review', '',
               f'Safe spoken IDs: {len(voices)}. Czech drafts: {summary["czech_translations_prepared"]}. '
               f'English-supported drafts: {counts["PREPARED"]}. Provisional English: {counts["PROVISIONAL_ENGLISH"]}. '
@@ -403,10 +431,16 @@ def prepare(commander, commander_root, memory, output_root=None, delivery_decisi
               'An emote and an order can share the same group when both point to the same original recording. '
               'The model/style/tags are shared across that group. Every Media ID still needs separate future size and playback checks.', '',
               f'High WEM budget risk IDs ({len(high_risk)}): '+(', '.join(high_risk) or 'none')+'.', '',
-              f'Originally disputed IDs resolved with local context/phonetic evidence: {len(decisions)-len(manual)}. '
+              f'Originally disputed IDs resolved with local context/phonetic evidence: {len(decisions)-len(manual)-sum(labelled.values())}. '
+              + (f'Human-confirmed by the project owner: {labelled["HUMAN_CONFIRMED"]}; resolved by the independent second opinion: '
+                 f'{labelled["SECOND_OPINION_RESOLVED"]} (labels in `transcript_resolution`, evidence in shared `transcript-corrections.json`). '
+                 if labelled else '') +
               'Individual decisions and the unresolved candidate wording are in `transcript-review-decisions.csv`.', '',
               'Manual English review: '+(', '.join(summary['manual_review_ids']) or 'none')+'. '
-              'See `manual-transcript-review.md` in the research folder and `transcript-review-decisions.csv` here.', '',
+              'See `manual-transcript-review.md` in the research folder and `transcript-review-decisions.csv` here.', '']
+    if (output/'translation-notes.md').is_file():
+        review += ['Commander-specific translator decisions and open questions: [translation-notes.md](translation-notes.md).', '']
+    review += [
               'READY FOR ELEVENLABS: **'+('YES' if summary['ready_for_elevenlabs'] else 'NO')+'**. '
               'No ElevenLabs request, audio generation, game write or human listening is claimed.', '']
     (output/'translation-review.md').write_text('\n'.join(review),encoding='utf-8')

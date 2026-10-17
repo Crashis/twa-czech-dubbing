@@ -245,5 +245,64 @@
         "container_id": 1031265027
       }
     ]
+  },
+  {
+    "id": "zhuge-liang",
+    "display_name": "Zhuge Liang",
+    "actor_name": "Commander_Zhuge_Liang",
+    "actor_id": 2493627385,
+    "culture_names": [
+      "vo_culture_China"
+    ],
+    "culture_ids": [
+      490858007
+    ],
+    "db_actor_literal": {
+      "source": "wad.pack:db/arena_commanders_tables/data",
+      "byte_offset": 5469,
+      "exact_fnv1_match": true
+    },
+    "db_commander_key": "chi_zhuge_liang",
+    "db_faction": "rom_china",
+    "localization_name_key": "arena_commanders_commander_localized_name_chi_zhuge_liang",
+    "frontend_decision_evidence": [
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1402037848,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          2493627385
+        ],
+        "container_id": 607873144
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1823898040,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          2493627385
+        ],
+        "container_id": 801131745
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 2732370230,
+        "group_ids": [
+          3113488887,
+          112324978,
+          4273992948
+        ],
+        "keys": [
+          490858007,
+          2493627385,
+          0
+        ],
+        "container_id": 683874514
+      }
+    ]
   }
 ]

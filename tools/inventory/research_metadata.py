@@ -22,6 +22,8 @@ reference_count reverse_reference_count reverse_reference_check reference_owners
 stt_base_en stt_small_en stt_medium_en chat_tag_text localization_key transcript_review_required
 archive_wem_reference archive_wav_reference all_triggers stt_alternative_evidence action_id audio_node_id'''.split()
 NON_SPEECH_HYPOTHESES = {'', 'you', 'thank you', 'thanks for watching', 'bye', 'oh', 'uh', 'hmm', 'ah', 'huh'}
+# Explicit final review outcomes recorded in a correction; each requires its own confidence level.
+FINAL_RESOLUTIONS = {'HUMAN_CONFIRMED': 'CONFIRMED', 'SECOND_OPINION_RESOLVED': 'HIGH'}
 
 
 def norm(text):
@@ -69,11 +71,16 @@ def transcript(hypotheses, chat=None, previous=None, correction=None):
                     'transcript_confidence': 'UNKNOWN', 'transcript_resolution': 'NEEDS_MANUAL_TRANSCRIPTION',
                     'transcript_review_required': 'YES'}
         require(correction.get('evidence') and correction['confidence'] in {'CONFIRMED', 'HIGH', 'MEDIUM', 'LOW'}, 'Correction needs evidence/confidence')
+        final = correction.get('resolution')
+        require(final is None or FINAL_RESOLUTIONS.get(final) == correction['confidence'], 'Final review label needs its matching confidence')
         confirmed_same_text = confidence == 'CONFIRMED' and norm(text) == norm(correction['text'])
         prior_resolution = resolution
         text, confidence = correction['text'], correction['confidence']
         resolution = 'CONTEXT_CORRECTION: ' + correction['evidence'] + '; RAW: ' + alternatives
-        if confirmed_same_text:
+        if final:
+            # Raw hypotheses stay in raw_transcript/stt_* columns; evidence stays in transcript-corrections.json.
+            resolution = final
+        elif confirmed_same_text:
             confidence = 'CONFIRMED'
             resolution = prior_resolution + '; ' + resolution
     return {'raw_transcript': raw, 'final_transcript': text, 'english_text': text,

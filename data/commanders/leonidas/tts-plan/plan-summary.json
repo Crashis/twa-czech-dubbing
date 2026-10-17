@@ -1,13 +1,13 @@
 {
   "commander": "leonidas",
   "safe_spoken_media_ids": 257,
-  "research_voice_lines_sha256": "f1a13fba0e1ea4ef232d080c0dc169311470ba0991e2a5ad48170095590dbc67",
-  "translation_memory_content_sha256": "2ffd9a60c9abd5d0fdc56baeeb1ae7cd2fe4cb5088261225d4c2516057d1ea95",
-  "english_transcript_complete": 256,
+  "research_voice_lines_sha256": "2bb12ca5ac089757452950b7a360940ee92cd53fb0f14d1ffd803bd8eba917ba",
+  "translation_memory_content_sha256": "1657e287201981573533ee36926f0fdbbfc3cf58b27cb2f53763f4d5f0ea9c82",
+  "english_transcript_complete": 257,
   "english_candidates_nonempty": 257,
   "czech_translations_prepared": 257,
-  "translations_with_reliable_english": 256,
-  "provisional_english": 1,
+  "translations_with_reliable_english": 257,
+  "provisional_english": 0,
   "manual_transcript_missing": 0,
   "unique_tts_performances": 211,
   "duplicate_ids_saved": 46,
@@ -24,12 +24,10 @@
     "498408514",
     "693654747"
   ],
-  "manual_transcript_review_remaining": 1,
-  "manual_review_ids": [
-    "12766875"
-  ],
-  "original_review_targets_resolved": 2,
-  "ready_for_elevenlabs": false,
+  "manual_transcript_review_remaining": 0,
+  "manual_review_ids": [],
+  "original_review_targets_resolved": 3,
+  "ready_for_elevenlabs": true,
   "tts_api_calls": 0,
   "human_listening": "NOT_RUN",
   "audio_encoding": "NOT_RUN"

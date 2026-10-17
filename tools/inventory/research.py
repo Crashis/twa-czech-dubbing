@@ -3,6 +3,7 @@ import argparse
 from concurrent.futures import ThreadPoolExecutor
 import json
 from pathlib import Path
+import re
 
 from tools.inventory.names import fnv1
 from tools.inventory.original_audio import extract_decode, private_directory, sha256
@@ -63,6 +64,48 @@ def sha256_bytes(raw):
     return hashlib.sha256(raw).hexdigest()
 
 
+def emote_pool_events(usage, spec, kinds, max_variant=9):
+    """Exact FNV-1 names for unnamed Events that play Sounds in the commander's own emote pools.
+
+    The stem is taken from the commander's already named emote Events. A candidate
+    <stem><kind>_<n> is kept only when its hash equals an unnamed Event playing a
+    sibling Sound of those Events; a hash elsewhere in the bank is never accepted.
+    """
+    owner = 'commander:' + spec['actor_name']
+    stems, pools = set(), set()
+    for refs in usage.refs.values():
+        for ref in refs:
+            event = usage.event_names.get(ref['event_id'], {}) if ref['event_type'] == 'Event' else {}
+            match = re.search(r'(?i)_emo(?:te)?_', event.get('name', ''))
+            if 'emote' not in ref['bank'] or event.get('owner') != owner or not match:
+                continue
+            stems.add(event['name'][:match.end()])
+            sound = usage.nodes[ref['bank']][ref['sound_id']]
+            pools.update((ref['bank'], int(p['value'])) for p in sound.get('DirectParentID', []))
+    unnamed = {}
+    for bank, parent in sorted(pools):
+        for child in usage.nodes[bank].get(parent, {}).get('children', []):
+            node = usage.nodes[bank].get(int(child['value']), {})
+            if node.get('type') == 'CAkSound':
+                for kind, eid, _ in usage.reverse_roots(bank, node['id']):
+                    if kind == 'Event' and eid not in usage.event_names:
+                        unnamed[eid] = (bank, parent)
+    found = {}
+    for stem in sorted(stems):
+        for kind in kinds:
+            for number in range(max_variant + 1):
+                name = f'{stem}{kind}_{number}'
+                eid = fnv1(name)
+                if eid not in unnamed:
+                    continue
+                require(eid not in found or found[eid]['name'].lower() == name.lower(), 'Conflicting emote pool event hash')
+                found[eid] = {'name': name, 'owner': owner, 'bank': unnamed[eid][0], 'pool_container_id': unnamed[eid][1],
+                              'source': 'emote parent pool of the commander\'s localized emote Events',
+                              'normalization': 'exact FNV-1 of commander emote stem + candidate kind/variant, '
+                                               'matched only against an unnamed Event playing a Sound in that pool'}
+    return found
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--workspace', required=True)
@@ -81,6 +124,9 @@ def main():
     review.add_argument('--output', default='stt-review-shared-jobs.json')
     emotes = sub.add_parser('emote-events')
     emotes.add_argument('--localization', required=True, help='Original localization PACK containing chat tags')
+    pool = sub.add_parser('emote-pool-events')
+    pool.add_argument('--kinds', required=True, help='Comma-separated candidate emote kinds; only exact FNV-1 pool matches are kept')
+    pool.add_argument('--max-variant', type=int, default=9)
     decode = sub.add_parser('decode')
     decode.add_argument('--pack', required=True)
     decode.add_argument('--canonical-sha256', required=True)
@@ -99,7 +145,7 @@ def main():
     if args.commander:
         require(set(args.commander) <= {s['id'] for s in specs}, 'Unknown workspace commander')
         specs = [s for s in specs if s['id'] in args.commander]
-    if args.command in {'enumerate', 'audit'}:
+    if args.command in {'enumerate', 'audit', 'emote-pool-events'}:
         usage = workspace_graph(workspace)
     if args.command == 'enumerate':
         for spec in specs:
@@ -140,6 +186,19 @@ def main():
         events.update(added)
         save(workspace/'event-names.json', events)
         print(json.dumps({'chat_tag_events_matched': len(found), 'added': {k: v['name'] for k, v in added.items()}}))
+    elif args.command == 'emote-pool-events':
+        events = load(workspace/'event-names.json')
+        kinds = [k.strip() for k in args.kinds.split(',') if k.strip()]
+        added = {}
+        for spec in specs:
+            for eid, event in emote_pool_events(usage, spec, kinds, args.max_variant).items():
+                prior = events.get(str(eid))
+                require(not prior or prior['owner'] == event['owner'], 'Conflicting event-name hash')
+                if not prior:
+                    added[str(eid)] = event
+        events.update(added)
+        save(workspace/'event-names.json', events)
+        print(json.dumps({'added': {k: v['name'] for k, v in added.items()}}))
     elif args.command == 'decode':
         for spec in specs:
             ids = load(workspace/spec['id']/'graph-inventory.json')

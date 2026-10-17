@@ -1,6 +1,6 @@
 # Přidání dalšího commandera
 
-Postup navazuje na Hannibala. Leonidas, Scipio Africanus, Spartacus a Germanicus mají samostatná výzkumná metadata v `research/` a textový plán v `tts-plan/`; nejde o instalovatelné releasy. Další commander se do existujícího soukromého workspace přidává s volbou `--commander`, aby se nepřepsaly dřívější výsledky. Offline inventuru a její validační příkazy popisuje [VOICE_INVENTORY](VOICE_INVENTORY.md), následnou přípravu českého textového plánu [TTS_PREPARATION](TTS_PREPARATION.md). Nový commander je nový dataset a release nad ověřeným originálem, nikoli další zásah do již modifikovaného PACKu. `--commander` vybírá manifest, ne automatickou sadu všech nainstalovaných hlasů.
+Postup navazuje na Hannibala. Leonidas, Scipio Africanus, Spartacus, Germanicus a Zhuge Liang mají samostatná výzkumná metadata v `research/` a textový plán v `tts-plan/`; nejde o instalovatelné releasy. Další commander se do existujícího soukromého workspace přidává s volbou `--commander`, aby se nepřepsaly dřívější výsledky. Offline inventuru a její validační příkazy popisuje [VOICE_INVENTORY](VOICE_INVENTORY.md), následnou přípravu českého textového plánu [TTS_PREPARATION](TTS_PREPARATION.md). Nový commander je nový dataset a release nad ověřeným originálem, nikoli další zásah do již modifikovaného PACKu. `--commander` vybírá manifest, ne automatickou sadu všech nainstalovaných hlasů.
 
 ## 1. Základ, banky a inventory
 
@@ -11,7 +11,7 @@ Postup navazuje na Hannibala. Leonidas, Scipio Africanus, Spartacus a Germanicus
 5. Inventarizujte `DialogueEvent` ID a pořadí argumentových skupin. Kořen decision tree je sentinel. Ukládejte skutečné podmínky, váhy, pravděpodobnosti a target; nulová větev znamená žádné audio.
 6. Rozviňte `audioNodeId` přes kontejnery do `CAkSound`; kontrolujte children/playlist, cykly, neznámé uzly a zděděné vlastnosti mute/loop. Identifikujte externí `sourceID` / Media ID a codec plugin. Sound ID a Media ID nezaměňujte.
 7. Zpracujte také běžné `CAkEvent → CAkActionPlay` vazby, důležité zejména pro emote wheel. `voice_map` vrací event reference i všechny SoundReference napříč bankami. Plugin bez externího Vorbis média není automaticky chybějící WEM.
-8. Pro kandidátní názvy použijte lowercase **FNV-1**, nikoli FNV-1a: `python -B -m tools.inventory.names Commander_Hannibal`. Hashová shoda se musí opřít o význam skupiny a další evidence; volné hledání jmen libovolných uzlů je náchylné ke kolizím. U Hannibala pomohly localization/ability tokeny a vazba `Play_<chat-tag-stem>`, někdy s `-` nahrazeným `_`.
+8. Pro kandidátní názvy použijte lowercase **FNV-1**, nikoli FNV-1a: `python -B -m tools.inventory.names Commander_Hannibal`. Hashová shoda se musí opřít o význam skupiny a další evidence; volné hledání jmen libovolných uzlů je náchylné ke kolizím. U Hannibala pomohly localization/ability tokeny a vazba `Play_<chat-tag-stem>`, někdy s `-` nahrazeným `_`. Čínští commandeři používají `Play_<ACTOR>_EMO_<kind>_<n>`. Emote bez chat-tag řádku (u Zhuge Lianga `follow`, `help`, `stop`) dohledá `emote-pool-events`, ale jen uvnitř vlastního emote poolu commandera.
 
 ## 2. Vlastnictví, ticho a původní audio
 

@@ -907,7 +907,7 @@ Metadata only. Original WEM and decoded WAV files are held in the private comman
 | 696914439 | CULTURE_SHARED / NO_SHARED | CONVERSATIONAL | Today they die! | HIGH | battle cry vs. enemy culture (2nd vo_culture = enemy culture) by phase state_3400800153; semantic context inferred from sibling content and prior research |
 | 697353786 | COMMANDER_SPECIFIC / YES | BATTLE_EVENT | We've been hurt by our allies' countermeasures! | HIGH | battle event: your units are damaged by allied stakes |
 | 697710476 | GLOBAL_SHARED / NO_SHARED | CONVERSATIONAL | LET NO GOD LIVE! | HIGH | battle cry vs. enemy culture (2nd vo_culture = enemy culture) by phase state_3400800153; semantic context inferred from sibling content and prior research |
-| 697820721 | COMMANDER_SPECIFIC / YES | ORDER | Strike through! | MEDIUM | unit ability ordered: Execute |
+| 697820721 | COMMANDER_SPECIFIC / YES | ORDER | Strike through! | HIGH | unit ability ordered: Execute |
 | 697822950 | COMMANDER_SPECIFIC / YES | EMOTE | Our cause is just! | CONFIRMED | player selects emote: quote |
 | 698256082 | CULTURE_SHARED / NO_SHARED | CONVERSATIONAL | They hold up before us! | MEDIUM | battle cry vs. enemy culture (2nd vo_culture = enemy culture) by phase state_3400800153; semantic context inferred from sibling content and prior research |
 | 699505853 | COMMANDER_SPECIFIC / YES | ORDER | Ready tar pits! | HIGH | unit ability ordered: deployables place tar |

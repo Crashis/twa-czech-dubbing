@@ -41,7 +41,7 @@ Commander-specific safe Media IDs only. English MEDIUM/UNKNOWN wording and its C
 | 174044037 | For Rome! | Za Řím! | PREPARED | 174044037 | eleven_v3 | MEDIUM |
 | 183642093 | Feel Rome's wrath! | Pocítíte hněv Říma! | PREPARED | 183642093 | eleven_v4 | LOW |
 | 186091635 | Aim! Loose! | Mířit! Pal! | PREPARED | 186091635 | eleven_v4 | LOW |
-| 191571653 | Their flank's exposed! | Křídlo je odkryté! | PROVISIONAL_ENGLISH | 191571653 | eleven_v4 | LOW |
+| 191571653 | The flank's exposed! | Křídlo je odkryté! | PREPARED | 191571653 | eleven_v4 | LOW |
 | 194281811 | Prepare for war! | Připravte se na válku! | PREPARED | 194281811 | eleven_v4 | MEDIUM |
 | 202098299 | Defend yourselves! | Braňte se! | PREPARED | 202098299 | eleven_v4 | LOW |
 | 206513629 | Forward! | Vpřed! | PREPARED | 206513629 | eleven_v4 | MEDIUM |
@@ -53,7 +53,7 @@ Commander-specific safe Media IDs only. English MEDIUM/UNKNOWN wording and its C
 | 232011857 | Quick march! | Rychlý pochod! | PREPARED | 232011857 | eleven_v4 | MEDIUM |
 | 234223535 | Ineffective! | Bez účinku! | PREPARED | 149294972 | eleven_v4 | LOW |
 | 236597936 | Back! Back! | Zpátky! Zpátky! | PREPARED | 236597936 | eleven_v4 | MEDIUM |
-| 238862791 | Attack that flank! | Útočte na to křídlo! | PROVISIONAL_ENGLISH | 238862791 | eleven_v4 | LOW |
+| 238862791 | Attack the flank! | Útočte na křídlo! | PREPARED | 238862791 | eleven_v4 | LOW |
 | 243799839 | Feel Rome's wrath! | Pocítíte hněv Říma! | PREPARED | 183642093 | eleven_v4 | LOW |
 | 245811885 | No mercy! | Bez milosti! | PREPARED | 245811885 | eleven_v4 | MEDIUM |
 | 249978945 | I'm with you! | Jsem s vámi! | PREPARED | 249978945 | eleven_v4 | MEDIUM |
@@ -242,7 +242,7 @@ Commander-specific safe Media IDs only. English MEDIUM/UNKNOWN wording and its C
 | 1016066632 | Mark your targets! | Označte cíle! | PREPARED | 1016066632 | eleven_v4 | LOW |
 | 1018486780 | Feel Rome's pride! | Poznejte hrdost Říma! | PREPARED | 380207788 | eleven_v4 | LOW |
 | 1021581149 | BATTLE CALLS! | Bitva volá! | PREPARED | 1021581149 | eleven_v4 | LOW |
-| 1022842783 |  |  | NEEDS_MANUAL_TRANSCRIPTION | 1022842783 | eleven_v4 | MEDIUM |
+| 1022842783 | Onward! | Kupředu! | PREPARED | 1022842783 | eleven_v4 | MEDIUM |
 | 1025295816 | Charge them down! | Rozdrťte je útokem! | PREPARED | 355292449 | eleven_v3 | LOW |
 | 1026965979 | Spare none! | Bez milosti! | PREPARED | 1026965979 | eleven_v3 | LOW |
 | 1027445339 | Give them death! | Zabte je! | PREPARED | 638584696 | eleven_v3 | LOW |

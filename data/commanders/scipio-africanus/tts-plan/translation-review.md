@@ -1,6 +1,6 @@
 # Scipio Africanus — translation review
 
-Safe spoken IDs: 249. Czech drafts: 248. English-supported drafts: 246. Provisional English: 2. Missing English: 1.
+Safe spoken IDs: 249. Czech drafts: 249. English-supported drafts: 249. Provisional English: 0. Missing English: 0.
 
 Unique future performances: 207; repeated Media IDs covered: 42. Byte-identical original WEM duplicate groups: 0; exact decoded PCM duplicates with different WEM bytes: 42. Model routing: eleven_v3 13, eleven_v4 194 per unique performance.
 
@@ -10,8 +10,8 @@ The original PCM fingerprint plus matching English/Czech wording defines a perfo
 
 High WEM budget risk IDs (4): 87526927, 105217579, 745500377, 1031813807.
 
-Originally disputed IDs resolved with local context/phonetic evidence: 2. Individual decisions and the unresolved candidate wording are in `transcript-review-decisions.csv`.
+Originally disputed IDs resolved with local context/phonetic evidence: 2. Human-confirmed by the project owner: 0; resolved by the independent second opinion: 3 (labels in `transcript_resolution`, evidence in shared `transcript-corrections.json`). Individual decisions and the unresolved candidate wording are in `transcript-review-decisions.csv`.
 
-Manual English review: 191571653, 238862791, 1022842783. See `manual-transcript-review.md` in the research folder and `transcript-review-decisions.csv` here.
+Manual English review: none. See `manual-transcript-review.md` in the research folder and `transcript-review-decisions.csv` here.
 
-READY FOR ELEVENLABS: **NO**. No ElevenLabs request, audio generation, game write or human listening is claimed.
+READY FOR ELEVENLABS: **YES**. No ElevenLabs request, audio generation, game write or human listening is claimed.

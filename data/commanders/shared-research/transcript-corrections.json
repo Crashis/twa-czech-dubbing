@@ -230,9 +230,10 @@
     "evidence": "small.en wording; exact sword_parry ability resolves Harry/Parry and blues/blows homophones."
   },
   "191571653": {
-    "text": "Their flank's exposed!",
-    "confidence": "MEDIUM",
-    "evidence": "Provisional grammatical correction from base.en Their flags exposed and medium.en Theyre flanks exposed; exposed-flanks ability context. Article/number needs listening review."
+    "text": "The flank's exposed!",
+    "confidence": "HIGH",
+    "resolution": "SECOND_OPINION_RESOLVED",
+    "evidence": "Independent second opinion (shared-research/manual-transcript-second-opinion.md), applied on request: coda = nasal murmur, velar burst, voiceless /s/ (flank's, not flag's), contracted 's; central determiner vowel; Exposed Flanks template 'The flank is exposed!' (Leonidas, Spartacus); medium.en forced choice and +0.5 s alternative agree."
   },
   "206513629": {
     "text": "Forward!",
@@ -250,9 +251,10 @@
     "evidence": "base.en and medium.en agree; quick_march key resolves small.en Quickmage."
   },
   "238862791": {
-    "text": "Attack that flank!",
-    "confidence": "MEDIUM",
-    "evidence": "base.en wording; small.en has the instead of that and medium.en agrees on that flank with a different verb; exposed-flanks context. Article remains a review item."
+    "text": "Attack the flank!",
+    "confidence": "HIGH",
+    "resolution": "SECOND_OPINION_RESOLVED",
+    "evidence": "Independent second opinion (shared-research/manual-transcript-second-opinion.md), applied on request: isolated first word 'attack' and tail 'flank' in all three models (medium 'I tagged' is an LM artifact); middle vowel is not this speaker's /ae/ (the, not that); Spartacus and Germanicus use the identical line."
   },
   "245811885": {
     "text": "No mercy!",
@@ -445,10 +447,10 @@
     "evidence": "small.en and medium.en agree; exact Push ability resolves base.en Hush."
   },
   "1022842783": {
-    "text": "",
-    "confidence": "UNKNOWN",
-    "resolution": "NEEDS_MANUAL_TRANSCRIPTION",
-    "evidence": "User explicitly deferred this utterance to manual transcription; do not infer wording. Keep raw ASR, original WAV and all structural/audio metadata."
+    "text": "Onward!",
+    "confidence": "HIGH",
+    "resolution": "SECOND_OPINION_RESOLVED",
+    "evidence": "Independent second opinion (shared-research/manual-transcript-second-opinion.md), applied on request: phonetic /Qnw@d/ (open back vowel, nasal, /w/, central vowel, voiced closure); medium-speed-stance set Moving out/Forward/March/Advance/Onward is identical for Leonidas and Germanicus; their confirmed Onward recordings share the skeleton. Audio-only first listen was Onward."
   },
   "1026965979": {
     "text": "Spare none!",
@@ -461,9 +463,10 @@
     "evidence": "small.en and medium.en agree; quick_reload context. base.en No retained as alternative."
   },
   "12766875": {
-    "text": "We have been damaged by friendly fire!",
-    "confidence": "MEDIUM",
-    "evidence": "Largest local model gives this wording in both original and +0.5s/beam10 analysis; smaller models say Were being. Tense remains explicitly uncertain."
+    "text": "We're being damaged by friendly fire!",
+    "confidence": "CONFIRMED",
+    "resolution": "HUMAN_CONFIRMED",
+    "evidence": "Final human decision by the project owner (2026-10-17), applied verbatim after the independent second opinion; no further analysis."
   },
   "771371121": {
     "text": "As you were!",
@@ -922,8 +925,9 @@
   },
   "697820721": {
     "text": "Strike through!",
-    "confidence": "MEDIUM",
-    "evidence": "medium.en and alternative unprompted medium.en +0.5s/beam10 say STRIKE THROUGH; base/small Strike two; true/through/two remain ambiguous for Execute; Crixus Execute lines are a different script."
+    "confidence": "HIGH",
+    "resolution": "SECOND_OPINION_RESOLVED",
+    "evidence": "Independent second opinion (shared-research/manual-transcript-second-opinion.md), applied on request: word-2 onset is a flat-high dental fricative /T/ after the /k/ release, no postalveolar /tr/ frication and no stop burst; medium.en 'through' on all variants and samples, small.en on all beam runs; 'true' never decoded and lowest in forced choice."
   },
   "14679398": {
     "text": "Place the caltrops!",
@@ -1234,5 +1238,292 @@
     "text": "Abandon the engines!",
     "confidence": "HIGH",
     "evidence": "All models agree on the words; base.en/small.en spelling and punctuation retained."
+  },
+  "939230241": {
+    "text": "Ambiorix is no more.",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor is exactly Commander_Ambiorix; ASR 'MB Oryx'/'mb-orix' is a phonetic rendering of the name. Proper-name spelling corrected (forced-choice scoring cannot rank rare names)."
+  },
+  "474020046": {
+    "text": "Arminius, outmatched.",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor is exactly Commander_Arminius; ASR 'Army news' is a phonetic rendering of the name. Proper-name spelling corrected (forced-choice scoring cannot rank rare names)."
+  },
+  "957340577": {
+    "text": "You fought well, Boudica.",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor is exactly Commander_Boudica; ASR 'Buddika'/'Vudica' is a phonetic rendering of the name. Proper-name spelling corrected (forced-choice scoring cannot rank rare names). base/small forced choice prefer Boudica."
+  },
+  "91255460": {
+    "text": "Your ambition ends here, Cao Cao.",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor is exactly Commander_Cao_Cao; ASR 'CAOCAO'/'CAO-CAO' is a phonetic rendering of the name. Proper-name spelling corrected (forced-choice scoring cannot rank rare names)."
+  },
+  "960341633": {
+    "text": "Cynane falls.",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor is exactly Commander_Cynane; ASR 'Canane' is a phonetic rendering of the name. Proper-name spelling corrected (forced-choice scoring cannot rank rare names). Same spelling as the existing project Cynane correction."
+  },
+  "712027364": {
+    "text": "It is the end, Hasdrubal.",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor is exactly Commander_Hasdrubal; ASR 'has dribble'/'has Drupal' is a phonetic rendering of the name. Proper-name spelling corrected (forced-choice scoring cannot rank rare names)."
+  },
+  "432561087": {
+    "text": "Massinissa is defeated.",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor is exactly Commander_Massinissa; ASR 'Masinissa' is a phonetic rendering of the name. Proper-name spelling corrected (forced-choice scoring cannot rank rare names). Spelling follows the actor name."
+  },
+  "851448514": {
+    "text": "Miltiades is done.",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor is exactly Commander_Miltiades; ASR 'Multities' is a phonetic rendering of the name. Proper-name spelling corrected (forced-choice scoring cannot rank rare names). medium.en and its forced choice give Miltiades."
+  },
+  "316156700": {
+    "text": "Farewell, Vercingetorix.",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor is exactly Commander_Vercingetorix; ASR base 'vs. Jatorix' is a phonetic rendering of the name. Proper-name spelling corrected (forced-choice scoring cannot rank rare names). small/medium forced choice prefer the name."
+  },
+  "3614804": {
+    "text": "Time is up, Xanthippus.",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor is exactly Commander_Xanthippus; ASR base 'Zenthippus' is a phonetic rendering of the name. Proper-name spelling corrected (forced-choice scoring cannot rank rare names). small and medium agree."
+  },
+  "870350211": {
+    "text": "Face the blade, Scipio.",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor is exactly Commander_Scipio; ASR base 'Sippyo' is a phonetic rendering of the name. Proper-name spelling corrected (forced-choice scoring cannot rank rare names). small and medium agree."
+  },
+  "156960578": {
+    "text": "Crixus falls.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; casing normalized."
+  },
+  "489577907": {
+    "text": "You fought well, friend.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; casing/punctuation normalized."
+  },
+  "801277871": {
+    "text": "Your arrogance ends, Lu Bu!",
+    "confidence": "CONFIRMED",
+    "resolution": "HUMAN_CONFIRMED",
+    "evidence": "Final human decision by the project owner (2026-10-17), applied verbatim after the independent second opinion; no further analysis."
+  },
+  "196347847": {
+    "text": "There was... much more... to do.",
+    "confidence": "HIGH",
+    "evidence": "Laboured dying delivery: all three models render the breaths between words as \"a euro\". With the gasp tokens held constant, forced-choice favours this wording over \"so much more\" and \"to be done\" in every model and variant; ellipses mark the breaths."
+  },
+  "761245337": {
+    "text": "I must have made... some mistake.",
+    "confidence": "HIGH",
+    "evidence": "Laboured dying delivery: all three models render the breaths between words as \"a euro\". With the gasp tokens held constant, forced-choice favours this wording over \"a mistake\" and \"some mistakes\" in every model and variant; ellipses mark the breaths."
+  },
+  "914266745": {
+    "text": "I do not... understand.",
+    "confidence": "HIGH",
+    "evidence": "Laboured dying delivery: all three models render the breaths between words as \"a euro\". With the gasp tokens held constant, forced-choice favours this wording over \"don't\" and \"understand this\" in every model and variant; ellipses mark the breaths."
+  },
+  "179263288": {
+    "text": "I am Zhuge Liang.",
+    "confidence": "HIGH",
+    "evidence": "Commander-select self-introduction. small/base \"I am such a yang\", medium \"I am such a Liang\"; the same garble occurs in Intimidate 629777005 and the standalone name 343019290 is heard as \"ZHUZHU LIANG\". Proper name corrected; forced choice cannot rank the rare name."
+  },
+  "629777005": {
+    "text": "You face Zhuge Liang.",
+    "confidence": "HIGH",
+    "evidence": "Intimidate ability (siblings \"You have no chance.\", \"I am superior.\"). Same \"such a yang/Liang\" rendering of the commander name as 179263288; proper name corrected."
+  },
+  "343019290": {
+    "text": "Zhuge Liang.",
+    "confidence": "HIGH",
+    "evidence": "Commander-select name callout; medium \"ZHUJI/ZHUZHU LIANG\", small \"Zuchel Yang\"; small and medium forced choice prefer \"Zhuge Liang.\" over the base hypothesis."
+  },
+  "451405982": {
+    "text": "And so, the crouching tiger unfurls.",
+    "confidence": "HIGH",
+    "evidence": "Lore epithet would be \"crouching dragon\", so it was tested explicitly: Forced-choice (3 models x raw/0.8x/band-pass): \"tiger\" beats \"crouching dragon\" by 35-48 and \"sleeping dragon\" by >70 log-prob in every model/variant. The recording says tiger."
+  },
+  "481242422": {
+    "text": "The crouching tiger is ready.",
+    "confidence": "HIGH",
+    "evidence": "As 451405982: Forced-choice (3 models x raw/0.8x/band-pass): \"tiger\" beats \"crouching dragon\" by 34-47 in every model/variant."
+  },
+  "32253270": {
+    "text": "Watch the wind, Zhou Yu!",
+    "confidence": "CONFIRMED",
+    "resolution": "HUMAN_CONFIRMED",
+    "evidence": "Final human decision by the project owner (2026-10-17), applied verbatim after the independent second opinion; no further analysis."
+  },
+  "60593418": {
+    "text": "Man siege weapons.",
+    "confidence": "HIGH",
+    "evidence": "small and medium agree; base \"Manseach weapons\" is a fragment. Siblings \"Man the engines.\", \"Prepare siege weapons.\""
+  },
+  "152272760": {
+    "text": "Hunt them down.",
+    "confidence": "HIGH",
+    "evidence": "small/medium agree; Forced-choice (3 models x raw/0.8x/band-pass): small/medium prefer \"Hunt\" by 21-34. Spot ability."
+  },
+  "293317973": {
+    "text": "Apace.",
+    "confidence": "HIGH",
+    "evidence": "Medium-speed stance; \"A pace\" is the same sound. Spartacus uses \"Apace!\" in this slot."
+  },
+  "410880649": {
+    "text": "Watch the flanks.",
+    "confidence": "HIGH",
+    "evidence": "medium.en \"flanks\", forced choice +27; coda shows nasal murmur, velar burst, voiceless /s/. Siblings in ability 420893960: \"Plug any gaps.\", \"Secure the wings.\""
+  },
+  "704887435": {
+    "text": "Mark targets.",
+    "confidence": "HIGH",
+    "evidence": "base/small agree; forced choice favours \"Mark\" in base/small and ties in medium. Mark target ability."
+  },
+  "755199681": {
+    "text": "Loose!",
+    "confidence": "HIGH",
+    "evidence": "Focus fire archery command; base \"lose\" is a homophone. small/medium \"Loose\"."
+  },
+  "793569560": {
+    "text": "Ready those stakes.",
+    "confidence": "HIGH",
+    "evidence": "Place-stakes ability; small/medium \"steaks\" is a homophone. Siblings \"Stakes out.\", \"Deploy stakes.\""
+  },
+  "937081451": {
+    "text": "On to glory.",
+    "confidence": "HIGH",
+    "evidence": "Forced-choice (3 models x raw/0.8x/band-pass): \"On to glory\" wins in all three models; \"unto\" is the same sound."
+  },
+  "343793902": {
+    "text": "Place caltrops.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; \"caltroops\" spelling normalized (place caltrops ability)."
+  },
+  "1007348212": {
+    "text": "Caltrops.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; \"Caltroops\" spelling normalized (place caltrops ability)."
+  },
+  "162226608": {
+    "text": "Do not let the base be captured. Back!",
+    "confidence": "HIGH",
+    "evidence": "small and medium decode \"Back.\" after a ~1 s pause; the isolated tail is \"Back.\" in both. base drops it."
+  },
+  "147907871": {
+    "text": "Our forces return to the fight.",
+    "confidence": "HIGH",
+    "evidence": "base and small agree; medium \"Are forces\" is a homophone."
+  },
+  "167391665": {
+    "text": "Our allies' countermeasures damage us.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree on the words; identical line in Hannibal's script for this event."
+  },
+  "344332539": {
+    "text": "Enduring warriors return to the fight.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; question mark/casing normalized."
+  },
+  "963807519": {
+    "text": "Allied troops are assaulting us.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; question mark normalized (Hannibal: \"Allied troops are assaulting us!\")."
+  },
+  "115055483": {
+    "text": "Think. Plan. Prepare.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; punctuation normalized."
+  },
+  "260541822": {
+    "text": "Apologies, but no.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; casing normalized."
+  },
+  "267627312": {
+    "text": "Worry not, I am with you.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; casing normalized."
+  },
+  "323694948": {
+    "text": "To battle.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; casing normalized."
+  },
+  "355155087": {
+    "text": "Quickly, send help.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; casing normalized."
+  },
+  "439937337": {
+    "text": "There. On the wings, weakness.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; punctuation as in base/small."
+  },
+  "472511290": {
+    "text": "Cannot, or will not.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; casing/punctuation normalized."
+  },
+  "1052699683": {
+    "text": "Into formation.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; casing normalized."
+  },
+  "1070375151": {
+    "text": "Over here.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; casing normalized."
+  },
+  "198106625": {
+    "text": "Barricades, now.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; punctuation normalized."
+  },
+  "337474684": {
+    "text": "Gather information, watch carefully.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; punctuation normalized."
+  },
+  "408570249": {
+    "text": "Artillery, hold.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; punctuation normalized."
+  },
+  "410018146": {
+    "text": "Wait, watch, then strike.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; punctuation normalized."
+  },
+  "657026126": {
+    "text": "Discard engines.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; punctuation normalized."
+  },
+  "715989759": {
+    "text": "Defensive positions.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; punctuation normalized."
+  },
+  "745388045": {
+    "text": "Quickly, follow.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; punctuation normalized."
+  },
+  "770307179": {
+    "text": "Artillery, cease fire.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; punctuation normalized."
+  },
+  "998195527": {
+    "text": "Allied friendly fire.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; punctuation normalized."
+  },
+  "1058591059": {
+    "text": "Deploy stakes.",
+    "confidence": "HIGH",
+    "evidence": "Three models agree; punctuation normalized."
   }
 }

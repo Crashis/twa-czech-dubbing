@@ -28,14 +28,14 @@ Structural scope: commander voice, culture/unit voice contexts reachable in the 
 | Transcript confidence | All relevant spoken | Commander-specific spoken |
 |---|---:|---:|
 | CONFIRMED | 98 | 98 |
-| HIGH | 1074 | 205 |
-| MEDIUM | 208 | 1 |
+| HIGH | 1075 | 206 |
+| MEDIUM | 207 | 0 |
 | LOW | 26 | 0 |
 | UNKNOWN | 0 | 0 |
 
-READY FOR TRANSLATION/TTS: **NO**.
+READY FOR TRANSLATION/TTS: **YES**.
 
-Commander-specific wording review items: **1**. Missing transcripts across the primary inventory: **0**.
+Commander-specific wording review items: **0**. Missing transcripts across the primary inventory: **0**.
 
 Ownership safety does not approve a transcript, translation or voice performance. MEDIUM/LOW/UNKNOWN text must be resolved before generating the affected performance. Czech text remains empty. Delivery/model fields are proposals using the project’s historical routing, with no API availability or generation claim.
 
@@ -74,7 +74,7 @@ Open commander-specific wording review (audio paths are relative to the private 
 
 | Media ID | Candidate text | Confidence / resolution | Archive WAV reference |
 |---|---|---|---|
-| 697820721 | Strike through! | MEDIUM | `commander-research/spartacus/decoded-wav/697820721.wav` |
+| none | | | |
 
 Corpus voice Sounds without a playback root:
 

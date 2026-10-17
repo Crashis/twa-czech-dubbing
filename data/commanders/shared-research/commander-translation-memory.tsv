@@ -22,8 +22,8 @@ Arminius is dead, and his men fear us!	Arminius je mrtev a jeho muži se nás bo
 Artemis, bless us!	Artemido, stůj při nás!
 As you were!	Jako předtím!
 At them!	Na ně!
-Attack that flank!	Útočte na to křídlo!
 Attack the enemy flank!	Útočte na nepřátelské křídlo!
+Attack the flank!	Útočte na křídlo!
 Attack!	Útok!
 Back! Back!	Zpátky! Zpátky!
 Barricades!	Zátarasy!
@@ -289,6 +289,7 @@ The enemy draws first blood! Fight!	Nepřítel prolil první krev! Bojujte!
 The enemy holds our base!	Nepřítel drží naši základnu!
 The enemy takes first blood!	Nepřítel prolil první krev!
 The flank is exposed!	Křídlo je odkryté!
+The flank's exposed!	Křídlo je odkryté!
 The gods honor us with victory!	Bohové nás poctili vítězstvím!
 The Iceni queen is no more!	Královna Icenů je mrtvá!
 The Numidian king has been put to death!	Numidský král byl popraven!
@@ -298,7 +299,6 @@ THE SHAME!	Ta hanba!
 The traitor Arminius is slain!	Zrádce Arminius je mrtev!
 Their base is ours!	Jejich základna je naše!
 Their blades are useless!	Jejich čepele nám nic nezmohou!
-Their flank's exposed!	Křídlo je odkryté!
 Their impaled bodies will be our wall! Place stakes!	Jejich těla na kůlech budou hradbou! Kůly na místa!
 They cannot break us!	Nás nezlomí!
 They have our base!	Zabrali naši základnu!
@@ -330,7 +330,6 @@ We are Spartans! We will rise again!	Jsme Sparťané! Znovu povstaneme!
 We are your doom!	Jsme vaše zkáza!
 We fight in the shade!	Budeme bojovat ve stínu!
 We fire on allied units! Hold!	Pálíme do spojenců! Zastavte!
-We have been damaged by friendly fire!	Zasáhla nás palba vlastních!
 We have ended Spartacus!	Spartaka jsme dorazili!
 We have first blood! Press the advantage!	První krev je naše! Využijte převahu!
 We have killed Cynane!	Zabili jsme Kynané!
@@ -352,6 +351,7 @@ We will not!	To nedovolíme!
 We will return to fight another day!	Vrátíme se bojovat jindy!
 We'll take what's theirs!	Vezmeme jim, co mají!
 We're being attacked!	Útočí na nás!
+We're being damaged by friendly fire!	Zasáhla nás palba vlastních!
 We're moments from victory!	Vítězství je na dosah!
 We're under attack!	Útočí na nás!
 We've captured that base!	Obsadili jsme tu základnu!

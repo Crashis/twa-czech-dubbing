@@ -48,6 +48,11 @@ def safe_value(name, row):
     return row.get('safe_to_replace_for_commander') or row.get('safe_to_replace_for_' + name, '')
 
 
+def inventory_pairs(new, references):
+    """New research inventories are compared with each other and with every reference."""
+    return [(a, b) for i, a in enumerate(new) for b in new[i + 1:]] + [(a, b) for a in new for b in references]
+
+
 def pair_overlaps(datasets, pairs):
     """Shared IDs per pair; any shared ID that either side may replace is a conflict."""
     safe = {name: {mid for mid, r in data.items() if safe_value(name, r) == 'YES'} for name, data in datasets.items()}
@@ -66,7 +71,7 @@ def main():
     parser.add_argument('--workspace', required=True)
     parser.add_argument('--commander-root', required=True)
     parser.add_argument('--left', required=True)
-    parser.add_argument('--right', required=True)
+    parser.add_argument('--right', help='Optional second new inventory; omit to check one commander against the references')
     parser.add_argument('--reference', action='append', required=True, help='Repeatable read-only comparison inventory')
     parser.add_argument('--output', required=True)
     parser.add_argument('--stem', help='Output basename; defaults to the selected commander IDs')
@@ -79,7 +84,8 @@ def main():
     root, output = Path(args.commander_root), Path(args.output)
     usage = workspace_graph(Path(args.workspace))
     specs = json.loads((Path(args.workspace)/'specs.json').read_text(encoding='utf-8'))
-    order = [args.left, args.right] + args.reference
+    new = [args.left] + ([args.right] if args.right else [])
+    order = new + args.reference
     require(len(set(order)) == len(order), 'Duplicate crosscheck inventory')
     datasets = {}
     for name in order:
@@ -127,12 +133,11 @@ def main():
                      'notes': notes})
     output.mkdir(parents=True, exist_ok=True)
     fields = ['media_id'] + headers + ['other_commanders', 'classification', 'safe', 'notes']
-    filename = args.stem or args.left + '-' + args.right + '-crosscheck'
+    filename = args.stem or '-'.join(new) + '-crosscheck'
     write_csv(output/(filename+'.csv'), rows, fields)
     if args.shared_analysis_output:
         write_csv(output/args.shared_analysis_output, rows, fields)
-    pairs = [(args.left, args.right)] + [(a, b) for a in [args.left, args.right] for b in args.reference]
-    overlaps = pair_overlaps(datasets, pairs)
+    overlaps = pair_overlaps(datasets, inventory_pairs(new, args.reference))
     lines = ['# Cross-commander voice inventory', '',
              'Counts compare primary voice inventories, including relevant shared unit sets. Generic advisor/tutorial references are separate.', '',
              '| Pair | Shared Media IDs | Shared IDs safe for either side | Status | IDs |', '|---|---:|---:|---|---|']
@@ -145,12 +150,12 @@ def main():
               f'Media IDs classified differently by two inventories: **{len(differing)}**'
               + (f" ({', '.join(differing)})" if differing else '') + '.', '',
               '| Explicit speaker with shared ownership | Media ID | Other owners |', '|---|---|---|']
-    for name in [args.left, args.right]:
+    for name in new:
         for mid, r in datasets[name].items():
             if r['explicit_commander_speaker'] == 'YES' and r['sharing_scope'] != 'COMMANDER_SPECIFIC':
                 lines.append(f"| {name} | {mid} | {r['shared_with']} |")
     lines += ['', 'Overlaps with the reference inventories:', '']
-    for name in [args.left, args.right]:
+    for name in new:
         for reference in args.reference:
             ids = set(datasets[name]) & set(datasets[reference])
             classifications = sorted({datasets[name][mid]['sharing_scope'] for mid in ids})
@@ -170,7 +175,7 @@ def main():
               f'Primary-to-generic-advisor duplicate groups: **{len(advisor_groups)}**. Advisor copies are catalogued alongside both research inventories but are not either commander speaking. The duplicate CSV explicitly distinguishes primary_inventories from advisor_reference_inventories.', '',
               'Recording identity does not imply Media ID identity. Ownership and recording deduplication are separate.', '',
               'Culture and unit sets can contain wider fallback reuse. Tone of voice and culture names alone never establish commander ownership.', '']
-    for name in [args.left, args.right]:
+    for name in new:
         advice = root/name/'research/battle-advice-global-reference.csv'
         count = len(read_csv(advice)) if advice.exists() else 0
         lines.append(f'- {name}: {count} file-backed advisor/tutorial reference IDs, excluded from primary voice counts. External-source cookies are not missing WEMs.')

@@ -319,7 +319,7 @@ Metadata only. Original WEM and decoded WAV files are held in the private comman
 | 191268790 | GLOBAL_SHARED / NO_SHARED | ORDER_ACK | Run! | HIGH | unit order acknowledgement: move (speed=* : March!, Moving out!) / run (speed=fast : Double time!, Quick march!); inherited event-level content analysis, not a new runtime observation |
 | 191359942 | GLOBAL_SHARED / NO_SHARED | CONVERSATIONAL | Take their lives! Give nothing back! | HIGH | battle cry vs. enemy culture (2nd vo_culture = enemy culture) by phase state_3400800153; semantic context inferred from sibling content and prior research |
 | 191440313 | GLOBAL_SHARED / NO_SHARED | CONVERSATIONAL | The college roots! | HIGH | allied units fleeing (Allied units are fleeing!); semantic context inferred from sibling content and prior research |
-| 191571653 | COMMANDER_SPECIFIC / YES | ORDER | Their flank's exposed! | MEDIUM | unit ability ordered: exposed flanks |
+| 191571653 | COMMANDER_SPECIFIC / YES | ORDER | The flank's exposed! | HIGH | unit ability ordered: exposed flanks |
 | 192747221 | GLOBAL_SHARED / NO_SHARED | CONVERSATIONAL | Slaughter them! | LOW | battle cry vs. enemy culture (2nd vo_culture = enemy culture) by phase state_3400800153; semantic context inferred from sibling content and prior research |
 | 192951449 | GLOBAL_SHARED / NO_SHARED | ORDER_ACK | Halt! | MEDIUM | unit order acknowledgement: halt / stop (content: Stop!, Hold!, Halt!); inherited event-level content analysis, not a new runtime observation |
 | 194281811 | COMMANDER_SPECIFIC / YES | FRONTEND | Prepare for war! | CONFIRMED | matchmaking / battle search starts with selected commander (static game.dll COMMANDER_FRONTEND_MATCHMAKE_VO_DELAY) |
@@ -402,7 +402,7 @@ Metadata only. Original WEM and decoded WAV files are held in the private comman
 | 237743022 | GLOBAL_SHARED / NO_SHARED | ORDER_ACK | To battle! | HIGH | unit order acknowledgement: aggressive engage / charge-type order (content: To battle!, No mercy!, On to glory!; no game.dll immediate found); inherited event-level content analysis, not a new runtime observation |
 | 237766720 | GLOBAL_SHARED / NO_SHARED | CONVERSATIONAL | I see fair goal! | HIGH | battle cry vs. enemy culture (2nd vo_culture = enemy culture) by phase state_3400800153; semantic context inferred from sibling content and prior research |
 | 238517995 | GLOBAL_SHARED / NO_SHARED | CONVERSATIONAL | We must breach their defenses! | HIGH | assaulting the enemy base / defences (Storm this place!); semantic context inferred from sibling content and prior research |
-| 238862791 | COMMANDER_SPECIFIC / YES | ORDER | Attack that flank! | MEDIUM | unit ability ordered: exposed flanks |
+| 238862791 | COMMANDER_SPECIFIC / YES | ORDER | Attack the flank! | HIGH | unit ability ordered: exposed flanks |
 | 238943532 | GLOBAL_SHARED / NO_SHARED | ORDER_ACK | Run! | HIGH | unit order acknowledgement: move (speed=* : March!, Moving out!) / run (speed=fast : Double time!, Quick march!); inherited event-level content analysis, not a new runtime observation |
 | 239027538 | GLOBAL_SHARED / NO_SHARED | ORDER_ACK | Battle calls! | HIGH | unit order acknowledgement: aggressive engage / charge-type order (content: To battle!, No mercy!, On to glory!; no game.dll immediate found); inherited event-level content analysis, not a new runtime observation |
 | 239834368 | GLOBAL_SHARED / NO_SHARED | CONVERSATIONAL | Every man to their posts! | MEDIUM | defending own base (Man the defences!); semantic context inferred from sibling content and prior research |
@@ -1798,7 +1798,7 @@ Metadata only. Original WEM and decoded WAV files are held in the private comman
 | 1022256558 | GLOBAL_SHARED / NO_SHARED | CONVERSATIONAL | RELEASE! | MEDIUM | firing / loose (Loose!, Fire!, Release!); semantic context inferred from sibling content and prior research |
 | 1022651460 | GLOBAL_SHARED / NO_SHARED | CONVERSATIONAL | Allied units routing! | HIGH | allied units fleeing (Allied units are fleeing!); semantic context inferred from sibling content and prior research |
 | 1022742855 | GLOBAL_SHARED / NO_SHARED | ORDER_ACK | affirmative! | MEDIUM | unit order acknowledgement: aggressive engage / charge-type order (content: To battle!, No mercy!, On to glory!; no game.dll immediate found); inherited event-level content analysis, not a new runtime observation |
-| 1022842783 | COMMANDER_SPECIFIC / YES | ORDER |  | UNKNOWN | unit ability ordered: unit medium speed stance |
+| 1022842783 | COMMANDER_SPECIFIC / YES | ORDER | Onward! | HIGH | unit ability ordered: unit medium speed stance |
 | 1023837182 | GLOBAL_SHARED / NO_SHARED | CONVERSATIONAL | THEY'RE BEHIND US! | MEDIUM | enemy behind us / attacked from the rear (Look to the rear!); semantic context inferred from sibling content and prior research |
 | 1024066129 | GLOBAL_SHARED / NO_SHARED | ORDER_ACK | Onward! | HIGH | unit order acknowledgement: move (speed=* : March!, Moving out!) / run (speed=fast : Double time!, Quick march!); inherited event-level content analysis, not a new runtime observation |
 | 1024357625 | GLOBAL_SHARED / NO_SHARED | CONVERSATIONAL | Move the artillery! | HIGH | loading/preparing artillery; repeated Greek/Roman voice content, exact runtime scheduling not observed |

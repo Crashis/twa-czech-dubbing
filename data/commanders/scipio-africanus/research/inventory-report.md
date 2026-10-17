@@ -28,14 +28,14 @@ Structural scope: commander voice, culture/unit voice contexts reachable in the 
 | Transcript confidence | All relevant spoken | Commander-specific spoken |
 |---|---:|---:|
 | CONFIRMED | 84 | 84 |
-| HIGH | 1400 | 162 |
-| MEDIUM | 325 | 2 |
+| HIGH | 1403 | 165 |
+| MEDIUM | 323 | 0 |
 | LOW | 64 | 0 |
-| UNKNOWN | 1 | 1 |
+| UNKNOWN | 0 | 0 |
 
-READY FOR TRANSLATION/TTS: **NO**.
+READY FOR TRANSLATION/TTS: **YES**.
 
-Commander-specific wording review items: **3**. Missing transcripts across the primary inventory: **1**.
+Commander-specific wording review items: **0**. Missing transcripts across the primary inventory: **0**.
 
 Ownership safety does not approve a transcript, translation or voice performance. MEDIUM/LOW/UNKNOWN text must be resolved before generating the affected performance. Czech text remains empty. Delivery/model fields are proposals using the project’s historical routing, with no API availability or generation claim.
 
@@ -75,9 +75,7 @@ Open commander-specific wording review (audio paths are relative to the private 
 
 | Media ID | Candidate text | Confidence / resolution | Archive WAV reference |
 |---|---|---|---|
-| 191571653 | Their flank's exposed! | MEDIUM | `commander-research/scipio-africanus/decoded-wav/191571653.wav` |
-| 238862791 | Attack that flank! | MEDIUM | `commander-research/scipio-africanus/decoded-wav/238862791.wav` |
-| 1022842783 |  | UNKNOWN / NEEDS_MANUAL_TRANSCRIPTION | `commander-research/scipio-africanus/decoded-wav/1022842783.wav` |
+| none | | | |
 
 Corpus voice Sounds without a playback root:
 

@@ -115,6 +115,33 @@ class OwnershipTests(unittest.TestCase):
         self.assertEqual(found[1571957801]['owner'], 'commander:Commander_Spartacus')
         self.assertEqual(chat_tag_events(rows, {42}, ['Commander_Spartacus'], 'test.loc'), {})
 
+    def test_chinese_emo_event_names_are_emotes(self):
+        graph = usage([event([([7], 2)]), sound(2)])
+        graph.event_names = {5: {'name': 'Play_CHI_A_EMO_follow_1', 'owner': 'commander:Commander_A'},
+                             6: {'name': 'Play_rom_a_emote_quote_hear_me', 'owner': 'commander:Commander_A'}}
+        spec = {'actor_name': 'Commander_A'}
+        self.assertEqual(describe(graph, {'event_type': 'Event', 'event_id': 5}, spec, {}),
+                         ('EMOTE', 'player selects emote: follow', 'HIGH'))
+        self.assertEqual(describe(graph, {'event_type': 'Event', 'event_id': 6}, spec, {})[1], 'player selects emote: quote')
+
+    def test_emote_pool_names_need_exact_hash_inside_the_commanders_own_pool(self):
+        from tools.inventory.research import emote_pool_events
+        named, pooled, foreign = fnv1('Play_CHI_A_EMO_attack_1'), fnv1('Play_CHI_A_EMO_stop_1'), fnv1('Play_CHI_A_EMO_help_1')
+        nodes = [{'id': 30, 'type': 'CAkRanSeqCntr', 'children': [field(31), field(32)], 'actions': []},
+                 {'id': 40, 'type': 'CAkRanSeqCntr', 'children': [field(41)], 'actions': []}]
+        for sid, mid, parent in [(31, 101, 30), (32, 102, 30), (41, 103, 40)]:
+            nodes.append(sound(sid, mid) | {'DirectParentID': [field(parent)]})
+        for eid, target in [(named, 31), (pooled, 32), (foreign, 41)]:
+            nodes += [{'id': eid, 'type': 'CAkEvent', 'actions': [field(eid + 1)], 'children': []},
+                      {'id': eid + 1, 'type': 'CAkActionPlay', 'target': [field(target)], 'children': []}]
+        graph = UsageGraph({'parser_errors_or_skips': [], 'banks': {'battle_vo_emotes.bnk': {'nodes': nodes}}},
+                           {7: 'Commander_A'}, {named: {'name': 'Play_CHI_A_EMO_attack_1', 'owner': 'commander:Commander_A'}})
+        found = emote_pool_events(graph, {'actor_name': 'Commander_A'}, ['stop', 'help'])
+        # 'help' hashes to a real Event too, but it plays outside this commander's pool.
+        self.assertEqual({k: v['name'] for k, v in found.items()}, {pooled: 'Play_CHI_A_EMO_stop_1'})
+        self.assertEqual((found[pooled]['owner'], found[pooled]['pool_container_id']), ('commander:Commander_A', 30))
+        self.assertEqual(emote_pool_events(graph, {'actor_name': 'Commander_B'}, ['stop', 'help']), {})
+
     def test_commander_tutorial_event_is_not_generic_advice(self):
         graph = usage([event([([7], 2)]), sound(2)])
         graph.event_names = {5: {'name': 'Play_A_Tutorial_VO_Request_01', 'owner': 'commander:Commander_A',
@@ -142,6 +169,23 @@ class OwnershipTests(unittest.TestCase):
         selected = pilot_battle_mix(rows, eligible, limit=5)
         self.assertEqual([r['media_id'] for r in selected], ['5', '1', '2', '3', '4'])
 
+    def test_trigger_pilot_takes_one_whole_eligible_group_per_listed_trigger(self):
+        from tools.inventory.research_export import pilot_battle_triggers
+        def pilot_row(mid, category, trigger, group):
+            return {'media_id': str(mid), 'category': category, 'trigger': trigger, 'decision_tree_path': '',
+                    'bank': 'b', 'random_group_id': group, 'event_id': '1'}
+        rows = [pilot_row(1, 'BATTLE_EVENT', 'battle event: one of your units routes', 'g1'),
+                pilot_row(2, 'BATTLE_EVENT', 'battle event: one of your units routes', 'g1'),
+                pilot_row(3, 'ORDER', 'unit ability ordered: unit_brace', 'g2'),
+                pilot_row(4, 'ABILITY', 'commander ability activation: uprising', 'g3'),
+                pilot_row(5, 'ABILITY', 'commander ability activation: uprising', 'g3')]
+        eligible = [r for r in rows if r['media_id'] != '5']
+        # Underscores read as spaces; a partially unsafe group is never split.
+        selected = pilot_battle_triggers(rows, eligible, ['unit brace', 'routes'], limit=5)
+        self.assertEqual([r['media_id'] for r in selected], ['3', '1', '2'])
+        with self.assertRaises(ValueError):
+            pilot_battle_triggers(rows, eligible, ['uprising'], limit=5)
+
     def test_pair_overlap_flags_any_shared_safe_id(self):
         datasets = {'a': {'1': {'safe_to_replace_for_commander': 'YES'}, '2': {'safe_to_replace_for_commander': 'NO_SHARED'}},
                     'b': {'2': {'safe_to_replace_for_commander': 'NO_SHARED'}, '3': {'safe_to_replace_for_commander': 'YES'}},
@@ -151,6 +195,11 @@ class OwnershipTests(unittest.TestCase):
         self.assertEqual(result['a', 'hannibal']['safe_conflicts'], ['1'])
         self.assertEqual(result['a', 'hannibal']['status'], 'CONFLICT')
         self.assertEqual(result['b', 'hannibal']['status'], 'NO_OVERLAP')
+
+    def test_crosscheck_pairs_for_one_or_two_new_inventories(self):
+        from tools.inventory.crosscheck import inventory_pairs
+        self.assertEqual(inventory_pairs(['a', 'b'], ['h', 'l']), [('a', 'b'), ('a', 'h'), ('a', 'l'), ('b', 'h'), ('b', 'l')])
+        self.assertEqual(inventory_pairs(['z'], ['h', 'l']), [('z', 'h'), ('z', 'l')])
 
 
 class MetadataTests(unittest.TestCase):
@@ -208,6 +257,22 @@ class MetadataTests(unittest.TestCase):
         validate_rows([row() | result], 'example')
         with self.assertRaises(ValueError):
             validate_rows([row() | result | {'english_text': 'Guessed wording'}], 'example')
+
+    def test_final_review_labels_need_matching_confidence(self):
+        hyp = {'medium.en': {'text': 'Watch the wind, say euro.'}}
+        human = transcript(hyp, correction={'text': 'Watch the wind, Zhou Yu!', 'confidence': 'CONFIRMED',
+                                            'resolution': 'HUMAN_CONFIRMED', 'evidence': 'Final human decision.'})
+        self.assertEqual((human['english_text'], human['transcript_confidence'], human['transcript_resolution'],
+                          human['transcript_review_required'], human['raw_transcript']),
+                         ('Watch the wind, Zhou Yu!', 'CONFIRMED', 'HUMAN_CONFIRMED', 'NO', 'Watch the wind, say euro.'))
+        second = transcript(hyp, correction={'text': 'Onward!', 'confidence': 'HIGH',
+                                             'resolution': 'SECOND_OPINION_RESOLVED', 'evidence': 'Second opinion.'})
+        self.assertEqual(second['transcript_resolution'], 'SECOND_OPINION_RESOLVED')
+        validate_rows([row() | human], 'example')
+        for bad in [{'confidence': 'HIGH', 'resolution': 'HUMAN_CONFIRMED'}, {'confidence': 'MEDIUM', 'resolution': 'SECOND_OPINION_RESOLVED'},
+                    {'confidence': 'HIGH', 'resolution': 'APPROVED_BY_SOMEONE'}]:
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                transcript(hyp, correction={'text': 'X', 'evidence': 'e'} | bad)
 
     def test_independent_usage_and_original_audit_reject_tampering(self):
         source = ROOT/'data/commanders/leonidas/research'

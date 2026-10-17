@@ -3,9 +3,11 @@ import argparse
 from collections import Counter, defaultdict
 import json
 from pathlib import Path
+import re
 
 from tools.inventory.research_graph import UsageGraph, ACTOR, CULTURE, UNIT, ABILITY, BATTLE_EVENT, safety
 from tools.inventory.research_metadata import FIELDS, duplicate_groups, transcript, validate_rows, write_csv
+from tools.pack.reader import require
 
 GROUP_LABELS = {ACTOR: 'vo_actor', CULTURE: 'vo_culture', UNIT: 'vo_unit_type',
                 ABILITY: 'ability_group_1602634982', BATTLE_EVENT: 'battle_event_group_636323490',
@@ -24,9 +26,10 @@ def describe(usage, ref, spec, profiles):
     eid = str(ref['event_id'])
     if ref['event_type'] == 'Event':
         event = usage.event_names.get(ref['event_id'], {})
-        if '_emote_' in event.get('name', '').lower():
-            kind = event['name'].lower().split('_emote_')[1].split('_')[0]
-            return 'EMOTE', 'player selects emote: ' + kind, 'HIGH'
+        # Western chat tags use <actor>_emote_<kind>; Chinese commanders use <ACTOR>_EMO_<kind>.
+        emote = re.search(r'_emo(?:te)?_([^_]*)', event.get('name', '').lower())
+        if emote:
+            return 'EMOTE', 'player selects emote: ' + emote.group(1), 'HIGH'
         if event.get('owner') == 'commander:' + spec['actor_name'] and '_tutorial_' in event.get('name', '').lower():
             # Exact Event name literal found in the requesting tutorial script.
             verified = event.get('literal_byte_offset') is not None
@@ -235,6 +238,24 @@ def pilot_battle_mix(rows, candidates, limit=25):
     return selected
 
 
+def pilot_battle_triggers(rows, candidates, triggers, limit=25):
+    """One whole eligible random group per listed trigger phrase, in the listed order (profile-driven)."""
+    eligible = {r['media_id'] for r in candidates}
+    groups = defaultdict(list)
+    for row in rows:
+        if row['category'] != 'FRONTEND':
+            groups[row['bank'], row['random_group_id'] or 'single:' + row['media_id']].append(row)
+    ordered = sorted(groups.values(), key=lambda g: (int(g[0]['event_id']), int(g[0]['media_id'])))
+    selected = []
+    for phrase in triggers:
+        match = next((g for g in ordered if all(r['media_id'] in eligible for r in g) and g[0] not in selected
+                      and phrase.lower() in (g[0]['trigger'] + ' ' + g[0]['decision_tree_path']).lower().replace('_', ' ')), None)
+        require(match is not None, 'Pilot trigger has no whole safe group: ' + phrase)
+        require(len(selected) + len(match) <= limit, 'Pilot triggers exceed the pilot size limit')
+        selected.extend(match)
+    return selected
+
+
 def export_commander(folder, spec, rows, paths, complete, canonical_hash):
     folder.mkdir(parents=True, exist_ok=True)
     fields = FIELDS + ['safe_to_replace_for_' + spec['id']]
@@ -250,7 +271,8 @@ def export_commander(folder, spec, rows, paths, complete, canonical_hash):
     candidates = [r for r in rows if r['safe_to_replace_for_commander'] == 'YES' and r['transcript_confidence'] in {'CONFIRMED', 'HIGH'}
                   and r['trigger_confidence'] in {'CONFIRMED', 'HIGH'}]
     menu = [r for r in candidates if r['category'] == 'FRONTEND'][:15]
-    battle = pilot_battle_mix(rows, candidates) if spec.get('pilot_mix') else pilot_battle(rows, candidates)
+    battle = (pilot_battle_triggers(rows, candidates, spec['pilot_triggers']) if spec.get('pilot_triggers') else
+              pilot_battle_mix(rows, candidates) if spec.get('pilot_mix') else pilot_battle(rows, candidates))
     write_csv(folder / 'pilot-menu.csv', menu, fields)
     write_csv(folder / 'pilot-battle.csv', battle, fields)
     summary = summarize(rows) | {'pilot_menu': len(menu), 'pilot_battle': len(battle)}

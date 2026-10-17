@@ -1,13 +1,13 @@
 {
   "commander": "spartacus",
   "safe_spoken_media_ids": 304,
-  "research_voice_lines_sha256": "97e4ab62d53b3753ef2a746cfa572ff812aed8f64b60a630dc4426af22db6235",
+  "research_voice_lines_sha256": "24df697380a6a1bd143b8ad5cdd64ce3d2f996fb42cd60600c80cfece66d6fe2",
   "translation_memory_content_sha256": "4e84bb95d8eb98b851847a36383af6e9ed8233927a3f3ff44d17344efa08bcd5",
-  "english_transcript_complete": 303,
+  "english_transcript_complete": 304,
   "english_candidates_nonempty": 304,
   "czech_translations_prepared": 304,
-  "translations_with_reliable_english": 303,
-  "provisional_english": 1,
+  "translations_with_reliable_english": 304,
+  "provisional_english": 0,
   "manual_transcript_missing": 0,
   "unique_tts_performances": 259,
   "duplicate_ids_saved": 45,
@@ -19,12 +19,10 @@
   "high_wem_budget_risk_ids": [
     "787420113"
   ],
-  "manual_transcript_review_remaining": 1,
-  "manual_review_ids": [
-    "697820721"
-  ],
-  "original_review_targets_resolved": 8,
-  "ready_for_elevenlabs": false,
+  "manual_transcript_review_remaining": 0,
+  "manual_review_ids": [],
+  "original_review_targets_resolved": 9,
+  "ready_for_elevenlabs": true,
   "tts_api_calls": 0,
   "human_listening": "NOT_RUN",
   "audio_encoding": "NOT_RUN"
