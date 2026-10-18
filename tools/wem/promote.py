@@ -86,7 +86,8 @@ def run(args):
                            'original_duration': row['original_duration'],
                            'czech_duration': report['quality']['decoded']['duration_seconds'],
                            'original_size_bytes': entry.size, 'model': item['model'],
-                           'delivery_tags': item['tags'], 'source_batch': 'SPARTACUS_APPROVED_TTS',
+                           'delivery_tags': item['tags'],
+                           'source_batch': args.commander.upper().replace('-', '_') + '_APPROVED_TTS',
                            'transcript_confidence': row['transcript_confidence'],
                            'translation_status': 'APPROVED_TTS_OFFLINE',
                            'wem_sha256': report['wem_sha256'], 'tts_source_media_id': source,
@@ -95,7 +96,20 @@ def run(args):
         ratio = report['quality']['decoded']['duration_seconds'] / float(row['original_duration'])
         if ratio > 1.8 or ratio < .45:
             duration_flags[mid] = round(ratio, 3)
-        qa[mid] = report
+        encoding = json.loads((work / 'encode-reports' / (mid + '.json')).read_text(encoding='utf-8'))
+        raw = Path(encoding.get('search_work', work / 'encode-search' / mid)) / f"q{encoding['quality']:.4f}.wem"
+        qa[mid] = report | {'encoding': {
+            'quality': encoding['quality'], 'advanced_options': encoding.get('advanced_options', []),
+            'trailing_margin_ms': encoding.get('trailing_margin_ms', preparation['margins_ms'][1]),
+            'raw_bytes_before_padding': raw.stat().st_size, 'original_budget_bytes': entry.size,
+            'duration_ratio': round(ratio, 3), 'tts_source_media_id': source,
+            # Recovered lines: band-limited production reference plus the audit against the unchanged TTS.
+            'preprocessing': {'band_limit_hz': encoding.get('band_limit_hz'),
+                              'high_shelf_db': encoding.get('high_shelf_db', 0),
+                              'approved_exception': encoding.get('approved_exception')},
+            'tts_fidelity': encoding.get('tts_fidelity'),
+            'tts_source': {'origin': item['origin'], 'tags': item['tags'], 'audio_sha256': item['checksum'],
+                           'attempt': item.get('compact_attempt')}}}
     require(len(specs) == len(safe), 'Incomplete release replacement set')
     candidate = work / (args.commander + '-offline-candidate.pack')
     require(not candidate.exists(), 'Candidate already exists; use a fresh work directory')

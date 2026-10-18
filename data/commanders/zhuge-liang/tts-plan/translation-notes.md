@@ -32,3 +32,14 @@ Ostatní původně sporné repliky (jména, umírající repliky s nádechy, „
 ## WEM rozpočet
 
 19 Media ID má riziko HIGH. Z toho 18 kvůli velmi malému originálu (<6 500 B), což formulace neovlivní. Deset delších českých návrhů bylo zkráceno, aby délka odpovídala originálu (např. „Ready tar pits.“ → „Dehtové jámy.“). Řeč se nikdy nesmí zkracovat ani stretchovat kvůli velikosti.
+
+## Finální zkrácené překlady kvůli byte budgetu (lidské rozhodnutí 2026-10-18)
+
+Čtyři povely se původními překlady nevešly do originální velikosti WEM ani po kompaktním přednesu (tagy i request-level speed). Majitel projektu proto schválil kratší, přirozené vojenské ekvivalenty se stejnou herní funkcí. Anglický přepis, Media ID, trigger ani kategorie se nemění.
+
+| Media ID | English | Dříve | Finální |
+|---:|---|---|---|
+| 138096276 | Hold fast. | Držte se pevně. | Držte! |
+| 197890216 | Shields high. | Štíty vysoko. | Štíty! |
+| 894824780 | Rain death. | Ať prší smrt. | Smrt shůry! |
+| 996690592 | Attack! | Útok! | Vpřed! |

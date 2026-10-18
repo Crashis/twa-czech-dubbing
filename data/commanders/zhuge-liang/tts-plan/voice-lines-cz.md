@@ -38,7 +38,7 @@ Commander-specific safe Media IDs only. English MEDIUM/UNKNOWN wording and its C
 | 124460691 | I am superior. | Převyšuji vás. | PREPARED | 124460691 | eleven_v4 | LOW |
 | 124699670 | We should be proud of this. | Na tohle můžeme být hrdí. | PREPARED | 124699670 | eleven_v4 | LOW |
 | 127215871 | Ready the tar. | Připravte dehet. | PREPARED | 127215871 | eleven_v4 | MEDIUM |
-| 138096276 | Hold fast. | Držte se pevně. | PREPARED | 138096276 | eleven_v4 | MEDIUM |
+| 138096276 | Hold fast. | Držte! | PREPARED | 138096276 | eleven_v4 | MEDIUM |
 | 143137438 | Our forces are running. | Naše síly prchají. | PREPARED | 143137438 | eleven_v4 | LOW |
 | 147907871 | Our forces return to the fight. | Naše síly se vracejí do boje. | PREPARED | 147907871 | eleven_v4 | LOW |
 | 152272760 | Hunt them down. | Vystopujte je. | PREPARED | 152272760 | eleven_v4 | MEDIUM |
@@ -53,7 +53,7 @@ Commander-specific safe Media IDs only. English MEDIUM/UNKNOWN wording and its C
 | 191553896 | Cease firing. | Přestaňte střílet. | PREPARED | 191553896 | eleven_v4 | MEDIUM |
 | 194232306 | Prepare the venom. | Připravte jed. | PREPARED | 194232306 | eleven_v4 | LOW |
 | 196347847 | There was... much more... to do. | Zbývalo... ještě tolik... udělat. | PREPARED | 196347847 | eleven_v4 | LOW |
-| 197890216 | Shields high. | Štíty vysoko. | PREPARED | 197890216 | eleven_v4 | HIGH |
+| 197890216 | Shields high. | Štíty! | PREPARED | 197890216 | eleven_v4 | HIGH |
 | 198106625 | Barricades, now. | Zátarasy, hned. | PREPARED | 198106625 | eleven_v4 | LOW |
 | 203185951 | Our warriors have lost heart. | Naši bojovníci ztratili odvahu. | PREPARED | 203185951 | eleven_v4 | LOW |
 | 203448075 | Brace yourselves. | Připravte se na náraz. | PREPARED | 203448075 | eleven_v4 | MEDIUM |
@@ -246,7 +246,7 @@ Commander-specific safe Media IDs only. English MEDIUM/UNKNOWN wording and its C
 | 890641665 | Stop here. | Zastavte tady. | PREPARED | 890641665 | eleven_v4 | MEDIUM |
 | 892760369 | Our base is attacked, fall back. | Naše základna je napadena, ustupte. | PREPARED | 892760369 | eleven_v4 | LOW |
 | 893194630 | I have a plan, with me. | Mám plán, za mnou. | PREPARED | 893194630 | eleven_v4 | LOW |
-| 894824780 | Rain death. | Ať prší smrt. | PREPARED | 894824780 | eleven_v4 | MEDIUM |
+| 894824780 | Rain death. | Smrt shůry! | PREPARED | 894824780 | eleven_v4 | MEDIUM |
 | 896085967 | Leave siege equipment. | Nechte obléhací stroje. | PREPARED | 896085967 | eleven_v4 | LOW |
 | 903424096 | Assistance. | Pomoc. | PREPARED | 903424096 | eleven_v4 | MEDIUM |
 | 906867880 | Raise shields. | Zvednout štíty. | PREPARED | 906867880 | eleven_v4 | MEDIUM |
@@ -279,7 +279,7 @@ Commander-specific safe Media IDs only. English MEDIUM/UNKNOWN wording and its C
 | 992985044 | Run. | Běžte. | PREPARED | 992985044 | eleven_v4 | HIGH |
 | 993411241 | Excellent work! | Výborná práce! | PREPARED | 993411241 | eleven_v4 | MEDIUM |
 | 994730142 | Take heed. Allied traps. | Dejte si pozor. Spojenecké nástrahy. | PREPARED | 994730142 | eleven_v4 | MEDIUM |
-| 996690592 | Attack! | Útok! | PREPARED | 996690592 | eleven_v4 | HIGH |
+| 996690592 | Attack! | Vpřed! | PREPARED | 996690592 | eleven_v4 | HIGH |
 | 998195527 | Allied friendly fire. | Spojenecká palba. | PREPARED | 998195527 | eleven_v4 | LOW |
 | 1000526812 | They cannot evade me. | Nemohou mi uniknout. | PREPARED | 1000526812 | eleven_v4 | LOW |
 | 1000840341 | Haste is ill planning. Patience is wisdom. | Spěch je špatné plánování. Trpělivost je moudrost. | PREPARED | 1000840341 | eleven_v4 | LOW |

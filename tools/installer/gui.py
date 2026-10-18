@@ -27,8 +27,8 @@ class App:
         self.choices = [(m, tk.BooleanVar(value=i == 0)) for i, m in enumerate(self.catalog)]
         self.timer = None
         root.title('Total War: Arena – Czech Dubbing')
-        root.geometry('720x650')
-        root.minsize(660, 600)
+        root.geometry('720x690')
+        root.minsize(660, 640)
         root.protocol('WM_DELETE_WINDOW', self.close)
         style = ttk.Style(root)
         if 'vista' in style.theme_names():

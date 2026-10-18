@@ -7,11 +7,20 @@ from tools.mod import sha256
 from tools.pack.reader import require
 from tools.wem.audio import compare, pcm16
 from tools.wem.exact_size import pad
+from tools.wem.fingerprint import fingerprint
 from tools.wem.validate import run
+
+FORMAT_KEYS = ('sample_rate', 'channels', 'block_sizes', 'subtype_channel_config')
+
+
+def format_matches(fmt, wem_format):
+    return all(fmt[key] == wem_format[key] for key in FORMAT_KEYS)
 
 
 def search(source, output, size, media_id, oggenc, wav2wem, vgmstream, work,
-           decimal_separator=',', advanced_option=()):
+           decimal_separator=',', advanced_option=(), wem_format=None):
+    # With wem_format, a candidate in another Vorbis setup (e.g. the 512/4096
+    # blocks aoTuV selects below quality 0 at 32 kHz) never counts as a fit.
     source, output, work = Path(source).resolve(strict=True), Path(output).resolve(), Path(work).resolve()
     require(not output.exists() and str(media_id).isdecimal(), 'Output exists or invalid Media ID')
     info, _ = pcm16(source)
@@ -33,10 +42,14 @@ def search(source, output, size, media_id, oggenc, wav2wem, vgmstream, work,
         run(args)
         run([wav2wem, '-no-hash', '-o', raw, ogg])
         item = {'quality': q, 'raw_bytes': raw.stat().st_size, 'status': 'DOES_NOT_FIT'}
-        try:
-            final = pad(raw.read_bytes(), size)
-        except ValueError:
-            final = None
+        final = None
+        if wem_format and not format_matches(fingerprint(raw)['fmt'], wem_format):
+            item['status'] = 'FORMAT_MISMATCH'
+        else:
+            try:
+                final = pad(raw.read_bytes(), size)
+            except ValueError:
+                pass
         if final is not None:
             run([vgmstream, '-i', '-o', decoded, raw])
             try:
@@ -65,7 +78,7 @@ def search(source, output, size, media_id, oggenc, wav2wem, vgmstream, work,
     elif trials:
         # A coarse step can jump over the only acceptable size/parity and QC
         # point. Probe a bounded neighborhood of the highest fitting trial.
-        close = [t['quality'] for t in trials if t['raw_bytes'] <= size]
+        close = [t['quality'] for t in trials if t['raw_bytes'] <= size and t['status'] != 'FORMAT_MISMATCH']
         if close:
             top = max(close)
             for step in range(19):

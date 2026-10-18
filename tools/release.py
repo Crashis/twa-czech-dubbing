@@ -12,6 +12,8 @@ import sys
 import tempfile
 import zipfile
 
+from itertools import combinations
+
 from tools import mod
 from tools.installer.catalog import discover, selection
 from tools.pack.reader import require
@@ -71,8 +73,19 @@ def audit_executable(path):
 
 def add_notices(bundle):
     (bundle / 'THIRD_PARTY_NOTICES.txt').write_text(
-        (ROOT / 'THIRD_PARTY_NOTICES.md').read_text(encoding='utf-8') +
-        '\nRuntime license texts are in licenses/. Development audio tools are not bundled.\n', encoding='utf-8')
+        'Third-party notices for TWA Czech Dubbing ' + VERSION + '\n\n'
+        'The installer EXE bundles CPython and Tcl/Tk using PyInstaller 6.22.3.\n'
+        'Their complete license texts are included beside this notice:\n'
+        '  licenses/Python.txt\n'
+        '  licenses/Tcl.txt\n'
+        '  licenses/Tk.txt\n'
+        '  licenses/PyInstaller.txt\n\n'
+        'PyInstaller is GPL-2.0-or-later with a bootloader distribution exception.\n'
+        'See licenses/PyInstaller.txt and https://pyinstaller.org/en/stable/license.html.\n\n'
+        'PACK format research used RPFM by Ismael Gutiérrez González and contributors.\n'
+        'Its MIT notice is retained in licenses/RPFM-MIT.txt.\n\n'
+        'Development-only audio tools and original game assets are not bundled.\n',
+        encoding='utf-8')
     folder = bundle / 'licenses'
     folder.mkdir()
     sources = {'RPFM-MIT.txt': ROOT / 'third_party/RPFM-MIT.txt',
@@ -86,11 +99,18 @@ def add_notices(bundle):
         shutil.copyfile(source, folder / name)
 
 
+COMMANDERS = ['hannibal', 'spartacus', 'zhuge-liang']
+
+
+def joint_keys(manifests):
+    names = sorted(m['commander'] for m in manifests)
+    return ['+'.join(group) for count in range(2, len(names) + 1) for group in combinations(names, count)]
+
+
 def payload_files(manifests):
     files = [Path('data/arena-index-public-key.json')]
-    if len(manifests) > 1:
-        key = '+'.join(sorted(m['commander'] for m in manifests))
-        files.append(Path('data/releases') / (key + '.json'))
+    # Every selectable combination ships its own independently validated whole-PACK descriptor.
+    files += [Path('data/releases') / (key + '.json') for key in joint_keys(manifests)]
     for m in manifests:
         folder = Path('data/commanders') / m['commander']
         files += [folder / n for n in ('manifest.json', 'voice-lines.csv', 'media-inventory.csv')]
@@ -102,8 +122,12 @@ def bundle_audit(bundle, manifests):
     expected_payload = set(payload_files(manifests))
     actual_payload = {p.relative_to(bundle / 'payload') for p in file_list(bundle / 'payload')}
     require(actual_payload == expected_payload, 'Unexpected/missing release payload file')
-    expected_top = {'Install.bat', EXE, 'README.txt', 'THIRD_PARTY_NOTICES.txt', 'SHA256SUMS.txt'}
+    expected_top = {EXE, 'README.txt', 'THIRD_PARTY_NOTICES.txt', 'SHA256SUMS.txt'}
     allowed_licenses = {'Python.txt', 'Tcl.txt', 'Tk.txt', 'PyInstaller.txt', 'RPFM-MIT.txt'}
+    require({p.name for p in bundle.iterdir() if p.is_file()} == expected_top,
+            'Missing/unexpected top-level release file')
+    require({p.name for p in (bundle / 'licenses').iterdir() if p.is_file()} == allowed_licenses,
+            'Missing/unexpected runtime license text')
     sums = {}
     for line in (bundle / 'SHA256SUMS.txt').read_text(encoding='utf-8').splitlines():
         digest, name = line.split('  ', 1)
@@ -127,16 +151,20 @@ def bundle_audit(bundle, manifests):
     return {'replacement_wem_count': sum(1 for p in expected_payload if p.suffix == '.wem'),
             'original_game_files_included': 0, 'secrets_included': 0,
             'secret_scan': 'SECRET SCAN PASS', 'payload_allowlist': 'PASS', 'checksums': 'PASS',
-            'embedded_archive_scan': 'PASS'}
+            'embedded_archive_scan': 'PASS', 'license_texts': sorted(allowed_licenses),
+            'license_audit': 'PASS'}
 
 
 def build_release(base_pack, reference_pack=None, output_directory=None):
     require(os.name == 'nt' and struct.calcsize('P') == 8, 'Build requires 64-bit Windows Python')
     require(version('pyinstaller') == '6.22.3', 'Install pinned requirements-development.txt in .venv')
     manifests = discover()
-    require([m['commander'] for m in manifests] == ['hannibal', 'spartacus'],
-            'Local test build requires exactly the validated Hannibal and Spartacus sets')
-    joint = selection(manifests)
+    require([m['commander'] for m in manifests] == COMMANDERS,
+            'Local test build requires exactly the validated Hannibal, Spartacus and Zhuge Liang sets')
+    require(all(m['version'] == VERSION for m in manifests),
+            'Commander release version metadata does not match final version')
+    by_name = {m['commander']: m for m in manifests}
+    joints = [selection([by_name[name] for name in key.split('+')]) for key in joint_keys(manifests)]
     base = Path(base_pack).resolve(strict=True)
     require(mod.sha256(base) == manifests[0]['base']['sha256'], 'Unsupported canonical original')
     require(not base.is_relative_to(ROOT), 'Canonical original must remain outside the repository')
@@ -156,9 +184,8 @@ def build_release(base_pack, reference_pack=None, output_directory=None):
         checked([sys.executable, '-B', '-m', 'tools.mod', '--commander', manifest['commander'], 'validate'], env)
     checked([sys.executable, '-B', '-m', 'tools.validation.repository'], env)
     repository = audit()
-    for m in manifests:
+    for m in [*manifests, *joints]:
         mod.validate_data(m)
-    mod.validate_data(joint)
     build_root = ROOT / 'build'
     build_root.mkdir(exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='release-', dir=build_root) as temporary:
@@ -177,13 +204,12 @@ def build_release(base_pack, reference_pack=None, output_directory=None):
             target = bundle / 'payload' / rel
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / rel, target)
-        (bundle / 'Install.bat').write_bytes(b'@echo off\r\nstart "" "%~dp0TWA-Czech-Dubbing-Installer.exe"\r\n')
         (bundle / 'README.txt').write_text(
             'Total War: Arena - Czech Dubbing ' + VERSION + '\n\n'
-            '1. Extract the entire ZIP.\n2. Double-click Install.bat or TWA-Czech-Dubbing-Installer.exe.\n'
-            '3. Select Hannibal, Spartacus, or both and choose the Total War: Arena folder.\n'
+            '1. Extract the entire ZIP.\n2. Run TWA-Czech-Dubbing-Installer.exe.\n'
+            '3. Select any combination of Hannibal, Spartacus and Zhuge Liang and choose the Total War: Arena folder.\n'
             '4. Close the game and launcher; click Install Czech Dubbing.\n'
-            '5. Start the game yourself.\n\n'
+            '5. Launch the game yourself.\n\n'
             'Verify checks installed audio. Restore Original restores the verified backup.\n'
             'Backups: %LOCALAPPDATA%\\TWA-Czech-Dubbing\\backup\\<installation-id>\\audio_cn.pack\n'
             'Logs: %LOCALAPPDATA%\\TWA-Czech-Dubbing\\logs\\\n'
@@ -196,36 +222,48 @@ def build_release(base_pack, reference_pack=None, output_directory=None):
         sums = ''.join(mod.sha256(p) + '  ' + p.relative_to(bundle).as_posix() + '\n' for p in file_list(bundle))
         (bundle / 'SHA256SUMS.txt').write_text(sums, encoding='utf-8', newline='\n')
         release_audit = bundle_audit(bundle, manifests)
-        # Exercise the actual frozen GUI/backend using its external payload and a disposable mock game.
-        smoke_report = temp / 'frozen-smoke.json'
-        process = subprocess.run([str(bundle / EXE), '--self-test', str(base), str(smoke_report)], env=env, timeout=180)
-        require(smoke_report.is_file(), 'Frozen installer did not create its smoke report')
-        smoke = json.loads(smoke_report.read_text(encoding='utf-8'))
-        require(process.returncode == 0 and smoke['status'] == 'PASS',
-                'Frozen installer smoke test failed: ' + smoke.get('error', 'unknown error'))
         integration = {}
-        for manifest in [*manifests, joint]:
-            candidate = temp / (manifest['commander'] + '-reproduced.pack')
-            integration[manifest['commander']] = mod.build(base, candidate, manifest)
-        if reference:
-            with (temp / 'hannibal-reproduced.pack').open('rb') as left, reference.open('rb') as right:
-                while True:
-                    block = left.read(1024 * 1024)
-                    require(block == right.read(1024 * 1024), 'Complete reference differs byte for byte')
-                    if not block:
-                        break
-            integration['hannibal']['byte_identical_to_complete_reference'] = True
+        for manifest in [*manifests, *joints]:
+            label = '+'.join(manifest.get('components', [manifest['commander']]))
+            candidate = temp / (label + '-reproduced.pack')
+            integration[label] = mod.build(base, candidate, manifest)
+            require(integration[label]['matches_known_release'] and integration[label]['RSA'] == 'PASS',
+                    'Reproduced PACK differs from its validated release hash: ' + label)
+            if label == 'hannibal' and reference:
+                with candidate.open('rb') as left, reference.open('rb') as right:
+                    while True:
+                        block = left.read(1024 * 1024)
+                        require(block == right.read(1024 * 1024), 'Complete reference differs byte for byte')
+                        if not block:
+                            break
+                integration['hannibal']['byte_identical_to_complete_reference'] = True
+            candidate.unlink()  # keep at most one temporary full PACK on disk
         archive_a = temp / 'first.zip'
         archive_b = temp / 'second.zip'
         deterministic_zip(bundle, archive_a)
         deterministic_zip(bundle, archive_b)
         require(mod.sha256(archive_a) == mod.sha256(archive_b), 'ZIP reproduction failed')
         # Test what an end user extracts, including the checksums and exact payload allowlist.
-        extracted = temp / 'extracted'
+        extracted = temp / 'arbitrary extracted folder with spaces'
         with zipfile.ZipFile(archive_a) as archive:
             require(archive.testzip() is None, 'ZIP CRC failed')
             archive.extractall(extracted)
-        bundle_audit(extracted / NAME, manifests)
+        extracted_bundle = extracted / NAME
+        bundle_audit(extracted_bundle, manifests)
+        require(not (extracted_bundle / 'Install.bat').exists(), 'BAT launcher unexpectedly included')
+        # Run the extracted EXE directly, with no BAT, from an unrelated working directory.
+        # The frozen GUI/backend uses only a disposable mock game during this smoke test.
+        foreign_cwd = temp / 'unrelated working directory'
+        foreign_cwd.mkdir()
+        smoke_report = temp / 'frozen-smoke.json'
+        process = subprocess.run([str(extracted_bundle / EXE), '--self-test', str(base), str(smoke_report)],
+                                 cwd=foreign_cwd, env=env, timeout=1800)
+        require(smoke_report.is_file(), 'Frozen installer did not create its smoke report')
+        smoke = json.loads(smoke_report.read_text(encoding='utf-8'))
+        require(process.returncode == 0 and smoke['status'] == 'PASS',
+                'Frozen installer smoke test failed: ' + smoke.get('error', 'unknown error'))
+        smoke.update(standalone_exe_without_bat='PASS', payload_relative_to_exe='PASS',
+                     extracted_path_with_spaces='PASS', unrelated_working_directory='PASS')
         report = {'status': 'PASS', 'release_name': NAME, 'version': VERSION,
                   'zip_path': zipped.relative_to(ROOT).as_posix() if zipped.is_relative_to(ROOT) else zipped.name,
                   'zip_size': archive_a.stat().st_size, 'zip_sha256': mod.sha256(archive_a),
@@ -235,7 +273,8 @@ def build_release(base_pack, reference_pack=None, output_directory=None):
                   'build_dependencies': {n: version(n) for n in ('pyinstaller-hooks-contrib', 'altgraph', 'packaging', 'pefile', 'pywin32-ctypes', 'setuptools')},
                   'SOURCE_DATE_EPOCH': EPOCH, 'PYTHONHASHSEED': '0', 'repository': repository,
                   'release_audit': release_audit, 'integration': integration, 'frozen_smoke': smoke,
-                  'human_listening': 'NOT_PERFORMED', 'game_runtime_test': 'NOT_PERFORMED'}
+                  'human_listening': 'USER_REPORTED_IN_GAME',
+                  'game_runtime_test': 'USER_REPORTED_PASS: Hannibal, Spartacus, Zhuge Liang'}
         # Only publish artifacts after every gate succeeds. No original PACK enters the bundle.
         shutil.copytree(bundle, final)
         shutil.copyfile(archive_a, zipped)

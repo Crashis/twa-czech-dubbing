@@ -1,0 +1,12 @@
+{
+  "commanders": [
+    "hannibal",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "fb9410a37a78c1b8a9b06ee0fc18756fb6562b6b570a76d0c882780278df474d",
+    "changed_entries": 598,
+    "unchanged_entries": 15947,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

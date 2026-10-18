@@ -2,12 +2,11 @@
 
 ## Instalace
 
-1. Stáhněte Windows release ZIP ze sekce Releases projektu.
-2. Rozbalte **celý** ZIP do vlastní složky.
-3. Dvakrát klikněte na `Install.bat` nebo `TWA-Czech-Dubbing-Installer.exe`.
-4. Pomocí **Browse…** vyberte složku Total War: Arena. Installer může známou složku nabídnout automaticky.
-5. Zavřete hru i launcher, vyberte Hannibala a klikněte na **Install Czech Dubbing**.
-6. Po zprávě o úspěšné instalaci můžete spustit hru.
+1. Rozbalte **celý** Windows ZIP verze 1.2.0 do vlastní složky.
+2. Dvakrát klikněte na `TWA-Czech-Dubbing-Installer.exe`.
+3. Vyberte požadované commandery i složku Total War: Arena. Složku lze vybrat přes **Browse…**.
+4. Zavřete hru i launcher a klikněte na **Install Czech Dubbing**.
+5. Po zprávě o úspěšné instalaci spusťte hru.
 
 Žádná další konfigurace, Python, Git ani API účet nejsou potřeba. Po rozbalení funguje instalace offline. Potřebujete Windows x64, vlastní podporovanou hru a přibližně 750 MB volného místa; záloha a dočasný soubor mohou být na různých discích.
 
@@ -15,7 +14,7 @@ Vyberte složku obsahující `data`, například `D:\Games\TotalWar_Arena`. Poku
 
 ## Ověření a opakovaná instalace
 
-**Verify** nic ve hře nemění. Zkontroluje podporovanou verzi, integritu herního souboru i dodaných českých dat. Po instalaci zobrazí, že Hannibal CZ je správně nainstalovaný.
+**Verify** nic ve hře nemění. Zkontroluje podporovanou verzi, integritu herního souboru i dodaných českých dat. Po instalaci zobrazí správně nainstalovanou vybranou kombinaci.
 
 Je-li stejný dabing už nainstalovaný, tlačítko ukazuje **Installed** a soubor se znovu nepřepisuje. **Restore Original** zůstává dostupné. Pokud launcher vrátí přesný podporovaný originál, můžete dabing znovu nainstalovat.
 
@@ -51,6 +50,6 @@ Technický stav je vidět v okně. Stručné logy jsou v `%LOCALAPPDATA%\TWA-Cze
 
 Pokud launcher opraví nebo aktualizuje hru, spusťte po jeho zavření **Verify**. Dabing používá podporovaný hlasový soubor `audio_cn.pack`, přestože jeho původní zvuky jsou anglické; nepřejmenovávejte jiné soubory podle jazyka.
 
-## Lokální testovací sestavení v1.1.0-dev
+## Výběr commanderů ve verzi 1.2.0
 
-Lokální testovací ZIP nabízí Hannibala, Spartaka nebo oba hlasy. Při změně výběru ověřte aktuální stav tlačítkem **Verify** a klikněte na **Install Czech Dubbing**. Installer používá ověřenou zálohu původního PACKu a sestaví nový výběr od začátku. **Restore Original** obnoví původní PACK. Toto sestavení čeká na lidský test ve hře; veřejný release v1.0.0 se nemění.
+ZIP verze 1.2.0 nabízí Hannibala, Spartaka a Zhuge Lianga v libovolné kombinaci (jeden, dva nebo všichni tři). Při změně výběru ověřte aktuální stav tlačítkem **Verify** a klikněte na **Install Czech Dubbing**. Installer vždy použije ověřenou zálohu původního PACKu a sestaví celý nový výběr od začátku; přidání i odebrání commandera tak dává přesně vybranou sadu. **Restore Original** obnoví původní PACK. Finální artefakt je zatím lokální release candidate a nebyl publikován.

@@ -303,7 +303,11 @@ class MetadataTests(unittest.TestCase):
     def test_research_datasets_and_installer_exclusion(self):
         for name in ['leonidas', 'scipio-africanus']:
             self.assertEqual(validate_research(ROOT/'data/commanders'/name/'research', name)['status'], 'PASS')
-        self.assertEqual([m['commander'] for m in discover()], ['hannibal', 'spartacus'])
+        names = [m['commander'] for m in discover()]
+        self.assertEqual(names[:2], ['hannibal', 'spartacus'])
+        # Research-only datasets never reach the installer; only production manifests are discovered.
+        self.assertTrue({'leonidas', 'scipio-africanus', 'germanicus'}.isdisjoint(names))
+        self.assertTrue(all((ROOT / 'data/commanders' / n / 'manifest.json').is_file() for n in names))
 
     def test_no_original_audio_in_repository_candidates(self):
         from tools.validation.repository import audit

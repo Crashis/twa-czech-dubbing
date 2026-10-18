@@ -1,5 +1,6 @@
 """Installer guards and full temporary-install transactions (never a real game)."""
 import copy
+from itertools import combinations
 import json
 import os
 from pathlib import Path
@@ -13,6 +14,11 @@ from unittest.mock import patch
 from tools import deploy, mod
 from tools.installer.backend import Installer, normalize_game_path, transaction_lock
 from tools.installer.catalog import discover, known_manifests, merge_manifests, selection
+
+# Validated changed-entry counts of every production selection that exists in this checkout.
+EXPECTED_CHANGED = {'hannibal': 305, 'spartacus': 304, 'zhuge-liang': 293, 'hannibal+spartacus': 609,
+                    'hannibal+zhuge-liang': 598, 'spartacus+zhuge-liang': 597,
+                    'hannibal+spartacus+zhuge-liang': 902}
 
 
 class InstallerTests(unittest.TestCase):
@@ -88,6 +94,34 @@ class InstallerTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn('VALID', result.stdout)
         self.assertIn('nonzero trailing setup bits', result.stderr)
+
+    def test_production_commanders_have_disjoint_validated_combinations(self):
+        parts = discover()
+        ids = [{s['media_id'] for s in p['replacements']} for p in parts]
+        for left in range(len(ids)):
+            for right in range(left + 1, len(ids)):
+                self.assertFalse(ids[left] & ids[right], 'Production commanders overlap')
+        # Every combination of production commanders has its own validated whole-PACK descriptor.
+        self.assertEqual(len(known_manifests()), 2 ** len(parts) - 1)
+        counts = {'+'.join(m.get('components', [m['commander']])): m['release']['changed_entries']
+                  for m in known_manifests()}
+        self.assertEqual(counts, {k: v for k, v in EXPECTED_CHANGED.items() if k in counts})
+        self.assertEqual(set(counts) - set(EXPECTED_CHANGED), set())
+        for manifest in known_manifests():
+            self.assertEqual(mod.validate_data(manifest)['status'], 'PASS')
+
+    def test_conflicting_production_payloads_abort_before_game_write(self):
+        parts = [copy.deepcopy(p) for p in discover()]
+        self.assertGreaterEqual(len(parts), 2)
+        stolen = copy.deepcopy(parts[0]['replacements'][0])
+        stolen['sha256'] = parts[-1]['replacements'][0]['sha256']
+        parts[-1]['replacements'].append(stolen)
+        (self.root / 'data').mkdir()
+        target = self.root / 'data/audio_cn.pack'
+        target.write_bytes(b'unchanged mock game file')
+        with self.assertRaisesRegex(ValueError, 'CONFLICT'):
+            selection(parts)
+        self.assertEqual(target.read_bytes(), b'unchanged mock game file')
 
     def test_concurrent_operation_rejected(self):
         path = self.root / 'operation.lock'
@@ -169,20 +203,22 @@ class InstallerIntegrationTests(unittest.TestCase):
             self.service.install(self.game)
         self.assertEqual(self.target.read_bytes(), b'external concurrent change')
 
-    def test_hannibal_spartacus_selection_matrix(self):
-        if not (mod.ROOT / 'data/commanders/spartacus/manifest.json').is_file():
-            self.skipTest('Spartacus production set not yet present')
-        hannibal = self.manifest
-        spartacus = mod.load_manifest('spartacus')
-        both = selection([hannibal, spartacus])
-        by_name = {'hannibal': hannibal, 'spartacus': spartacus, 'combined': both}
-        self.assertEqual([m['commander'] for m in known_manifests()],
-                         ['hannibal', 'spartacus', 'combined'])
-        scenarios = [
-            ['hannibal'], ['spartacus'], ['combined'],
-            ['hannibal', 'combined'], ['spartacus', 'combined'],
-            ['combined', 'hannibal'], ['combined', 'spartacus'],
-        ]
+    def test_commander_selection_matrix(self):
+        parts = {m['commander']: m for m in discover()}
+        names = list(parts)
+        self.assertEqual(names[:2], ['hannibal', 'spartacus'])
+        ALL = tuple(names)
+        subsets = [tuple(c) for n in range(1, len(names) + 1) for c in combinations(names, n)]
+
+        def manifest(selected):
+            return selection([parts[n] for n in selected])
+        # Every path starts from a clean mock install; each arrow is an upgrade or a removal.
+        scenarios = [[s, ALL, s] for s in subsets if s != ALL] + [[ALL]]
+        newest = names[-1]
+        if len(names) > 2:
+            # Adding the newest commander next to each existing single installation.
+            scenarios += [[(n,), tuple(x for x in names if x in (n, newest))] for n in names[:-1]]
+        transitions = set()
         for index, steps in enumerate(scenarios):
             with self.subTest(steps=steps):
                 game = self.folder / f'matrix-{index}'
@@ -190,16 +226,43 @@ class InstallerIntegrationTests(unittest.TestCase):
                 target = game / 'data/audio_cn.pack'
                 shutil.copyfile(self.base, target)
                 state = self.folder / f'matrix-state-{index}'
-                for name in steps:
-                    service = Installer(by_name[name], state)
-                    self.assertEqual(service.install(game)['sha256'], by_name[name]['release']['sha256'])
+                previous = ()
+                for names in steps:
+                    expected = manifest(names)
+                    service = Installer(expected, state)
+                    result = service.install(game)
+                    self.assertEqual((result['sha256'], result['RSA'], result['changed_entries']),
+                                     (expected['release']['sha256'], 'PASS', len(expected['replacements'])))
                     observed = service.inspect(game)
                     self.assertEqual((observed['state'], observed['sha256'], observed['RSA']),
-                                     ('INSTALLED', by_name[name]['release']['sha256'], 'PASS'))
-                    self.assertEqual(set(observed['installed_commanders']),
-                                     set(by_name[name].get('components', [name])))
+                                     ('INSTALLED', expected['release']['sha256'], 'PASS'))
+                    self.assertEqual(set(observed['installed_commanders']), set(names))
+                    # Full byte diff against the canonical original: absent commanders stay original.
+                    diff = mod.verify_pack(target, expected, self.base)
+                    self.assertEqual((diff['changed_entries'], diff['diff_outside_allowed_payloads']),
+                                     (len(expected['replacements']), 0))
+                    transitions.add((previous, names))
+                    previous = names
                 self.assertEqual(service.restore(game)['status'], 'RESTORED')
-                self.assertEqual(mod.sha256(target), hannibal['base']['sha256'])
+                self.assertEqual(service.inspect(game)['state'], 'ORIGINAL')
+                self.assertEqual(mod.sha256(target), parts[names[0]]['base']['sha256'])
+        required = ({((), s) for s in subsets} | {(s, ALL) for s in subsets if s != ALL}
+                    | {(ALL, s) for s in subsets if s != ALL})
+        self.assertLessEqual(required, transitions)
+
+    def test_unknown_modified_pack_is_never_patched(self):
+        everything = selection(discover())
+        with self.target.open('r+b') as stream:
+            spec = everything['replacements'][0]
+            stream.seek(spec['offset'])
+            stream.write(b'\0' * 16)
+        before = mod.sha256(self.target)
+        service = Installer(everything, self.folder / 'state-unknown')
+        self.assertEqual(service.inspect(self.game)['state'], 'UNSUPPORTED')
+        with self.assertRaisesRegex(ValueError, 'Unsupported'):
+            service.install(self.game)
+        self.assertEqual(mod.sha256(self.target), before)
+        self.assertFalse(list((self.folder / 'state-unknown').rglob('*.pack')))
 
 
 if __name__ == '__main__':

@@ -13,8 +13,13 @@ from tools.pack.reader import ArenaPack, require
 from tools.wem.production import save
 
 
-def run(base_path, work_path):
+def run(base_path, work_path, commanders=None):
     parts = discover()
+    if commanders:
+        by_name = {p['commander']: p for p in parts}
+        require(set(commanders) <= set(by_name) and len(set(commanders)) == len(commanders),
+                'Unknown or duplicate production commander')
+        parts = [by_name[name] for name in sorted(commanders)]
     require(len(parts) >= 2, 'At least two production commanders are required')
     key = '+'.join(sorted(p['commander'] for p in parts))
     work = Path(work_path).resolve()
@@ -78,8 +83,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--base', required=True)
     parser.add_argument('--work', required=True)
+    parser.add_argument('--commanders', help='comma-separated subset; default is every production commander')
     args = parser.parse_args()
-    print(json.dumps(run(args.base, args.work), indent=2))
+    names = args.commanders.split(',') if args.commanders else None
+    print(json.dumps(run(args.base, args.work, names), indent=2))
 
 
 if __name__ == '__main__':
