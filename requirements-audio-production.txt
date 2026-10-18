@@ -1,0 +1,5 @@
+# Offline source preparation only; never bundled with the installer.
+numpy==2.5.4
+miniaudio==1.61
+cffi==2.1.1
+pycparser==3.11

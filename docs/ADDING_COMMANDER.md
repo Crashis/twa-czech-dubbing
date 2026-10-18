@@ -1,6 +1,6 @@
 # Přidání dalšího commandera
 
-Postup navazuje na Hannibala. Leonidas, Scipio Africanus, Spartacus, Germanicus a Zhuge Liang mají samostatná výzkumná metadata v `research/` a textový plán v `tts-plan/`; nejde o instalovatelné releasy. Další commander se do existujícího soukromého workspace přidává s volbou `--commander`, aby se nepřepsaly dřívější výsledky. Offline inventuru a její validační příkazy popisuje [VOICE_INVENTORY](VOICE_INVENTORY.md), následnou přípravu českého textového plánu [TTS_PREPARATION](TTS_PREPARATION.md). Nový commander je nový dataset a release nad ověřeným originálem, nikoli další zásah do již modifikovaného PACKu. `--commander` vybírá manifest, ne automatickou sadu všech nainstalovaných hlasů.
+Postup navazuje na Hannibala a Spartaka. Leonidas, Scipio Africanus, Germanicus a Zhuge Liang mají samostatná výzkumná metadata v `research/` a textový plán v `tts-plan/`; nejde o instalovatelné releasy. Další commander se do existujícího soukromého workspace přidává s volbou `--commander`, aby se nepřepsaly dřívější výsledky. Offline inventuru a její validační příkazy popisuje [VOICE_INVENTORY](VOICE_INVENTORY.md), následnou přípravu českého textového plánu [TTS_PREPARATION](TTS_PREPARATION.md). Nový commander je nový dataset a release nad ověřeným originálem, nikoli další zásah do již modifikovaného PACKu. `--commander` vybírá manifest, ne automatickou sadu všech nainstalovaných hlasů.
 
 ## 1. Základ, banky a inventory
 
@@ -29,7 +29,7 @@ Postup navazuje na Hannibala. Leonidas, Scipio Africanus, Spartacus, Germanicus 
 
 ## 4. Návrh hlasu a řízená generace
 
-17. S uživatelem schvalte hlas, styl a krátké ukázky. Generování je samostatná placená činnost vyžadující výslovné zadání a rozpočet. Tento repozitář neobsahuje síťový TTS klient; instalace žádné kredity nepotřebuje.
+17. S uživatelem schvalte hlas, styl a krátké ukázky. Generování je samostatná placená činnost vyžadující výslovné zadání a rozpočet. `tools.tts.production` přijímá finální routing CSV, kontroluje nezávislou inventuru a ukládá obnovitelný stav i MP3 jen do ignorovaného `work/`; instalace žádné kredity nepotřebuje.
 18. Historický Hannibal používal `eleven_v4` jako výchozí routing a `eleven_v3` pro skutečný bojový křik s konkrétními schválenými tags. Tyto model IDs jsou provenance, nikoli příslib dnešní dostupnosti nebo ceny API. Pro další práci ověřte aktuální nabídku samostatně.
 19. `python -B -m tools.tts.plan SCRIPT.csv --output work/tts-plan.json` pouze vytvoří offline plán. `model`, `czech` a `delivery_tags` musí být explicitní. Počítá Unicode codepoints včetně tags, mezer a interpunkce; nepočítá současnou cenu a sám nededuplikuje výkony. Zaznamenejte request hash, hlas/model/settings, receipt/cost a výstupní WAV hash. Jedna generace na schválený výkon; regenerace jen po samostatném povolení. API klíč nikdy nelogujte.
 20. Původní TTS WAV uchovejte neměnný soukromě. Kontrolujte decode/truncation, PCM formát, prázdný nebo téměř tichý signál, clipping, duration ratio a dlouhá ticha. Hannibal flagoval duration ratio mimo 0,45–1,8, lead >0,6 s, tail >0,8 s nebo interní ticho >0,8 s; jsou to review prahy, ne automatický důvod k nové generaci. Oprava gainu neobnoví již ztracené clipped waveform.

@@ -81,7 +81,7 @@ Původní build měl `CGO_ENABLED=0`, `GOTOOLCHAIN=local`, `GOENV=off` a vypnut�
 
 ## Konfigurace a secrets
 
-Instalace a builder nečtou `.env`. Soukromý `.env` může zůstat lokálně pro samostatný budoucí TTS vývoj; `.env.example` obsahuje pouze placeholder. Síťový ElevenLabs klient zde není. `tools.tts.plan` nic neodesílá. API klíč ani Bearer token nesmí být v reportu, CSV, logu nebo test fixture.
+Instalace a builder nečtou `.env`. Soukromý `.env` používá pouze samostatný produkční TTS klient `tools.tts.production`, případně klient čte `ELEVENLABS_API_KEY` z prostředí. `.env.example` obsahuje pouze placeholder. `tools.tts.plan` nic neodesílá. Produkční klient vyžaduje výslovně schválenou placenou úlohu a zapisuje jen do ignorovaného `work/`; API klíč ani Bearer token nesmí být v reportu, CSV, logu nebo test fixture.
 
 `TWA_TEST_BASE_PACK` zapíná volitelné integrační testy s vlastní původní zálohou. `TWA_TEST_OUTPUT_ROOT` volitelně určí existující složku pro jejich dočasné kopie. Testy vlastní dočasné soubory po sobě odstraní. Nepředávejte jim herní `data` jako pracovní výstup.
 
@@ -134,3 +134,11 @@ python -B -m unittest discover -s tests -v
 Bez proměnné se integrační část označí skipped; neoznačujte takový běh jako plnou PACK validaci. Integrační testy vytvářejí vlastní mock game složky, provádějí skutečné install/verify/restore wrappery pouze nad nimi a po sobě je odstraní. Nikdy nesmí cílit na skutečnou instalaci. Procesové blokování je navíc testované simulovaným běžícím procesem.
 
 Regrese zahrnují exact-size JUNK, změněný manifest, tiché IDs, neznámý základ, odmítnutí incremental buildu a overwrite, RSA tampering, zálohu, chybějící zálohu, dry-run a restore. Čerstvé testy a audio QA při cleanupu jsou shrnuté ve [VALIDATION](VALIDATION.md).
+
+## Spartacus a lokální v1.1.0-dev
+
+Schválených 259 MP3 výkonů se offline páruje s 304 bezpečnými Media IDs přes `generation-state.json`, `final-routing.csv` a `tts-plan.csv`. `tools.wem.production` ověří checksumy a canonical PACK, dekóduje MP3 44,1 kHz přes miniaudio na 24 kHz mono PCM16 a použije Hannibalovu 24→32 kHz přípravu. Připnuté knihovny pro tuto vývojovou fázi jsou v `requirements-audio-production.txt`. Neprovádí se API volání ani nová TTS generace.
+
+Každé Media ID má vlastní original byte budget. `tools.wem.encode` hledá fitting quality, případně omezené jemné kroky; vybrané WEMy se validují přímým PCM16/float dekódem, korelací, SNR, ww2ogg a raw-vs-JUNK dekódem. Provenance a výsledky všech 304 jsou v `data/commanders/spartacus/audio-qa.json`. U `225505249` se odstranilo dalších 20 ms koncového ticha, řeč zůstala zachována; použil se encoder-only lowpass 8,1 kHz. Další napjaté rozpočty používají encoder-only lowpass podle jednotlivých ignorovaných `work/spartacus-production/encode-reports/`. `194179632` má ve finálním WEM délku přibližně 1,99× originálu. Lidský poslech finálních WEMů a herní runtime test zatím nejsou potvrzeny.
+
+`tools.wem.promote` vytvoří produkční schema-1 metadata až po úplném audio QC a porovnání všech PACK entries proti canonical originálu. `tools.installer.joint` vytváří samostatný hash kombinace. Installer vždy sestavuje výběr z ověřené původní zálohy a zná původní, oba samostatné a kombinovaný stav. Lokální build přes `scripts/build-release.ps1 -BasePack <soukromý-canonical-PACK>` testuje jen dočasné mock instalace, balí explicitní allowlist a skenuje ZIP i embedded EXE. Skutečnou hru nespouští ani nemění.

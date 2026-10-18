@@ -13,16 +13,16 @@ import tempfile
 import zipfile
 
 from tools import mod
-from tools.installer.catalog import discover
+from tools.installer.catalog import discover, selection
 from tools.pack.reader import require
 from tools.resources import VERSION
 from tools.validation.repository import audit, private_values, SECRET_PATTERNS
 
 ROOT = Path(__file__).resolve().parents[1]
 EXE = 'TWA-Czech-Dubbing-Installer.exe'
-NAME = f'TWA-Czech-Dubbing-Hannibal-v{VERSION}-win64'
-EPOCH = '1792108800'
-DATE = (2026, 10, 16, 0, 0, 0)
+NAME = f'TWA-Czech-Dubbing-v{VERSION}-win64'
+EPOCH = '1792281600'
+DATE = (2026, 10, 18, 0, 0, 0)
 
 
 def checked(args, env=None):
@@ -88,6 +88,9 @@ def add_notices(bundle):
 
 def payload_files(manifests):
     files = [Path('data/arena-index-public-key.json')]
+    if len(manifests) > 1:
+        key = '+'.join(sorted(m['commander'] for m in manifests))
+        files.append(Path('data/releases') / (key + '.json'))
     for m in manifests:
         folder = Path('data/commanders') / m['commander']
         files += [folder / n for n in ('manifest.json', 'voice-lines.csv', 'media-inventory.csv')]
@@ -131,14 +134,15 @@ def build_release(base_pack, reference_pack=None, output_directory=None):
     require(os.name == 'nt' and struct.calcsize('P') == 8, 'Build requires 64-bit Windows Python')
     require(version('pyinstaller') == '6.22.3', 'Install pinned requirements-development.txt in .venv')
     manifests = discover()
-    require([m['commander'] for m in manifests] == ['hannibal'], 'Review release naming and joint tests before adding commanders')
-    manifest = manifests[0]
+    require([m['commander'] for m in manifests] == ['hannibal', 'spartacus'],
+            'Local test build requires exactly the validated Hannibal and Spartacus sets')
+    joint = selection(manifests)
     base = Path(base_pack).resolve(strict=True)
-    require(mod.sha256(base) == manifest['base']['sha256'], 'Unsupported canonical original')
+    require(mod.sha256(base) == manifests[0]['base']['sha256'], 'Unsupported canonical original')
     require(not base.is_relative_to(ROOT), 'Canonical original must remain outside the repository')
     reference = Path(reference_pack).resolve(strict=True) if reference_pack else None
     if reference:
-        require(mod.sha256(reference) == manifest['release']['sha256'], 'Reference Complete PACK hash mismatch')
+        require(mod.sha256(reference) == manifests[0]['release']['sha256'], 'Reference Complete PACK hash mismatch')
     output = Path(output_directory).resolve() if output_directory else ROOT / 'release'
     output.mkdir(parents=True, exist_ok=True)
     final = output / NAME
@@ -148,11 +152,13 @@ def build_release(base_pack, reference_pack=None, output_directory=None):
     env = os.environ.copy()
     env.update(PYTHONHASHSEED='0', SOURCE_DATE_EPOCH=EPOCH, PYTHONDONTWRITEBYTECODE='1', TWA_TEST_BASE_PACK=str(base))
     checked([sys.executable, '-B', '-m', 'unittest', 'discover', '-s', 'tests', '-v'], env)
-    checked([sys.executable, '-B', '-m', 'tools.mod', '--commander', 'hannibal', 'validate'], env)
+    for manifest in manifests:
+        checked([sys.executable, '-B', '-m', 'tools.mod', '--commander', manifest['commander'], 'validate'], env)
     checked([sys.executable, '-B', '-m', 'tools.validation.repository'], env)
     repository = audit()
     for m in manifests:
         mod.validate_data(m)
+    mod.validate_data(joint)
     build_root = ROOT / 'build'
     build_root.mkdir(exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='release-', dir=build_root) as temporary:
@@ -175,7 +181,8 @@ def build_release(base_pack, reference_pack=None, output_directory=None):
         (bundle / 'README.txt').write_text(
             'Total War: Arena - Czech Dubbing ' + VERSION + '\n\n'
             '1. Extract the entire ZIP.\n2. Double-click Install.bat or TWA-Czech-Dubbing-Installer.exe.\n'
-            '3. Select the Total War: Arena folder.\n4. Close the game and launcher; click Install Czech Dubbing.\n'
+            '3. Select Hannibal, Spartacus, or both and choose the Total War: Arena folder.\n'
+            '4. Close the game and launcher; click Install Czech Dubbing.\n'
             '5. Start the game yourself.\n\n'
             'Verify checks installed audio. Restore Original restores the verified backup.\n'
             'Backups: %LOCALAPPDATA%\\TWA-Czech-Dubbing\\backup\\<installation-id>\\audio_cn.pack\n'
@@ -196,16 +203,18 @@ def build_release(base_pack, reference_pack=None, output_directory=None):
         smoke = json.loads(smoke_report.read_text(encoding='utf-8'))
         require(process.returncode == 0 and smoke['status'] == 'PASS',
                 'Frozen installer smoke test failed: ' + smoke.get('error', 'unknown error'))
-        candidate = temp / 'reproduced.pack'
-        integration = mod.build(base, candidate, manifest)
+        integration = {}
+        for manifest in [*manifests, joint]:
+            candidate = temp / (manifest['commander'] + '-reproduced.pack')
+            integration[manifest['commander']] = mod.build(base, candidate, manifest)
         if reference:
-            with candidate.open('rb') as left, reference.open('rb') as right:
+            with (temp / 'hannibal-reproduced.pack').open('rb') as left, reference.open('rb') as right:
                 while True:
                     block = left.read(1024 * 1024)
                     require(block == right.read(1024 * 1024), 'Complete reference differs byte for byte')
                     if not block:
                         break
-            integration['byte_identical_to_complete_reference'] = True
+            integration['hannibal']['byte_identical_to_complete_reference'] = True
         archive_a = temp / 'first.zip'
         archive_b = temp / 'second.zip'
         deterministic_zip(bundle, archive_a)

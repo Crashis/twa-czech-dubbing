@@ -8,6 +8,7 @@ import tkinter as tk
 
 from tools import mod
 from tools.installer import gui
+from tools.installer.catalog import selection
 from tools.pack.reader import require
 
 
@@ -64,14 +65,48 @@ def run(base_path, report_path):
             app.start('restore')
             wait()
             require(mod.sha256(target) == manifest['base']['sha256'], 'Restore failed')
+            spartacus = mod.load_manifest('spartacus')
+            joint = selection([manifest, spartacus])
+            require([m['commander'] for m, _ in app.choices] == ['hannibal', 'spartacus'],
+                    'Frozen GUI commander catalog mismatch')
+            app.choices[0][1].set(False)
+            app.choices[1][1].set(True)
+            app.changed()
+            app.start('inspect')
+            wait()
+            require(str(app.install_button['state']) == 'normal', 'Spartacus selection is not installable')
+            app.start('install')
+            wait()
+            require(mod.sha256(target) == spartacus['release']['sha256'], 'Spartacus-only install failed')
+            app.choices[0][1].set(True)
+            app.changed()
+            app.start('inspect')
+            wait()
+            require(str(app.install_button['state']) == 'normal', 'Combined upgrade button is disabled')
+            app.start('install')
+            wait()
+            require(mod.sha256(target) == joint['release']['sha256'], 'Combined upgrade failed')
+            require(app.last['changed_entries'] == 609 and app.last['RSA'] == 'PASS', 'Combined verification failed')
+            app.choices[1][1].set(False)
+            app.changed()
+            app.start('inspect')
+            wait()
+            require(str(app.install_button['state']) == 'normal', 'Commander removal button is disabled')
+            app.start('install')
+            wait()
+            require(mod.sha256(target) == manifest['release']['sha256'], 'Remove Spartacus failed')
+            app.start('restore')
+            wait()
+            require(mod.sha256(target) == manifest['base']['sha256'], 'Final restore failed')
             require(float(app.progress['value']) == 100 and len(dialogs) >= 5, 'Progress/result callback failed')
             report.update(status='PASS', backend_install_verify_restore='PASS', GUI_start='PASS',
                           GUI_invalid_directory='PASS', GUI_valid_directory='PASS',
                           GUI_browse_callback='PASS (directory selection simulated)',
                           GUI_progress='PASS', GUI_result_callbacks='PASS (modal dialogs captured)',
                           native_dialog_visual_review='NOT_PERFORMED',
-                          changed_entries=305, unchanged_entries=16240, RSA='PASS',
-                          installed_sha256=manifest['release']['sha256'], restored_sha256=mod.sha256(target))
+                          single_and_joint_selection='PASS', upgrade_and_remove='PASS',
+                          changed_entries=609, unchanged_entries=15936, RSA='PASS',
+                          installed_sha256=joint['release']['sha256'], restored_sha256=mod.sha256(target))
             app.close()
             root = None
     except Exception as error:

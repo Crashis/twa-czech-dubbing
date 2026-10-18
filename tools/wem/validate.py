@@ -32,9 +32,9 @@ def float_peak(path):
     return {'rate': rate, 'frames': len(pcm), 'peak_linear': max(abs(x) for x in pcm)}
 
 
-def validate(wem, reference, vgmstream, ww2ogg, codebooks, work, original=None):
+def validate(wem, reference, vgmstream, ww2ogg, codebooks, work, original=None, raw=None):
     work = Path(work)
-    work.mkdir(parents=True, exist_ok=False)
+    work.mkdir(parents=True, exist_ok=True)
     fp = fingerprint(wem)
     require(fp['fmt']['sample_rate'] == 32000 and fp['fmt']['channels'] == 1, 'Expected 32 kHz mono WEM')
     if original:
@@ -56,8 +56,16 @@ def validate(wem, reference, vgmstream, ww2ogg, codebooks, work, original=None):
     ogg_info, other = pcm16(ogg_wav)
     require(ogg_info['rate'] == 32000 and len(other) == len(pcm), 'ww2ogg decode frame mismatch')
     require(max(abs(a - b) for a, b in zip(pcm, other)) <= 1, 'ww2ogg/direct decode mismatch')
+    if raw:
+        raw_decoded = work / 'raw-decoded.wav'
+        run([vgmstream, '-i', '-o', raw_decoded, raw])
+        raw_info, raw_pcm = pcm16(raw_decoded)
+        require(raw_info['pcm_sha256'] == info['pcm_sha256'] and raw_pcm == pcm,
+                'RIFF padding changed decoded PCM')
     result = {'status': 'PASS', 'wem_sha256': sha256(wem), 'size': fp['size'], 'quality': quality,
-              'float_decode': peak, 'ww2ogg_decode': 'PASS', 'fresh_human_listening_claimed': False}
+              'float_decode': peak, 'ww2ogg_decode': 'PASS',
+              'raw_vs_padded_pcm': 'PASS' if raw else 'NOT_CHECKED',
+              'fresh_human_listening_claimed': False}
     (work / 'validation.json').write_text(json.dumps(result, indent=2) + '\n', encoding='utf-8')
     return result
 
@@ -67,4 +75,5 @@ if __name__ == '__main__':
     for name in ('wem', 'reference', 'vgmstream', 'ww2ogg', 'codebooks', 'work'):
         parser.add_argument('--' + name, required=True)
     parser.add_argument('--original')
+    parser.add_argument('--raw')
     print(json.dumps(validate(**vars(parser.parse_args())), indent=2))

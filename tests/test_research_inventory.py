@@ -303,7 +303,7 @@ class MetadataTests(unittest.TestCase):
     def test_research_datasets_and_installer_exclusion(self):
         for name in ['leonidas', 'scipio-africanus']:
             self.assertEqual(validate_research(ROOT/'data/commanders'/name/'research', name)['status'], 'PASS')
-        self.assertEqual([m['commander'] for m in discover()], ['hannibal'])
+        self.assertEqual([m['commander'] for m in discover()], ['hannibal', 'spartacus'])
 
     def test_no_original_audio_in_repository_candidates(self):
         from tools.validation.repository import audit

@@ -5,6 +5,7 @@ import json
 import unittest
 
 from tools.inventory.research_metadata import read_csv, validate_research
+from tools.installer.catalog import discover
 from tools.mod import load_manifest
 from tools.resources import ROOT
 from tools.tts.research_plan import V3_STYLES, english_key, read_memory
@@ -156,7 +157,8 @@ class CommanderResearchSafetyTests(unittest.TestCase):
     def test_no_original_audio_in_commander_data_or_foreign_replacements(self):
         leaked = [p for p in COMMANDERS.rglob('*') if p.is_file() and p.suffix.lower() in AUDIO_SUFFIXES]
         self.assertEqual(leaked, [])
-        self.assertEqual({p.name for p in (ROOT/'replacements').iterdir()}, {'hannibal'})
+        self.assertEqual({p.name for p in (ROOT/'replacements').iterdir()},
+                         {m['commander'] for m in discover()})
 
 
 if __name__ == '__main__':

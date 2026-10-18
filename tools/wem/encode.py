@@ -43,8 +43,9 @@ def search(source, output, size, media_id, oggenc, wav2wem, vgmstream, work,
                 item['comparison'] = compare(source, decoded)
                 item['status'] = 'PASS'
                 passing.append((q, final))
-            except ValueError:
+            except ValueError as error:
                 item['status'] = 'QUALITY_FAIL'
+                item['reason'] = str(error)
         trials.append(item)
         (work / 'trials.json').write_text(json.dumps({'source_sha256': original_sha, 'reference_filtered': False,
               'advanced_options': list(advanced_option), 'trials': trials}, indent=2), encoding='utf-8')
@@ -61,6 +62,24 @@ def search(source, output, size, media_id, oggenc, wav2wem, vgmstream, work,
             q = round(first + .25 - step * .025, 4)
             if -1 <= q <= 10:
                 trial(q)
+    elif trials:
+        # A coarse step can jump over the only acceptable size/parity and QC
+        # point. Probe a bounded neighborhood of the highest fitting trial.
+        close = [t['quality'] for t in trials if t['raw_bytes'] <= size]
+        if close:
+            top = max(close)
+            for step in range(19):
+                q = round(top + .225 - step * .025, 4)
+                if -1 <= q <= 10:
+                    trial(q)
+            if not passing:
+                near = [t['quality'] for t in trials if t['status'] == 'QUALITY_FAIL']
+                if near:
+                    top = max(near)
+                    for step in range(16):
+                        q = round(top + .05 - step * .005, 4)
+                        if -1 <= q <= 10:
+                            trial(q)
     require(passing, 'No fitting encoding passed QC; review optional encoder profiles without changing the reference')
     require(sha256(source) == original_sha, 'QC reference changed during search')
     quality, final = max(passing, key=lambda item: item[0])

@@ -31,4 +31,6 @@ Zdrojový repozitář obsahuje finální české WEMy, metadata, Python/PowerShe
 
 [DEVELOPMENT](docs/DEVELOPMENT.md) · [TECHNICAL_PIPELINE](docs/TECHNICAL_PIPELINE.md) · [ADDING_COMMANDER](docs/ADDING_COMMANDER.md) · [VALIDATION](docs/VALIDATION.md) · [AGENTS](AGENTS.md) · [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md)
 
-Dostupné commandery určuje manifest. Dnes release obsahuje Hannibala; další hlasová data zatím nejsou připravena. Budoucí kombinace vyžadují kontrolu konfliktů a samostatně ověřený společný release hash.
+Dostupné commandery určuje manifest. Veřejný release v1.0.0 obsahuje Hannibala. Kombinace vyžaduje kontrolu konfliktů a samostatně ověřený společný release hash.
+
+Lokální vývojové sestavení v1.1.0-dev navíc obsahuje Spartaka (304/304 WEMů) a validovanou kombinaci Hannibal + Spartacus. Veřejný release v1.0.0 zůstává Hannibal-only. Vývojové sestavení čeká na lidský test ve hře; technické offline výsledky jsou v [DEVELOPMENT](docs/DEVELOPMENT.md).

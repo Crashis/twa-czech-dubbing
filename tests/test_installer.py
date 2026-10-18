@@ -12,7 +12,7 @@ from unittest.mock import patch
 
 from tools import deploy, mod
 from tools.installer.backend import Installer, normalize_game_path, transaction_lock
-from tools.installer.catalog import discover, merge_manifests, selection
+from tools.installer.catalog import discover, known_manifests, merge_manifests, selection
 
 
 class InstallerTests(unittest.TestCase):
@@ -63,8 +63,12 @@ class InstallerTests(unittest.TestCase):
     def test_conflicting_overlap_rejected(self):
         parts = self.joint_parts()
         parts[1]['replacements'][0]['sha256'] = '0' * 64
+        (self.root / 'data').mkdir()
+        target = self.root / 'data/audio_cn.pack'
+        target.write_bytes(b'unchanged mock game file')
         with self.assertRaisesRegex(ValueError, 'CONFLICT'):
-            merge_manifests(parts, self.manifest['release'])
+            selection(parts)
+        self.assertEqual(target.read_bytes(), b'unchanged mock game file')
 
     def test_joint_release_requires_prevalidated_whole_hash(self):
         with self.assertRaisesRegex(ValueError, 'validated joint release'):
@@ -164,6 +168,38 @@ class InstallerIntegrationTests(unittest.TestCase):
         with patch.object(mod, 'build', side_effect=race), self.assertRaises(ValueError):
             self.service.install(self.game)
         self.assertEqual(self.target.read_bytes(), b'external concurrent change')
+
+    def test_hannibal_spartacus_selection_matrix(self):
+        if not (mod.ROOT / 'data/commanders/spartacus/manifest.json').is_file():
+            self.skipTest('Spartacus production set not yet present')
+        hannibal = self.manifest
+        spartacus = mod.load_manifest('spartacus')
+        both = selection([hannibal, spartacus])
+        by_name = {'hannibal': hannibal, 'spartacus': spartacus, 'combined': both}
+        self.assertEqual([m['commander'] for m in known_manifests()],
+                         ['hannibal', 'spartacus', 'combined'])
+        scenarios = [
+            ['hannibal'], ['spartacus'], ['combined'],
+            ['hannibal', 'combined'], ['spartacus', 'combined'],
+            ['combined', 'hannibal'], ['combined', 'spartacus'],
+        ]
+        for index, steps in enumerate(scenarios):
+            with self.subTest(steps=steps):
+                game = self.folder / f'matrix-{index}'
+                (game / 'data').mkdir(parents=True)
+                target = game / 'data/audio_cn.pack'
+                shutil.copyfile(self.base, target)
+                state = self.folder / f'matrix-state-{index}'
+                for name in steps:
+                    service = Installer(by_name[name], state)
+                    self.assertEqual(service.install(game)['sha256'], by_name[name]['release']['sha256'])
+                    observed = service.inspect(game)
+                    self.assertEqual((observed['state'], observed['sha256'], observed['RSA']),
+                                     ('INSTALLED', by_name[name]['release']['sha256'], 'PASS'))
+                    self.assertEqual(set(observed['installed_commanders']),
+                                     set(by_name[name].get('components', [name])))
+                self.assertEqual(service.restore(game)['status'], 'RESTORED')
+                self.assertEqual(mod.sha256(target), hannibal['base']['sha256'])
 
 
 if __name__ == '__main__':

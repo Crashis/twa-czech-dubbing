@@ -50,3 +50,7 @@ Chybějící nebo poškozená záloha obnovu zastaví. Installer neumí původn�
 Technický stav je vidět v okně. Stručné logy jsou v `%LOCALAPPDATA%\TWA-Czech-Dubbing\logs\`. Neobsahují API klíče ani prostředí procesu. Během instalace nebo obnovy počkejte na dokončení.
 
 Pokud launcher opraví nebo aktualizuje hru, spusťte po jeho zavření **Verify**. Dabing používá podporovaný hlasový soubor `audio_cn.pack`, přestože jeho původní zvuky jsou anglické; nepřejmenovávejte jiné soubory podle jazyka.
+
+## Lokální testovací sestavení v1.1.0-dev
+
+Lokální testovací ZIP nabízí Hannibala, Spartaka nebo oba hlasy. Při změně výběru ověřte aktuální stav tlačítkem **Verify** a klikněte na **Install Czech Dubbing**. Installer používá ověřenou zálohu původního PACKu a sestaví nový výběr od začátku. **Restore Original** obnoví původní PACK. Toto sestavení čeká na lidský test ve hře; veřejný release v1.0.0 se nemění.

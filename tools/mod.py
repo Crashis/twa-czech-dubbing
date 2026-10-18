@@ -1,6 +1,7 @@
 """Manifest-driven, offline Arena voice replacement builder (Python 3.11+)."""
 import argparse
 import csv
+from functools import lru_cache
 import hashlib
 import json
 import os
@@ -13,6 +14,12 @@ from tools.pack.reader import ArenaPack, require
 from tools.wem.fingerprint import fingerprint
 from tools.resources import ROOT
 
+
+@lru_cache(maxsize=1024)
+def fingerprint_by_verified_hash(path, digest):
+    # Caller checks the current file hash first, so a changed payload cannot
+    # reuse an earlier structural inspection within this process.
+    return fingerprint(path)
 
 
 def sha256(path):
@@ -77,8 +84,9 @@ def validate_data(manifest):
         require(int(metadata[mid]['original_size_bytes']) == int(original['original_size_bytes']) == spec['size'], 'Original size mismatch')
         require(original['wem_sha256'] == spec['original_sha256'], 'Original inventory hash mismatch')
         path = wem_dir / (mid + '.wem')
-        require(path.stat().st_size == spec['size'] and sha256(path) == spec['sha256'] == metadata[mid]['wem_sha256'], 'Replacement hash/size mismatch: ' + mid)
-        fp = fingerprint(path)
+        digest = sha256(path)
+        require(path.stat().st_size == spec['size'] and digest == spec['sha256'] == metadata[mid]['wem_sha256'], 'Replacement hash/size mismatch: ' + mid)
+        fp = fingerprint_by_verified_hash(str(path), digest)
         expected = manifest['wem_format']
         require(fp['container'] == 'RIFF' and fp['fmt_chunk_size'] == expected['fmt_chunk_size'], 'WEM container mismatch')
         require(all(fp['fmt'][key] == expected[key] for key in ('sample_rate', 'channels', 'block_sizes', 'subtype_channel_config')), 'WEM format mismatch: ' + mid)

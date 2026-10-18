@@ -8,14 +8,16 @@ from tools.mod import sha256
 from tools.pack.reader import require
 from tools.wem.audio import pcm16
 
-def prepare_game_wav(source, target):
+def prepare_game_wav(source, target, trailing_margin_ms=40):
     import numpy as np
     with wave.open(str(source),'rb') as audio:
         require(audio.getframerate()==24000 and audio.getnchannels()==1 and audio.getsampwidth()==2,'Unexpected source WAV')
         values = np.frombuffer(audio.readframes(audio.getnframes()),dtype='<i2').astype(np.float64)
     active = np.flatnonzero(np.abs(values) >= 32768*10**(-48/20))
     require(active.size>0,'Silent source')
-    start=max(0,int(active[0])-480); end=min(len(values),int(active[-1])+1+960)
+    require(20 <= trailing_margin_ms <= 40, 'Unsupported trailing-silence margin')
+    start=max(0,int(active[0])-480)
+    end=min(len(values),int(active[-1])+1+round(24*trailing_margin_ms))
     trimmed=values[start:end]
     length=round(len(trimmed)*4/3)
     indexes=np.arange(length,dtype=np.int64)
@@ -46,10 +48,11 @@ def prepare_game_wav(source, target):
     info,_=pcm16(target)
     report = {'source_sha256':sha256(source),'prepared':info,
          'trimmed_leading_seconds':start/24000,'trimmed_trailing_seconds':(len(values)-end)/24000,
-         'silence_threshold_dbfs':-48,'margins_ms':[20,40],'resample':'64-tap Lanczos sinc 4/3',
+         'silence_threshold_dbfs':-48,'margins_ms':[20,trailing_margin_ms],'resample':'64-tap Lanczos sinc 4/3',
          'gain_db':20*math.log10(gain),'peak_limit_dbfs':-4,'boundary_fades_ms':5,
          'time_stretch':False,'playback_speed_changed':False}
     return report
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)

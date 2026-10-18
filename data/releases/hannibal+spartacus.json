@@ -1,0 +1,12 @@
+{
+  "commanders": [
+    "hannibal",
+    "spartacus"
+  ],
+  "release": {
+    "sha256": "22ceec628bfd22cb140ac4334e6cf13a11c2eed8ef0b387779b0aac92c5e0d64",
+    "changed_entries": 609,
+    "unchanged_entries": 15936,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

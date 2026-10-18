@@ -98,8 +98,15 @@ class App:
         ready = bool(self.path.get().strip()) and not self.busy
         self.verify_button['state'] = 'normal' if ready else 'disabled'
         state = self.last.get('state') if self.last else None
-        self.install_button['state'] = 'normal' if ready and state == 'ORIGINAL' else 'disabled'
-        self.install_button['text'] = 'Installed' if state == 'INSTALLED' else 'Install Czech Dubbing'
+        selected_hash = None
+        try:
+            selected_hash = self.selected()['release']['sha256']
+        except ValueError:
+            pass
+        installable = state == 'ORIGINAL' or (state == 'INSTALLED' and
+                       self.last.get('sha256') != selected_hash and self.last.get('backup_exists'))
+        self.install_button['state'] = 'normal' if ready and installable and selected_hash else 'disabled'
+        self.install_button['text'] = 'Installed' if state == 'INSTALLED' and not installable else 'Install Czech Dubbing'
         self.restore_button['state'] = 'normal' if ready and state == 'INSTALLED' else 'disabled'
         for control in [self.entry, self.browse_button, *self.checks]:
             control['state'] = 'disabled' if self.busy else 'normal'

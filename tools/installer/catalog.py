@@ -1,5 +1,6 @@
 """Discover commanders and resolve overlap before any build or installation."""
 import copy
+from itertools import combinations
 import json
 
 from tools import mod
@@ -55,3 +56,17 @@ def selection(parts):
     joint = json.loads(descriptor.read_text(encoding='utf-8'))
     require(joint['commanders'] == key.split('+'), 'Joint release selection mismatch')
     return merge_manifests(parts, joint['release'])
+
+
+def known_manifests():
+    """All validated states the installer can recognize, including joint builds."""
+    parts = discover()
+    known = list(parts)
+    for count in range(2, len(parts) + 1):
+        for group in combinations(parts, count):
+            key = '+'.join(sorted(p['commander'] for p in group))
+            if (mod.ROOT / 'data/releases' / (key + '.json')).is_file():
+                known.append(selection(group))
+    hashes = [m['release']['sha256'] for m in known]
+    require(len(hashes) == len(set(hashes)), 'Ambiguous known release hashes')
+    return known

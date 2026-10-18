@@ -9,7 +9,7 @@ import shutil
 import tempfile
 
 from tools import deploy, mod
-from tools.installer.catalog import discover
+from tools.installer.catalog import known_manifests
 from tools.pack.reader import require
 from tools.resources import VERSION
 
@@ -112,7 +112,7 @@ class Installer:
         data = mod.validate_data(self.manifest)
         self.report(25, 'Reading game file and verifying integrity…')
         digest = mod.sha256(target)
-        manifests = [self.manifest, *discover()]
+        manifests = known_manifests()
         known = next((m for m in manifests if digest in (m['base']['sha256'], m['release']['sha256'])), None)
         if known is None:
             return {'state': 'UNSUPPORTED', 'sha256': digest, 'RSA': 'NOT_CHECKED',
@@ -122,7 +122,8 @@ class Installer:
         message = (known['display_name'] + ' installed correctly.' if installed else 'Supported original game version detected.')
         self.report(100, message)
         return {**result, 'state': 'INSTALLED' if installed else 'ORIGINAL', 'message': message,
-                'data': data, 'backup_exists': backup.is_file(), 'game_path': str(root)}
+                'data': data, 'backup_exists': backup.is_file(), 'game_path': str(root),
+                'installed_commanders': known.get('components', [known['commander']]) if installed else []}
 
     def verified_backup(self, backup):
         no_redirects(backup)
