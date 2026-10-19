@@ -1,0 +1,1704 @@
+{
+ "schema": "unit-acknowledgements-staged/1",
+ "status": "research_staged",
+ "release_ready": false,
+ "installer_discoverable": false,
+ "production_manifest": null,
+ "paid_tts_requests": 0,
+ "note": "Offline research plan only. Not a commander manifest; the installer reads data/commanders/*/manifest.json only. Replacing any of these Media IDs would require a separately validated shared/joint release type that does not exist yet.",
+ "sources": {
+  "wwise": "battle_vo_orders.bnk DialogueEvent 1419778157 and frontend_vo.bnk DialogueEvent 2732370230 (arguments vo_culture, vo_actor, vo_unit_type), parsed from $researchWorkspace/corpus/graph.json",
+  "database": "wad.pack db/land_units_tables (vo_sel_*, vo_culture_*), battle_entities_tables (human_female), arena_unit_trees_tables (faction trees, live status), arena_commanders_tables (live commanders); terminology checked against land_units_tables class/unit type/UI grouping/animation, unit_class_tables, ui_unit_groupings_tables, unit_types_tables and melee_weapons_tables (work/shared-unit-voice-analysis/human-review/TAXONOMY.md)",
+  "audio": "canonical original PACK SHA-256 d6ee7ec4c4422276d9caba7013f46662a980955c138be13f653b58992ad876ad, RSA PASS, decoded privately",
+  "transcripts": "offline faster-whisper base.en/small.en/medium.en + prior inventories; reviewed variant map"
+ },
+ "voice_groups": {
+  "CZ_UNIT_MALE": "one Czech male voice for every Male_1/2/3 slot of every vo_culture",
+  "CZ_UNIT_FEMALE": "one Czech female voice for every Female_1/2/3 slot (Barbarian, China, Greek, Roman)"
+ },
+ "production_scope": "Media IDs reached by a live unit whose entity gender selects that slot list (dubbing_priority REQUIRED). Unreachable IDs are listed in excluded-media.staged.csv and must never receive audio.",
+ "terminology_status": "approved by the user 2026-10-19 (all phrases FINAL)",
+ "transcript_status": "production scope fully resolved; 22 generic-ack transcripts closed 2026-10-19 by the user-approved set-position rule (not verified by human listening)",
+ "counts": {
+  "media_in_scope": 1050,
+  "distinct_recordings_in_scope": 873,
+  "phrases": 40,
+  "phrases_final_czech": 40,
+  "phrases_manual": 0,
+  "production_scope_media": 465,
+  "production_unresolved_transcripts": 0,
+  "performances": 44,
+  "duplicate_media_saved": 421,
+  "performances_by_voice": {
+   "CZ_UNIT_FEMALE": 15,
+   "CZ_UNIT_MALE": 29
+  }
+ },
+ "phrases": [
+  {
+   "phrase_id": "archers",
+   "english": "Archers!",
+   "kind": "UNIT_NAME",
+   "czech": "Lučištníci!",
+   "czech_female": "Lučištnice!",
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Foot bow units (Toxotai, Cretan Archers, Huntsmen...). Female form needed: Barbarian Ambushers and Cimbri Archers use human_female entities.",
+   "media_count": 33,
+   "production_media_count": 15,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 30,
+    "MEDIUM": 3
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 15,
+    "REQUIRED": 15,
+    "OPTIONAL_GENDER_MISMATCH": 3
+   }
+  },
+  {
+   "phrase_id": "mounted_archers",
+   "english": "Mounted archers!",
+   "kind": "UNIT_NAME",
+   "czech": "Jízdní lučištníci!",
+   "czech_female": "Jízdní lučištnice!",
+   "czech_status": "FINAL",
+   "czech_alternatives": [
+    "Koňští lučištníci!"
+   ],
+   "note": "Bow cavalry category; no live unit currently carries vo_sel_bow_cavalry, so this set is reachable only through branch fallbacks.",
+   "media_count": 33,
+   "production_media_count": 0,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 27,
+    "MEDIUM": 6
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 33
+   }
+  },
+  {
+   "phrase_id": "artillery_ready",
+   "english": "Artillery ready!",
+   "kind": "UNIT_NAME",
+   "czech": "Artilerie připravena!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [
+    "Stroje připraveny!"
+   ],
+   "note": "Ancient engines (Onager, Scorpion, Catapult, Cheiroballistra). 'Dělostřelectvo' implies guns and is long; 'artilerie' is the shorter, period-neutral game term. Grammatically agrees with 'artilerie', so neutral to speaker gender.",
+   "media_count": 33,
+   "production_media_count": 6,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "MEDIUM": 2,
+    "HIGH": 31
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 21,
+    "OPTIONAL_GENDER_MISMATCH": 6,
+    "REQUIRED": 6
+   }
+  },
+  {
+   "phrase_id": "heavy_artillery",
+   "english": "Heavy artillery!",
+   "kind": "UNIT_NAME",
+   "czech": "Těžká artilerie!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Consistent with 'Artilerie připravena!'.",
+   "media_count": 33,
+   "production_media_count": 0,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 33
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 33
+   }
+  },
+  {
+   "phrase_id": "light_artillery",
+   "english": "Light artillery!",
+   "kind": "UNIT_NAME",
+   "czech": "Lehká artilerie!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Some cultures reuse the 'Artillery ready!' container for vo_sel_light_artillery; those Media IDs belong to artillery_ready.",
+   "media_count": 15,
+   "production_media_count": 0,
+   "distinct_original_recordings": 10,
+   "transcript_confidence": {
+    "HIGH": 13,
+    "MEDIUM": 2
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 15
+   }
+  },
+  {
+   "phrase_id": "axemen",
+   "english": "Axemen!",
+   "kind": "UNIT_NAME",
+   "czech": "Sekerníci!",
+   "czech_female": "Sekernice!",
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "No live unit carries vo_sel_AXES (DB); recorded but statically unreachable through a specific unit.",
+   "media_count": 30,
+   "production_media_count": 0,
+   "distinct_original_recordings": 25,
+   "transcript_confidence": {
+    "HIGH": 28,
+    "MEDIUM": 2
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 30
+   }
+  },
+  {
+   "phrase_id": "chariots",
+   "english": "Chariots!",
+   "kind": "UNIT_NAME",
+   "czech": "Válečné vozy!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Bare 'Vozy!' reads as carts; 'válečné vozy' is the standard term. No live chariot unit in DB.",
+   "media_count": 33,
+   "production_media_count": 0,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 30,
+    "MEDIUM": 3
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 33
+   }
+  },
+  {
+   "phrase_id": "crossbows",
+   "english": "Crossbows!",
+   "kind": "UNIT_NAME",
+   "czech": "Kuše!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [
+    "Kušiníci!"
+   ],
+   "note": "English names the weapon; Czech keeps the weapon (gender-neutral, 2 syllables) and stays distinct from 'Opakovací kuše!'. China only.",
+   "media_count": 6,
+   "production_media_count": 3,
+   "distinct_original_recordings": 1,
+   "transcript_confidence": {
+    "HIGH": 6
+   },
+   "dubbing_priority": {
+    "OPTIONAL_GENDER_MISMATCH": 3,
+    "REQUIRED": 3
+   }
+  },
+  {
+   "phrase_id": "repeating_crossbows",
+   "english": "Repeating crossbows!",
+   "kind": "UNIT_NAME",
+   "czech": "Opakovací kuše!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Zhuge/chu-ko-nu repeaters (Repeating Crossbows, Zhuge Crossbows, Wu Marines). China only.",
+   "media_count": 6,
+   "production_media_count": 3,
+   "distinct_original_recordings": 1,
+   "transcript_confidence": {
+    "HIGH": 6
+   },
+   "dubbing_priority": {
+    "REQUIRED": 3,
+    "OPTIONAL_GENDER_MISMATCH": 3
+   }
+  },
+  {
+   "phrase_id": "daggers_drawn",
+   "english": "Daggers drawn!",
+   "kind": "UNIT_NAME",
+   "czech": "Dýky tasené!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [
+    "Dýky v ruce!"
+   ],
+   "note": "State 592974941 = vo_sel_daggers (exact FNV-1). No live unit carries it; low priority.",
+   "media_count": 33,
+   "production_media_count": 0,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 15,
+    "MEDIUM": 18
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 33
+   }
+  },
+  {
+   "phrase_id": "elephants",
+   "english": "Elephants!",
+   "kind": "UNIT_NAME",
+   "czech": "Sloni!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [
+    "Váleční sloni!"
+   ],
+   "note": "Carthage (African/Armoured Elephant, Baal, Tanit, Caesai...) and China (Ancient/Feng Elephant).",
+   "media_count": 33,
+   "production_media_count": 6,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 30,
+    "MEDIUM": 3
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 24,
+    "REQUIRED": 6,
+    "OPTIONAL_GENDER_MISMATCH": 3
+   }
+  },
+  {
+   "phrase_id": "falxes",
+   "english": "Falxes!",
+   "kind": "UNIT_NAME",
+   "czech": "Falxy!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [
+    "Bojovníci s falxem!",
+    "Falxmani!"
+   ],
+   "tts_input": "Falksy!",
+   "note": "User decision 2026-10-19. 7 live units, all DB weapon type falx (animation rome_man_falx, UI grouping inf_falx): Falxmen, Cleavers, Dacian Warriors, Dacian Gladiators ... TTS input is the phonetic 'Falksy!'; the canonical text stays 'Falxy!'.",
+   "media_count": 33,
+   "production_media_count": 6,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "MEDIUM": 27,
+    "HIGH": 6
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 24,
+    "OPTIONAL_GENDER_MISMATCH": 3,
+    "REQUIRED": 6
+   }
+  },
+  {
+   "phrase_id": "glaives",
+   "english": "Glaives!",
+   "kind": "UNIT_NAME",
+   "czech": "Glévie!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [
+    "Sudlice!"
+   ],
+   "note": "Chinese polearm infantry (Polearm Buqu, Central Guard, Qingzhou Infantry). 'Glévie' is the Czech term for a glaive; kept distinct from 'Píky' (pikes). DB: weapon type glaive, unit_class inf_spr 'Spear Infantry' (8 live units).",
+   "media_count": 6,
+   "production_media_count": 3,
+   "distinct_original_recordings": 1,
+   "transcript_confidence": {
+    "HIGH": 6
+   },
+   "dubbing_priority": {
+    "OPTIONAL_GENDER_MISMATCH": 3,
+    "REQUIRED": 3
+   }
+  },
+  {
+   "phrase_id": "javelin_cavalry",
+   "english": "Javelin cavalry!",
+   "kind": "UNIT_NAME",
+   "czech": "Jízdní oštěpaři!",
+   "czech_female": "Jízdní oštěpařky!",
+   "czech_status": "FINAL",
+   "czech_alternatives": [
+    "Oštěpařská jízda!"
+   ],
+   "note": "Parallel to 'Jízdní lučištníci!'. No live unit carries vo_sel_javelin_cavalry.",
+   "media_count": 33,
+   "production_media_count": 0,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 28,
+    "MEDIUM": 5
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 33
+   }
+  },
+  {
+   "phrase_id": "javelins",
+   "english": "Javelins!",
+   "kind": "UNIT_NAME",
+   "czech": "Oštěpy!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [
+    "Oštěpaři!"
+   ],
+   "note": "Foot skirmishers (Velites, Peltasts, Iberian Skirmishers). English names the weapon; kept as weapon (gender-neutral) and distinct from javelin cavalry.",
+   "media_count": 33,
+   "production_media_count": 15,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "MEDIUM": 4,
+    "HIGH": 29
+   },
+   "dubbing_priority": {
+    "REQUIRED": 15,
+    "NOT_NEEDED_NO_LIVE_UNIT": 9,
+    "OPTIONAL_GENDER_MISMATCH": 9
+   }
+  },
+  {
+   "phrase_id": "melee_cavalry",
+   "english": "Melee cavalry!",
+   "kind": "UNIT_NAME",
+   "czech": "Jízda!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [
+    "Bitevní jízda!",
+    "Jízda na blízko!"
+   ],
+   "czech_rejected": {
+    "Jízda s kopími!": "false for the 9 sword-cavalry units (Blood Riders, Noble Horse, Legatus ...)",
+    "Jízda s meči!": "false for the 34 spear-armed units (spear cavalry, spear camels, Chinese polearm riders)"
+   },
+   "note": "Taxonomy-verified 2026-10-19 (land_units_tables class/unit type/UI grouping/animation + melee_weapons_tables weapon type, live units only): 43 live units = 34 spear-armed (17 cav_mel spear cavalry, 7 spear camels, 10 Chinese riders with glaive-polearm animation and DB weapon type spear) + 9 sword cavalry (UI grouping cav_melee_sword). Mixed weapons, so the bare category 'Jízda!' is the most specific true Czech term. Stays distinct from 'Úderná jízda!' (shock cavalry, all lancers).",
+   "media_count": 33,
+   "production_media_count": 18,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "MEDIUM": 17,
+    "HIGH": 16
+   },
+   "dubbing_priority": {
+    "REQUIRED": 18,
+    "NOT_NEEDED_NO_LIVE_UNIT": 3,
+    "OPTIONAL_GENDER_MISMATCH": 12
+   }
+  },
+  {
+   "phrase_id": "melee_infantry",
+   "english": "Melee infantry!",
+   "kind": "UNIT_NAME",
+   "czech": "Pěchota!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [
+    "Bitevní pěchota!",
+    "Pěchota na blízko!"
+   ],
+   "czech_rejected": {
+    "Pěchota s meči!": "umbrella label: the same recordings serve vo_sel_melee_infantry, Barbarian-female vo_sel_swords and vo_sel_axes; DB unit_class inf_mel \"Melee Infantry\" = swords, dual swords and falxes"
+   },
+   "note": "Taxonomy-verified 2026-10-19 (land_units_tables class/unit type/UI grouping/animation + melee_weapons_tables weapon type, live units only): umbrella label, not a sword label. Only live user is Andartas Swords (female Barbarian sword unit), because Barbarian female sets have no 'Swordsmen!'/'Axemen!' recording and reuse 'Melee infantry!' for both branches. The sword-specific line is 'Swordsmen!' -> 'Šermíři!'. Gender-neutral.",
+   "media_count": 32,
+   "production_media_count": 3,
+   "distinct_original_recordings": 27,
+   "transcript_confidence": {
+    "HIGH": 19,
+    "MEDIUM": 13
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 29,
+    "REQUIRED": 3
+   }
+  },
+  {
+   "phrase_id": "missile_cavalry",
+   "english": "Missile cavalry!",
+   "kind": "UNIT_NAME",
+   "czech": "Střelecká jízda!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Live units with this category are 'pre' (dev) units only; reachable set is small.",
+   "media_count": 33,
+   "production_media_count": 0,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 27,
+    "MEDIUM": 6
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 33
+   }
+  },
+  {
+   "phrase_id": "missile_infantry",
+   "english": "Missile infantry!",
+   "kind": "UNIT_NAME",
+   "czech": "Střelecká pěchota!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "No live unit carries vo_sel_Missile_Infantry.",
+   "media_count": 32,
+   "production_media_count": 0,
+   "distinct_original_recordings": 27,
+   "transcript_confidence": {
+    "HIGH": 31,
+    "MEDIUM": 1
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 32
+   }
+  },
+  {
+   "phrase_id": "pikes_ready",
+   "english": "Pikes ready!",
+   "kind": "UNIT_NAME",
+   "czech": "Píky připraveny!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Macedonian/Hellenic pikemen and Chinese Ji units. 'Píky' (pikes) is kept distinct from 'Kopí' (spears). Agrees with 'píky', so neutral to speaker gender.",
+   "media_count": 33,
+   "production_media_count": 6,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 29,
+    "MEDIUM": 4
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 21,
+    "OPTIONAL_GENDER_MISMATCH": 6,
+    "REQUIRED": 6
+   }
+  },
+  {
+   "phrase_id": "shock_cavalry",
+   "english": "Shock cavalry!",
+   "kind": "UNIT_NAME",
+   "czech": "Úderná jízda!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "czech_rejected": {
+    "Jízda s kopími!": "true for its users but 34 more spear-armed riders say 'Melee cavalry!', so it would not distinguish them and drops 'shock'"
+   },
+   "note": "Companions, Cataphracts, Gungnir Chargers, Harbingers (female). Taxonomy-verified 2026-10-19 (land_units_tables class/unit type/UI grouping/animation + melee_weapons_tables weapon type, live units only): all 19 reached live units are lance cavalry (class cav_shk, lance animations). Gender-neutral.",
+   "media_count": 33,
+   "production_media_count": 12,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 23,
+    "MEDIUM": 10
+   },
+   "dubbing_priority": {
+    "OPTIONAL_GENDER_MISMATCH": 3,
+    "NOT_NEEDED_NO_LIVE_UNIT": 18,
+    "REQUIRED": 12
+   }
+  },
+  {
+   "phrase_id": "slingers",
+   "english": "Slingers!",
+   "kind": "UNIT_NAME",
+   "czech": "Prakovníci!",
+   "czech_female": "Prakovnice!",
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Balearic/Rhodian/Helot slingers.",
+   "media_count": 33,
+   "production_media_count": 9,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 26,
+    "MEDIUM": 7
+   },
+   "dubbing_priority": {
+    "OPTIONAL_GENDER_MISMATCH": 6,
+    "NOT_NEEDED_NO_LIVE_UNIT": 18,
+    "REQUIRED": 9
+   }
+  },
+  {
+   "phrase_id": "spears",
+   "english": "Spears!",
+   "kind": "UNIT_NAME",
+   "czech": "Kopí!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [
+    "Kopiníci!"
+   ],
+   "note": "Hoplites, Sparabara, Immortals, Retiarii. Taxonomy-verified 2026-10-19 (land_units_tables class/unit type/UI grouping/animation + melee_weapons_tables weapon type, live units only): all 47 live units are DB class inf_spr 'Spear Infantry' with weapon type spear (Retiarii carry a cosmetic trident). English names the weapon ('Spears', not 'Spearmen'); Czech keeps the weapon, gender-neutral (Telesilla's Argives are female), distinct from 'Píky'. 'Pěchota s kopími!' is factually true but HIGH on all 21 required slots (0.68 s minimum).",
+   "media_count": 33,
+   "production_media_count": 21,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 27,
+    "MEDIUM": 6
+   },
+   "dubbing_priority": {
+    "REQUIRED": 21,
+    "NOT_NEEDED_NO_LIVE_UNIT": 6,
+    "OPTIONAL_GENDER_MISMATCH": 6
+   }
+  },
+  {
+   "phrase_id": "swordsmen",
+   "english": "Swordsmen!",
+   "kind": "UNIT_NAME",
+   "czech": "Šermíři!",
+   "czech_female": "Šermířky!",
+   "czech_status": "FINAL",
+   "czech_alternatives": [
+    "Mečovníci!"
+   ],
+   "note": "Largest category (Warband, Libyan Infantry, Sword Buqu ...). Taxonomy-verified 2026-10-19 (land_units_tables class/unit type/UI grouping/animation + melee_weapons_tables weapon type, live units only): all 81 live units have DB weapon type sword (75 sword, 6 dual-sword gladiators), so 'Pěchota s meči!' would also be true but is ~1.9x longer (HIGH on 6 slots, 0.71 s minimum). 'Šermíř' is the established Czech game term for Swordsman. Female form 'Šermířky!' kept for completeness only: no live female unit hears this line (Andartas Swords hears 'Melee infantry!', Handmaiden Guard gets the China male recording).",
+   "media_count": 24,
+   "production_media_count": 24,
+   "distinct_original_recordings": 19,
+   "transcript_confidence": {
+    "MEDIUM": 8,
+    "HIGH": 16
+   },
+   "dubbing_priority": {
+    "REQUIRED": 24
+   }
+  },
+  {
+   "phrase_id": "tigers",
+   "english": "Tigers!",
+   "kind": "UNIT_NAME",
+   "czech": "Tygři!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "China only (Tamed Tigers, Beastmen); male slots only in the bank.",
+   "media_count": 3,
+   "production_media_count": 3,
+   "distinct_original_recordings": 1,
+   "transcript_confidence": {
+    "HIGH": 3
+   },
+   "dubbing_priority": {
+    "REQUIRED": 3
+   }
+  },
+  {
+   "phrase_id": "dogs_of_war",
+   "english": "Dogs of war!",
+   "kind": "UNIT_NAME",
+   "czech": "Váleční psi!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Barbarian hound units (Hound Handlers, Wild Wolves) and Roman War Dogs. Gender-neutral.",
+   "media_count": 33,
+   "production_media_count": 9,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "MEDIUM": 4,
+    "HIGH": 29
+   },
+   "dubbing_priority": {
+    "OPTIONAL_GENDER_MISMATCH": 3,
+    "REQUIRED": 9,
+    "NOT_NEEDED_NO_LIVE_UNIT": 21
+   }
+  },
+  {
+   "phrase_id": "infantry",
+   "english": "Infantry!",
+   "kind": "UNIT_NAME",
+   "czech": "Pěchota!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Taxonomy-verified 2026-10-19 (land_units_tables class/unit type/UI grouping/animation + melee_weapons_tables weapon type, live units only): single Barbarian Male_1 recording on vo_sel_melee_infantry (the speaker shortened 'Melee infantry!'); same umbrella category, same Czech text. No live unit reaches it.",
+   "media_count": 1,
+   "production_media_count": 0,
+   "distinct_original_recordings": 1,
+   "transcript_confidence": {
+    "HIGH": 1
+   },
+   "dubbing_priority": {
+    "NOT_NEEDED_NO_LIVE_UNIT": 1
+   }
+  },
+  {
+   "phrase_id": "at_the_ready",
+   "english": "At the ready!",
+   "kind": "GENERIC_ACK",
+   "czech": "V pohotovosti!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Generic selection acknowledgement; gender-neutral and distinct from 'Připraveni!' (Ready!).",
+   "media_count": 33,
+   "production_media_count": 30,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 33
+   },
+   "dubbing_priority": {
+    "REQUIRED": 30,
+    "OPTIONAL_GENDER_MISMATCH": 3
+   }
+  },
+  {
+   "phrase_id": "ready",
+   "english": "Ready!",
+   "kind": "GENERIC_ACK",
+   "czech": "Připraveni!",
+   "czech_female": "Připraveny!",
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Participle agrees with speaker gender.",
+   "media_count": 32,
+   "production_media_count": 29,
+   "distinct_original_recordings": 27,
+   "transcript_confidence": {
+    "HIGH": 32
+   },
+   "dubbing_priority": {
+    "REQUIRED": 29,
+    "OPTIONAL_GENDER_MISMATCH": 3
+   }
+  },
+  {
+   "phrase_id": "battle_ready",
+   "english": "Battle ready!",
+   "kind": "GENERIC_ACK",
+   "czech": "Připraveni k boji!",
+   "czech_female": "Připraveny k boji!",
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "",
+   "media_count": 32,
+   "production_media_count": 29,
+   "distinct_original_recordings": 27,
+   "transcript_confidence": {
+    "HIGH": 29,
+    "MEDIUM": 3
+   },
+   "dubbing_priority": {
+    "REQUIRED": 29,
+    "OPTIONAL_GENDER_MISMATCH": 3
+   }
+  },
+  {
+   "phrase_id": "ready_to_serve",
+   "english": "Ready to serve!",
+   "kind": "GENERIC_ACK",
+   "czech": "K službám!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Idiomatic and gender-neutral.",
+   "media_count": 33,
+   "production_media_count": 30,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 32,
+    "MEDIUM": 1
+   },
+   "dubbing_priority": {
+    "REQUIRED": 30,
+    "OPTIONAL_GENDER_MISMATCH": 3
+   }
+  },
+  {
+   "phrase_id": "yours_to_command",
+   "english": "Yours to command!",
+   "kind": "GENERIC_ACK",
+   "czech": "Na váš rozkaz!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "ASR often hears an accented 'Use the command!'; where medium.en is available it resolves to 'Yours to command!'. Weak-only cases stay LOW.",
+   "media_count": 33,
+   "production_media_count": 30,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 33
+   },
+   "dubbing_priority": {
+    "REQUIRED": 30,
+    "OPTIONAL_GENDER_MISMATCH": 3
+   }
+  },
+  {
+   "phrase_id": "your_command",
+   "english": "Your command!",
+   "kind": "GENERIC_ACK",
+   "czech": "Rozkažte!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [
+    "Váš rozkaz?"
+   ],
+   "note": "Kept distinct from 'Na váš rozkaz!' so the five-variant random container keeps its variety.",
+   "media_count": 33,
+   "production_media_count": 30,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 31,
+    "MEDIUM": 2
+   },
+   "dubbing_priority": {
+    "REQUIRED": 30,
+    "OPTIONAL_GENDER_MISMATCH": 3
+   }
+  },
+  {
+   "phrase_id": "awaiting_orders",
+   "english": "Awaiting orders!",
+   "kind": "GENERIC_ACK",
+   "czech": "Čekáme na rozkazy!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Gender-neutral.",
+   "media_count": 33,
+   "production_media_count": 30,
+   "distinct_original_recordings": 28,
+   "transcript_confidence": {
+    "HIGH": 32,
+    "MEDIUM": 1
+   },
+   "dubbing_priority": {
+    "REQUIRED": 30,
+    "OPTIONAL_GENDER_MISMATCH": 3
+   }
+  },
+  {
+   "phrase_id": "orders",
+   "english": "Orders?",
+   "kind": "GENERIC_ACK",
+   "czech": "Rozkazy?",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Punctuation (question vs exclamation) is not recoverable from ASR; Czech works either way.",
+   "media_count": 32,
+   "production_media_count": 29,
+   "distinct_original_recordings": 27,
+   "transcript_confidence": {
+    "HIGH": 27,
+    "MEDIUM": 5
+   },
+   "dubbing_priority": {
+    "REQUIRED": 29,
+    "OPTIONAL_GENDER_MISMATCH": 3
+   }
+  },
+  {
+   "phrase_id": "commander",
+   "english": "Commander!",
+   "kind": "GENERIC_ACK",
+   "czech": "Veliteli!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Vocative; gender-neutral.",
+   "media_count": 32,
+   "production_media_count": 29,
+   "distinct_original_recordings": 27,
+   "transcript_confidence": {
+    "HIGH": 21,
+    "MEDIUM": 11
+   },
+   "dubbing_priority": {
+    "REQUIRED": 29,
+    "OPTIONAL_GENDER_MISMATCH": 3
+   }
+  },
+  {
+   "phrase_id": "eager",
+   "english": "Eager!",
+   "kind": "GENERIC_ACK",
+   "czech": "Nedočkaví!",
+   "czech_female": "Nedočkavé!",
+   "czech_status": "FINAL",
+   "czech_alternatives": [
+    "Do boje!",
+    "Hoříme touhou!"
+   ],
+   "note": "Translation decided by the user 2026-10-19 (male 'Nedočkaví!', female 'Nedočkavé!'). The English wording of the LOW transcripts still needs listening (human-review/decisions.json); those Media IDs stay transcript-blocked.",
+   "media_count": 31,
+   "production_media_count": 28,
+   "distinct_original_recordings": 26,
+   "transcript_confidence": {
+    "MEDIUM": 9,
+    "HIGH": 22
+   },
+   "dubbing_priority": {
+    "REQUIRED": 28,
+    "OPTIONAL_GENDER_MISMATCH": 3
+   }
+  },
+  {
+   "phrase_id": "our_enemies_will_die",
+   "english": "Our enemies will die!",
+   "kind": "BATTLE_CRY",
+   "czech": "Nepřátelé zemřou!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Gladiators swords branch; same Media IDs are battle-cry lines of conversational DE 843237063.",
+   "media_count": 3,
+   "production_media_count": 3,
+   "distinct_original_recordings": 3,
+   "transcript_confidence": {
+    "HIGH": 3
+   },
+   "dubbing_priority": {
+    "REQUIRED": 3
+   }
+  },
+  {
+   "phrase_id": "blades_at_the_ready",
+   "english": "Blades at the ready!",
+   "kind": "BATTLE_CRY",
+   "czech": "Čepele připraveny!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Gladiators swords branch + conversational DE 843237063. Neutral (agrees with 'čepele').",
+   "media_count": 3,
+   "production_media_count": 3,
+   "distinct_original_recordings": 3,
+   "transcript_confidence": {
+    "HIGH": 2,
+    "MEDIUM": 1
+   },
+   "dubbing_priority": {
+    "REQUIRED": 3
+   }
+  },
+  {
+   "phrase_id": "weapons_at_the_ready",
+   "english": "Weapons at the ready!",
+   "kind": "BATTLE_CRY",
+   "czech": "Zbraně připraveny!",
+   "czech_female": null,
+   "czech_status": "FINAL",
+   "czech_alternatives": [],
+   "note": "Gladiators spears branch + conversational DE 843237063. Neutral.",
+   "media_count": 3,
+   "production_media_count": 3,
+   "distinct_original_recordings": 3,
+   "transcript_confidence": {
+    "HIGH": 2,
+    "MEDIUM": 1
+   },
+   "dubbing_priority": {
+    "REQUIRED": 3
+   }
+  }
+ ],
+ "performances": [
+  {
+   "performance_id": "female-ready_to_serve",
+   "voice_group": "CZ_UNIT_FEMALE",
+   "czech_text": "K službám!",
+   "tts_input_text": "K službám!",
+   "english_phrases": "Ready to serve!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "6",
+   "required_media": "122427963+326624451+563716338+694131207+708008466+946124257",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "122427963",
+   "tightest_budget_bytes": "9503",
+   "tightest_budget_duration": "0.984844",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "female-yours_to_command",
+   "voice_group": "CZ_UNIT_FEMALE",
+   "czech_text": "Na váš rozkaz!",
+   "tts_input_text": "Na váš rozkaz!",
+   "english_phrases": "Yours to command!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "6",
+   "required_media": "14794267+79841508+324573983+503825817+537999707+1046430458",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "537999707",
+   "tightest_budget_bytes": "10095",
+   "tightest_budget_duration": "1.018938",
+   "worst_byte_budget_risk": "LOW",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "female-your_command",
+   "voice_group": "CZ_UNIT_FEMALE",
+   "czech_text": "Rozkažte!",
+   "tts_input_text": "Rozkažte!",
+   "english_phrases": "Your command!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "6",
+   "required_media": "19519465+198013417+343218003+553405320+749604977+1050233520",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "749604977",
+   "tightest_budget_bytes": "7216",
+   "tightest_budget_duration": "0.7605",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "female-at_the_ready",
+   "voice_group": "CZ_UNIT_FEMALE",
+   "czech_text": "V pohotovosti!",
+   "tts_input_text": "V pohotovosti!",
+   "english_phrases": "At the ready!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "6",
+   "required_media": "175551862+251093350+294103571+577678668+786038858+803801170",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "577678668",
+   "tightest_budget_bytes": "6758",
+   "tightest_budget_duration": "0.703562",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "female-awaiting_orders",
+   "voice_group": "CZ_UNIT_FEMALE",
+   "czech_text": "Čekáme na rozkazy!",
+   "tts_input_text": "Čekáme na rozkazy!",
+   "english_phrases": "Awaiting orders!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "6",
+   "required_media": "294672944+505071440+519168254+584569451+586785026+744159375",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "294672944",
+   "tightest_budget_bytes": "9397",
+   "tightest_budget_duration": "1.014156",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "female-eager",
+   "voice_group": "CZ_UNIT_FEMALE",
+   "czech_text": "Nedočkavé!",
+   "tts_input_text": "Nedočkavé!",
+   "english_phrases": "Eager!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "5",
+   "required_media": "87733988+182933315+515013905+541540144+777700830",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "777700830",
+   "tightest_budget_bytes": "4733",
+   "tightest_budget_duration": "0.468562",
+   "worst_byte_budget_risk": "HIGH",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "female-battle_ready",
+   "voice_group": "CZ_UNIT_FEMALE",
+   "czech_text": "Připraveny k boji!",
+   "tts_input_text": "Připraveny k boji!",
+   "english_phrases": "Battle ready!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "5",
+   "required_media": "24978814+221479494+350296824+604538023+709115466",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "709115466",
+   "tightest_budget_bytes": "7342",
+   "tightest_budget_duration": "0.76025",
+   "worst_byte_budget_risk": "HIGH",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "female-ready",
+   "voice_group": "CZ_UNIT_FEMALE",
+   "czech_text": "Připraveny!",
+   "tts_input_text": "Připraveny!",
+   "english_phrases": "Ready!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "5",
+   "required_media": "97536796+200746134+263434165+401986662+696560318",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "401986662",
+   "tightest_budget_bytes": "4577",
+   "tightest_budget_duration": "0.490656",
+   "worst_byte_budget_risk": "HIGH",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "female-orders",
+   "voice_group": "CZ_UNIT_FEMALE",
+   "czech_text": "Rozkazy?",
+   "tts_input_text": "Rozkazy?",
+   "english_phrases": "Orders?",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "5",
+   "required_media": "102605247+106642067+130310764+469536205+939364471",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "939364471",
+   "tightest_budget_bytes": "5427",
+   "tightest_budget_duration": "0.520844",
+   "worst_byte_budget_risk": "HIGH",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "female-commander",
+   "voice_group": "CZ_UNIT_FEMALE",
+   "czech_text": "Veliteli!",
+   "tts_input_text": "Veliteli!",
+   "english_phrases": "Commander!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "5",
+   "required_media": "3645198+339459092+509508763+575650400+995931445",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "995931445",
+   "tightest_budget_bytes": "6351",
+   "tightest_budget_duration": "0.605469",
+   "worst_byte_budget_risk": "HIGH",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "female-spears",
+   "voice_group": "CZ_UNIT_FEMALE",
+   "czech_text": "Kopí!",
+   "tts_input_text": "Kopí!",
+   "english_phrases": "Spears!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "3",
+   "required_media": "4495544+312105306+523165864",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "4495544",
+   "tightest_budget_bytes": "6360",
+   "tightest_budget_duration": "0.676969",
+   "worst_byte_budget_risk": "HIGH",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "female-archers",
+   "voice_group": "CZ_UNIT_FEMALE",
+   "czech_text": "Lučištnice!",
+   "tts_input_text": "Lučištnice!",
+   "english_phrases": "Archers!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "3",
+   "required_media": "805107376+1045705358+1045877026",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "805107376",
+   "tightest_budget_bytes": "7863",
+   "tightest_budget_duration": "0.797031",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "female-melee_infantry",
+   "voice_group": "CZ_UNIT_FEMALE",
+   "czech_text": "Pěchota!",
+   "tts_input_text": "Pěchota!",
+   "english_phrases": "Melee infantry!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "3",
+   "required_media": "22736031+93575410+211304237",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "211304237",
+   "tightest_budget_bytes": "9423",
+   "tightest_budget_duration": "1.001656",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "female-dogs_of_war",
+   "voice_group": "CZ_UNIT_FEMALE",
+   "czech_text": "Váleční psi!",
+   "tts_input_text": "Váleční psi!",
+   "english_phrases": "Dogs of war!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "3",
+   "required_media": "539692601+560310497+1000352863",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "1000352863",
+   "tightest_budget_bytes": "11220",
+   "tightest_budget_duration": "1.260719",
+   "worst_byte_budget_risk": "LOW",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "female-shock_cavalry",
+   "voice_group": "CZ_UNIT_FEMALE",
+   "czech_text": "Úderná jízda!",
+   "tts_input_text": "Úderná jízda!",
+   "english_phrases": "Shock cavalry!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "3",
+   "required_media": "249542609+510614862+750564683",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "510614862",
+   "tightest_budget_bytes": "9782",
+   "tightest_budget_duration": "1.045625",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-ready_to_serve",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "K službám!",
+   "tts_input_text": "K službám!",
+   "english_phrases": "Ready to serve!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "24",
+   "required_media": "52212571+79042927+132845062+251107461+253872533+308948642+356799541+358056218+377914996+488303164+518530344+521614285+599631473+652478156+665888201+718429972+743284696+763215432+773089483+786380698+832746530+883089710+916369268+935767070",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "308948642+488303164+521614285",
+   "tightest_budget_media_id": "52212571",
+   "tightest_budget_bytes": "8870",
+   "tightest_budget_duration": "0.97375",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-yours_to_command",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Na váš rozkaz!",
+   "tts_input_text": "Na váš rozkaz!",
+   "english_phrases": "Yours to command!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "24",
+   "required_media": "20434822+27449402+34729384+50276569+89804494+113083428+342844496+354856287+466719469+508811791+516882077+575440127+614870085+622883398+693774317+700046498+719806866+767007849+814059512+964425251+982843055+1036558635+1038843029+1062913445",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "614870085+814059512+1036558635",
+   "tightest_budget_media_id": "20434822",
+   "tightest_budget_bytes": "10096",
+   "tightest_budget_duration": "1.809969",
+   "worst_byte_budget_risk": "LOW",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-battle_ready",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Připraveni k boji!",
+   "tts_input_text": "Připraveni k boji!",
+   "english_phrases": "Battle ready!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "24",
+   "required_media": "11371690+22429082+142243567+187339371+251802864+286668100+328311768+366822435+393309667+442274430+461284244+476374301+567084220+579761886+614131276+709343207+817478877+838243772+908395393+930127512+1024186523+1033266935+1065290864+1066833933",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "22429082+567084220+1066833933",
+   "tightest_budget_media_id": "567084220",
+   "tightest_budget_bytes": "7281",
+   "tightest_budget_duration": "0.784469",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-ready",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Připraveni!",
+   "tts_input_text": "Připraveni!",
+   "english_phrases": "Ready!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "24",
+   "required_media": "6286858+83390796+138899506+255846081+278638534+333531479+362135021+373519792+436065473+456644741+469119661+490001176+498532100+526313976+576145762+759641701+804370811+939421559+941500568+949823011+967757606+971454932+972748424+1030590123",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "804370811+967757606+971454932",
+   "tightest_budget_media_id": "971454932",
+   "tightest_budget_bytes": "4036",
+   "tightest_budget_duration": "0.4275",
+   "worst_byte_budget_risk": "HIGH",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-orders",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Rozkazy?",
+   "tts_input_text": "Rozkazy?",
+   "english_phrases": "Orders?",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "24",
+   "required_media": "12158579+64343672+140525308+205564774+235057731+245770273+249746873+254158802+265022933+281319068+316607732+326539779+369949747+388950524+401464624+456509596+658144990+780657109+782785824+807127559+873498378+928205234+965643951+1009364849",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "326539779+658144990+965643951",
+   "tightest_budget_media_id": "235057731",
+   "tightest_budget_bytes": "5278",
+   "tightest_budget_duration": "1.369969",
+   "worst_byte_budget_risk": "HIGH",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-your_command",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Rozkažte!",
+   "tts_input_text": "Rozkažte!",
+   "english_phrases": "Your command!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "24",
+   "required_media": "4703114+133491370+157787261+195982619+273760903+337938387+375725682+396771305+413717652+465316652+472912402+510446942+555183865+570385710+585182338+595437818+658637043+817585122+819465861+823220897+836083539+943337119+1059396377+1062906805",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "157787261+396771305+943337119",
+   "tightest_budget_media_id": "337938387",
+   "tightest_budget_bytes": "6595",
+   "tightest_budget_duration": "0.695844",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-at_the_ready",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "V pohotovosti!",
+   "tts_input_text": "V pohotovosti!",
+   "english_phrases": "At the ready!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "24",
+   "required_media": "10171707+86084998+306477041+314656373+330260803+387698812+464389552+473197473+491546754+594872335+637292970+638241902+644460056+731615872+738787763+747064452+789571932+854605809+903525353+961058579+995867068+1002771290+1022587407+1050097124",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "473197473+644460056+747064452",
+   "tightest_budget_media_id": "464389552",
+   "tightest_budget_bytes": "7488",
+   "tightest_budget_duration": "0.795781",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-commander",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Veliteli!",
+   "tts_input_text": "Veliteli!",
+   "english_phrases": "Commander!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "24",
+   "required_media": "31998392+220040027+247144390+329277188+348845880+496159984+526907191+554427597+576564896+579528055+584031950+702788883+707850495+714923914+775820765+779077221+842181167+861954754+934449595+955169485+1013573300+1049245335+1065635810+1072509171",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "329277188+348845880+779077221",
+   "tightest_budget_media_id": "1049245335",
+   "tightest_budget_bytes": "5704",
+   "tightest_budget_duration": "0.580844",
+   "worst_byte_budget_risk": "HIGH",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-awaiting_orders",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Čekáme na rozkazy!",
+   "tts_input_text": "Čekáme na rozkazy!",
+   "english_phrases": "Awaiting orders!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "24",
+   "required_media": "18056932+87671272+128959442+147967236+180474761+184778673+200927609+285322003+293600156+315877244+385546726+429033895+438415627+438495134+484946059+519871801+533370235+620840831+671371797+732673103+865744498+902005940+995077670+1017676771",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "200927609+484946059+671371797",
+   "tightest_budget_media_id": "180474761",
+   "tightest_budget_bytes": "9660",
+   "tightest_budget_duration": "1.834969",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-swordsmen",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Šermíři!",
+   "tts_input_text": "Šermíři!",
+   "english_phrases": "Swordsmen!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "24",
+   "required_media": "9987946+139593199+161367103+174949119+194106758+246923606+257954295+317768283+532158512+611544413+739437478+751352675+758537144+766201201+797930779+857584094+862382750+872177078+883840799+913632935+944496780+949111416+972230172+1022047035",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "194106758",
+   "tightest_budget_bytes": "6293",
+   "tightest_budget_duration": "1.474969",
+   "worst_byte_budget_risk": "HIGH",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-eager",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Nedočkaví!",
+   "tts_input_text": "Nedočkaví!",
+   "english_phrases": "Eager!",
+   "kind": "GENERIC_ACK",
+   "target_media_count": "23",
+   "required_media": "16450387+19968683+68384889+74973813+138673823+224297236+267652445+491277144+519963350+530655529+574187646+575365380+588989814+706775435+776746889+786324883+799816459+847515011+873141834+881916246+943321607+980078311+1038626080",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "224297236+786324883",
+   "tightest_budget_media_id": "19968683",
+   "tightest_budget_bytes": "4485",
+   "tightest_budget_duration": "1.174969",
+   "worst_byte_budget_risk": "HIGH",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-melee_cavalry",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Jízda!",
+   "tts_input_text": "Jízda!",
+   "english_phrases": "Melee cavalry!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "18",
+   "required_media": "9762183+81409073+176669927+258925968+339664048+450880628+476145543+486752410+512749676+607929157+653098333+668982331+728250560+827780889+860218144+948047090+956165441+1067362762",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "450880628",
+   "tightest_budget_bytes": "9194",
+   "tightest_budget_duration": "0.979219",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-spears",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Kopí!",
+   "tts_input_text": "Kopí!",
+   "english_phrases": "Spears!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "18",
+   "required_media": "74977902+98477966+144588503+148608955+154969950+162043974+168838884+190768294+192963473+286390882+425866198+467993768+497326051+736777104+744324332+815900023+940829909+969169723",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "192963473",
+   "tightest_budget_bytes": "6537",
+   "tightest_budget_duration": "0.714938",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-javelins",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Oštěpy!",
+   "tts_input_text": "Oštěpy!",
+   "english_phrases": "Javelins!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "15",
+   "required_media": "62078904+131899430+256059901+283451115+390878535+457088532+478850433+487702507+532449222+594536964+691418332+710652542+741958274+937458223+950318918",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "131899430",
+   "tightest_budget_bytes": "7418",
+   "tightest_budget_duration": "0.799125",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-archers",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Lučištníci!",
+   "tts_input_text": "Lučištníci!",
+   "english_phrases": "Archers!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "12",
+   "required_media": "174756602+182630359+296920468+323638103+506718169+542336257+622915233+908504784+986056595+1004346188+1030476726+1033979972",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "986056595",
+   "tightest_budget_bytes": "7534",
+   "tightest_budget_duration": "0.776594",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-slingers",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Prakovníci!",
+   "tts_input_text": "Prakovníci!",
+   "english_phrases": "Slingers!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "9",
+   "required_media": "251972779+287826442+469755500+579173409+632657784+758622335+915991058+967719110+1066838845",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "469755500",
+   "tightest_budget_bytes": "7452",
+   "tightest_budget_duration": "0.798594",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-shock_cavalry",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Úderná jízda!",
+   "tts_input_text": "Úderná jízda!",
+   "english_phrases": "Shock cavalry!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "9",
+   "required_media": "96030761+196871844+251730519+312977384+327657989+333112094+785984981+833720183+975404875",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "327657989",
+   "tightest_budget_bytes": "10012",
+   "tightest_budget_duration": "1.119875",
+   "worst_byte_budget_risk": "LOW",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-artillery_ready",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Artilerie připravena!",
+   "tts_input_text": "Artilerie připravena!",
+   "english_phrases": "Artillery ready!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "6",
+   "required_media": "241181475+338448379+433617588+703473902+728907442+762305200",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "728907442",
+   "tightest_budget_bytes": "9578",
+   "tightest_budget_duration": "1.041719",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-falxes",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Falxy!",
+   "tts_input_text": "Falksy!",
+   "english_phrases": "Falxes!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "6",
+   "required_media": "256124971+309462800+361435909+533997959+770552184+869679653",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "533997959",
+   "tightest_budget_bytes": "8494",
+   "tightest_budget_duration": "0.903625",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-pikes_ready",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Píky připraveny!",
+   "tts_input_text": "Píky připraveny!",
+   "english_phrases": "Pikes ready!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "6",
+   "required_media": "173202525+332336721+460577455+738678670+850770218+903079823",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "738678670",
+   "tightest_budget_bytes": "7822",
+   "tightest_budget_duration": "0.847531",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-elephants",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Sloni!",
+   "tts_input_text": "Sloni!",
+   "english_phrases": "Elephants!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "6",
+   "required_media": "30491463+274612990+607910790+767219372+928641471+967667757",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "274612990",
+   "tightest_budget_bytes": "6795",
+   "tightest_budget_duration": "1.489969",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-dogs_of_war",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Váleční psi!",
+   "tts_input_text": "Váleční psi!",
+   "english_phrases": "Dogs of war!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "6",
+   "required_media": "16339138+27661756+62569369+320854142+609606948+1058699011",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "27661756",
+   "tightest_budget_bytes": "10335",
+   "tightest_budget_duration": "1.104688",
+   "worst_byte_budget_risk": "LOW",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-glaives",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Glévie!",
+   "tts_input_text": "Glévie!",
+   "english_phrases": "Glaives!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "3",
+   "required_media": "186056679+457420244+497868483",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "186056679",
+   "tightest_budget_bytes": "7339",
+   "tightest_budget_duration": "1.429969",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-crossbows",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Kuše!",
+   "tts_input_text": "Kuše!",
+   "english_phrases": "Crossbows!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "3",
+   "required_media": "91214900+214864860+238931824",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "91214900",
+   "tightest_budget_bytes": "9322",
+   "tightest_budget_duration": "1.644969",
+   "worst_byte_budget_risk": "MEDIUM",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-our_enemies_will_die",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Nepřátelé zemřou!",
+   "tts_input_text": "Nepřátelé zemřou!",
+   "english_phrases": "Our enemies will die!",
+   "kind": "BATTLE_CRY",
+   "target_media_count": "3",
+   "required_media": "160988552+359717021+601934599",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "359717021",
+   "tightest_budget_bytes": "17811",
+   "tightest_budget_duration": "2.022344",
+   "worst_byte_budget_risk": "LOW",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-repeating_crossbows",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Opakovací kuše!",
+   "tts_input_text": "Opakovací kuše!",
+   "english_phrases": "Repeating crossbows!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "3",
+   "required_media": "256880286+299248642+578995615",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "256880286",
+   "tightest_budget_bytes": "13561",
+   "tightest_budget_duration": "2.119969",
+   "worst_byte_budget_risk": "LOW",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-tigers",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Tygři!",
+   "tts_input_text": "Tygři!",
+   "english_phrases": "Tigers!",
+   "kind": "UNIT_NAME",
+   "target_media_count": "3",
+   "required_media": "244006692+1043955109+1064714123",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "244006692",
+   "tightest_budget_bytes": "6440",
+   "tightest_budget_duration": "0.607688",
+   "worst_byte_budget_risk": "HIGH",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-weapons_at_the_ready",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Zbraně připraveny!",
+   "tts_input_text": "Zbraně připraveny!",
+   "english_phrases": "Weapons at the ready!",
+   "kind": "BATTLE_CRY",
+   "target_media_count": "3",
+   "required_media": "482512730+547936069+594823673",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "594823673",
+   "tightest_budget_bytes": "12653",
+   "tightest_budget_duration": "1.295625",
+   "worst_byte_budget_risk": "LOW",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  },
+  {
+   "performance_id": "male-blades_at_the_ready",
+   "voice_group": "CZ_UNIT_MALE",
+   "czech_text": "Čepele připraveny!",
+   "tts_input_text": "Čepele připraveny!",
+   "english_phrases": "Blades at the ready!",
+   "kind": "BATTLE_CRY",
+   "target_media_count": "3",
+   "required_media": "203758193+277154431+558366970",
+   "transcript_blocked_media": "",
+   "not_production_ready_media": "",
+   "tightest_budget_media_id": "203758193",
+   "tightest_budget_bytes": "14604",
+   "tightest_budget_duration": "1.521531",
+   "worst_byte_budget_risk": "LOW",
+   "status": "READY_FOR_HUMAN_REVIEW",
+   "tts_generations_allowed": "1"
+  }
+ ]
+}

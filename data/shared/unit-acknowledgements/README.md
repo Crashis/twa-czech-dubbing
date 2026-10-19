@@ -1,0 +1,25 @@
+# Unit acknowledgements (staged research)
+
+Status: **research_staged**, `release_ready: false`. This folder is deliberately not a commander folder and contains no
+`manifest.json`; the installer and release builder never read it. No TTS, WEM or paid request has been made.
+
+- `plan.staged.json`: canonical English phrases, approved Czech texts (male/neutral and female-slot forms, optional TTS
+  pronunciation input), and one planned performance per unique Czech text and voice group, mapped to its reachable Media IDs.
+- `media-map.staged.csv`: production scope only: one row per reachable Media ID with ownership, reach, safety and original budget.
+- `excluded-media.staged.csv`: shared Media IDs of the same events that no live unit reaches; they get no audio and, like every
+  ID here, must stay out of commander-only releases.
+
+What these lines are: the unit-selection callouts ("Elephants!", "Repeating crossbows!") and the generic selection
+acknowledgements ("Awaiting orders!") of DialogueEvent 1419778157 (battle) and 2732370230 (frontend unit card). They are keyed
+by `vo_culture` x `vo_actor` (`Male_1..3`, `Female_1..3`) x `vo_unit_type`; the unit's own database row supplies culture and
+unit type, the unit entity's gender selects the male or female list, and the game picks one of the three slots. No commander
+identity is involved, so every Media ID here is shared by all commanders who can field a matching unit.
+
+Counts: 1050 Media IDs in the events, 465 reachable (production scope),
+40 English phrases (all Czech texts final), 44 planned Czech performances
+(29 male, 15 female),
+421 Media IDs reuse another target's performance.
+
+Before any production use: a human-reviewed voice pilot, a separately authorized TTS run (one generation per performance),
+exact-size WEM work, and a new shared/joint release type with its own validated whole-PACK hash. Commander-only releases
+must keep these IDs untouched.
