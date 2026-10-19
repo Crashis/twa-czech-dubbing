@@ -5,8 +5,8 @@
 - Commander-only releases must never replace shared Media IDs or silent placeholders. Cross-check the independent inventory, not just the replacement manifest.
 - Every WEM must be the exact original entry size. Preserve codec chunks during RIFF JUNK padding; never truncate speech or time-stretch to fit.
 - Never rewrite PACK header, dependencies, encrypted index, offsets/order or Appendix. Validate RSA on input and output.
-- Always build from the canonical original SHA-256. Never build a release incrementally from a modded PACK. Unknown base means STOP.
-- Back up and verify the original before installation. Check game/launcher processes before backup and immediately before replacement. Never stop them automatically.
+- Always build from the canonical original SHA-256. Never build a release incrementally from a modded PACK. Unknown base means STOP. The only exception is the installer's strictly additive transition from a verified known state when no original is available; its result must equal the target's validated whole-PACK SHA-256.
+- Whenever a verified clean original is available (current PACK, valid backup or a byte-identical local game file), back it up and verify the copy before the first write. Never back up a modified or unknown PACK. A missing backup must not block an additive install; removal and Restore require an original source. Check game/launcher processes before backup and immediately before replacement. Never stop them automatically.
 - Default work is offline. Actual game writes, game/launcher runs and paid API calls require explicit task authorization. Tests use their own mock installations.
 - One TTS generation per approved performance. Regeneration needs separate authorization. Never log keys, tokens or credentials.
 - Prefer manifest-driven reusable tools over commander-specific batch scripts. Preserve research knowledge before archiving working experiments.
@@ -32,9 +32,9 @@ Run `python -B -m tools.mod --commander <name> validate`, relevant unit tests an
 - Never include original game assets, full PACKs, backups, secrets or development archives in releases. Use an explicit payload allowlist and scan the extracted bundle and embedded EXE archive.
 - No TTS or paid API calls during installation or release build.
 - Manifests drive available commanders. Overlapping Media IDs require identical replacement hashes and compatible original entry metadata; conflicts stop the build.
-- Combined selections require a separately validated joint release manifest/hash. Build only from the canonical original.
+- Combined selections require a separately validated joint release manifest/hash. Release builds use only the canonical original; installer additive transitions must reproduce that validated hash exactly.
 - Unknown game PACK hash is a hard stop. Never write to a live PACK until the complete offline candidate passes validation.
-- Back up and verify before installation; preserve valid backups outside the release. Check game/launcher processes before backup and immediately before atomic replacement.
+- Keep at most one verified canonical backup per game installation/profile, created before the first write whenever a clean source exists; never overwrite or reuse an invalid backup. Preserve valid backups outside the release. Check game/launcher processes before backup and immediately before atomic replacement.
 - Build deterministically where possible. Pin dependencies, Python/tool versions, hash seed and timestamp; compare independent EXE builds and deterministic ZIPs. Do not claim cross-toolchain identity without evidence.
 - Release tests use disposable mock game directories only. Never run or modify a real game to validate an installer without explicit task authorization.
 

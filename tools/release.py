@@ -207,10 +207,17 @@ def build_release(base_pack, reference_pack=None, output_directory=None):
         (bundle / 'README.txt').write_text(
             'Total War: Arena - Czech Dubbing ' + VERSION + '\n\n'
             '1. Extract the entire ZIP.\n2. Run TWA-Czech-Dubbing-Installer.exe.\n'
-            '3. Select any combination of Hannibal, Spartacus and Zhuge Liang and choose the Total War: Arena folder.\n'
-            '4. Close the game and launcher; click Install Czech Dubbing.\n'
+            '3. Choose the Total War: Arena folder; checkboxes show verified installed dubbing.\n'
+            '4. Select any combination of available commanders. Close the game and launcher; click Install.\n'
             '5. Launch the game yourself.\n\n'
-            'Verify checks installed audio. Restore Original restores the verified backup.\n'
+            'Checkboxes only change the pending selection. Only Install applies it.\n'
+            'Verify checks installed audio and resets the selection to the actual state.\n'
+            'Unchecking every commander does not restore audio; use Restore Original.\n'
+            'Restore Original restores the verified backup and clears the selection.\n'
+            'A verified backup of the clean original is created automatically before the first write,\n'
+            'from the current audio_cn.pack or a byte-identical data\\audio_en.pack (read only).\n'
+            'Without any original source you can still add dubbing; removing dubbing and\n'
+            'Restore Original then stay disabled and no game file is changed.\n'
             'Backups: %LOCALAPPDATA%\\TWA-Czech-Dubbing\\backup\\<installation-id>\\audio_cn.pack\n'
             'Logs: %LOCALAPPDATA%\\TWA-Czech-Dubbing\\logs\\\n'
             'Unsupported versions are rejected without modifying game audio.\n'
@@ -274,7 +281,9 @@ def build_release(base_pack, reference_pack=None, output_directory=None):
                   'SOURCE_DATE_EPOCH': EPOCH, 'PYTHONHASHSEED': '0', 'repository': repository,
                   'release_audit': release_audit, 'integration': integration, 'frozen_smoke': smoke,
                   'human_listening': 'USER_REPORTED_IN_GAME',
-                  'game_runtime_test': 'USER_REPORTED_PASS: Hannibal, Spartacus, Zhuge Liang'}
+                  'game_runtime_test': 'NOT_PERFORMED_FOR_THIS_BUILD',
+                  'historical_payload_runtime': 'USER_REPORTED_PASS: Hannibal, Spartacus, Zhuge Liang',
+                  'installer_human_review': 'NOT_PERFORMED_FOR_NEW_STATE_FLOW'}
         # Only publish artifacts after every gate succeeds. No original PACK enters the bundle.
         shutil.copytree(bundle, final)
         shutil.copyfile(archive_a, zipped)

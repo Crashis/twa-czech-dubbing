@@ -8,13 +8,13 @@ Potřebujete vlastní podporovanou instalaci hry a přibližně 750 MB volného 
 
 1. Rozbalte celý Windows ZIP verze 1.2.0.
 2. Spusťte `TWA-Czech-Dubbing-Installer.exe`.
-3. Vyberte commandery a složku Total War: Arena.
-4. Zavřete hru i launcher a klikněte na **Install Czech Dubbing**.
+3. Vyberte složku Total War: Arena a zaškrtněte commandery.
+4. Zavřete hru i launcher a klikněte na **Install**.
 5. Po dokončení spusťte hru.
 
 **Verify** zkontroluje instalaci, **Restore Original** obnoví původní audio. Záloha zůstává v `%LOCALAPPDATA%\TWA-Czech-Dubbing\backup\<installation-id>\audio_cn.pack`, nezávisle na staženém ZIPu. Podrobnosti a řešení chyb: [uživatelský návod](docs/USER_GUIDE.md).
 
-Installer nejprve ověří podporovanou verzi, česká data a zálohu. Nový soubor sestaví a celý ověří dočasně, teprve potom jej atomicky nainstaluje. Neznámou verzi hry odmítne.
+Installer nejprve ověří podporovanou verzi, česká data a dostupnost ověřeného originálu. Nový soubor sestaví a celý ověří dočasně, teprve potom jej atomicky nainstaluje. Neznámou verzi hry odmítne. Bez zálohy lze dabing jen přidávat; odebrání a obnova vyžadují ověřený originál.
 
 ## Podporovaná verze
 

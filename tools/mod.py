@@ -185,6 +185,71 @@ def build(base_path, output_path, manifest):
             partial.unlink(missing_ok=True)
 
 
+def _without_owner(spec):
+    return {k: v for k, v in spec.items() if k != 'source_commander'}
+
+
+def build_additive(base_path, output_path, base_manifest, manifest):
+    """Install-time only: add missing payloads to a verified known modified PACK.
+
+    Used when no canonical original is available locally. The output must hash
+    to the target's independently validated whole-PACK SHA-256, so it is
+    byte-identical to the canonical-original build; releases still use build().
+    """
+    base_path = Path(base_path).resolve(strict=True)
+    output = Path(output_path).resolve()
+    require(output != base_path and not output.exists(), 'Output exists or aliases current PACK')
+    digest = base_manifest['release']['sha256']
+    require(sha256(base_path) == digest, 'Current PACK is not the verified installed state; refusing to patch')
+    require(base_manifest['base'] == manifest['base'], 'Incompatible canonical bases')
+    current = {s['media_id']: _without_owner(s) for s in base_manifest['replacements']}
+    target = {s['media_id']: s for s in manifest['replacements']}
+    require(all(mid in target and _without_owner(target[mid]) == spec for mid, spec in current.items()),
+            'Installed dubbing is not a subset of the target selection')
+    added = [target[mid] for mid in sorted(target, key=int) if mid not in current]
+    require(bool(added), 'Target adds no replacement payloads')
+    data = validate_data(manifest)
+    installed = ArenaPack(base_path)  # mandatory RSA verification
+    check_structure(installed, manifest)
+    partial = output.with_name(output.name + '.partial')
+    require(not partial.exists(), 'Partial output already exists')
+    output.parent.mkdir(parents=True, exist_ok=True)
+    owned = False
+    try:
+        with base_path.open('rb') as source, partial.open('xb') as dest:
+            owned = True
+            shutil.copyfileobj(source, dest, 1024 * 1024)
+            for spec in added:
+                owner = spec.get('source_commander', manifest['commander'])
+                payload = (ROOT / 'replacements' / owner / 'wem' / (spec['media_id'] + '.wem')).read_bytes()
+                require(len(payload) == spec['size'] and hashlib.sha256(payload).hexdigest() == spec['sha256'], 'Replacement changed during build')
+                dest.seek(spec['offset'])
+                require(dest.write(payload) == spec['size'], 'Short payload write')
+            dest.flush()
+            os.fsync(dest.fileno())
+        require(sha256(base_path) == digest, 'Current PACK changed during build')
+        # Known validated whole-PACK hash, RSA, structure and every target payload hash.
+        result = verify_pack(partial, manifest)
+        modified = ArenaPack(partial)
+        require(modified.entries == installed.entries, 'Entry ordering/offsets changed')
+        changed = set()
+        with base_path.open('rb') as left, partial.open('rb') as right:
+            for entry in installed.entries:
+                left.seek(entry.offset)
+                right.seek(entry.offset)
+                if left.read(entry.size) != right.read(entry.size):
+                    changed.add(entry.path)
+        require(changed == {s['path'] for s in added}, 'Unexpected changed payload set')
+        os.link(partial, output)
+        result.update(data=data, mode='ADDITIVE', base_sha256=digest, added_entries=len(added),
+                      diff_outside_added_payloads=0, matches_known_release=True,
+                      counts_basis='known validated whole-PACK SHA-256; full entry diff against verified installed state')
+        return result
+    finally:
+        if owned:
+            partial.unlink(missing_ok=True)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--commander', default='hannibal')
