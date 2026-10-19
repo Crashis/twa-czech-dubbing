@@ -2,6 +2,7 @@
 from collections import defaultdict
 import hashlib
 import json
+from pathlib import Path
 import unittest
 
 from tools.inventory.research_metadata import read_csv, validate_research
@@ -176,6 +177,59 @@ class CommanderResearchSafetyTests(unittest.TestCase):
                 self.assertEqual(manifest['wem_format'], production[0]['wem_format'])
                 self.assertFalse(taken & {s['media_id'] for s in manifest['replacements']})
                 self.assertEqual(validate_data(manifest)['status'], 'PASS')
+
+    def test_staged_lifecycle_stays_usable_for_future_commanders(self):
+        """--staged hides a validated set; --activate integrates it once, never leaving two manifests."""
+        import shutil
+        import tempfile
+        from unittest.mock import patch
+        from tools import mod
+        from tools.resources import VERSION
+        from tools.wem import promote
+        production = discover()
+        newest = production[-1]['commander']
+        with tempfile.TemporaryDirectory(prefix='twa-staged-lifecycle-') as temp:
+            root = Path(temp)
+            for m in production:
+                shutil.copytree(COMMANDERS/m['commander'], root/'data/commanders'/m['commander'],
+                                ignore=shutil.ignore_patterns('research', 'tts-plan', 'audio-qa.json'))
+                shutil.copytree(ROOT/m['replacement_directory'], root/m['replacement_directory'])
+            folder = root/'data/commanders'/newest
+            staged = json.loads((folder/'manifest.json').read_text(encoding='utf-8'))
+            del staged['display_order']
+            staged['version'] = 'staged-before-integration'
+            (folder/'manifest.json').unlink()
+            text = json.dumps(staged, ensure_ascii=False, indent=2) + '\n'
+            (folder/promote.STAGED).write_text(text, encoding='utf-8')
+            with patch.object(mod, 'ROOT', root):
+                self.assertNotIn(newest, [m['commander'] for m in discover()])
+                self.assertEqual(mod.validate_data(promote.load_staged(newest))['status'], 'PASS')
+                # Overlap with an installer commander is refused before any manifest is written.
+                conflict = json.loads(text)
+                conflict['replacements'][0]['media_id'] = production[0]['replacements'][0]['media_id']
+                (folder/promote.STAGED).write_text(json.dumps(conflict), encoding='utf-8')
+                with self.assertRaisesRegex(ValueError, 'overlap'):
+                    promote.activate(newest)
+                self.assertFalse((folder/promote.MANIFEST).exists())
+                (folder/promote.STAGED).write_text(text, encoding='utf-8')
+                # Both manifests at once are never accepted.
+                (folder/promote.MANIFEST).write_text(text, encoding='utf-8')
+                with self.assertRaisesRegex(ValueError, 'both exist'):
+                    promote.activate(newest)
+                (folder/promote.MANIFEST).unlink()
+                result = promote.activate(newest)
+                self.assertEqual((result['status'], result['staged_manifest_removed'], result['version'],
+                                  result['display_order']), ('PASS', True, VERSION, len(production)))
+                self.assertEqual(result['installer_order'], [m['commander'] for m in production])
+                self.assertEqual(sorted(p.name for p in folder.glob('manifest*.json')), [promote.MANIFEST])
+                activated = mod.load_manifest(newest)
+                self.assertEqual({k: v for k, v in activated.items() if k not in ('version', 'display_order')},
+                                 {k: v for k, v in staged.items() if k != 'version'})
+                with self.assertRaisesRegex(ValueError, 'No staged production set'):
+                    promote.activate(newest)
+            for m in production:
+                self.assertEqual(sorted(p.name for p in (root/m['replacement_directory']).iterdir()),
+                                 sorted(p.name for p in (ROOT/m['replacement_directory']).iterdir()))
 
 
 if __name__ == '__main__':

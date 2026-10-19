@@ -16,9 +16,18 @@ from tools.installer.backend import Installer, InstallerError, normalize_game_pa
 from tools.installer.catalog import discover, known_manifests, merge_manifests, selection
 
 # Validated changed-entry counts of every production selection that exists in this checkout.
-EXPECTED_CHANGED = {'hannibal': 305, 'spartacus': 304, 'zhuge-liang': 293, 'hannibal+spartacus': 609,
-                    'hannibal+zhuge-liang': 598, 'spartacus+zhuge-liang': 597,
-                    'hannibal+spartacus+zhuge-liang': 902}
+EXPECTED_CHANGED = {'hannibal': 305, 'spartacus': 304, 'zhuge-liang': 293, 'leonidas': 257,
+                    'hannibal+spartacus': 609, 'hannibal+zhuge-liang': 598, 'hannibal+leonidas': 562,
+                    'spartacus+zhuge-liang': 597, 'leonidas+spartacus': 561, 'leonidas+zhuge-liang': 550,
+                    'hannibal+spartacus+zhuge-liang': 902, 'hannibal+leonidas+spartacus': 866,
+                    'hannibal+leonidas+zhuge-liang': 855, 'leonidas+spartacus+zhuge-liang': 854,
+                    'hannibal+leonidas+spartacus+zhuge-liang': 1159}
+INSTALLER_ORDER = ['hannibal', 'spartacus', 'zhuge-liang', 'leonidas']
+
+
+def production_names():
+    """Installer display order: Hannibal, Spartacus, Zhuge Liang, Leonidas."""
+    return tuple(m['commander'] for m in discover())
 
 
 class InstallerTests(unittest.TestCase):
@@ -33,6 +42,42 @@ class InstallerTests(unittest.TestCase):
         self.assertEqual(discover()[0]['id'], 'hannibal')
         self.assertEqual(selection([self.manifest]), self.manifest)
         self.assertEqual(self.manifest['replacement_count'], 305)
+
+    def test_display_order_is_manifest_driven_and_joint_keys_stay_sorted(self):
+        parts = discover()
+        self.assertEqual([m['commander'] for m in parts], INSTALLER_ORDER)
+        self.assertEqual([m['display_order'] for m in parts], [1, 2, 3, 4])
+        self.assertTrue(all(m['version'] == '1.3.0' for m in parts))
+        everything = selection(parts)
+        self.assertEqual(everything['display_name'], 'Hannibal + Spartacus + Zhuge Liang + Leonidas')
+        self.assertEqual(everything['components'], sorted(INSTALLER_ORDER))
+        self.assertEqual(selection(list(reversed(parts))), everything)
+        by_name = {m['commander']: m for m in parts}
+        self.assertEqual(selection([by_name['leonidas'], by_name['spartacus']])['display_name'], 'Spartacus + Leonidas')
+        duplicate = [copy.deepcopy(m) for m in parts]
+        duplicate[-1]['display_order'] = 1
+        with patch('tools.installer.catalog.mod.load_manifest', side_effect=duplicate), \
+                self.assertRaisesRegex(ValueError, 'Duplicate commander display order'):
+            discover()
+        folder = self.root / 'isolated/data/commanders/hannibal'
+        folder.mkdir(parents=True)
+        for bad in (None, 0, True, '1'):
+            with self.subTest(display_order=bad):
+                value = copy.deepcopy(self.manifest)
+                del value['display_order']
+                if bad is not None:
+                    value['display_order'] = bad
+                (folder / 'manifest.json').write_text(json.dumps(value), encoding='utf-8')
+                with patch.object(mod, 'ROOT', self.root / 'isolated'), \
+                        self.assertRaisesRegex(ValueError, 'Invalid display order'):
+                    mod.load_manifest('hannibal')
+
+    def test_known_states_cover_original_and_every_combination(self):
+        known = known_manifests()
+        self.assertEqual(len(known), 15)
+        self.assertEqual(len({m['release']['sha256'] for m in known} | {self.manifest['base']['sha256']}), 16)
+        self.assertEqual({tuple(m.get('components', [m['commander']])) for m in known},
+                         {tuple(sorted(c)) for n in range(1, 5) for c in combinations(INSTALLER_ORDER, n)})
 
     def test_missing_pack_rejected(self):
         with self.assertRaises(ValueError):
@@ -60,7 +105,8 @@ class InstallerTests(unittest.TestCase):
 
     def joint_parts(self):
         other = copy.deepcopy(self.manifest)
-        other.update(commander='leonidas', display_name='Leonidas')
+        # A fictitious id: every real production pair now has a validated descriptor.
+        other.update(commander='mock-commander', display_name='Mock Commander')
         return [self.manifest, other]
 
     def test_identical_overlap_allowed(self):
@@ -229,7 +275,8 @@ class InstallerIntegrationTests(unittest.TestCase):
         return not list(Path(profile).rglob('*.pack'))
 
     def test_additive_h_to_hs_then_all_without_backup(self):
-        h, s, z = (m['commander'] for m in discover())
+        names = production_names()
+        h, s = names[:2]
         self.put_state((h,))
         profile = self.folder / 'fresh profile'
         state = Installer(self.selected((h, s)), profile).inspect(self.game)
@@ -240,33 +287,68 @@ class InstallerIntegrationTests(unittest.TestCase):
             result = Installer(self.selected((h, s)), profile).install(self.game)
             self.assertEqual(result['mode'], 'ADDITIVE')
             self.assert_installed((h, s), result, 609)
-            result = Installer(self.selected((h, s, z)), profile).install(self.game)
+            result = Installer(self.selected(names), profile).install(self.game)
             self.assertEqual(result['mode'], 'ADDITIVE')
-            self.assert_installed((h, s, z), result, 902)
+            self.assert_installed(names, result, 1159)
         self.assertTrue(self.no_backup(profile), 'A modified PACK became an original backup')
 
-    def test_additive_single_to_all_and_other_supersets_without_backup(self):
-        h, s, z = (m['commander'] for m in discover())
-        for current, target, before, after in [((h,), (h, s, z), 305, 902), ((s,), (h, s), 304, 609),
-                                               ((z,), (s, z), 293, 597), ((h,), (h, z), 305, 598)]:
+    def test_additive_supersets_without_backup(self):
+        """Adding Leonidas next to every earlier state needs no backup or original source."""
+        h, s, z, l = production_names()
+        for current, target, before, after in [((h, s, z), (h, s, z, l), 902, 1159), ((h,), (h, l), 305, 562),
+                                               ((s,), (s, l), 304, 561), ((z,), (z, l), 293, 550),
+                                               ((h, s), (h, s, l), 609, 866), ((h, z), (h, z, l), 598, 855),
+                                               ((s, z), (s, z, l), 597, 854), ((h,), (h, s, z, l), 305, 1159),
+                                               ((l,), (h, l), 257, 562), ((s,), (h, s), 304, 609)]:
             with self.subTest(current=current, target=target):
                 self.put_state(current)
                 self.assertEqual(mod.verify_pack(self.target, self.selected(current))['changed_entries'], before)
                 profile = self.folder / ('fresh-' + '+'.join(current + target))
-                result = Installer(self.selected(target), profile).install(self.game)
-                self.assertEqual(result['mode'], 'ADDITIVE')
+                with patch.object(mod, 'build', side_effect=AssertionError('Canonical build without an original')):
+                    result = Installer(self.selected(target), profile).install(self.game)
+                self.assertEqual((result['mode'], result['backup_created']), ('ADDITIVE', False))
                 self.assert_installed(target, result, after)
                 self.assertTrue(self.no_backup(profile))
 
     def test_removal_without_original_source_is_refused_without_writes(self):
-        h, s, z = (m['commander'] for m in discover())
-        before = self.put_state((h, s, z))
+        names = production_names()
+        before = self.put_state(names)
         profile = self.folder / 'fresh profile'
+        displayed = {m['commander']: m['display_name'] for m in discover()}
+        for gone in reversed(names):
+            with self.subTest(removed=gone):
+                remaining = tuple(n for n in names if n != gone)
+                error = self.assert_refused(lambda: Installer(self.selected(remaining), profile).install(self.game),
+                                            'ORIGINAL_SOURCE_REQUIRED_FOR_REMOVAL', before)
+                self.assertIn('Cannot remove ' + displayed[gone] + ' because the original game audio backup is '
+                              'unavailable. No game files were modified.', str(error))
+        h, s, z, l = names
         error = self.assert_refused(lambda: Installer(self.selected((s, z)), profile).install(self.game),
                                     'ORIGINAL_SOURCE_REQUIRED_FOR_REMOVAL', before)
-        self.assertIn('Cannot remove Hannibal because the original game audio backup is unavailable', str(error))
-        self.assertEqual(mod.verify_pack(self.target, self.selected((h, s, z)))['changed_entries'], 902)
+        self.assertIn('Cannot remove Hannibal + Leonidas because', str(error))
+        self.assertEqual(mod.verify_pack(self.target, self.selected(names), self.base)['changed_entries'], 1159)
         self.assertTrue(self.no_backup(profile))
+
+    def test_removal_with_valid_original_backup(self):
+        """H+S+Z+L -> H+S+Z (902), -> L (257) and -> Restore Original, each from the canonical backup."""
+        names = production_names()
+        profile = self.folder / 'backup profile'
+        service = Installer(self.manifest, profile)
+        root, _, backup = service.paths(self.game)
+        service.backup(root, self.base, backup)
+        for target, count in ((names[:-1], 902), (names[-1:], 257), ('RESTORE', 0)):
+            with self.subTest(target=target):
+                self.put_state(names)
+                if target == 'RESTORE':
+                    result = Installer(self.manifest, profile).restore(self.game)
+                    self.assertEqual(result['status'], 'RESTORED')
+                    self.assertEqual(mod.verify_pack(self.target, self.manifest, self.base)['changed_entries'], 0)
+                    self.assertEqual(mod.sha256(self.target), self.manifest['base']['sha256'])
+                else:
+                    result = Installer(self.selected(target), profile).install(self.game)
+                    self.assertEqual((result['mode'], result['backup_created']), ('CANONICAL', False))
+                    self.assert_installed(target, result, count)
+        self.assertEqual(mod.sha256(backup), self.manifest['base']['sha256'])
 
     def test_restore_without_original_source_is_refused_without_writes(self):
         h = discover()[0]['commander']
@@ -279,13 +361,14 @@ class InstallerIntegrationTests(unittest.TestCase):
         self.assertTrue(self.no_backup(profile))
 
     def test_first_install_from_clean_original_creates_verified_backup(self):
-        names = tuple(m['commander'] for m in discover())
+        names = production_names()
         profile = self.folder / 'fresh profile'
         service = Installer(self.selected(names), profile)
         self.assertEqual(service.inspect(self.game)['original_source'], 'CURRENT_PACK')
         result = service.install(self.game)
         self.assertEqual((result['mode'], result['backup_created']), ('CANONICAL', True))
-        self.assert_installed(names, result, 902)
+        self.assertEqual(result['message'], 'Hannibal + Spartacus + Zhuge Liang + Leonidas installed correctly.')
+        self.assert_installed(names, result, 1159)
         _, _, backup = service.paths(self.game)
         self.assertEqual((mod.sha256(backup), backup.stat().st_size, result['backup_size']),
                          (self.manifest['base']['sha256'], self.manifest['base']['size'], self.manifest['base']['size']))
@@ -295,7 +378,7 @@ class InstallerIntegrationTests(unittest.TestCase):
         self.assertEqual(mod.sha256(self.target), self.manifest['base']['sha256'])
 
     def test_canonical_game_file_is_recovered_as_backup_read_only(self):
-        h, s, z = (m['commander'] for m in discover())
+        h, s, z = production_names()[:3]
         self.put_state((h,))
         english = self.game / 'data/audio_en.pack'
         shutil.copyfile(self.base, english)
@@ -325,7 +408,7 @@ class InstallerIntegrationTests(unittest.TestCase):
         self.assertEqual((mod.sha256(english), english.stat().st_mtime_ns), english_state)
 
     def test_noncanonical_game_files_are_never_original_sources(self):
-        h, s, _ = (m['commander'] for m in discover())
+        h, s = production_names()[:2]
         before = self.put_state((h, s))
         english = self.game / 'data/audio_en.pack'
         shutil.copyfile(self.target, english)  # same size, known modded hash: never an original
@@ -377,7 +460,7 @@ class InstallerIntegrationTests(unittest.TestCase):
         self.assertEqual(backup.stat().st_mtime_ns, stamp)
 
     def test_additive_validation_failure_preserves_pack(self):
-        h, s, _ = (m['commander'] for m in discover())
+        h, s = production_names()[:2]
         before = self.put_state((h,))
 
         def reject(base, candidate, current, manifest):
@@ -390,7 +473,7 @@ class InstallerIntegrationTests(unittest.TestCase):
         self.assertIn('Injected additive validation failure', str(error))
 
     def test_build_additive_requires_known_base_and_validated_target_hash(self):
-        h, s, _ = (m['commander'] for m in discover())
+        h, s = production_names()[:2]
         self.put_state((h,))
         current, target = self.selected((h,)), self.selected((h, s))
         output = self.folder / 'additive.pack'

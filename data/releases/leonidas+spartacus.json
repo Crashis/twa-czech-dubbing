@@ -1,0 +1,12 @@
+{
+  "commanders": [
+    "leonidas",
+    "spartacus"
+  ],
+  "release": {
+    "sha256": "7cbb1a8355b7d8930ce3ab966ad09d8a5403305bef9a6878dda5f22d59946cbb",
+    "changed_entries": 561,
+    "unchanged_entries": 15984,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

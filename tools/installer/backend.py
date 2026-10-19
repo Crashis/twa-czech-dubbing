@@ -227,11 +227,11 @@ class Installer:
         if before['original_source']:
             return 'CANONICAL'
         selected = set(self.manifest.get('components', [self.manifest['commander']]))
-        removed = [name for name in before['installed_commanders'] if name not in selected]
+        removed = set(before['installed_commanders']) - selected
         if removed:
-            names = {m['commander']: m['display_name'] for m in discover()}
+            names = [m['display_name'] for m in discover() if m['commander'] in removed]
             raise InstallerError(ORIGINAL_SOURCE_REQUIRED_FOR_REMOVAL, 'Cannot remove '
-                                 + ' + '.join(names.get(n, n) for n in removed)
+                                 + ' + '.join(names)
                                  + ' because the original game audio backup is unavailable.' + NO_WRITE)
         return 'ADDITIVE'
 

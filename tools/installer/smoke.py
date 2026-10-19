@@ -359,7 +359,7 @@ def refused(session, call, code):
 
 
 def additive_without_backup(session):
-    """Scenario 1 (screenshot): H installed, backup missing, select H+S, Install -> 609, then all -> 902."""
+    """Scenario 1 (screenshot): H installed, backup missing, select H+S, Install, then every commander."""
     first, pair = session.names[:1], session.names[:2]
     last = without_backup(session, first, 'profile without backup - H to H+S')
     start = session.actual(first)['changed_entries']
@@ -381,7 +381,7 @@ def additive_without_backup(session):
 
 
 def h_to_all_without_backup(session):
-    """Scenario 2: H installed, backup missing, toggle S and Z (0 writes), one Install -> 902."""
+    """Scenario 2: H installed, backup missing, toggle every other commander (0 writes), one Install."""
     first = session.names[:1]
     without_backup(session, first, 'profile without backup - H to all')
     toggles, pending = [], first
@@ -397,10 +397,11 @@ def h_to_all_without_backup(session):
             'RSA': result['RSA'], 'mode': result['mode'], 'sha256': result['sha256']}
 
 
-def removal_without_backup(session):
-    """Scenario 3: H+S+Z installed, backup missing, select S+Z: disabled, safe refusal, 0 writes."""
-    without_backup(session, session.names, 'profile without backup - removal')
-    remaining = session.names[1:]
+def removal_without_backup(session, gone=None):
+    """Scenario 3: all installed, backup missing, uncheck one: disabled, safe refusal, 0 writes."""
+    gone = gone or session.names[0]
+    without_backup(session, session.names, 'profile without backup - removal of ' + gone)
+    remaining = tuple(n for n in session.names if n != gone)
     before = dict(session.calls)
     no_write = session.select(remaining)
     disabled = session.app.install_button.instate(['disabled'])
@@ -419,10 +420,78 @@ def removal_without_backup(session):
     require(not session.backup_files(), 'Refusal created a backup')
     session.verify(session.names)
     reach(session, session.names)
-    return {'result': 'SAFE REJECT', 'install_button_disabled': disabled, 'pending_warning': warning,
+    return {'result': 'SAFE REJECT', 'removed': gone, 'install_button_disabled': disabled, 'pending_warning': warning,
             'game_writes': no_write['game_writes'], 'still_installed': still,
             'backend_install_refusal': install_code, 'restore_button_disabled': restore_disabled,
             'backend_restore_refusal': restore_code}
+
+
+def upgrade_newest(session, backup):
+    """Previous release state (every older commander) -> a new installer adds the newest one.
+
+    The new installer starts, Verify shows the older commanders checked and the newest
+    unchecked; checking it writes nothing until Install. With the canonical backup the
+    target is rebuilt from the original; without one it is a strictly additive change.
+    """
+    older, newest = session.names[:-1], session.names[-1]
+    if backup:
+        reach(session, older)
+        session.restart()
+    else:
+        without_backup(session, older, 'profile without backup - upgrade to ' + newest)
+    last = session.app.last
+    session.verify(older)
+    unchecked = not dict((m['commander'], var.get()) for m, var in session.app.choices)[newest]
+    start = session.actual(older)['changed_entries']
+    toggle = session.select(session.names)
+    require(toggle['button_enabled'], 'Install stayed disabled after selecting the newest commander')
+    result = session.install(session.names)
+    session.verify(session.names)
+    require(result['mode'] == ('CANONICAL' if backup else 'ADDITIVE'), 'Unexpected upgrade mode: ' + result['mode'])
+    require(backup or not session.backup_files(), 'A modified PACK became an original backup')
+    checked = all(var.get() for _, var in session.app.choices)
+    reach(session, session.names)
+    return {'result': 'PASS', 'backup_state': last['backup_state'], 'original_source': last['original_source'],
+            'start_replacements': start, 'start_verify_state': ' + '.join(
+                m['display_name'] for m in session.parts if m['commander'] in older),
+            'newest_unchecked_after_verify': unchecked, 'select_newest': toggle,
+            'install': result, 'all_checked_after_verify': checked}
+
+
+def newest_only_from_clean_original(session):
+    """Clean original: select only the newest commander, Install, Verify, then Restore Original."""
+    newest = session.names[-1:]
+    reach(session, ())
+    session.restart()
+    toggle = session.select(newest)
+    result = session.install(newest)
+    session.verify(newest)
+    session.restore()
+    session.verify(())
+    return {'result': 'PASS', 'select': toggle, 'install': result, 'restore': 'PASS'}
+
+
+def remove_newest_with_backup(session):
+    """All installed with a valid backup: uncheck the newest, then keep only the newest, then Restore."""
+    newest = session.names[-1:]
+    older = session.names[:-1]
+    reach(session, session.names)
+    session.restart()
+    start = session.actual(session.names)['changed_entries']
+    toggle = session.select(older)
+    require(toggle['button_enabled'], 'Removal with a valid backup stayed disabled')
+    without_newest = session.install(older)
+    session.verify(older)
+    session.select(session.names)
+    session.install(session.names)
+    require(session.select(newest)['button_enabled'], 'Keeping only the newest commander stayed disabled')
+    only_newest = session.install(newest)
+    session.verify(newest)
+    session.restore()
+    session.verify(())
+    require(without_newest['mode'] == only_newest['mode'] == 'CANONICAL', 'Removal did not rebuild from original')
+    return {'result': 'PASS', 'start_replacements': start, 'select_without_newest': toggle,
+            'install_without_newest': without_newest, 'install_only_newest': only_newest, 'restore': 'PASS'}
 
 
 def clean_original_auto_backup(session):
@@ -563,14 +632,23 @@ def run(base_path, report_path):
             report['scenario_1_h_to_hs_without_backup'] = additive_without_backup(session)
             report['scenario_2_h_to_all_without_backup'] = h_to_all_without_backup(session)
             report['scenario_3_removal_without_backup'] = removal_without_backup(session)
+            # Release 1.3.0 frozen scenarios A-E; the newest commander is the last checkbox.
+            report['scenario_A_upgrade_newest_without_backup'] = upgrade_newest(session, backup=False)
+            report['scenario_upgrade_newest_with_backup'] = upgrade_newest(session, backup=True)
+            report['scenario_B_newest_only_from_clean_original'] = newest_only_from_clean_original(session)
+            report['scenario_D_remove_newest_without_backup'] = removal_without_backup(session, session.names[-1])
+            report['scenario_E_remove_newest_with_backup'] = remove_newest_with_backup(session)
             report['canonical_game_file_recovery'] = game_file_recovery(session)
             report['invalid_backup_refusal'] = invalid_backup_refusal(session)
             report['removals'] = remove_commanders(session)
             report['selection_only'] = rapid_and_empty_selection(session)
+            # Scenario C: clean original in a fresh profile, every commander, automatic backup.
             report['clean_original_auto_backup'] = clean_original_auto_backup(session)
             reach(session, ())
             session.restart()
             report.update(status='PASS', GUI_start='PASS', GUI_startup_writes=0,
+                          upgrade_from_previous_release_without_backup='PASS',
+                          upgrade_from_previous_release_with_backup='PASS',
                           checkbox_toggle_writes=0, checkbox_backend_calls=0,
                           only_explicit_actions_write='PASS', pending_vs_installed='PASS',
                           operation_controls_disabled='PASS', restore_clears_checkboxes='PASS',

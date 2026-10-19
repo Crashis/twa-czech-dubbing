@@ -23,8 +23,10 @@ from tools.validation.repository import audit, private_values, SECRET_PATTERNS
 ROOT = Path(__file__).resolve().parents[1]
 EXE = 'TWA-Czech-Dubbing-Installer.exe'
 NAME = f'TWA-Czech-Dubbing-v{VERSION}-win64'
-EPOCH = '1792281600'
-DATE = (2026, 10, 18, 0, 0, 0)
+EPOCH = '1792368000'
+DATE = (2026, 10, 19, 0, 0, 0)
+# Evidence record, not a selection rule: commanders whose payloads the user reported as tested in game.
+USER_REPORTED_RUNTIME = ('hannibal', 'spartacus', 'zhuge-liang')
 
 
 def checked(args, env=None):
@@ -99,9 +101,6 @@ def add_notices(bundle):
         shutil.copyfile(source, folder / name)
 
 
-COMMANDERS = ['hannibal', 'spartacus', 'zhuge-liang']
-
-
 def joint_keys(manifests):
     names = sorted(m['commander'] for m in manifests)
     return ['+'.join(group) for count in range(2, len(names) + 1) for group in combinations(names, count)]
@@ -155,16 +154,49 @@ def bundle_audit(bundle, manifests):
             'license_audit': 'PASS'}
 
 
+def release_manifests():
+    """Manifest-driven: every discovered production commander ships, and every combination
+    of them needs its own independently validated descriptor (selection() fails closed)."""
+    manifests = discover()
+    require(bool(manifests), 'No production commander manifests found')
+    require(all(m['version'] == VERSION for m in manifests),
+            'Commander release version metadata does not match final version')
+    require(all(m['base'] == manifests[0]['base'] for m in manifests), 'Production commanders use different bases')
+    require({p.stem for p in (mod.ROOT / 'data/releases').glob('*.json')} == set(joint_keys(manifests)),
+            'Joint descriptors do not match the production commander combinations')
+    by_name = {m['commander']: m for m in manifests}
+    return manifests, [selection([by_name[name] for name in key.split('+')]) for key in joint_keys(manifests)]
+
+
+def readme_text(manifests):
+    return ('Total War: Arena - Czech Dubbing ' + VERSION + '\n\n'
+            'Commanders: ' + ', '.join(f"{m['display_name']} ({m['replacement_count']} lines)"
+                                       for m in manifests) + '.\n\n'
+            '1. Extract the entire ZIP.\n2. Run TWA-Czech-Dubbing-Installer.exe.\n'
+            '3. Choose the Total War: Arena folder; checkboxes show verified installed dubbing.\n'
+            '4. Select any combination of available commanders. Close the game and launcher; click Install.\n'
+            '5. Launch the game yourself.\n\n'
+            'Checkboxes only change the pending selection. Only Install applies it.\n'
+            'Verify checks installed audio and resets the selection to the actual state.\n'
+            'Unchecking every commander does not restore audio; use Restore Original.\n'
+            'Restore Original restores the verified backup and clears the selection.\n'
+            'A verified backup of the clean original is created automatically before the first write,\n'
+            'from the current audio_cn.pack or a byte-identical data\\audio_en.pack (read only).\n'
+            'Without any original source you can still add dubbing; removing dubbing and\n'
+            'Restore Original then stay disabled and no game file is changed.\n'
+            'Backups: %LOCALAPPDATA%\\TWA-Czech-Dubbing\\backup\\<installation-id>\\audio_cn.pack\n'
+            'Logs: %LOCALAPPDATA%\\TWA-Czech-Dubbing\\logs\\\n'
+            'Unsupported versions are rejected without modifying game audio.\n'
+            'If write access is denied, close the installer and use Run as administrator on the EXE.\n'
+            'Use the same Windows account so its backup remains available.\n'
+            'Requires Windows x64 and your own supported game; no Python/Git/API key needed.\n'
+            'Keep at least 750 MB free (backup, build, Python extraction).\n')
+
+
 def build_release(base_pack, reference_pack=None, output_directory=None):
     require(os.name == 'nt' and struct.calcsize('P') == 8, 'Build requires 64-bit Windows Python')
     require(version('pyinstaller') == '6.22.3', 'Install pinned requirements-development.txt in .venv')
-    manifests = discover()
-    require([m['commander'] for m in manifests] == COMMANDERS,
-            'Local test build requires exactly the validated Hannibal, Spartacus and Zhuge Liang sets')
-    require(all(m['version'] == VERSION for m in manifests),
-            'Commander release version metadata does not match final version')
-    by_name = {m['commander']: m for m in manifests}
-    joints = [selection([by_name[name] for name in key.split('+')]) for key in joint_keys(manifests)]
+    manifests, joints = release_manifests()
     base = Path(base_pack).resolve(strict=True)
     require(mod.sha256(base) == manifests[0]['base']['sha256'], 'Unsupported canonical original')
     require(not base.is_relative_to(ROOT), 'Canonical original must remain outside the repository')
@@ -204,27 +236,7 @@ def build_release(base_pack, reference_pack=None, output_directory=None):
             target = bundle / 'payload' / rel
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / rel, target)
-        (bundle / 'README.txt').write_text(
-            'Total War: Arena - Czech Dubbing ' + VERSION + '\n\n'
-            '1. Extract the entire ZIP.\n2. Run TWA-Czech-Dubbing-Installer.exe.\n'
-            '3. Choose the Total War: Arena folder; checkboxes show verified installed dubbing.\n'
-            '4. Select any combination of available commanders. Close the game and launcher; click Install.\n'
-            '5. Launch the game yourself.\n\n'
-            'Checkboxes only change the pending selection. Only Install applies it.\n'
-            'Verify checks installed audio and resets the selection to the actual state.\n'
-            'Unchecking every commander does not restore audio; use Restore Original.\n'
-            'Restore Original restores the verified backup and clears the selection.\n'
-            'A verified backup of the clean original is created automatically before the first write,\n'
-            'from the current audio_cn.pack or a byte-identical data\\audio_en.pack (read only).\n'
-            'Without any original source you can still add dubbing; removing dubbing and\n'
-            'Restore Original then stay disabled and no game file is changed.\n'
-            'Backups: %LOCALAPPDATA%\\TWA-Czech-Dubbing\\backup\\<installation-id>\\audio_cn.pack\n'
-            'Logs: %LOCALAPPDATA%\\TWA-Czech-Dubbing\\logs\\\n'
-            'Unsupported versions are rejected without modifying game audio.\n'
-            'If write access is denied, close the installer and use Run as administrator on the EXE.\n'
-            'Use the same Windows account so its backup remains available.\n'
-            'Requires Windows x64 and your own supported game; no Python/Git/API key needed.\n'
-            'Keep at least 750 MB free (backup, build, Python extraction).\n', encoding='utf-8')
+        (bundle / 'README.txt').write_text(readme_text(manifests), encoding='utf-8')
         add_notices(bundle)
         sums = ''.join(mod.sha256(p) + '  ' + p.relative_to(bundle).as_posix() + '\n' for p in file_list(bundle))
         (bundle / 'SHA256SUMS.txt').write_text(sums, encoding='utf-8', newline='\n')
@@ -236,14 +248,14 @@ def build_release(base_pack, reference_pack=None, output_directory=None):
             integration[label] = mod.build(base, candidate, manifest)
             require(integration[label]['matches_known_release'] and integration[label]['RSA'] == 'PASS',
                     'Reproduced PACK differs from its validated release hash: ' + label)
-            if label == 'hannibal' and reference:
+            if label == manifests[0]['commander'] and reference:
                 with candidate.open('rb') as left, reference.open('rb') as right:
                     while True:
                         block = left.read(1024 * 1024)
                         require(block == right.read(1024 * 1024), 'Complete reference differs byte for byte')
                         if not block:
                             break
-                integration['hannibal']['byte_identical_to_complete_reference'] = True
+                integration[label]['byte_identical_to_complete_reference'] = True
             candidate.unlink()  # keep at most one temporary full PACK on disk
         archive_a = temp / 'first.zip'
         archive_b = temp / 'second.zip'
@@ -264,7 +276,7 @@ def build_release(base_pack, reference_pack=None, output_directory=None):
         foreign_cwd.mkdir()
         smoke_report = temp / 'frozen-smoke.json'
         process = subprocess.run([str(extracted_bundle / EXE), '--self-test', str(base), str(smoke_report)],
-                                 cwd=foreign_cwd, env=env, timeout=1800)
+                                 cwd=foreign_cwd, env=env, timeout=3600)
         require(smoke_report.is_file(), 'Frozen installer did not create its smoke report')
         smoke = json.loads(smoke_report.read_text(encoding='utf-8'))
         require(process.returncode == 0 and smoke['status'] == 'PASS',
@@ -279,11 +291,18 @@ def build_release(base_pack, reference_pack=None, output_directory=None):
                   'python': sys.version.split()[0], 'pyinstaller': version('pyinstaller'),
                   'build_dependencies': {n: version(n) for n in ('pyinstaller-hooks-contrib', 'altgraph', 'packaging', 'pefile', 'pywin32-ctypes', 'setuptools')},
                   'SOURCE_DATE_EPOCH': EPOCH, 'PYTHONHASHSEED': '0', 'repository': repository,
+                  'commanders': {m['commander']: {'display_name': m['display_name'],
+                                                  'display_order': m['display_order'],
+                                                  'replacements': len(m['replacements']),
+                                                  'release_sha256': m['release']['sha256']} for m in manifests},
+                  'validated_combinations': len(integration),
                   'release_audit': release_audit, 'integration': integration, 'frozen_smoke': smoke,
-                  'human_listening': 'USER_REPORTED_IN_GAME',
+                  'human_listening': {m['commander']: 'USER_REPORTED_IN_GAME' if m['commander'] in USER_REPORTED_RUNTIME
+                                      else 'PENDING_HUMAN_IN_GAME_TEST' for m in manifests},
                   'game_runtime_test': 'NOT_PERFORMED_FOR_THIS_BUILD',
-                  'historical_payload_runtime': 'USER_REPORTED_PASS: Hannibal, Spartacus, Zhuge Liang',
-                  'installer_human_review': 'NOT_PERFORMED_FOR_NEW_STATE_FLOW'}
+                  'historical_payload_runtime': 'USER_REPORTED_PASS: ' + ', '.join(
+                      m['display_name'] for m in manifests if m['commander'] in USER_REPORTED_RUNTIME),
+                  'installer_human_review': 'NOT_PERFORMED_FOR_THIS_BUILD'}
         # Only publish artifacts after every gate succeeds. No original PACK enters the bundle.
         shutil.copytree(bundle, final)
         shutil.copyfile(archive_a, zipped)

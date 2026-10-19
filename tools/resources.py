@@ -2,6 +2,6 @@
 from pathlib import Path
 import sys
 
-VERSION = '1.2.0'
+VERSION = '1.3.0'
 ROOT = (Path(sys.executable).resolve().parent / 'payload' if getattr(sys, 'frozen', False)
         else Path(__file__).resolve().parents[1])

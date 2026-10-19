@@ -2,6 +2,7 @@
 
 The canonical original is read-only. A complete candidate PACK stays in work/;
 no release metadata is published until its full entry diff and RSA pass.
+--activate later turns a validated staged set into an installer commander.
 """
 import argparse
 import csv
@@ -41,6 +42,48 @@ def load_staged(commander):
             and value['supported_base_pack_hash'] == value['base']['sha256']
             and value['replacement_directory'] == f'replacements/{commander}/wem', 'Staged manifest metadata mismatch')
     return value
+
+
+def next_display_order(prior):
+    # A newly integrated commander is appended after every existing installer checkbox.
+    return max((m['display_order'] for m in prior), default=0) + 1
+
+
+def activate(commander):
+    """Integrate a staged set: manifest.staged.json -> manifest.json, never both afterwards.
+
+    Payloads, inventory and QA stay byte-identical; only the release version and
+    display order change. Joint descriptors are created afterwards by tools.installer.joint.
+    """
+    folder = mod.ROOT / 'data/commanders' / commander
+    require((folder / STAGED).is_file(), 'No staged production set for ' + commander)
+    staged = load_staged(commander)
+    prior = discover()
+    require(commander not in {m['commander'] for m in prior}, 'Commander is already an installer commander')
+    require(all(m['base'] == staged['base'] and m['wem_format'] == staged['wem_format'] for m in prior),
+            'Staged commander base/format differs from production')
+    taken = {s['media_id'] for m in prior for s in m['replacements']}
+    require(not taken.intersection(s['media_id'] for s in staged['replacements']),
+            'Staged commander replacements overlap an existing release')
+    require(mod.validate_data(staged)['status'] == 'PASS', 'Staged production set did not validate')
+    value = dict(staged, version=VERSION, display_order=next_display_order(prior))
+    target = folder / MANIFEST
+    with target.open('x', encoding='utf-8') as stream:  # never overwrite an installer manifest
+        stream.write(json.dumps(value, ensure_ascii=False, indent=2) + '\n')
+    try:
+        manifest = mod.load_manifest(commander)
+        require(manifest == value and mod.validate_data(manifest)['status'] == 'PASS',
+                'Activated manifest did not validate')
+        require(commander in {m['commander'] for m in discover()}, 'Installer does not discover the activated commander')
+    except BaseException:
+        target.unlink()
+        raise
+    (folder / STAGED).unlink()
+    return {'status': 'PASS', 'commander': commander, 'activated': True, 'installer_discoverable': True,
+            'staged_manifest_removed': not (folder / STAGED).exists(), 'version': VERSION,
+            'display_order': value['display_order'], 'replacements': len(value['replacements']),
+            'release_sha256': value['release']['sha256'],
+            'installer_order': [m['commander'] for m in discover()]}
 
 
 def run(args):
@@ -174,7 +217,8 @@ def run(args):
                 'id': args.commander, 'spoken_count': len(specs), 'replacement_count': len(specs),
                 'replacement_directory': f'replacements/{args.commander}/wem',
                 'supported_base_pack_hash': audit['canonical_pack_sha256'],
-                'required_runtime_pack': 'audio_cn.pack', 'version': VERSION}
+                'required_runtime_pack': 'audio_cn.pack', 'version': VERSION,
+                'display_order': next_display_order(prior)}
     destination = mod.ROOT / 'replacements' / args.commander / 'wem'
     folder = mod.ROOT / 'data/commanders' / args.commander
     require(not destination.exists() and not any((folder / n).exists() for n in
@@ -206,14 +250,23 @@ def run(args):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--commander', required=True)
-    parser.add_argument('--display-name', required=True)
-    parser.add_argument('--routing', required=True)
-    parser.add_argument('--state', required=True)
-    parser.add_argument('--base', required=True)
-    parser.add_argument('--work', required=True)
+    production = ('display_name', 'routing', 'state', 'base', 'work')
+    for name in production:
+        parser.add_argument('--' + name.replace('_', '-'), help='required unless --activate')
     parser.add_argument('--staged', action='store_true',
                         help=f'write {STAGED} so the installer does not discover the commander yet')
-    print(json.dumps(run(parser.parse_args()), ensure_ascii=False, indent=2))
+    parser.add_argument('--activate', action='store_true',
+                        help=f'integrate an existing validated {STAGED} as {MANIFEST} (version {VERSION})')
+    args = parser.parse_args()
+    if args.activate:
+        if args.staged or any(getattr(args, name) for name in production):
+            parser.error('--activate takes only --commander')
+        print(json.dumps(activate(args.commander), ensure_ascii=False, indent=2))
+        return
+    missing = ['--' + name.replace('_', '-') for name in production if not getattr(args, name)]
+    if missing:
+        parser.error('the following arguments are required: ' + ', '.join(missing))
+    print(json.dumps(run(args), ensure_ascii=False, indent=2))
 
 
 if __name__ == '__main__':

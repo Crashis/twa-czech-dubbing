@@ -1,0 +1,12 @@
+{
+  "commanders": [
+    "leonidas",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "f2f2de5d670488778e123f388322b7ce1c6e6f6740fbaf19187fcac92cffc0c9",
+    "changed_entries": 550,
+    "unchanged_entries": 15995,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

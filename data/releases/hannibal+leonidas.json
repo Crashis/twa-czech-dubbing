@@ -1,0 +1,12 @@
+{
+  "commanders": [
+    "hannibal",
+    "leonidas"
+  ],
+  "release": {
+    "sha256": "fae0e479bc287538e04e5b07fa61f99deca254b6d8714970fcc0c2a4a0ce0d04",
+    "changed_entries": 562,
+    "unchanged_entries": 15983,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

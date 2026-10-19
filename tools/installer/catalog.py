@@ -8,8 +8,14 @@ from tools.pack.reader import require
 
 
 def discover():
-    return [mod.load_manifest(p.parent.name) for p in sorted(
-        (mod.ROOT / 'data/commanders').glob('*/manifest.json'))]
+    """Production commanders in their manifest-defined installer display order."""
+    parts = [mod.load_manifest(p.parent.name) for p in (mod.ROOT / 'data/commanders').glob('*/manifest.json')]
+    require(len({p['display_order'] for p in parts}) == len(parts), 'Duplicate commander display order')
+    return sorted(parts, key=lambda m: m['display_order'])
+
+
+def display_names(parts):
+    return ' + '.join(p['display_name'] for p in sorted(parts, key=lambda m: m['display_order']))
 
 
 def merge_manifests(parts, release):
@@ -34,7 +40,7 @@ def merge_manifests(parts, release):
             release['unchanged_entries'] + len(merged) == parts[0]['base']['entry_count'], 'Joint counts mismatch')
     result = copy.deepcopy(parts[0])
     result.update(commander='combined', components=[p['commander'] for p in parts],
-                  display_name=' + '.join(p['display_name'] for p in parts),
+                  display_name=display_names(parts),
                   replacements=sorted(merged.values(), key=lambda s: int(s['media_id'])),
                   silent_placeholder_ids=sorted(silent), expected_replacement_count=len(merged),
                   expected_spoken_count=len(merged), release=release)

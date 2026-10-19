@@ -43,6 +43,8 @@ def load_manifest(commander='hannibal'):
             and value['supported_base_pack_hash'] == value['base']['sha256']
             and value['required_runtime_pack'] == value['runtime_slot']
             and value['replacement_directory'] == f'replacements/{commander}/wem', 'Installer metadata mismatch')
+    # Installer display position only; joint keys and components stay sorted by commander id.
+    require(type(value.get('display_order')) is int and value['display_order'] >= 1, 'Invalid display order')
     return value
 
 

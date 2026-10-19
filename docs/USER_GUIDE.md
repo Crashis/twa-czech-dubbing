@@ -2,7 +2,7 @@
 
 ## Instalace
 
-1. Rozbalte **celý** Windows ZIP verze 1.2.0 do vlastní složky.
+1. Rozbalte **celý** Windows ZIP verze 1.3.0 do vlastní složky.
 2. Dvakrát klikněte na `TWA-Czech-Dubbing-Installer.exe`.
 3. Vyberte složku Total War: Arena přes **Browse…**. Po ověření checkboxy ukážou skutečně nainstalované hlasy; u originálu budou všechny prázdné.
 4. Zaškrtněte požadované commandery, zavřete hru i launcher a klikněte na **Install**.
@@ -34,7 +34,7 @@ Zálohu installer vytvoří automaticky před prvním zápisem, ale jen z prokaz
 
 Pro návrat k původním hlasům znovu rozbalte/spusťte installer, vyberte stejnou hru, zavřete hru i launcher a klikněte na **Restore Original**. Potvrďte obnovu. Záloha zůstane zachovaná.
 
-Bez dostupného originálu lze dabing dál **přidávat**. Z ověřeného známého stavu (například Hannibal) installer v dočasné kopii doplní jen nově vybrané commandery. Před zápisem vyžaduje přesný SHA-256 ověřené cílové kombinace, RSA a nulový rozdíl mimo přidané položky; Hannibal → Hannibal + Spartacus tak dá 609 náhrad. **Odebrání** nainstalovaného commandera a **Restore Original** ale potřebují původní data. Bez nich jsou vypnuté, GUI zobrazí „Original backup required to remove installed dubbing“ a hra se nezmění. Poškozenou zálohu installer nikdy nepoužije ani nepřepíše a zablokuje všechny zápisy; zkontrolujte ji nebo ji odstraňte ručně. Installer neumí původní herní data stáhnout. Používejte stejný účet Windows, pod kterým byla záloha vytvořena. Starší vývojové PowerShell skripty mají odlišné umístění zálohy; viz [DEVELOPMENT](DEVELOPMENT.md).
+Bez dostupného originálu lze dabing dál **přidávat**. Z ověřeného známého stavu (například Hannibal) installer v dočasné kopii doplní jen nově vybrané commandery. Před zápisem vyžaduje přesný SHA-256 ověřené cílové kombinace, RSA a nulový rozdíl mimo přidané položky; Hannibal → Hannibal + Spartacus tak dá 609 náhrad a Hannibal + Spartacus + Zhuge Liang → všichni čtyři 1159. **Odebrání** nainstalovaného commandera a **Restore Original** ale potřebují původní data. Bez nich jsou vypnuté, GUI zobrazí „Original backup required to remove installed dubbing“ a hra se nezmění. Poškozenou zálohu installer nikdy nepoužije ani nepřepíše a zablokuje všechny zápisy; zkontrolujte ji nebo ji odstraňte ručně. Installer neumí původní herní data stáhnout. Používejte stejný účet Windows, pod kterým byla záloha vytvořena. Starší vývojové PowerShell skripty mají odlišné umístění zálohy; viz [DEVELOPMENT](DEVELOPMENT.md).
 
 ## Řešení chyb
 
@@ -57,6 +57,8 @@ Technický stav je vidět v okně. Stručné logy jsou v `%LOCALAPPDATA%\TWA-Cze
 
 Pokud launcher opraví nebo aktualizuje hru, spusťte po jeho zavření **Verify**. Dabing používá podporovaný hlasový soubor `audio_cn.pack`, přestože jeho původní zvuky jsou anglické; nepřejmenovávejte jiné soubory podle jazyka.
 
-## Výběr commanderů ve verzi 1.2.0
+## Výběr commanderů ve verzi 1.3.0
 
-ZIP verze 1.2.0 nabízí Hannibala, Spartaka a Zhuge Lianga v libovolné kombinaci (jeden, dva nebo všichni tři). Při změně výběru zaškrtněte commandery a klikněte na **Install**. Je-li k dispozici ověřený originál, installer sestaví celý nový výběr od začátku; přidání i odebrání commandera tak dává přesně vybranou sadu. Bez originálu je možné jen přidávání, jehož výsledek je bajtově shodný. **Restore Original** obnoví původní PACK, pokud installer má ověřený originál. Finální artefakt je zatím lokální release candidate a nebyl publikován.
+ZIP verze 1.3.0 nabízí v tomto pořadí Hannibala (305 hlášek), Spartaka (304), Zhuge Lianga (293) a Leonida (257) v libovolné z 15 kombinací; všichni čtyři dohromady dají 1159 náhrad. Při změně výběru zaškrtněte commandery a klikněte na **Install**. Je-li k dispozici ověřený originál, installer sestaví celý nový výběr od začátku; přidání i odebrání commandera tak dává přesně vybranou sadu. Bez originálu je možné jen přidávání, jehož výsledek je bajtově shodný. **Restore Original** obnoví původní PACK, pokud installer má ověřený originál. Artefakt je zatím lokální release candidate a nebyl publikován.
+
+**Upgrade z verze 1.2.0:** spusťte nový installer a vyberte stejnou hru. Po ověření budou zaškrtnutí Hannibal, Spartacus a Zhuge Liang, Leonidas zůstane prázdný. Zaškrtněte Leonida (nic se ještě nezapíše) a klikněte na **Install**. S ověřenou zálohou i bez ní vznikne stejný PACK se všemi čtyřmi commandery. Odebrání kteréhokoli commandera později vyžaduje ověřený originál.
