@@ -157,8 +157,25 @@ class CommanderResearchSafetyTests(unittest.TestCase):
     def test_no_original_audio_in_commander_data_or_foreign_replacements(self):
         leaked = [p for p in COMMANDERS.rglob('*') if p.is_file() and p.suffix.lower() in AUDIO_SUFFIXES]
         self.assertEqual(leaked, [])
+        staged = {p.parent.name for p in COMMANDERS.glob('*/manifest.staged.json')}
         self.assertEqual({p.name for p in (ROOT/'replacements').iterdir()},
-                         {m['commander'] for m in discover()})
+                         {m['commander'] for m in discover()} | staged)
+
+    def test_staged_production_sets_validate_without_reaching_installer(self):
+        from tools.mod import validate_data
+        from tools.wem.promote import load_staged
+        production = discover()
+        names = {m['commander'] for m in production}
+        taken = {s['media_id'] for m in production for s in m['replacements']}
+        for path in sorted(COMMANDERS.glob('*/manifest.staged.json')):
+            name = path.parent.name
+            with self.subTest(name=name):
+                manifest = load_staged(name)
+                self.assertNotIn(name, names)
+                self.assertEqual(manifest['base'], production[0]['base'])
+                self.assertEqual(manifest['wem_format'], production[0]['wem_format'])
+                self.assertFalse(taken & {s['media_id'] for s in manifest['replacements']})
+                self.assertEqual(validate_data(manifest)['status'], 'PASS')
 
 
 if __name__ == '__main__':

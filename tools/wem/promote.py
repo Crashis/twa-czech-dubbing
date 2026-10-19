@@ -18,10 +18,29 @@ from tools.resources import VERSION
 from tools.wem.production import context, save
 
 
+MANIFEST = 'manifest.json'
+# A fully validated production set that the installer must not discover yet
+# (catalog.discover() reads only */manifest.json). Integration renames it.
+STAGED = 'manifest.staged.json'
+
 FIELDS = ('media_id', 'english', 'czech', 'category', 'trigger', 'original_duration',
           'czech_duration', 'original_size_bytes', 'model', 'delivery_tags',
           'source_batch', 'transcript_confidence', 'translation_status', 'wem_sha256',
           'tts_source_media_id', 'tts_performance_group', 'source_audio_sha256')
+
+
+def load_staged(commander):
+    """Load a staged schema-1 manifest with the same installer alias checks as mod.load_manifest."""
+    folder = mod.ROOT / 'data/commanders' / commander
+    require(not (folder / MANIFEST).exists(), 'Staged and installer manifests both exist for ' + commander)
+    value = json.loads((folder / STAGED).read_text(encoding='utf-8'))
+    require(value['schema_version'] == 1 and value['commander'] == value['id'] == commander
+            and value['runtime_slot'] == value['required_runtime_pack'] == 'audio_cn.pack'
+            and value['spoken_count'] == value['expected_spoken_count']
+            and value['replacement_count'] == value['expected_replacement_count']
+            and value['supported_base_pack_hash'] == value['base']['sha256']
+            and value['replacement_directory'] == f'replacements/{commander}/wem', 'Staged manifest metadata mismatch')
+    return value
 
 
 def run(args):
@@ -159,7 +178,7 @@ def run(args):
     destination = mod.ROOT / 'replacements' / args.commander / 'wem'
     folder = mod.ROOT / 'data/commanders' / args.commander
     require(not destination.exists() and not any((folder / n).exists() for n in
-            ('manifest.json', 'voice-lines.csv', 'media-inventory.csv', 'audio-qa.json')),
+            (MANIFEST, STAGED, 'voice-lines.csv', 'media-inventory.csv', 'audio-qa.json')),
             'Production output already exists')
     destination.mkdir(parents=True)
     for spec in specs:
@@ -169,14 +188,17 @@ def run(args):
         writer.writeheader()
         writer.writerows(voice_rows)
     shutil.copyfile(folder / 'research/voice-lines.csv', folder / 'media-inventory.csv')
-    save(folder / 'manifest.json', manifest)
+    save(folder / (STAGED if args.staged else MANIFEST), manifest)
     save(folder / 'audio-qa.json', {'status': 'PASS', 'replacement_count': len(qa),
          'source_performances': len(plan), 'duration_ratio_review_flags': duration_flags,
          'human_listening_of_final_wems': 'NOT_PERFORMED', 'game_runtime_test': 'NOT_PERFORMED',
          'results': qa})
-    checked = mod.validate_data(mod.load_manifest(args.commander))
+    checked = mod.validate_data(load_staged(args.commander) if args.staged else mod.load_manifest(args.commander))
     require(checked['status'] == 'PASS', 'Promoted production set did not validate')
-    return {'status': 'PASS', 'commander': args.commander, 'replacements': len(specs),
+    require((args.commander in {m['commander'] for m in discover()}) != args.staged,
+            'Installer discovery does not match the requested promotion mode')
+    return {'status': 'PASS', 'commander': args.commander, 'staged': args.staged,
+            'installer_discoverable': not args.staged, 'replacements': len(specs),
             'source_performances': len(plan), 'candidate_sha256': release_sha,
             'changed_entries': len(changed), 'RSA': 'PASS', 'duration_ratio_review_flags': duration_flags}
 
@@ -189,6 +211,8 @@ def main():
     parser.add_argument('--state', required=True)
     parser.add_argument('--base', required=True)
     parser.add_argument('--work', required=True)
+    parser.add_argument('--staged', action='store_true',
+                        help=f'write {STAGED} so the installer does not discover the commander yet')
     print(json.dumps(run(parser.parse_args()), ensure_ascii=False, indent=2))
 
 
