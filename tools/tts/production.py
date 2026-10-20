@@ -24,6 +24,8 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
+from tools.tts.pronunciation import Resolver, commander_resolver, request_text
+
 BASE = "https://api.elevenlabs.io"
 MODELS = {"eleven_v3": "v3", "eleven_v4": "v4"}
 FORMAT = "mp3_44100_128"
@@ -210,19 +212,25 @@ def inspect_audio(path, mini):
             "sha256": sha_file(path)}
 
 
-def items_from_plan(plan, routes, output, voice_id, voice_name=None):
+def items_from_plan(plan, routes, output, voice_id, voice_name=None, pronunciation=None):
+    pronunciation = pronunciation or Resolver([])
+    pronunciation.verify_phrases({row["tts_source_media_id"]: row["czech_text"] for row in plan})
     items = {}
     for row in plan:
         source = row["tts_source_media_id"]
         model = routes[source]["selected_model"]
-        text = row["recommended_tags"] + " " + row["czech_text"]
+        # Only approved overrides; an unreviewed one stops the run instead of silently using either spelling.
+        spoken = pronunciation.resolve(row["czech_text"], "production", source)
+        text = request_text(row["recommended_tags"], spoken["tts_input_text"])
         request = {"voice_id": voice_id, "model_id": model, "text": text, "output_format": FORMAT}
         items[source] = {
             "tts_performance_group": row["tts_performance_group"],
             "tts_source_media_id": source, "member_media_ids": row["member_media_ids"].split(";"),
             "voice_id": voice_id, "voice_name": voice_name,
             "czech_text_sha256": sha_bytes(row["czech_text"].encode("utf-8")),
-            "model": model, "czech_text": row["czech_text"],
+            "model": model, "czech_text": row["czech_text"], "canonical_text": row["czech_text"],
+            "tts_input_text": spoken["tts_input_text"],
+            "applied_pronunciation_overrides": spoken["applied_pronunciation_overrides"],
             "delivery_style": row["delivery_style"], "tags": row["recommended_tags"],
             "request_text": text,
             "request_sha256": sha_bytes(json.dumps(request, ensure_ascii=False, sort_keys=True).encode("utf-8")),
@@ -249,8 +257,11 @@ def import_pilot(state, pilot_journal, mini):
         if "voice_name" not in journal and "voice_id" not in pilot:
             raise RuntimeError("Pilot voice provenance missing")
         item = state["items"].get(pilot["media_id"])
-        if not item or item["model"] != pilot["model"] or item["status"] == "complete":
+        if not item or item["model"] != pilot["model"] or item["status"] in ("complete", "stale"):
             continue
+        if (pilot.get("tts_input_text", pilot["czech_text"]) != item.get("tts_input_text", item["czech_text"])
+                and pilot["czech_text"] == item["czech_text"]):
+            continue  # piloted with a pronunciation production did not approve; never production audio
         expected_sha = pilot["audio"]["sha256"] if "audio" in pilot else pilot["sha256"]
         if (item["czech_text"] != pilot["czech_text"]
                 or item["request_text"] != pilot.get("request_text", pilot.get("text"))
@@ -275,20 +286,49 @@ def import_pilot(state, pilot_journal, mini):
                     pilot_output=str(source), audio=metrics)
 
 
-def prepare_state(args, plan, routes, hashes, safe_count, voice_id, before, mini):
+REQUEST_FIELDS = ("tts_input_text", "applied_pronunciation_overrides", "request_text", "request_sha256")
+STALE_FIELDS = ("needs_regeneration", "stale_reason", "status_before_stale", "current_tts_input_text",
+                "current_applied_pronunciation_overrides")
+
+
+def reconcile_pronunciation(item, expected):
+    """Audio requested with an older TTS input is never current; it is marked, never resent automatically."""
+    sent = item.get("tts_input_text", item["czech_text"])  # older states sent the canonical text
+    if sent == expected["tts_input_text"]:
+        if item.get("needs_regeneration"):  # the override returned to what was actually sent
+            item["status"] = item["status_before_stale"]
+            for field in STALE_FIELDS:
+                item.pop(field, None)
+        return
+    if item["status"] == "planned":  # nothing was sent yet
+        item.update({field: expected[field] for field in REQUEST_FIELDS})
+        return
+    # The recorded request stays: it is what ElevenLabs actually received (and what history recovery matches).
+    item.setdefault("status_before_stale", item["status"])
+    item.update(status="stale", needs_regeneration=True,
+                stale_reason="pronunciation override changed after the request; regeneration needs authorization",
+                current_tts_input_text=expected["tts_input_text"],
+                current_applied_pronunciation_overrides=expected["applied_pronunciation_overrides"])
+
+
+def prepare_state(args, plan, routes, hashes, safe_count, voice_id, before, mini, pronunciation=None):
     output = args.output
     output.mkdir(parents=True, exist_ok=True)
     (output / "audio").mkdir(exist_ok=True)
     state_path = output / "generation-state.json"
-    expected = items_from_plan(plan, routes, output, voice_id, args.voice_name)
+    expected = items_from_plan(plan, routes, output, voice_id, args.voice_name, pronunciation)
     if state_path.exists():
         state = json.loads(state_path.read_text(encoding="utf-8"))
         if (state["source_hashes"] != hashes or state["voice_id"] != voice_id
                 or set(state["items"]) != set(expected)):
             raise RuntimeError("Frozen production inputs changed; refusing resume")
         for source, item in state["items"].items():
-            for key in ("request_sha256", "model", "request_text", "output_path", "czech_text"):
+            for key in ("model", "output_path", "czech_text"):
                 if item[key] != expected[source][key]:
+                    raise RuntimeError(f"Frozen request changed {source}")
+            reconcile_pronunciation(item, expected[source])
+            for key in ("request_sha256", "request_text"):
+                if item[key] != expected[source][key] and not item.get("needs_regeneration"):
                     raise RuntimeError(f"Frozen request changed {source}")
     else:
         state = {"schema": 1, "commander": args.commander, "voice_name": args.voice_name,
@@ -297,7 +337,9 @@ def prepare_state(args, plan, routes, hashes, safe_count, voice_id, before, mini
                  "starting_credits": before["remaining"], "starting_usage": before["used"],
                  "credit_limit": before["limit"], "latest_credits": before["remaining"],
                  "items": expected}
-        save_json(state_path, state)
+    # Informational only: override edits are judged per performance, not as a whole-run freeze.
+    state["pronunciation_override_hashes"] = pronunciation.files if pronunciation else {}
+    save_json(state_path, state)
     import_pilot(state, args.pilot_journal, mini)
     save_json(state_path, state)
     return state, state_path
@@ -576,7 +618,7 @@ def audit_outputs(state, state_path, key, mini, before):
         metrics = inspect_audio(path, mini)
         valid = (metrics["sha256"] == item["checksum"] == item["audio"]["sha256"]
                  and item.get("voice_id", state["voice_id"]) == state["voice_id"]
-                 and item["request_text"] == item["tags"] + " " + item["czech_text"]
+                 and item["request_text"] == request_text(item["tags"], item.get("tts_input_text", item["czech_text"]))
                  and sha_bytes(item["czech_text"].encode("utf-8")) == item.get("czech_text_sha256",
                      sha_bytes(item["czech_text"].encode("utf-8"))))
         if not valid:
@@ -672,6 +714,8 @@ def main():
     if not args.output.resolve().is_relative_to(Path("work").resolve()):
         parser.error("output must be under ignored work/")
     plan, routes, hashes, safe_count = load_plan(args.commander, args.routing, args.require_model)
+    pronunciation = commander_resolver(args.commander)
+    items_from_plan(plan, routes, args.output, None, pronunciation=pronunciation)  # offline stop before any request
     key = api_key()
     voice_id = voice_and_models(key, args.voice_name, args.voice_id,
                                 {route["selected_model"] for route in routes.values()})
@@ -684,7 +728,7 @@ def main():
             raise RuntimeError("Frozen production inputs changed; refusing audit")
         print(json.dumps(audit_outputs(state, state_path, key, mini, before), ensure_ascii=False, indent=2))
         return
-    state, state_path = prepare_state(args, plan, routes, hashes, safe_count, voice_id, before, mini)
+    state, state_path = prepare_state(args, plan, routes, hashes, safe_count, voice_id, before, mini, pronunciation)
     verify_and_recover(state, state_path, mini)
     pending = [state["items"][row["tts_source_media_id"]] for row in plan
                if state["items"][row["tts_source_media_id"]]["status"] == "planned"]
@@ -694,6 +738,7 @@ def main():
                       "projected_credit_ceiling": projected,
                       "starting_credits": state["starting_credits"],
                       "current_credits": before["remaining"],
+                      "needs_regeneration": sum(x["status"] == "stale" for x in state["items"].values()),
                       "reused": sum(x["origin"] == "pilot_reused" for x in state["items"].values() if x["status"] == "complete")}), flush=True)
     if projected + spent_credits(state) > args.max_credits:
         raise RuntimeError(f"Conservative credit projection {projected} exceeds {args.max_credits}")
@@ -729,7 +774,7 @@ def main():
                     item["error"] = str(error)
                     save_json(state_path, state)
             submitted += 1
-            counts = {status: sum(x["status"] == status for x in state["items"].values()) for status in ("complete", "failed", "uncertain", "planned")}
+            counts = {status: sum(x["status"] == status for x in state["items"].values()) for status in ("complete", "failed", "uncertain", "planned", "stale")}
             print(f"{item['tts_source_media_id']} {item['model']} {item['status']} {counts}", flush=True)
             if submitted % args.batch_size == 0:
                 current = subscription(key)
@@ -752,7 +797,7 @@ def main():
         state["latest_credits"] = after["remaining"]
     state["finished_at"] = utc_now()
     save_json(state_path, state)
-    counts = {status: sum(x["status"] == status for x in state["items"].values()) for status in ("complete", "failed", "uncertain", "planned")}
+    counts = {status: sum(x["status"] == status for x in state["items"].values()) for status in ("complete", "failed", "uncertain", "planned", "stale")}
     print(json.dumps({"counts": counts, "starting_credits": state["starting_credits"],
                       "remaining_credits": after and after["remaining"],
                       "account_usage_delta": after and after["used"] - state["starting_usage"],

@@ -16,6 +16,7 @@ from pathlib import Path
 from tools.tts.production import (FORMAT, MODELS, HardStop, api_key, decoder, generate_one, get_json, history_fields,
                                   history_items, inspect_audio, read_csv, retry_technical, save_json, sha_bytes,
                                   sha_file, subscription, utc_now, voice_and_models)
+from tools.tts.pronunciation import commander_resolver, request_text
 
 
 def active_speech_seconds(path, mini):
@@ -45,6 +46,8 @@ def load_targets(commander, production_state, deliveries, max_attempt, retransla
     voices = {r['media_id']: r for r in read_csv(root / 'tts-plan/voice-lines-cz.csv')}
     production = json.loads(Path(production_state).read_text(encoding='utf-8'))
     rows = read_csv(Path(deliveries))
+    pronunciation = commander_resolver(commander)
+    pronunciation.verify_phrases({mid: row['czech_text'] for mid, row in plan.items()})
     targets = {}
     for row in rows:
         mid, attempt, tags = row['media_id'], int(row['attempt']), row['tags'].strip()
@@ -61,13 +64,16 @@ def load_targets(commander, production_state, deliveries, max_attempt, retransla
         # A canonical text may differ from the production ledger only for an explicitly approved retranslation.
         if old['status'] != 'complete' or (old['czech_text'] != plan[mid]['czech_text']) != (mid in retranslated):
             raise RuntimeError(f'Production performance missing, changed or not declared retranslated {mid}')
-        # An explicitly approved synthesis-only text may differ from the canonical text in punctuation only.
+        # Approved pronunciation overrides first; a delivery override may then change punctuation only.
+        spoken = pronunciation.resolve(plan[mid]['czech_text'], 'production', mid)
         override = (row.get('tts_text_override') or '').strip() or None
-        if override and (override == plan[mid]['czech_text'] or not same_words(override, plan[mid]['czech_text'])
+        if override and (override == spoken['tts_input_text'] or not same_words(override, spoken['tts_input_text'])
                          or not (row.get('override_reason') or '').strip()):
             raise RuntimeError(f'Synthesis override must keep the exact words and state a reason {mid}')
         targets[f'{mid}#{attempt}'] = {'media_id': mid, 'attempt': attempt, 'tags': tags, 'speed': speed,
                                        'canonical_text': plan[mid]['czech_text'], 'old': old,
+                                       'tts_input_text': spoken['tts_input_text'],
+                                       'applied_pronunciation_overrides': spoken['applied_pronunciation_overrides'],
                                        'tts_text_override': override,
                                        'override_reason': (row.get('override_reason') or '').strip() or None,
                                        'member_media_ids': plan[mid]['member_media_ids'].split(';')}
@@ -128,9 +134,9 @@ def main():
         if any(state['items'].get(f'{mid}#{n}', {}).get('accepted') for n in range(1, target['attempt'])):
             raise RuntimeError(f'{mid} already has an accepted compact source; no further generation')
         item = state['items'].get(name)
-        request_text = target['tags'] + ' ' + (target['tts_text_override'] or target['canonical_text'])
+        text = request_text(target['tags'], target['tts_text_override'] or target['tts_input_text'])
         if item:
-            if item['request_text'] != request_text:
+            if item['request_text'] != text:
                 raise RuntimeError(f'Frozen request changed {name}')
             continue
         old = target['old']
@@ -138,6 +144,8 @@ def main():
         state['items'][name] = {
             'media_id': mid, 'tts_source_media_id': mid, 'member_media_ids': target['member_media_ids'],
             'canonical_text': target['canonical_text'], 'czech_text': target['canonical_text'],
+            'tts_input_text': target['tts_input_text'],
+            'applied_pronunciation_overrides': target['applied_pronunciation_overrides'],
             'tts_text_override': target['tts_text_override'], 'override_reason': target['override_reason'],
             'speed': target['speed'],
             'retranslated': mid in retranslated, 'previous_canonical_text': old['czech_text'] if mid in retranslated else None,
@@ -145,7 +153,7 @@ def main():
             'voice_settings': stored_settings | {'speed': target['speed']} if target['speed'] is not None else None,
             'stored_voice_settings': stored_settings if target['speed'] is not None else None,
             'czech_text_sha256': sha_bytes(target['canonical_text'].encode('utf-8')), 'tags': target['tags'],
-            'request_text': request_text, 'voice_id': voice_id, 'voice_name': args.voice_name, 'model': args.model,
+            'request_text': text, 'voice_id': voice_id, 'voice_name': args.voice_name, 'model': args.model,
             'attempt': target['attempt'], 'old_audio_path': str(old_audio), 'old_audio_sha256': old['checksum'],
             'old_duration': old['audio']['duration_seconds'], 'old_active_speech_s': active_speech_seconds(old_audio, mini),
             'new_audio_path': None, 'new_duration': None, 'duration_change_percent': None,
@@ -211,7 +219,8 @@ def audit(state, state_path, key, mini, before):
     for item in items:
         metrics = inspect_audio(Path(item['output_path']), mini)
         if (metrics['sha256'] != item['checksum'] or metrics['clipped_samples_pcm16']
-                or item['request_text'] != item['tags'] + ' ' + (item.get('tts_text_override') or item['canonical_text'])):
+                or item['request_text'] != request_text(item['tags'], item.get('tts_text_override')
+                                                        or item.get('tts_input_text', item['canonical_text']))):
             problems.append(item['media_id'])
     since = min(datetime.fromisoformat(x['generation_timestamp']).timestamp() for x in items) - 60
     history = history_items(key, state['voice_id'], state['model'], since)

@@ -6,6 +6,8 @@ Status: **research_staged**, `release_ready: false`. This folder is deliberately
 - `plan.staged.json`: canonical English phrases, approved Czech texts (male/neutral and female-slot forms, optional TTS
   pronunciation input), and one planned performance per unique Czech text and voice group, mapped to its reachable Media IDs.
 - `media-map.staged.csv`: production scope only: one row per reachable Media ID with ownership, reach, safety and original budget.
+- `pronunciation-overrides.csv`: token rules for the TTS input only (Falxy → Falksy), resolved by `tools.tts.pronunciation`
+  exactly like commander overrides; the staged `tts_input_text` values must equal the resolver's pilot output.
 - `excluded-media.staged.csv`: shared Media IDs of the same events that no live unit reaches; they get no audio and, like every
   ID here, must stay out of commander-only releases.
 

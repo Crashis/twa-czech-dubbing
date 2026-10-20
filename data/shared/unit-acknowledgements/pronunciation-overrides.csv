@@ -1,0 +1,2 @@
+﻿tts_performance_group,tts_source_media_id,member_media_ids,english_text,czech_text,tts_text_override,palatalization_fallback_text,override_reason,status
+,,,Falxes,Falxy,Falksy,,"Falxy: x = [ks] spelled out for TTS; user decision 2026-10-19, not yet verified by pilot listening",PROPOSED_VERIFY_IN_PILOT
