@@ -1,0 +1,9 @@
+﻿tts_performance_group,tts_source_media_id,member_media_ids,english_text,czech_text,tts_text_override,palatalization_fallback_text,override_reason,status
+PCM-35b23e1010a59be9-776651b2,143006383,143006383,Caesar shall fight no more!,Caesar už nebude bojovat!,Cézar už nebude bojovat!,,Caesar: Czech convention [cézar]; TTS may read the Latin spelling as ka-e-sar,PROPOSED_VERIFY_IN_PILOT
+PCM-6928d9642de70426-afe2f417,280331861,280331861,Swiftness of Artemis!,Hbitost Artemidy!,,Hbitost Artemydy!,Artemida: hard d in Artemido/Artemidy (use only if the pilot palatalizes di),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-1fd9733af4ba1f24-5be0531c,433192949,433192949,Massinissa is dead!,Massinissa je mrtev!,,Masynysa je mrtev!,Massinissa: hard n (use only if the pilot palatalizes ni),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-76755dd371c79da1-d953cc96,446056864,446056864,Miltiades!,Miltiadés!,,Miltyadés!,Miltiadés: hard t in the Greek name (use only if the pilot palatalizes ti),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-4c1028f95bfd5df9-f4a237d1,568403100,568403100,Germanicus breathes his last!,Germanicus vydechl naposledy!,Germanykus vydechl naposledy!,,Germanicus: Latin c = [k] and hard n; Czech TTS would read [germaňicus],PROPOSED_VERIFY_IN_PILOT
+PCM-307c1343bf17de55-681849f2,612073755,612073755,The treacherous Arminius is slain!,Zrádný Arminius je mrtev!,,Zrádný Arminyus je mrtev!,Arminius: hard n (use only if the pilot palatalizes ni),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-df1d00a269833114-a8151fd0,879210475,879210475,Boudica goes to her gods!,Boudica odchází ke svým bohům!,Boudyka odchází ke svým bohům!,,Boudica: c = [k] and hard d (English/Czech [boudika]),PROPOSED_VERIFY_IN_PILOT
+PCM-95d92902cf7cf583-b7d94bec,1011890145,1011890145,Xanthippus is dead!,Xanthippos je mrtev!,Ksantypos je mrtev!,,"Xanthippos: x = [ks], th = [t], hard t",PROPOSED_VERIFY_IN_PILOT

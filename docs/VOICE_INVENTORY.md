@@ -1,6 +1,6 @@
 # Offline voice inventory
 
-Research data lives under `data/commanders/<id>/research/` for Leonidas, Scipio Africanus, Spartacus, Germanicus and Zhuge Liang. It is deliberately excluded from installer discovery, which only reads production `*/manifest.json`. `manifest-draft.json` has `status: research_ready`, `release_ready: false`, an explicit inventory status and separate translation/TTS readiness. A metadata validation PASS does not approve uncertain wording, a performance or a release.
+Research data lives under `data/commanders/<id>/research/` for Leonidas, Scipio Africanus, Spartacus, Germanicus, Zhuge Liang, Miltiades and Julius Caesar. It is deliberately excluded from installer discovery, which only reads production `*/manifest.json`. `manifest-draft.json` has `status: research_ready`, `release_ready: false`, an explicit inventory status and separate translation/TTS readiness. A metadata validation PASS does not approve uncertain wording, a performance or a release.
 
 The Leonidas and Scipio outputs contain one row per Media ID, plus `usage-paths.csv` with every bank-scoped event/branch/container/Sound path. `scope` retains the commander-specific alias; `sharing_scope` uses the common classification. Both `safe_to_replace_for_commander` and the commander-specific safety column are present. Original WEM hashes are explicitly original hashes, never replacement hashes. Czech text is empty.
 
@@ -76,6 +76,8 @@ python -B -m tools.inventory.research_export --workspace $researchWorkspace --ou
 python -B -m tools.inventory.crosscheck --workspace $researchWorkspace --commander-root data/commanders --left zhuge-liang --reference hannibal --reference leonidas --reference scipio-africanus --reference spartacus --reference germanicus --reference-audio-audit "hannibal=$researchWorkspace/reference-hannibal/original-audio-audit.json" --output data/commanders/shared-research --stem zhuge-liang-crosscheck --duplicates-output zhuge-liang-duplicate-recordings.csv --shared-analysis-output ''
 python -B -m tools.inventory.research_report data/commanders/zhuge-liang/research --integrity-audit zhuge-liang-integrity-audit.json
 ```
+
+Miltiades (`gre_miltiades`, `Commander_Miltiades`, Greek) and Julius Caesar (`rom_caesar`, `Commander_Caesar`, Roman) were added together the same way, without `emote-pool-events` (their emote pools matched the chat-tag events), and compared with the crosscheck `--left miltiades --right julius-caesar` against all six earlier inventories (`miltiades-julius-caesar-crosscheck`). Three explicit Miltiades charge lines are the same Media IDs as Leonidas's and stay `CULTURE_SHARED`. Caesar's third ability voice state `599090551` has no recoverable name and stays numeric. Disputed wording was resolved by `asr-alternative-*-mc*.json` (medium.en/small.en, 0.5 s analysis-only leading silence, beam 10) and sibling lines of the same state; these are recorded as context corrections, never as listening.
 
 `event-profiles.json` lists each commander’s own ability states (from `arena_commanders_to_com_abilities`) and may set `pilot_mix`, which selects the battle pilot round-robin across battle events, aggressive and standard orders, abilities, emotes and results instead of the legacy priority order. Spartacus, Germanicus and Zhuge Liang use it; Leonidas and Scipio keep the published selection.
 

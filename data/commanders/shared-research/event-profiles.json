@@ -231,6 +231,21 @@
         "sight of the dragon",
         "player selects emote: yes"
       ]
+    },
+    "miltiades": {
+      "own_abilities": [
+        "vo_ua_Infantry_Charge",
+        "vo_ua_Fear"
+      ],
+      "pilot_mix": true
+    },
+    "julius-caesar": {
+      "own_abilities": [
+        "vo_ua_Vidi",
+        "vo_ua_Vici",
+        "599090551"
+      ],
+      "pilot_mix": true
     }
   },
   "commander_cultures": {
@@ -250,7 +265,7 @@
       1422687991
     ]
   },
-  "culture_mapping_evidence": "Commander DB faction fields and supported-corpus culture/actor branches; affiliation never proves media ownership. Spartacus (DB faction rom_gladiators, vo_culture_Gladiators) and Germanicus (rom_rome, vo_culture_roman) are documented in commander-identification.json but intentionally not added here: no primary Spartacus/Germanicus Media ID is shared only between commanders, and adding them would relabel other inventories’ generic advisor references. Zhuge Liang (DB faction rom_china, vo_culture_China) is likewise not added: no Zhuge Liang Media ID is shared only between commanders (his shared IDs are vo_culture_China unit sets), and adding all seven rom_china commanders changes no classification in any inventory.",
+  "culture_mapping_evidence": "Commander DB faction fields and supported-corpus culture/actor branches; affiliation never proves media ownership. Spartacus (DB faction rom_gladiators, vo_culture_Gladiators) and Germanicus (rom_rome, vo_culture_roman) are documented in commander-identification.json but intentionally not added here: no primary Spartacus/Germanicus Media ID is shared only between commanders, and adding them would relabel other inventories’ generic advisor references. Zhuge Liang (DB faction rom_china, vo_culture_China) is likewise not added: no Zhuge Liang Media ID is shared only between commanders (his shared IDs are vo_culture_China unit sets), and adding all seven rom_china commanders changes no classification in any inventory. Miltiades (DB faction rom_athens, vo_culture_greek) was already listed for the Leonidas inventory; Julius Caesar (rom_rome, vo_culture_roman) is documented in commander-identification.json but not added, for the same reason as Germanicus: adding him would relabel Scipio/Germanicus shared references without changing any safety flag.",
   "commander_ability_evidence": {
     "source": "wad.pack:db/arena_commanders_to_com_abilities_tables; voice state names are exact FNV-1 members of battle_vo_orders.bnk DialogueEvent 825794328 ability group under the commander actor key",
     "spartacus": {
@@ -274,6 +289,22 @@
         "com_way_of_the_wind"
       ]
     },
-    "zhuge-liang_db_note": "chi_zhuge_liang has tiered com_masters_patience_*, com_sight_of_the_dragon_* and com_way_of_the_wind_* rows; in this DB build the untiered base row com_masters_patience is keyed to chi_sun_ren and chi_zhuge_liang carries an untiered com_adrenaline_rush row. Voice ownership uses the three exact FNV-1 states under the Commander_Zhuge_Liang actor key in DialogueEvent 825794328, consistent with the localized matchmaking hint (Sight of the Dragon, Master's Patience); there is no Zhuge Liang adrenaline-rush voice branch."
+    "zhuge-liang_db_note": "chi_zhuge_liang has tiered com_masters_patience_*, com_sight_of_the_dragon_* and com_way_of_the_wind_* rows; in this DB build the untiered base row com_masters_patience is keyed to chi_sun_ren and chi_zhuge_liang carries an untiered com_adrenaline_rush row. Voice ownership uses the three exact FNV-1 states under the Commander_Zhuge_Liang actor key in DialogueEvent 825794328, consistent with the localized matchmaking hint (Sight of the Dragon, Master's Patience); there is no Zhuge Liang adrenaline-rush voice branch.",
+    "miltiades": {
+      "gre_miltiades": [
+        "com_break_ranks",
+        "com_fear",
+        "com_infantry_charge"
+      ]
+    },
+    "miltiades_db_note": "Break Ranks has no dedicated voice state under the Commander_Miltiades actor key; vo_ua_Infantry_Charge and vo_ua_Fear are exact FNV-1 states in DialogueEvent 825794328 (localized ability names Infantry Charge, Fear). vo_ua_HOLD_THE_LINE (Leonidas ability name) is an ordinary order branch for Miltiades and is not counted as his ability.",
+    "julius-caesar": {
+      "rom_caesar": [
+        "com_veni",
+        "com_vici",
+        "com_vidi"
+      ]
+    },
+    "julius-caesar_db_note": "rom_caesar has exactly three abilities (localized Veni, Vidi, Vici). Under the Commander_Caesar actor key DialogueEvent 825794328 has the exact FNV-1 states vo_ua_Vidi and vo_ua_Vici plus the unnamed state 599090551 (no Veni spelling matches); all three exist only for Caesar, Massinissa and Xanthippus, like Scipio’s vo_ua_warcry. The 599090551 recordings (Divide and conquer!, Intercept their commands!) match the Silence ability text; the numeric state stays unnamed and the exact on-screen name per state is not asserted."
   }
 }

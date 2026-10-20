@@ -1525,5 +1525,465 @@
     "text": "Deploy stakes.",
     "confidence": "HIGH",
     "evidence": "Three models agree; punctuation normalized."
+  },
+  "25551292": {
+    "text": "A fine victory!",
+    "confidence": "HIGH",
+    "evidence": "base.en, small.en and alternative small.en agree exactly; medium.en Her is a mishearing of the article; victory-on-points context."
+  },
+  "27822701": {
+    "text": "Vercingetorix joins his barbarian ancestors!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternative analyses agree; second vo_actor is exactly Commander_Vercingetorix."
+  },
+  "33976913": {
+    "text": "The huntress be your eyes!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternative analyses agree (Artemis the huntress); mark_target context."
+  },
+  "104392008": {
+    "text": "A Greek victory is moments away!",
+    "confidence": "HIGH",
+    "evidence": "base.en, small.en and both alternative analyses agree; medium.en Our differs only in the article."
+  },
+  "157292379": {
+    "text": "Our time is short! Fight!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternative analyses agree; even-score timer context."
+  },
+  "179356233": {
+    "text": "Advance!",
+    "confidence": "HIGH",
+    "evidence": "alternative medium.en Advance, small.en ADANCE; base/medium A dance is the same phonemes; unit_medium_speed_stance carries Advance! for Scipio and Caesar."
+  },
+  "217977572": {
+    "text": "Apace!",
+    "confidence": "HIGH",
+    "evidence": "alternative medium.en APACE, base.en A PACE; quick_march ability carries Apace! for Scipio and Caesar."
+  },
+  "293222453": {
+    "text": "Release!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en both Release; base/small hear Ready. State 2257448314 holds Fire!/Loose!/RELEASE! for the Greek Leonidas set and Fire!/Loose!/this line for Miltiades; Caesar also has Release! there. Context-resolved, not human listening."
+  },
+  "312647210": {
+    "text": "Honor the gods!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternative analyses agree; Inspire Group context."
+  },
+  "317143453": {
+    "text": "Pierce their hearts!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternative analyses agree; spear piercing blows context."
+  },
+  "361913695": {
+    "text": "Defeat looms! Rally to me!",
+    "confidence": "HIGH",
+    "evidence": "both alternative leading-silence analyses give Defeat looms; standard small/medium Your feet looms is the same phonemes with a clipped onset; losing-timer context."
+  },
+  "393872243": {
+    "text": "Battle calls!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree; Scipio has BATTLE CALLS! in the same generic response."
+  },
+  "404989723": {
+    "text": "Victory! We hold their base!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree; victory by capturing the enemy base."
+  },
+  "416393754": {
+    "text": "Form up!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and alternative medium.en agree; Form up! is also in state 276550336 for Leonidas and Caesar."
+  },
+  "419577647": {
+    "text": "Our men are being attacked!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and both alternative analyses agree; one-of-your-units-attacked context."
+  },
+  "433192949": {
+    "text": "Massinissa is dead!",
+    "confidence": "HIGH",
+    "evidence": "all models agree phonetically; second vo_actor is exactly Commander_Massinissa; proper-name spelling."
+  },
+  "446056864": {
+    "text": "Miltiades!",
+    "confidence": "HIGH",
+    "evidence": "alternative medium.en MILTY-ADES, small.en MiltiADs; commander-card branch of Commander_Miltiades (DB gre_miltiades, localized Miltiades); proper-name spelling."
+  },
+  "447120141": {
+    "text": "Relinquish your arms!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree; drop siege equipment context."
+  },
+  "513915453": {
+    "text": "Push!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and alternative medium.en agree; Push ability."
+  },
+  "551525273": {
+    "text": "Pummel them!",
+    "confidence": "HIGH",
+    "evidence": "small.en and both alternative analyses agree; medium.en PUMMO is the same word."
+  },
+  "556009353": {
+    "text": "As you were!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en As you were; As you were! is in state 276550336 for Leonidas and Caesar; base/small As you are is a reduced vowel."
+  },
+  "568403100": {
+    "text": "Germanicus breathes his last!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree; second vo_actor is exactly Commander_Germanicus."
+  },
+  "599527747": {
+    "text": "Shields down!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative small.en Shields down; drop_shields ability (Scipio Shields down!)."
+  },
+  "600187987": {
+    "text": "Ward them off!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en agree; sword parry context."
+  },
+  "651227357": {
+    "text": "Raise shields!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree; raise_shield ability."
+  },
+  "818429016": {
+    "text": "Fall back!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and both alternatives agree."
+  },
+  "879210475": {
+    "text": "Boudica goes to her gods!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternatives agree; second vo_actor is exactly Commander_Boudica; project spelling Boudica."
+  },
+  "898664694": {
+    "text": "Pack it up!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en agree; dismantle artillery context (Caesar Pack it up!)."
+  },
+  "940764939": {
+    "text": "Get some walls out between us and them!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and both alternatives give walls out (small rules out); base.en walls up; barricades context. Czech meaning unaffected."
+  },
+  "946488931": {
+    "text": "Pierce them!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and both alternatives agree; spear piercing blows."
+  },
+  "948701115": {
+    "text": "Parry!",
+    "confidence": "HIGH",
+    "evidence": "alternative medium.en Parry, small.en Perry; sword_parry ability (Caesar PERRY, Germanicus Parry!)."
+  },
+  "953979854": {
+    "text": "Arm yourself!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en agree; state 2486100005 carries Arm yourself! for Scipio."
+  },
+  "958279304": {
+    "text": "Glory awaits!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en agree; generic response (Scipio Glory awaits!)."
+  },
+  "961395047": {
+    "text": "To battle!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and alternative medium.en agree."
+  },
+  "982165355": {
+    "text": "Watch your fire!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree; missile fire damages allies."
+  },
+  "989611928": {
+    "text": "The men are broken and flee!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and both alternative analyses agree; unit routes."
+  },
+  "1011890145": {
+    "text": "Xanthippus is dead!",
+    "confidence": "HIGH",
+    "evidence": "all models agree phonetically; second vo_actor is exactly Commander_Xanthippus; proper-name spelling."
+  },
+  "1026784750": {
+    "text": "The Consul Sulla is slain!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en agree; second vo_actor is exactly Commander_Sulla."
+  },
+  "1063774845": {
+    "text": "Attack the enemy flank!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree; exposed flanks."
+  },
+  "21783932": {
+    "text": "Ah, fearsome row of teeth!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternative medium.en agree; place stakes context."
+  },
+  "33466922": {
+    "text": "Honor the gods!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en Honor the gods; base/small Oh no, the gods has the same vowels; siblings in this Vici ability are Glory awaits! and Honor and glory!; a dismayed reading does not fit a buff activation. Context-resolved, not human listening."
+  },
+  "67073529": {
+    "text": "Divide et impera!",
+    "confidence": "HIGH",
+    "evidence": "Latin quotation: alternative medium.en Divide at Empiria, small.en Divinity at Empyrea, medium.en The video at Empyrea are phonetic renderings; sibling in the same Caesar ability state 599090551 is Divide and conquer!."
+  },
+  "120431137": {
+    "text": "Erect stakes!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree; place stakes."
+  },
+  "177008297": {
+    "text": "Advance!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree; medium speed stance."
+  },
+  "236718225": {
+    "text": "Parry!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and alternatives Perry; sword_parry ability."
+  },
+  "259611595": {
+    "text": "Rome needs us!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en agree; Scipio Rome needs us!."
+  },
+  "260422022": {
+    "text": "Dodge first, fight later!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree; light dodge."
+  },
+  "275776328": {
+    "text": "Massinissa has been killed!",
+    "confidence": "HIGH",
+    "evidence": "all models agree phonetically; second vo_actor is exactly Commander_Massinissa; proper-name spelling."
+  },
+  "317631514": {
+    "text": "Push!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and both alternatives agree."
+  },
+  "349105464": {
+    "text": "Erect a wall! Here!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree; barricades."
+  },
+  "377635795": {
+    "text": "Aim! Loose!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and alternative medium.en agree; Scipio Aim! Loose! in the same state."
+  },
+  "391830510": {
+    "text": "Prepare the tar pits!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree; place tar."
+  },
+  "424893380": {
+    "text": "Caltrops, now!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree; place caltrops."
+  },
+  "445272668": {
+    "text": "Miltiades has fallen!",
+    "confidence": "HIGH",
+    "evidence": "base.en, small.en and alternative medium.en agree exactly; second vo_actor is exactly Commander_Miltiades."
+  },
+  "474168789": {
+    "text": "Our allies laid traps here! Caution!",
+    "confidence": "HIGH",
+    "evidence": "small.en and alternative small.en laid, medium.en lay, base.en lead; tense only, the Czech translation is identical."
+  },
+  "475490931": {
+    "text": "To arms!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree."
+  },
+  "491719125": {
+    "text": "Dig the pits!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree; place tar."
+  },
+  "499759897": {
+    "text": "May Minerva protect us!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree."
+  },
+  "577509538": {
+    "text": "Our men are cowards!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternatives Oh, men are cowards, base.en I'll man a cowards: RP our realised as an open vowel; Leonidas has Our men are cowards! They're routing! for the same unit-routes trigger. Czech meaning identical for both readings. Context-resolved, not human listening."
+  },
+  "584175624": {
+    "text": "To battle!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and both alternative analyses agree; small.en KABATO is the same phonemes."
+  },
+  "653380778": {
+    "text": "A wasted charge!",
+    "confidence": "HIGH",
+    "evidence": "alternative medium.en A WASTED CHARGE, small.en A wasted charge; state 2740727828 holds A weak/feeble/pitiful charge! for other commanders."
+  },
+  "706357428": {
+    "text": "On to glory!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and alternative medium.en agree."
+  },
+  "714295062": {
+    "text": "Xanthippus lies dead!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en agree; second vo_actor is exactly Commander_Xanthippus."
+  },
+  "734860957": {
+    "text": "Apace!",
+    "confidence": "HIGH",
+    "evidence": "alternative medium.en APPEACE, base.en A PEACE; quick_march ability carries Apace! for Scipio."
+  },
+  "740637058": {
+    "text": "Quick march!",
+    "confidence": "HIGH",
+    "evidence": "alternative medium.en Quick, march; quick_march ability."
+  },
+  "770694871": {
+    "text": "March!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en agree; medium speed stance (Scipio March!)."
+  },
+  "787497557": {
+    "text": "We have first blood!",
+    "confidence": "HIGH",
+    "evidence": "base.en, medium.en and alternative medium.en agree; first blood."
+  },
+  "824548110": {
+    "text": "Caesar needs you elsewhere!",
+    "confidence": "HIGH",
+    "evidence": "medium.en She'sa need you, alternative medium.en She's a-need you, small.en She's a meet you: English Caesar /si:z@/ before needs; speaker is Commander_Caesar; drop siege equipment context. Context-resolved, not human listening."
+  },
+  "872606691": {
+    "text": "Drop shields!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree."
+  },
+  "986690384": {
+    "text": "We have slain Boudica!",
+    "confidence": "HIGH",
+    "evidence": "all models agree; second vo_actor is exactly Commander_Boudica; project spelling Boudica."
+  },
+  "994730209": {
+    "text": "Arm yourself!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en agree; state 2486100005 (Scipio Arm yourself!)."
+  },
+  "1040457839": {
+    "text": "Pack it up!",
+    "confidence": "HIGH",
+    "evidence": "small.en, medium.en and both alternatives agree."
+  },
+  "143006383": {
+    "text": "Caesar shall fight no more!",
+    "confidence": "HIGH",
+    "evidence": "base.en and alternative medium.en Caesar; small/medium CEDAR is a mishearing of the name; second vo_actor is exactly Commander_Caesar."
+  },
+  "1039921350": {
+    "text": "Scipio lies dead!",
+    "confidence": "HIGH",
+    "evidence": "all models render the English name Scipio /ˈskɪpi.oʊ/ as Skippy-O; second vo_actor is exactly Commander_Scipio; proper-name spelling."
+  },
+  "983061340": {
+    "text": "Cynane falls to Roman steel!",
+    "confidence": "HIGH",
+    "evidence": "all models agree phonetically (Kinane); second vo_actor is exactly Commander_Cynane; project spelling Cynane."
+  },
+  "420944182": {
+    "text": "We have killed the Gaul!",
+    "confidence": "HIGH",
+    "evidence": "all models and alternative medium.en; alternative gives Gaul and the second vo_actor is exactly Commander_Vercingetorix, resolving the goal/Gaul homophone."
+  },
+  "456999164": {
+    "text": "Their flank is exposed!",
+    "confidence": "HIGH",
+    "evidence": "exposed_flanks ability; flag/flank near-homophone; Caesar has Their flank is exposed! for the same order."
+  },
+  "445773683": {
+    "text": "Phalanx formation!",
+    "confidence": "HIGH",
+    "evidence": "pike_wall ability of a Greek commander; all models For next formation is the same phonemes as phalanx formation."
+  },
+  "828648570": {
+    "text": "Slow yourself! Traps of our allies will kill us just as surely as our enemies!",
+    "confidence": "HIGH",
+    "evidence": "alternative medium.en Slow yourself; base.en slew, small/medium Slough are spellings of the same onset; allied-traps warning context."
+  },
+  "821578886": {
+    "text": "Our allies fire upon us! Et tu?",
+    "confidence": "HIGH",
+    "evidence": "all models At two is the exact phonemes of Latin Et tu; speaker Commander_Caesar reacting to allied fire (Et tu, Brute). Context-resolved, not human listening."
+  },
+  "506863306": {
+    "text": "Let Honos guide you and hold true!",
+    "confidence": "HIGH",
+    "evidence": "all models Holos/Hollis; Honos is the Roman deity of honour and military virtue; defence-stance order of a Roman commander. Context-resolved, not human listening."
+  },
+  "454117428": {
+    "text": "Alea iacta est.",
+    "confidence": "HIGH",
+    "evidence": "standard Latin quotation; localization chat-tag text Alia iacta est is a spelling slip, ASR Alia/Alea are indistinguishable; meaning unchanged."
+  },
+  "689564645": {
+    "text": "We have the enemy base and victory!",
+    "confidence": "HIGH",
+    "evidence": "base.en and small.en agree exactly; medium.en at is a weak-form mishearing of and."
+  },
+  "207178515": {
+    "text": "True son of Athens!",
+    "confidence": "HIGH",
+    "evidence": "all models and alternative medium.en agree; capitalization normalized."
+  },
+  "449619859": {
+    "text": "No weak link!",
+    "confidence": "HIGH",
+    "evidence": "all models agree; comma removed (Scipio No weak link! in the same state)."
+  },
+  "219406955": {
+    "text": "On to glory!",
+    "confidence": "HIGH",
+    "evidence": "all models agree; spelling normalized to the project phrase On to glory!."
+  },
+  "77209565": {
+    "text": "Quick march!",
+    "confidence": "HIGH",
+    "evidence": "all models agree; comma removed (quick_march ability)."
+  },
+  "1038512488": {
+    "text": "Reload!",
+    "confidence": "HIGH",
+    "evidence": "all models agree; capitalization normalized."
+  },
+  "457799001": {
+    "text": "Defensive stance!",
+    "confidence": "HIGH",
+    "evidence": "all models agree; capitalization normalized."
+  },
+  "287412109": {
+    "text": "Defensive stance!",
+    "confidence": "HIGH",
+    "evidence": "all models agree; capitalization/punctuation normalized."
+  },
+  "519600084": {
+    "text": "Artillery, prepare!",
+    "confidence": "HIGH",
+    "evidence": "all models agree; capitalization normalized."
+  },
+  "314349665": {
+    "text": "Nock again! Faster!",
+    "confidence": "HIGH",
+    "evidence": "all models agree on the sound; quick_reload context: nock (fit an arrow), not knock."
   }
 }

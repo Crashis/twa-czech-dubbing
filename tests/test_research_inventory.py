@@ -308,7 +308,7 @@ class MetadataTests(unittest.TestCase):
         # Research-only datasets never reach the installer; only production manifests are discovered.
         research_only = {p.parent.parent.name for p in (ROOT / 'data/commanders').glob('*/research/voice-lines.csv')
                          if not (p.parent.parent / 'manifest.json').exists()}
-        self.assertEqual(research_only, {'scipio-africanus', 'germanicus'})
+        self.assertEqual(research_only, {'scipio-africanus', 'germanicus', 'miltiades', 'julius-caesar'})
         self.assertTrue(research_only.isdisjoint(names))
         self.assertTrue(all((ROOT / 'data/commanders' / n / 'manifest.json').is_file() for n in names))
 

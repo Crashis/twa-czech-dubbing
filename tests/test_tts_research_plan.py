@@ -9,7 +9,7 @@ import unittest
 from tools.inventory.research_metadata import read_csv, write_csv
 from tools.resources import ROOT
 from tools.tts.research_plan import (budget_risk, check_delivery, english_key, performance_key, plan_delivery,
-                                     prepare, read_memory, translation_memory)
+                                     prepare, read_memory, translation_memory, VOICE_PROFILES)
 
 
 class ResearchPlanTests(unittest.TestCase):
@@ -107,7 +107,7 @@ class ResearchPlanTests(unittest.TestCase):
                 self.assertTrue(row['czech_text'])
                 review = {r['media_id']: r for r in read_csv(folder/'tts-plan/transcript-review-decisions.csv')}[mid]
                 self.assertEqual((review['transcript_resolution'], review['final_transcript']), (resolution, english))
-        for name in ['leonidas', 'scipio-africanus', 'spartacus', 'germanicus', 'zhuge-liang']:
+        for name in ['leonidas', 'scipio-africanus', 'spartacus', 'germanicus', 'zhuge-liang', 'miltiades', 'julius-caesar']:
             summary = json.loads((ROOT/'data/commanders'/name/'tts-plan/plan-summary.json').read_text(encoding='utf-8'))
             self.assertEqual((summary['ready_for_elevenlabs'], summary['manual_review_ids']), (True, []), name)
 
@@ -161,6 +161,23 @@ class ResearchPlanTests(unittest.TestCase):
         self.assertEqual(decide(row('EMOTE', 'player selects emote: insult', 'As predicted!'))[2], '[confident, restrained]')
         self.assertEqual(decide(row('DEFEAT', 'battle event: defeat because your army was annihilated', 'We must plan better.'))[2],
                          '[calm, serious]')
+
+    def test_miltiades_and_caesar_profiles_stay_distinct_and_composed(self):
+        def row(category, trigger, english):
+            return {'category':category,'trigger':trigger,'english_text':english,'raw_transcript':''}
+        charge = 'unit ability ordered: unit manual charge'
+        for name in ['miltiades', 'julius-caesar']:
+            with self.subTest(name=name):
+                self.assertEqual(plan_delivery([row('ORDER', charge, 'Charge!')], name, {})[1], 'eleven_v4')
+                self.assertEqual(plan_delivery([row('ORDER', charge, 'CHARGE!')], name, {})[1:], ('eleven_v3', '[shouting, commanding]'))
+        frontend = row('FRONTEND', 'open/select commander', 'Line.')
+        self.assertEqual(plan_delivery([frontend], 'miltiades', {})[:1], ('STRATEGIC',))
+        self.assertEqual(plan_delivery([frontend], 'julius-caesar', {})[:1], ('COMPOSED',))
+        self.assertNotEqual(plan_delivery([frontend], 'miltiades', {}), plan_delivery([frontend], 'leonidas', {}))
+        styles = {s for name, p in VOICE_PROFILES.items() if name not in {'miltiades', 'julius-caesar'}
+                  for v in p.values() if isinstance(v, tuple) for s in [v[0]]} | {'CALM_COMMANDING', 'AUTHORITATIVE'}
+        for name in ['miltiades', 'julius-caesar']:
+            self.assertLessEqual({v[0] for v in VOICE_PROFILES[name].values() if isinstance(v, tuple)}, styles, name)
 
     def test_memory_accepts_reviewed_delivery_columns_only_when_valid(self):
         with tempfile.TemporaryDirectory() as temp:

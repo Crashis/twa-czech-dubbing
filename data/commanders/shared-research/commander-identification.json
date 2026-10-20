@@ -304,5 +304,123 @@
         "container_id": 683874514
       }
     ]
+  },
+  {
+    "id": "miltiades",
+    "display_name": "Miltiades",
+    "actor_name": "Commander_Miltiades",
+    "actor_id": 1016622620,
+    "culture_names": [
+      "vo_culture_greek"
+    ],
+    "culture_ids": [
+      3154681590
+    ],
+    "db_actor_literal": {
+      "source": "wad.pack:db/arena_commanders_tables/data",
+      "byte_offset": 8501,
+      "exact_fnv1_match": true
+    },
+    "db_commander_key": "gre_miltiades",
+    "db_faction": "rom_athens",
+    "localization_name_key": "arena_commanders_commander_localized_name_gre_miltiades",
+    "frontend_decision_evidence": [
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1402037848,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          1016622620
+        ],
+        "container_id": 251332193
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1823898040,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          1016622620
+        ],
+        "container_id": 779485279
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 2732370230,
+        "group_ids": [
+          3113488887,
+          112324978,
+          4273992948
+        ],
+        "keys": [
+          3154681590,
+          1016622620,
+          0
+        ],
+        "container_id": 103130060
+      }
+    ]
+  },
+  {
+    "id": "julius-caesar",
+    "display_name": "Julius Caesar",
+    "actor_name": "Commander_Caesar",
+    "actor_id": 4204137505,
+    "culture_names": [
+      "vo_culture_roman"
+    ],
+    "culture_ids": [
+      3254117665
+    ],
+    "db_actor_literal": {
+      "source": "wad.pack:db/arena_commanders_tables/data",
+      "byte_offset": 10652,
+      "exact_fnv1_match": true
+    },
+    "db_commander_key": "rom_caesar",
+    "db_faction": "rom_rome",
+    "localization_name_key": "arena_commanders_commander_localized_name_rom_caesar",
+    "frontend_decision_evidence": [
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1402037848,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          4204137505
+        ],
+        "container_id": 453152862
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1823898040,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          4204137505
+        ],
+        "container_id": 620792765
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 2732370230,
+        "group_ids": [
+          3113488887,
+          112324978,
+          4273992948
+        ],
+        "keys": [
+          3254117665,
+          4204137505,
+          0
+        ],
+        "container_id": 568180648
+      }
+    ]
   }
 ]

@@ -159,6 +159,32 @@ VOICE_PROFILES = {
                     'urgent': ('URGENT_COMMAND', '[urgent, commanding]'), 'reaction': ('COMPOSED', '[confident, restrained]'),
                     'own_death': ('SOLEMN', '[solemn]'),
                     'tutorial': ('CALM_COMMANDING', '[calm, commanding]'), 'default': ('CALM_COMMANDING', '[calm, commanding]')},
+    # Athenian strategos of Marathon: decisive, confident and combative but disciplined; never Leonidas's Spartan hardness.
+    'miltiades': {'shout': ('BATTLE_SHOUT', '[shouting, commanding]'),
+                  'urgent_shout': ('URGENT_SHOUT', '[urgent, shouting]'), 'angry_shout': ('ANGRY_SHOUT', '[angry, shouting]'),
+                  'shout_abilities': set(), 'shout_needs_audio_evidence': True,
+                  'frontend': ('STRATEGIC', '[confident, authoritative]'), 'quote': ('STRATEGIC', '[confident, authoritative]'),
+                  'affirmative': ('CONFIDENT', '[confident]'), 'negative': ('STERN', '[stern]'),
+                  'getready': ('FIELD_COMMAND', '[firm, commanding]'), 'intimidate': ('THREATENING', '[threatening, restrained]'),
+                  'insult': ('SUPERIOR', '[confident, restrained]'), 'congratulate': ('ENCOURAGING', '[encouraging]'),
+                  'help': ('URGENT_COMMAND', '[urgent, commanding]'),
+                  'victory': ('TRIUMPHANT', '[triumphant]'), 'defeat': ('DEFIANT', '[defiant]'),
+                  'urgent': ('URGENT_COMMAND', '[urgent, commanding]'), 'reaction': ('TRIUMPHANT', '[proud, triumphant]'),
+                  'own_death': ('SOLEMN', '[solemn]'),
+                  'tutorial': ('CALM_COMMANDING', '[calm, commanding]'), 'default': ('FIELD_COMMAND', '[confident, commanding]')},
+    # Julius Caesar: charismatic, self-assured statesman-general; controlled in routine orders, sharp in combat.
+    'julius-caesar': {'shout': ('BATTLE_SHOUT', '[shouting, commanding]'),
+                      'urgent_shout': ('URGENT_SHOUT', '[urgent, shouting]'), 'angry_shout': ('ANGRY_SHOUT', '[angry, shouting]'),
+                      'shout_abilities': set(), 'shout_needs_audio_evidence': True,
+                      'frontend': ('COMPOSED', '[confident, authoritative]'), 'quote': ('COMPOSED', '[confident, authoritative]'),
+                      'affirmative': ('CONFIDENT', '[confident, restrained]'), 'negative': ('MEASURED', '[calm, serious]'),
+                      'getready': ('CALM_COMMANDING', '[calm, commanding]'), 'intimidate': ('SUPERIOR', '[confident, restrained]'),
+                      'insult': ('SUPERIOR', '[confident, restrained]'), 'congratulate': ('ENCOURAGING', '[encouraging]'),
+                      'help': ('URGENT_COMMAND', '[urgent, commanding]'),
+                      'victory': ('TRIUMPHANT', '[proud, triumphant]'), 'defeat': ('DEFIANT', '[defiant]'),
+                      'urgent': ('URGENT_COMMAND', '[urgent, commanding]'), 'reaction': ('COMPOSED', '[confident, restrained]'),
+                      'own_death': ('SOLEMN', '[solemn]'),
+                      'tutorial': ('CALM_COMMANDING', '[calm, commanding]'), 'default': ('CALM_COMMANDING', '[confident, commanding]')},
 }
 
 
