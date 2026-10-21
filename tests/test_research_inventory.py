@@ -196,10 +196,12 @@ class OwnershipTests(unittest.TestCase):
         self.assertEqual(result['a', 'hannibal']['status'], 'CONFLICT')
         self.assertEqual(result['b', 'hannibal']['status'], 'NO_OVERLAP')
 
-    def test_crosscheck_pairs_for_one_or_two_new_inventories(self):
+    def test_crosscheck_pairs_for_one_or_more_new_inventories(self):
         from tools.inventory.crosscheck import inventory_pairs
         self.assertEqual(inventory_pairs(['a', 'b'], ['h', 'l']), [('a', 'b'), ('a', 'h'), ('a', 'l'), ('b', 'h'), ('b', 'l')])
         self.assertEqual(inventory_pairs(['z'], ['h', 'l']), [('z', 'h'), ('z', 'l')])
+        # Three new inventories (repeatable --right) are compared pairwise and with every reference.
+        self.assertEqual(inventory_pairs(['a', 'b', 'c'], ['h']), [('a', 'b'), ('a', 'c'), ('b', 'c'), ('a', 'h'), ('b', 'h'), ('c', 'h')])
 
 
 class MetadataTests(unittest.TestCase):
@@ -308,7 +310,8 @@ class MetadataTests(unittest.TestCase):
         # Research-only datasets never reach the installer; only production manifests are discovered.
         research_only = {p.parent.parent.name for p in (ROOT / 'data/commanders').glob('*/research/voice-lines.csv')
                          if not (p.parent.parent / 'manifest.json').exists()}
-        self.assertEqual(research_only, {'scipio-africanus', 'germanicus', 'miltiades', 'julius-caesar'})
+        self.assertEqual(research_only, {'scipio-africanus', 'germanicus', 'miltiades', 'julius-caesar',
+                                         'hasdrubal', 'alexander-the-great', 'cynane'})
         self.assertTrue(research_only.isdisjoint(names))
         self.assertTrue(all((ROOT / 'data/commanders' / n / 'manifest.json').is_file() for n in names))
 

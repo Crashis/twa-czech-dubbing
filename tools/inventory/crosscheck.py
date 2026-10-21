@@ -71,7 +71,8 @@ def main():
     parser.add_argument('--workspace', required=True)
     parser.add_argument('--commander-root', required=True)
     parser.add_argument('--left', required=True)
-    parser.add_argument('--right', help='Optional second new inventory; omit to check one commander against the references')
+    parser.add_argument('--right', action='append', default=[],
+                        help='Optional further new inventory (repeatable); omit to check one commander against the references')
     parser.add_argument('--reference', action='append', required=True, help='Repeatable read-only comparison inventory')
     parser.add_argument('--output', required=True)
     parser.add_argument('--stem', help='Output basename; defaults to the selected commander IDs')
@@ -84,7 +85,7 @@ def main():
     root, output = Path(args.commander_root), Path(args.output)
     usage = workspace_graph(Path(args.workspace))
     specs = json.loads((Path(args.workspace)/'specs.json').read_text(encoding='utf-8'))
-    new = [args.left] + ([args.right] if args.right else [])
+    new = [args.left] + args.right
     order = new + args.reference
     require(len(set(order)) == len(order), 'Duplicate crosscheck inventory')
     datasets = {}

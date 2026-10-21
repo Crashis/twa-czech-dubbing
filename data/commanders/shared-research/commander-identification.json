@@ -422,5 +422,182 @@
         "container_id": 568180648
       }
     ]
+  },
+  {
+    "id": "hasdrubal",
+    "display_name": "Hasdrubal",
+    "actor_name": "Commander_Hasdrubal",
+    "actor_id": 501335812,
+    "culture_names": [
+      "vo_culture_Carthaginian"
+    ],
+    "culture_ids": [
+      1422687991
+    ],
+    "db_actor_literal": {
+      "source": "wad.pack:db/arena_commanders_tables/data",
+      "byte_offset": 2708,
+      "exact_fnv1_match": true
+    },
+    "db_commander_key": "car_hasdrubal",
+    "db_faction": "rom_carthage",
+    "localization_name_key": "arena_commanders_commander_localized_name_car_hasdrubal",
+    "frontend_decision_evidence": [
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1402037848,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          501335812
+        ],
+        "container_id": 329344126
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1823898040,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          501335812
+        ],
+        "container_id": 150481254
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 2732370230,
+        "group_ids": [
+          3113488887,
+          112324978,
+          4273992948
+        ],
+        "keys": [
+          1422687991,
+          501335812,
+          0
+        ],
+        "container_id": 25551868
+      }
+    ]
+  },
+  {
+    "id": "alexander-the-great",
+    "display_name": "Alexander the Great",
+    "actor_name": "Commander_Alexander",
+    "actor_id": 1019910666,
+    "culture_names": [
+      "vo_culture_greek"
+    ],
+    "culture_ids": [
+      3154681590
+    ],
+    "db_actor_literal": {
+      "source": "wad.pack:db/arena_commanders_tables/data",
+      "byte_offset": 6648,
+      "exact_fnv1_match": true
+    },
+    "db_commander_key": "gre_alexander",
+    "db_faction": "rom_athens",
+    "localization_name_key": "arena_commanders_commander_localized_name_gre_alexander",
+    "frontend_decision_evidence": [
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1402037848,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          1019910666
+        ],
+        "container_id": 404229862
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1823898040,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          1019910666
+        ],
+        "container_id": 342514685
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 2732370230,
+        "group_ids": [
+          3113488887,
+          112324978,
+          4273992948
+        ],
+        "keys": [
+          3154681590,
+          1019910666,
+          0
+        ],
+        "container_id": 149933044
+      }
+    ]
+  },
+  {
+    "id": "cynane",
+    "display_name": "Cynane",
+    "actor_name": "Commander_Cynane",
+    "actor_id": 4288538180,
+    "culture_names": [
+      "vo_culture_greek"
+    ],
+    "culture_ids": [
+      3154681590
+    ],
+    "db_actor_literal": {
+      "source": "wad.pack:db/arena_commanders_tables/data",
+      "byte_offset": 7013,
+      "exact_fnv1_match": true
+    },
+    "db_commander_key": "gre_cynane",
+    "db_faction": "rom_athens",
+    "localization_name_key": "arena_commanders_commander_localized_name_gre_cynane",
+    "frontend_decision_evidence": [
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1402037848,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          4288538180
+        ],
+        "container_id": 738325270
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1823898040,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          4288538180
+        ],
+        "container_id": 635417270
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 2732370230,
+        "group_ids": [
+          3113488887,
+          112324978,
+          4273992948
+        ],
+        "keys": [
+          3154681590,
+          4288538180,
+          0
+        ],
+        "container_id": 304157546
+      }
+    ]
   }
 ]

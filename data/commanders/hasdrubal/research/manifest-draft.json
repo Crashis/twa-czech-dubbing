@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "research_schema_version": 1,
+  "id": "hasdrubal",
+  "display_name": "Hasdrubal",
+  "status": "research_ready",
+  "inventory_status": "complete_with_confidence_flags",
+  "release_ready": false,
+  "canonical_original_pack_sha256": "d6ee7ec4c4422276d9caba7013f46662a980955c138be13f653b58992ad876ad",
+  "actor_name": "Commander_Hasdrubal",
+  "actor_id": 501335812,
+  "culture_names": [
+    "vo_culture_Carthaginian"
+  ],
+  "culture_ids": [
+    1422687991
+  ],
+  "human_listening": "NOT_RUN",
+  "game_runtime_review": "NOT_RUN",
+  "paid_api_calls": 0,
+  "replacements": [],
+  "total_relevant_media_ids": 1132,
+  "spoken_media_ids": 1119,
+  "silent_placeholders": 13,
+  "commander_specific_media_ids": 331,
+  "explicit_commander_speaker_media_ids": 318,
+  "safe_replacement_media_ids": 318,
+  "shared_media_ids": 801,
+  "frontend_count": 15,
+  "battle_count": 303,
+  "sharing_counts": {
+    "COMMANDER_SPECIFIC": 331,
+    "CULTURE_SHARED": 735,
+    "UNIT_TYPE_SHARED": 66
+  },
+  "category_counts": {
+    "EMOTE": 62,
+    "ORDER": 163,
+    "DEATH_REACTION": 20,
+    "BATTLE_EVENT": 35,
+    "ABILITY": 11,
+    "VICTORY": 6,
+    "DEFEAT": 6,
+    "FRONTEND": 15
+  },
+  "transcript_counts_all": {
+    "CONFIRMED": 121,
+    "HIGH": 813,
+    "LOW": 140,
+    "MEDIUM": 45
+  },
+  "transcript_counts_commander_specific": {
+    "CONFIRMED": 121,
+    "HIGH": 197
+  },
+  "duplicate_groups": 62,
+  "commander_specific_transcripts_needing_review": 0,
+  "missing_transcripts_all": 0,
+  "manually_deferred_transcript_ids": [],
+  "unique_commander_specific_recordings": 257,
+  "ready_for_translation_tts": true,
+  "pilot_menu": 10,
+  "pilot_battle": 25
+}

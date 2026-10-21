@@ -1985,5 +1985,1028 @@
     "text": "Nock again! Faster!",
     "confidence": "HIGH",
     "evidence": "all models agree on the sound; quick_reload context: nock (fit an arrow), not knock."
+  },
+  "523651923": {
+    "text": "Capture the enemy's base or wipe them out!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; battle-start objective"
+  },
+  "875222019": {
+    "text": "Ah, good! Our troops deign to rejoin us!",
+    "confidence": "HIGH",
+    "evidence": "medium.en full decode; small.en deigned (forced choice near tie, same meaning); unit rallies"
+  },
+  "939435592": {
+    "text": "The foe's base fell to us!",
+    "confidence": "HIGH",
+    "evidence": "all models hear false/first base; 'foe's base' is the only meaningful reading for victory by capturing the enemy base; forced-choice-hac*.json (teacher-forced base/small/medium log-prob; best meaningful candidate) ranks it third"
+  },
+  "421376580": {
+    "text": "The foe's base will soon fall to us!",
+    "confidence": "HIGH",
+    "evidence": "same speaker wording as 939435592 (false/first = foe's); your team is capturing the enemy base"
+  },
+  "758764489": {
+    "text": "The enemy's attacking our base!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en agree; your base is under attack"
+  },
+  "447999875": {
+    "text": "We're attacking allied units!",
+    "confidence": "HIGH",
+    "evidence": "Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state (friendly fire caused in melee)"
+  },
+  "345853880": {
+    "text": "Cease fire! We are attacking our allies!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Hannibal: Cease fire! We're attacking our allies!"
+  },
+  "214058730": {
+    "text": "Our allies' countermeasures damage us!",
+    "confidence": "HIGH",
+    "evidence": "Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state; medium.en splits counter/measures"
+  },
+  "421777794": {
+    "text": "Our allies' countermeasures have caught us!",
+    "confidence": "HIGH",
+    "evidence": "Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "572380003": {
+    "text": "Allied troops are assaulting us!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; this voice pronounces allied like \"I like\" in every friendly-fire line; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "390216341": {
+    "text": "BEWARE! ALLIED FIRE!",
+    "confidence": "HIGH",
+    "evidence": "all models hear \"I like fire\" (this voice renders allied as I-like); Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state (Beware! Allied fire!)"
+  },
+  "548839318": {
+    "text": "Allied friendly fire!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "738128708": {
+    "text": "Our allies fire on us!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "595157701": {
+    "text": "I have coin! Let's talk!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Incite Defection (bribe) ability"
+  },
+  "643035140": {
+    "text": "At last, a chance for a decent fight!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; matchmaking"
+  },
+  "985054097": {
+    "text": "HASDRUBAL OF CARTHAGE!",
+    "confidence": "HIGH",
+    "evidence": "own commander card; Hustra bull / Huster bull = Hasdrubal (proper names fail ASR); same card as Son of Carthage! / Brother of Hannibal!"
+  },
+  "1052181896": {
+    "text": "Brother of Hannibal!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and small.en (Hanibal); own commander card; Hannibal calls Hasdrubal his brother"
+  },
+  "823238652": {
+    "text": "Scion of Carthage's greatest bloodline!",
+    "confidence": "HIGH",
+    "evidence": "all models hear Sion/Sign; homophone of scion, the only meaningful reading on the commander card"
+  },
+  "67861105": {
+    "text": "Shock and awe!",
+    "confidence": "HIGH",
+    "evidence": "exact FNV-1 event Play_car_hasdrubal_emote_battlecry_shock_and_awe with chat-tag text; ASR SHOKEN-O / Shocking all is the phonetic shock-n-awe"
+  },
+  "1060659887": {
+    "text": "Shock and awe!",
+    "confidence": "HIGH",
+    "evidence": "same recording as emote 67861105 (Play_..._battlecry_shock_and_awe); unit light chase stance reuses the battlecry"
+  },
+  "414974341": {
+    "text": "We've killed Arminius!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; second vo_actor is exactly Commander_Arminius"
+  },
+  "212777018": {
+    "text": "We've killed the Iceni queen!",
+    "confidence": "HIGH",
+    "evidence": "small.en Icini Queen; second vo_actor is exactly Commander_Boudica (Iceni queen)"
+  },
+  "861666339": {
+    "text": "Ha! Caesar himself fell to us!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; second vo_actor is exactly Commander_Caesar"
+  },
+  "363017763": {
+    "text": "Cynane is no more!",
+    "confidence": "HIGH",
+    "evidence": "all models agree phonetically (Kinan/Kynan); second vo_actor is exactly Commander_Cynane; proper-name spelling"
+  },
+  "1049573898": {
+    "text": "Miltiades is dead!",
+    "confidence": "HIGH",
+    "evidence": "medium.en Melchiorides, base/small \"... this is dead\"; second vo_actor is exactly Commander_Miltiades"
+  },
+  "47377653": {
+    "text": "Ah, Scipio! You ain't no match for me!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; second vo_actor is exactly Commander_Scipio"
+  },
+  "220610922": {
+    "text": "Spartacus is slain!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; second vo_actor is exactly Commander_Spartacus"
+  },
+  "502719326": {
+    "text": "The Roman scum Sulla is fallen!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; second vo_actor is exactly Commander_Sulla"
+  },
+  "10350215": {
+    "text": "The pirate Teuta is dead!",
+    "confidence": "HIGH",
+    "evidence": "all models hear pirate tutor/shooter; second vo_actor is exactly Commander_Teuta (Illyrian pirate queen)"
+  },
+  "473208359": {
+    "text": "The Gaulish chief is dead!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; second vo_actor is exactly Commander_Vercingetorix"
+  },
+  "972098850": {
+    "text": "So ends Xanthippus!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; second vo_actor is exactly Commander_Xanthippus"
+  },
+  "437429052": {
+    "text": "Ouch! Felt that!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; forced choice prefers Felt over Feel; sibling Nope! Didn't feel that!"
+  },
+  "14117715": {
+    "text": "Allied traps are close!",
+    "confidence": "HIGH",
+    "evidence": "all models hear \"And I drop so close\" (allied traps); Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "219104152": {
+    "text": "Take heed! Allied traps!",
+    "confidence": "HIGH",
+    "evidence": "base.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "442332717": {
+    "text": "Beware! Allied traps!",
+    "confidence": "HIGH",
+    "evidence": "small.en and medium.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "536177194": {
+    "text": "Allied traps nearby!",
+    "confidence": "HIGH",
+    "evidence": "all models hear \"And light drops nearby\"; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "791915802": {
+    "text": "Careful! Allied traps!",
+    "confidence": "HIGH",
+    "evidence": "medium.en I like traps; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "703377044": {
+    "text": "Ready artillery!",
+    "confidence": "HIGH",
+    "evidence": "base.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "463097545": {
+    "text": "Leave your shields!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "507821201": {
+    "text": "Drop shields!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "629578871": {
+    "text": "Cease firing!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "968030928": {
+    "text": "Cease fire!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "603556568": {
+    "text": "Withdraw!",
+    "confidence": "HIGH",
+    "evidence": "small.en Withdrawal; best meaningful forced choice; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "915732135": {
+    "text": "Steady!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Brace"
+  },
+  "913134912": {
+    "text": "Call your shots!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; focus fire"
+  },
+  "392469732": {
+    "text": "No mercy!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "863710699": {
+    "text": "BATTLE CALLS!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "98668262": {
+    "text": "AS ONE!",
+    "confidence": "HIGH",
+    "evidence": "small.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state (Push: As one!)"
+  },
+  "1053228770": {
+    "text": "PUSH!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "878269651": {
+    "text": "Loose!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; unit focus fire"
+  },
+  "179489751": {
+    "text": "CALTROPS!",
+    "confidence": "HIGH",
+    "evidence": "base.en Calcrops; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "331105188": {
+    "text": "PLACE CALTROPS!",
+    "confidence": "HIGH",
+    "evidence": "base.en \"Please, call cops\", small/medium PLAY SCAL-; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "960134957": {
+    "text": "Deploy caltrops!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "511102463": {
+    "text": "Deploy stakes!",
+    "confidence": "HIGH",
+    "evidence": "base.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "920011404": {
+    "text": "Ready those stakes!",
+    "confidence": "HIGH",
+    "evidence": "homophone steaks/stakes in the place-stakes state; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "669740323": {
+    "text": "Prepare the tar!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "999619451": {
+    "text": "Ready the tar!",
+    "confidence": "HIGH",
+    "evidence": "small.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "739811426": {
+    "text": "Ready tar pits!",
+    "confidence": "HIGH",
+    "evidence": "all models hear \"Ready, topics\" (tar pits); Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state (Ready Tar Pits!)"
+  },
+  "801178556": {
+    "text": "Dismantle the artillery!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "523505028": {
+    "text": "Form a line!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; formed combat"
+  },
+  "340606240": {
+    "text": "PHALANX! POSITIONS!",
+    "confidence": "HIGH",
+    "evidence": "small/medium FELIX, base Phillips = phalanx in the hoplite phalanx state"
+  },
+  "897521754": {
+    "text": "Phalanx!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "942752971": {
+    "text": "Form a phalanx!",
+    "confidence": "HIGH",
+    "evidence": "base.en and small.en; hoplite phalanx"
+  },
+  "421410993": {
+    "text": "Mark targets!",
+    "confidence": "HIGH",
+    "evidence": "small.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state (Mark Targets!)"
+  },
+  "788158872": {
+    "text": "Mark them!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "677988485": {
+    "text": "Spears! Thrust together!",
+    "confidence": "HIGH",
+    "evidence": "medium.en Space, base SPEAKS = spears in the phalanx thrust state (Hannibal: Spear thrust!, Together now! Thrust!)"
+  },
+  "695695163": {
+    "text": "Quick march!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "884064790": {
+    "text": "APACE!",
+    "confidence": "HIGH",
+    "evidence": "all models A-PEACE; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state (Apace!)"
+  },
+  "1009329004": {
+    "text": "Double time!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "1019464258": {
+    "text": "Reload!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; quick reload"
+  },
+  "789055468": {
+    "text": "Raise shields!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "875760241": {
+    "text": "Shields high!",
+    "confidence": "HIGH",
+    "evidence": "base.en \"She's high\"; best meaningful forced choice; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state (Shields high!)"
+  },
+  "1024274926": {
+    "text": "Shields up!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "474294373": {
+    "text": "Up shields!",
+    "confidence": "HIGH",
+    "evidence": "all models hear Options! (up-shields); best meaningful forced choice; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state (Up shields!). Closest Hasdrubal call"
+  },
+  "133877102": {
+    "text": "Raise those shields!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; shield screen"
+  },
+  "495702446": {
+    "text": "SHIELD SCREEN!",
+    "confidence": "HIGH",
+    "evidence": "ASR SHOOT/SHIT SCREEN in the shield screen state"
+  },
+  "906240432": {
+    "text": "Shields up and locked!",
+    "confidence": "HIGH",
+    "evidence": "base/small \"shuts up and lock\"; best forced choice; shield screen"
+  },
+  "546891467": {
+    "text": "Hurry it up!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en; forced choice; sprint"
+  },
+  "553111280": {
+    "text": "Make a dash!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en; sprint"
+  },
+  "492147571": {
+    "text": "STOMP THEM!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; stomp state"
+  },
+  "785955238": {
+    "text": "DO NOT WAVER!",
+    "confidence": "HIGH",
+    "evidence": "small.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "482807545": {
+    "text": "Onward!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "662548350": {
+    "text": "ADVANCE!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "870246402": {
+    "text": "March!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state"
+  },
+  "306803625": {
+    "text": "Curse them! They beat us!",
+    "confidence": "HIGH",
+    "evidence": "all models hear Cares them (curse them); best meaningful forced choice; defeat"
+  },
+  "1061841566": {
+    "text": "First blood! To us!",
+    "confidence": "HIGH",
+    "evidence": "all models hear Face blood (first blood); event: your team draws first blood"
+  },
+  "498230981": {
+    "text": "We cut down Massinissa!",
+    "confidence": "HIGH",
+    "evidence": "all models agree phonetically; second vo_actor is exactly Commander_Massinissa; proper-name spelling"
+  },
+  "95051748": {
+    "text": "Man siege weapons!",
+    "confidence": "HIGH",
+    "evidence": "all models agree; punctuation only (man = crew the siege weapons)"
+  },
+  "30838774": {
+    "text": "Increase range!",
+    "confidence": "HIGH",
+    "evidence": "forced choice ties Increase/Increased; Hannibal production (same Carthaginian order script, runtime-approved) has the identical line in the same state (Increase range!)"
+  },
+  "238036926": {
+    "text": "Defeat! Our base is lost!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "305833039": {
+    "text": "",
+    "confidence": "LOW",
+    "evidence": "base \"Picking the money has to defeat\", small \"PINK THE MANY HAS DEFEAT\", medium \"I can not many ass their feet\"; alternative ASR and forced choice give no meaningful wording (best meaningful: I cannot imagine defeat!, far below the raw decode); no Greek template match",
+    "resolution": "NEEDS_MANUAL_TRANSCRIPTION"
+  },
+  "570429606": {
+    "text": "Our men, rejoin the battle!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en; unit rallies"
+  },
+  "1066575971": {
+    "text": "Our troops are routing!",
+    "confidence": "HIGH",
+    "evidence": "base/small and alternative ASR agree"
+  },
+  "343376473": {
+    "text": "Victory! The base is ours!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; forced choice"
+  },
+  "943276885": {
+    "text": "Our allies are caught in our missile fire!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; small.en near-identical"
+  },
+  "614494261": {
+    "text": "First blood to Alexander!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "1715625": {
+    "text": "We are capturing their base!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant and alternative ASR"
+  },
+  "65510642": {
+    "text": "Our allies are firing on us!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "586392511": {
+    "text": "Pin them down!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Anvil ability"
+  },
+  "811610219": {
+    "text": "ANVIL!",
+    "confidence": "HIGH",
+    "evidence": "Hanville = Anvil, the localized ability name of this state"
+  },
+  "146788433": {
+    "text": "SMASH THEM APART!",
+    "confidence": "HIGH",
+    "evidence": "base/medium agree; Hammer ability"
+  },
+  "895854887": {
+    "text": "Hammer them!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and forced choice; Hammer ability"
+  },
+  "519257915": {
+    "text": "Form wedge!",
+    "confidence": "HIGH",
+    "evidence": "base.en; foam/form homophone in the wedge state"
+  },
+  "916124875": {
+    "text": "The commander is dead!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "978808437": {
+    "text": "Barca has been slain!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; second vo_actor is exactly Commander_Hannibal (Hannibal Barca)"
+  },
+  "285506755": {
+    "text": "Brave Leonidas has met his end!",
+    "confidence": "HIGH",
+    "evidence": "small/medium and alternative ASR; second vo_actor Commander_Leonidas"
+  },
+  "948745579": {
+    "text": "Massinissa is slain!",
+    "confidence": "HIGH",
+    "evidence": "all models agree phonetically; second vo_actor is exactly Commander_Massinissa; proper-name spelling"
+  },
+  "782691277": {
+    "text": "Scipio has fought his last battle!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; second vo_actor is exactly Commander_Scipio"
+  },
+  "647879904": {
+    "text": "Fire!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Greek order script: the same state has this line for Leonidas and Miltiades (Fire!/Release!/Loose!)"
+  },
+  "725597376": {
+    "text": "Arm yourself!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Greek order script: the same state has this line for Leonidas and Miltiades"
+  },
+  "134540430": {
+    "text": "That was no charge!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant and alternative ASR"
+  },
+  "396356281": {
+    "text": "Defend the flanks! Hold!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en; flank state (No weak link!)"
+  },
+  "886186604": {
+    "text": "Artillery at the ready!",
+    "confidence": "HIGH",
+    "evidence": "base.en and medium.en"
+  },
+  "12336845": {
+    "text": "Place down barricades!",
+    "confidence": "HIGH",
+    "evidence": "medium.en \"Police down\"; best meaningful forced choice; place barricades"
+  },
+  "462309878": {
+    "text": "Walls up!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "310329517": {
+    "text": "Slow their passage!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en"
+  },
+  "384157932": {
+    "text": "Get caltrops on the ground!",
+    "confidence": "HIGH",
+    "evidence": "alternative medium/small: cal traps = caltrops"
+  },
+  "1064182903": {
+    "text": "Deploy light traps!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative ASR; forced choice"
+  },
+  "721182103": {
+    "text": "Fortify the area!",
+    "confidence": "HIGH",
+    "evidence": "medium.en (base/small read 45); place stakes"
+  },
+  "764897227": {
+    "text": "STAKE THE AREA!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; place stakes"
+  },
+  "503283766": {
+    "text": "Get those stakes in the ground!",
+    "confidence": "HIGH",
+    "evidence": "base/small spell stakes; homophone; Greek order script: the same state has this line for Leonidas (Get stakes in the ground!)"
+  },
+  "136576024": {
+    "text": "Ready the area with tar!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant and alternative ASR"
+  },
+  "450995316": {
+    "text": "Get the tar down!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant and alternative ASR"
+  },
+  "815198330": {
+    "text": "Lose the shields!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "818026504": {
+    "text": "Relinquish your arms!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Greek order script: the same state has this line for Leonidas and Miltiades"
+  },
+  "12311183": {
+    "text": "NO PRISONERS!",
+    "confidence": "HIGH",
+    "evidence": "small.en and alternative ASR; Greek order script: the same state has this line for Leonidas and Miltiades"
+  },
+  "447938690": {
+    "text": "TO BATTLE!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Greek order script: the same state has this line for Leonidas and Miltiades"
+  },
+  "953907891": {
+    "text": "BATTLE CALLS!",
+    "confidence": "HIGH",
+    "evidence": "all models hear Buckle calls; Greek order script: the same state has this line for Leonidas and Miltiades (Battle calls!)"
+  },
+  "930420579": {
+    "text": "Into phalanx!",
+    "confidence": "HIGH",
+    "evidence": "all models hear \"for likes\" = phalanx; best meaningful forced choice; Greek order script: the same state has this line for Cynane (Form Phalanx!, Greeks! Phalanx!) and Leonidas (Into phalanx!)"
+  },
+  "446892077": {
+    "text": "Form phalanx!",
+    "confidence": "HIGH",
+    "evidence": "all models hear \"Form for likes\" = phalanx; best meaningful forced choice; Greek order script: the same state has this line for Cynane and Leonidas (Form phalanx!)"
+  },
+  "494517698": {
+    "text": "Greeks, phalanx!",
+    "confidence": "HIGH",
+    "evidence": "all models hear \"Greeks for likes\" = phalanx; best meaningful forced choice; Greek order script: the same state has this line for Cynane (Greeks! Phalanx!)"
+  },
+  "36608194": {
+    "text": "APACE!",
+    "confidence": "HIGH",
+    "evidence": "small.en HAPACE; Greek order script: the same state has this line for Leonidas and Miltiades (Apace!)"
+  },
+  "362072239": {
+    "text": "QUICK MARCH!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Greek order script: the same state has this line for Leonidas and Miltiades"
+  },
+  "628120817": {
+    "text": "Nock, nock, reload!",
+    "confidence": "HIGH",
+    "evidence": "small/medium Knock, knock; nock/knock homophone, missile reload uses the archery sense (project convention: Miltiades Nock again!)"
+  },
+  "844201031": {
+    "text": "With haste!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "471418456": {
+    "text": "Raise shields!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Greek order script: the same state has this line for Leonidas and Miltiades"
+  },
+  "1064868600": {
+    "text": "To the fore!",
+    "confidence": "HIGH",
+    "evidence": "medium.en TO THE FOUR is the homophone of fore; raise shield"
+  },
+  "366092679": {
+    "text": "",
+    "confidence": "LOW",
+    "evidence": "all models and alternative ASR \"Pull and torta!\" (base \"Paul and Charter\"); stress (artillery strain) state; meaningful candidates Pull and tauter!/Pull it tauter!/Pull and torque! all far below the raw decode in forced choice",
+    "resolution": "NEEDS_MANUAL_TRANSCRIPTION"
+  },
+  "287041705": {
+    "text": "Parry!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; Greek order script: the same state has this line for Leonidas and Miltiades"
+  },
+  "572577168": {
+    "text": "Evade the enemy!",
+    "confidence": "HIGH",
+    "evidence": "base Evo, small Evide; Greek order script: the same state has this line for Cynane (Evade the enemy!)"
+  },
+  "108586884": {
+    "text": "Don't give them an inch!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "510297443": {
+    "text": "Watch your footwork!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "384853964": {
+    "text": "March!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alternative medium.en; Greek order script: the same state has this line for Leonidas and Miltiades"
+  },
+  "951260750": {
+    "text": "ADVANCE!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "339755381": {
+    "text": "Let NOTHING pass you by!",
+    "confidence": "HIGH",
+    "evidence": "base.en; best meaningful forced choice; spot ability (sibling: You are the eyes and ears of the army!)"
+  },
+  "674093320": {
+    "text": "Limber! Let's go!",
+    "confidence": "HIGH",
+    "evidence": "Lemba = limber in the limber-up state (sibling Limber up!); Greek order script: the same state has this line for Leonidas (Limber!)"
+  },
+  "536063017": {
+    "text": "Pack it up!",
+    "confidence": "HIGH",
+    "evidence": "Puck = pack; Greek order script: the same state has this line for Leonidas, Miltiades and Caesar (Pack it up!)"
+  },
+  "872111662": {
+    "text": "THE GAUL IS DEAD!",
+    "confidence": "HIGH",
+    "evidence": "goal/Gaul homophone; second vo_actor is exactly Commander_Vercingetorix"
+  },
+  "225708409": {
+    "text": "Sulla has been laid low!",
+    "confidence": "HIGH",
+    "evidence": "proper-name spelling; second vo_actor is exactly Commander_Sulla"
+  },
+  "8777818": {
+    "text": "Push!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Push state; Greek order script: the same state has this line for Leonidas and Miltiades"
+  },
+  "72722977": {
+    "text": "We are victorious!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "79140650": {
+    "text": "Moving out!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "90239221": {
+    "text": "The eagle falls! Germanicus is slain!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; second vo_actor is exactly Commander_Germanicus"
+  },
+  "102576282": {
+    "text": "Into formation!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "122335152": {
+    "text": "Nock and fire!",
+    "confidence": "HIGH",
+    "evidence": "all models Knock/Nook; nock/knock homophone in quick reload (archery sense, project convention)"
+  },
+  "157276302": {
+    "text": "Fleet of foot!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; small FLEET A FOOT"
+  },
+  "173078305": {
+    "text": "Dig tar pits!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; place tar"
+  },
+  "599042898": {
+    "text": "Dig out the tar pits!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; place tar"
+  },
+  "647240645": {
+    "text": "Tar pits!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; place tar"
+  },
+  "184729724": {
+    "text": "Vercingetorix dies by our hands!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; second vo_actor is exactly Commander_Vercingetorix"
+  },
+  "187173205": {
+    "text": "Caltrops!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "197346559": {
+    "text": "Dodge blows!",
+    "confidence": "HIGH",
+    "evidence": "base.en Dodge Blues; dodge stance"
+  },
+  "211646927": {
+    "text": "FEND THEM OFF!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "249762020": {
+    "text": "Combat form now!",
+    "confidence": "HIGH",
+    "evidence": "small/medium and alternative ASR agree; forced choice"
+  },
+  "253815182": {
+    "text": "Make Athena proud!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; same wording as her affirmative emote"
+  },
+  "263154960": {
+    "text": "HUNT THEM!",
+    "confidence": "HIGH",
+    "evidence": "base/medium; Hunt ability"
+  },
+  "286296207": {
+    "text": "APACE!",
+    "confidence": "HIGH",
+    "evidence": "all models; Greek order script: the same state has this line for Leonidas and Miltiades (Apace!)"
+  },
+  "300895404": {
+    "text": "The Numidian king is dead!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; second vo_actor is exactly Commander_Massinissa"
+  },
+  "310806117": {
+    "text": "Stake wall here!",
+    "confidence": "HIGH",
+    "evidence": "base/medium and forced choice; place stakes"
+  },
+  "362471520": {
+    "text": "We are Macedon!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; same wording as her intimidate emote"
+  },
+  "366443910": {
+    "text": "Mighty Leonidas has breathed his last!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; second vo_actor is exactly Commander_Leonidas"
+  },
+  "392008541": {
+    "text": "For Macedon!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; same wording as her battlecry emote"
+  },
+  "537440058": {
+    "text": "The mercenary Xanthippus breathes his last!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; second vo_actor is exactly Commander_Xanthippus"
+  },
+  "581055044": {
+    "text": "Their flank is exposed!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Greek order script: the same state has this line for Miltiades"
+  },
+  "598760427": {
+    "text": "March!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Greek order script: the same state has this line for Leonidas and Miltiades"
+  },
+  "604734585": {
+    "text": "Onward!",
+    "confidence": "HIGH",
+    "evidence": "base/medium"
+  },
+  "614656387": {
+    "text": "Fire with speed!",
+    "confidence": "HIGH",
+    "evidence": "small.en; best forced choice; quick reload"
+  },
+  "668985933": {
+    "text": "THEY ARE WEAK!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; same wording as her intimidate emote"
+  },
+  "679128416": {
+    "text": "Well held!",
+    "confidence": "HIGH",
+    "evidence": "medium.en WELL HELD; Greek order script: the same state has this line for Miltiades (Well held, men!)"
+  },
+  "701905173": {
+    "text": "WE MUST RALLY!",
+    "confidence": "HIGH",
+    "evidence": "base.en rally; forced choice near tie with ready; regroup/rally state (UP! WE FIGHT!, Back in formation!)"
+  },
+  "708329885": {
+    "text": "Arminius has fallen under our fire!",
+    "confidence": "HIGH",
+    "evidence": "base/medium; second vo_actor is exactly Commander_Arminius"
+  },
+  "714584983": {
+    "text": "The scheming Sulla is dead!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; second vo_actor is exactly Commander_Sulla"
+  },
+  "740502319": {
+    "text": "Our men are under attack!",
+    "confidence": "HIGH",
+    "evidence": "medium.en"
+  },
+  "755477568": {
+    "text": "BARRAGE!",
+    "confidence": "HIGH",
+    "evidence": "Barrows/BARRERS = Barrage, the localized ability name of this state"
+  },
+  "787539302": {
+    "text": "ADVANCE!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "793877643": {
+    "text": "Allies fire upon us! Cease fire!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "811412886": {
+    "text": "Artillery up!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "834639068": {
+    "text": "Strike true!",
+    "confidence": "HIGH",
+    "evidence": "small/medium; best forced choice; tutorial request"
+  },
+  "866662171": {
+    "text": "Strike true!",
+    "confidence": "HIGH",
+    "evidence": "small/medium; best forced choice; spear piercing blows"
+  },
+  "856215763": {
+    "text": "Our victory honors Athena!",
+    "confidence": "HIGH",
+    "evidence": "medium.en"
+  },
+  "869840865": {
+    "text": "FAILURE!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; same wording as her negative emote Play_gre_cynane_emote_negative_failure (Failure!)"
+  },
+  "51476696": {
+    "text": "Failure!",
+    "confidence": "HIGH",
+    "evidence": "exact FNV-1 event Play_gre_cynane_emote_negative_failure with chat-tag text Failure!; ASR Fail ya! is the phonetic failure"
+  },
+  "882612257": {
+    "text": "Form up!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; normal formation"
+  },
+  "889085794": {
+    "text": "UNWISE!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "923622607": {
+    "text": "Macedon needs us!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "948833024": {
+    "text": "Macedonians! Our victory draws near!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; forced choice"
+  },
+  "967748109": {
+    "text": "Hannibal Barca is no more!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant; second vo_actor is exactly Commander_Hannibal"
+  },
+  "1003404855": {
+    "text": "Cynane!",
+    "confidence": "HIGH",
+    "evidence": "all models Kinane/Kenane; own commander card; proper-name spelling"
+  },
+  "1015482043": {
+    "text": "That commander has fallen!",
+    "confidence": "HIGH",
+    "evidence": "medium.en/small.en agree; base.en phonetic variant"
+  },
+  "1031476681": {
+    "text": "MILTIADES THE TYRANT FALLS!",
+    "confidence": "HIGH",
+    "evidence": "medium.en MILTY ADES; second vo_actor is exactly Commander_Miltiades"
+  },
+  "778455162": {
+    "text": "BLACKEN THE SKIES!",
+    "confidence": "HIGH",
+    "evidence": "all models BLACK IN THE SKIES; same wording as her battlecry emote Blacken the skies!; Barrage ability"
+  },
+  "910758410": {
+    "text": "THEY ARE PREY!",
+    "confidence": "HIGH",
+    "evidence": "all models THEY ALL PRAY (homophone); Hunt ability; best meaningful forced choice"
+  },
+  "797151284": {
+    "text": "To battle!",
+    "confidence": "HIGH",
+    "evidence": "Tabato = to battle; Greek order script: the same state has this line for Leonidas and Miltiades (generic response To battle!)"
+  },
+  "667922401": {
+    "text": "",
+    "confidence": "LOW",
+    "evidence": "all models \"Hot down!\"; dismantle artillery state (siblings Dismantle!, Take it apart!); meaningful candidates (Haul it down!, Cut it down!, Pull it down!) all far below the raw decode in forced choice",
+    "resolution": "NEEDS_MANUAL_TRANSCRIPTION"
   }
 }

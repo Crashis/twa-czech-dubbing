@@ -1,0 +1,7 @@
+﻿tts_performance_group,tts_source_media_id,member_media_ids,english_text,czech_text,tts_text_override,palatalization_fallback_text,override_reason,status
+PCM-a5a0a5d4dbc9c1ea-6a6accd8,285506755,285506755,Brave Leonidas has met his end!,Statečný Leonidas našel svůj konec!,,Statečný Leonydas našel svůj konec!,Leonidas: hard d (use only if the pilot palatalizes di),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-00157c8a41385a78-be4478e0,450427093,450427093,"The Athenian, Miltiades is dead!",Athéňan Miltiadés je mrtev!,,Athéňan Miltyadés je mrtev!,Miltiadés: hard t in the Greek name (use only if the pilot palatalizes ti),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-03a6fd043137d8ac-0da765c4,561022553,561022553,Caesar will fight no more!,Caesar už nebude bojovat!,Cézar už nebude bojovat!,,Caesar: Czech convention [cézar]; TTS may read the Latin spelling as ka-e-sar,PROPOSED_VERIFY_IN_PILOT
+PCM-56b2175691e8999e-286fb1cd,614818931,614818931,Death has found Xanthippus!,Smrt si našla Xanthippa!,Smrt si našla Ksantypa!,,"Xanthippos: x = [ks], th = [t], hard t",PROPOSED_VERIFY_IN_PILOT
+PCM-8c811de113c42255-700f2af3,766744431,766744431;971276600,I am the son of Zeus!,Jsem syn Diův!,,Jsem syn Dyjův!,"Diův (Zeus, gen. Dia): hard d (use only if the pilot palatalizes di)",FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-2c8502cf2d11420f-7dfd6c2e,948745579,948745579,Massinissa is slain!,Massinissa padl!,,Masynyssa padl!,Massinissa: hard n (use only if the pilot palatalizes ni),FALLBACK_ONLY_IF_PILOT_PALATALIZES

@@ -185,6 +185,39 @@ VOICE_PROFILES = {
                       'urgent': ('URGENT_COMMAND', '[urgent, commanding]'), 'reaction': ('COMPOSED', '[confident, restrained]'),
                       'own_death': ('SOLEMN', '[solemn]'),
                       'tutorial': ('CALM_COMMANDING', '[calm, commanding]'), 'default': ('CALM_COMMANDING', '[confident, commanding]')},
+    # Hasdrubal: experienced Carthaginian field commander and paymaster; direct, energetic and combative, never a berserker.
+    'hasdrubal': {'shout': ('BATTLE_SHOUT', '[fierce, shouting]'),
+                  'urgent_shout': ('URGENT_SHOUT', '[urgent, shouting]'), 'angry_shout': ('ANGRY_SHOUT', '[angry, shouting]'),
+                  'shout_abilities': set(), 'shout_needs_audio_evidence': True,
+                  'frontend': ('CONFIDENT', '[confident, commanding]'), 'quote': ('CONFIDENT', '[confident]'),
+                  'affirmative': ('ENCOURAGING', '[encouraging]'), 'negative': ('DISAPPOINTED', '[disappointed]'),
+                  'getready': ('URGENT_COMMAND', '[urgent, commanding]'), 'intimidate': ('THREATENING', '[threatening, confident]'),
+                  'victory': ('TRIUMPHANT', '[triumphant]'), 'defeat': ('DEFIANT', '[defiant]'),
+                  'urgent': ('URGENT_COMMAND', '[urgent, commanding]'), 'reaction': ('TRIUMPHANT', '[proud, triumphant]'),
+                  'own_death': ('DEFIANT', '[defiant]'),
+                  'tutorial': ('FIELD_COMMAND', '[firm, commanding]'), 'default': ('FIELD_COMMAND', '[determined, commanding]')},
+    # Alexander the Great: young, charismatic and absolutely self-assured; inspiring rather than stern.
+    'alexander-the-great': {'shout': ('BATTLE_SHOUT', '[confident, shouting]'),
+                            'urgent_shout': ('URGENT_SHOUT', '[urgent, shouting]'), 'angry_shout': ('ANGRY_SHOUT', '[angry, shouting]'),
+                            'shout_abilities': set(), 'shout_needs_audio_evidence': True,
+                            'frontend': ('PROUD', '[proud, confident]'), 'quote': ('PROUD', '[proud, confident]'),
+                            'affirmative': ('ENCOURAGING', '[encouraging, confident]'), 'negative': ('SUPERIOR', '[confident, restrained]'),
+                            'getready': ('URGENT_COMMAND', '[urgent, confident]'), 'intimidate': ('SUPERIOR', '[confident, threatening]'),
+                            'victory': ('TRIUMPHANT', '[proud, triumphant]'), 'defeat': ('DEFIANT', '[defiant]'),
+                            'urgent': ('URGENT_COMMAND', '[urgent, commanding]'), 'reaction': ('TRIUMPHANT', '[proud, triumphant]'),
+                            'own_death': ('DEFIANT', '[defiant]'),
+                            'tutorial': ('CALM_COMMANDING', '[calm, commanding]'), 'default': ('FIELD_COMMAND', '[confident, commanding]')},
+    # Cynane: Macedonian warrior princess and army commander; firm, decisive and disciplined, no caricature.
+    'cynane': {'shout': ('BATTLE_SHOUT', '[fierce, shouting]'),
+               'urgent_shout': ('URGENT_SHOUT', '[urgent, shouting]'), 'angry_shout': ('ANGRY_SHOUT', '[angry, shouting]'),
+               'shout_abilities': set(), 'shout_needs_audio_evidence': True,
+               'frontend': ('AUTHORITATIVE', '[confident, authoritative]'), 'quote': ('AUTHORITATIVE', '[confident, authoritative]'),
+               'affirmative': ('CONFIDENT', '[confident]'), 'negative': ('STERN', '[stern]'),
+               'getready': ('FIELD_COMMAND', '[firm, commanding]'), 'intimidate': ('THREATENING', '[threatening, restrained]'),
+               'victory': ('TRIUMPHANT', '[triumphant]'), 'defeat': ('DEFIANT', '[defiant]'),
+               'urgent': ('URGENT_COMMAND', '[urgent, commanding]'), 'reaction': ('TRIUMPHANT', '[proud, triumphant]'),
+               'own_death': ('SOLEMN', '[solemn]'),
+               'tutorial': ('CALM_COMMANDING', '[calm, commanding]'), 'default': ('FIELD_COMMAND', '[firm, commanding]')},
 }
 
 
@@ -277,7 +310,9 @@ def prepare(commander, commander_root, memory, output_root=None, delivery_decisi
     source_by_id = {r['media_id']: r for r in source}
     safe = [r for r in source if r['safe_to_replace_for_commander'] == 'YES'
             and r['sharing_scope'] == 'COMMANDER_SPECIFIC' and r['silent_placeholder'] == 'NO']
-    require(len(safe) == manifest['safe_replacement_media_ids'] == manifest['commander_specific_media_ids'],
+    # Commander-specific silent placeholders stay in the inventory but are never safe spoken lines.
+    silent_specific = sum(r['sharing_scope'] == 'COMMANDER_SPECIFIC' and r['silent_placeholder'] == 'YES' for r in source)
+    require(len(safe) == manifest['safe_replacement_media_ids'] == manifest['commander_specific_media_ids'] - silent_specific,
             'Safety allowlist differs from independent inventory')
     require(all(r['reverse_reference_check'] == 'PASS' and r['archive_wav_reference'] for r in safe),
             'Unsafe or untraceable original recording')

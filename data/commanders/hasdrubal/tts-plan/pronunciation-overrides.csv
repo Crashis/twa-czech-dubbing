@@ -1,0 +1,8 @@
+﻿tts_performance_group,tts_source_media_id,member_media_ids,english_text,czech_text,tts_text_override,palatalization_fallback_text,override_reason,status
+PCM-b54e845b4189fbb1-737f19f6,414974341,414974341,We've killed Arminius!,Zabili jsme Arminia!,,Zabili jsme Arminya!,Arminius: hard n (use only if the pilot palatalizes ni),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-f98adb541fe50f6f-7829747f,498230981,498230981,We cut down Massinissa!,Skolili jsme Massinissu!,,Skolili jsme Masynyssu!,Massinissa: hard n (use only if the pilot palatalizes ni),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-31b434d8db204554-7a9816d1,789276989,789276989,Germanicus is just one more dead Roman!,Germanicus je jen další mrtvý Říman!,Germanykus je jen další mrtvý Říman!,,Germanicus: Latin c = [k] and hard n; Czech TTS would read [germaňicus],PROPOSED_VERIFY_IN_PILOT
+PCM-d021a2731d6b700d-9ec81335,861666339,861666339,Ha! Caesar himself fell to us!,Ha! Padl nám sám Caesar!,Ha! Padl nám sám Cézar!,,Caesar: Czech convention [cézar]; TTS may read the Latin spelling as ka-e-sar,PROPOSED_VERIFY_IN_PILOT
+PCM-89d1ff98bb1f9762-e30d5ea3,972098850,972098850,So ends Xanthippus!,Tak končí Xanthippos!,Tak končí Ksantypos!,,"Xanthippos: x = [ks], th = [t], hard t",PROPOSED_VERIFY_IN_PILOT
+PCM-893291fe5c710f6d-4b361c71,992684385,992684385,So much for King Leonidas!,A je po králi Leonidovi!,,A je po králi Leonydovi!,Leonidas: hard d (use only if the pilot palatalizes di),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-b20d8c827e0f2446-8b1f2530,1049573898,1049573898,Miltiades is dead!,Miltiadés je mrtev!,,Miltyadés je mrtev!,Miltiadés: hard t in the Greek name (use only if the pilot palatalizes ti),FALLBACK_ONLY_IF_PILOT_PALATALIZES

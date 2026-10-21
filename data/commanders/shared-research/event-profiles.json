@@ -246,6 +246,30 @@
         "599090551"
       ],
       "pilot_mix": true
+    },
+    "hasdrubal": {
+      "own_abilities": [
+        "vo_ua_BRIBE",
+        "vo_ua_Deep_Pockets",
+        "vo_ua_Flying_Column"
+      ],
+      "pilot_mix": true
+    },
+    "alexander-the-great": {
+      "own_abilities": [
+        "vo_ua_Hammer",
+        "vo_ua_Anvil",
+        "vo_ua_wedge_formation"
+      ],
+      "pilot_mix": true
+    },
+    "cynane": {
+      "own_abilities": [
+        "vo_ua_BARRAGE",
+        "vo_ua_Hunt",
+        "vo_ua_Rapid_Advance"
+      ],
+      "pilot_mix": true
     }
   },
   "commander_cultures": {
@@ -265,7 +289,7 @@
       1422687991
     ]
   },
-  "culture_mapping_evidence": "Commander DB faction fields and supported-corpus culture/actor branches; affiliation never proves media ownership. Spartacus (DB faction rom_gladiators, vo_culture_Gladiators) and Germanicus (rom_rome, vo_culture_roman) are documented in commander-identification.json but intentionally not added here: no primary Spartacus/Germanicus Media ID is shared only between commanders, and adding them would relabel other inventories’ generic advisor references. Zhuge Liang (DB faction rom_china, vo_culture_China) is likewise not added: no Zhuge Liang Media ID is shared only between commanders (his shared IDs are vo_culture_China unit sets), and adding all seven rom_china commanders changes no classification in any inventory. Miltiades (DB faction rom_athens, vo_culture_greek) was already listed for the Leonidas inventory; Julius Caesar (rom_rome, vo_culture_roman) is documented in commander-identification.json but not added, for the same reason as Germanicus: adding him would relabel Scipio/Germanicus shared references without changing any safety flag.",
+  "culture_mapping_evidence": "Commander DB faction fields and supported-corpus culture/actor branches; affiliation never proves media ownership. Spartacus (DB faction rom_gladiators, vo_culture_Gladiators) and Germanicus (rom_rome, vo_culture_roman) are documented in commander-identification.json but intentionally not added here: no primary Spartacus/Germanicus Media ID is shared only between commanders, and adding them would relabel other inventories’ generic advisor references. Zhuge Liang (DB faction rom_china, vo_culture_China) is likewise not added: no Zhuge Liang Media ID is shared only between commanders (his shared IDs are vo_culture_China unit sets), and adding all seven rom_china commanders changes no classification in any inventory. Miltiades (DB faction rom_athens, vo_culture_greek) was already listed for the Leonidas inventory; Julius Caesar (rom_rome, vo_culture_roman) is documented in commander-identification.json but not added, for the same reason as Germanicus: adding him would relabel Scipio/Germanicus shared references without changing any safety flag. Hasdrubal (DB faction rom_carthage, vo_culture_Carthaginian) was already listed for the Hannibal inventory. Alexander the Great and Cynane (DB faction rom_athens, vo_culture_greek) are documented in commander-identification.json but not added: adding them would relabel Leonidas/Miltiades shared references between CULTURE_SHARED and GLOBAL_SHARED without changing any safety flag.",
   "commander_ability_evidence": {
     "source": "wad.pack:db/arena_commanders_to_com_abilities_tables; voice state names are exact FNV-1 members of battle_vo_orders.bnk DialogueEvent 825794328 ability group under the commander actor key",
     "spartacus": {
@@ -305,6 +329,30 @@
         "com_vidi"
       ]
     },
-    "julius-caesar_db_note": "rom_caesar has exactly three abilities (localized Veni, Vidi, Vici). Under the Commander_Caesar actor key DialogueEvent 825794328 has the exact FNV-1 states vo_ua_Vidi and vo_ua_Vici plus the unnamed state 599090551 (no Veni spelling matches); all three exist only for Caesar, Massinissa and Xanthippus, like Scipio’s vo_ua_warcry. The 599090551 recordings (Divide and conquer!, Intercept their commands!) match the Silence ability text; the numeric state stays unnamed and the exact on-screen name per state is not asserted."
+    "julius-caesar_db_note": "rom_caesar has exactly three abilities (localized Veni, Vidi, Vici). Under the Commander_Caesar actor key DialogueEvent 825794328 has the exact FNV-1 states vo_ua_Vidi and vo_ua_Vici plus the unnamed state 599090551 (no Veni spelling matches); all three exist only for Caesar, Massinissa and Xanthippus, like Scipio’s vo_ua_warcry. The 599090551 recordings (Divide and conquer!, Intercept their commands!) match the Silence ability text; the numeric state stays unnamed and the exact on-screen name per state is not asserted.",
+    "hasdrubal": {
+      "car_hasdrubal": [
+        "com_bribe",
+        "com_deep_pockets",
+        "com_flying_column"
+      ]
+    },
+    "hasdrubal_db_note": "car_hasdrubal has tiered com_bribe_*, com_deep_pockets_* and com_flying_column_* rows (localized Incite Defection, Double Pay, Flying Column). Under the Commander_Hasdrubal actor key DialogueEvent 825794328 has the exact FNV-1 states vo_ua_BRIBE and vo_ua_Deep_Pockets (no other actor) and vo_ua_Flying_Column (also Guan Yu, Lu Bu, Zhuge Liang with their own branches). vo_ua_Rapid_Advance (Cynane’s ability name) is an ordinary order branch for Hasdrubal and is not counted as his ability.",
+    "alexander-the-great": {
+      "gre_alexander": [
+        "com_anvil",
+        "com_hammer",
+        "com_wedge"
+      ]
+    },
+    "alexander-the-great_db_note": "gre_alexander has tiered com_anvil_*, com_hammer_* and com_wedge_* rows (localized Anvil, Hammer, Wedge). Under the Commander_Alexander actor key DialogueEvent 825794328 has the exact FNV-1 states vo_ua_Anvil and vo_ua_Hammer (also Massinissa, Xanthippus) and vo_ua_wedge_formation, which is the only wedge spelling present; the same state is an ordinary unit-order branch for the Chinese commanders. Mapping com_wedge to vo_ua_wedge_formation is a name/semantic match, not a runtime observation.",
+    "cynane": {
+      "gre_cynane": [
+        "com_barrage",
+        "com_hunt",
+        "com_rapid_advance"
+      ]
+    },
+    "cynane_db_note": "gre_cynane has tiered com_barrage_*, com_hunt_* and com_rapid_advance_* rows (localized Barrage, Hunt, Rapid Advance). Under the Commander_Cynane actor key DialogueEvent 825794328 has the exact FNV-1 states vo_ua_BARRAGE, vo_ua_Hunt (also Massinissa, Xanthippus) and vo_ua_Rapid_Advance (also an ordinary order for 15 other actors)."
   }
 }

@@ -90,6 +90,20 @@ class ResearchPlanTests(unittest.TestCase):
             self.assertTrue(review['archive_wav_reference'].endswith('/32253270.wav'))
             self.assertEqual((summary['ready_for_elevenlabs'], summary['manual_review_ids']), (False, ['32253270']))
 
+    def test_commander_specific_silent_placeholders_stay_out_of_the_plan(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)/'commanders'
+            shutil.copytree(ROOT/'data/commanders/hasdrubal/research', root/'hasdrubal/research')
+            research = read_csv(root/'hasdrubal/research/voice-lines.csv')
+            silent = {r['media_id'] for r in research if r['sharing_scope'] == 'COMMANDER_SPECIFIC' and r['silent_placeholder'] == 'YES'}
+            self.assertEqual(len(silent), 13)
+            self.assertEqual({r['safe_to_replace_for_commander'] for r in research if r['media_id'] in silent}, {'NO_SILENT'})
+            memory, decisions = read_memory(ROOT/'data/commanders/hasdrubal/tts-plan/translation-memory.tsv')
+            summary = prepare('hasdrubal', root, memory, delivery_decisions=decisions)
+            voices = {r['media_id'] for r in read_csv(root/'hasdrubal/tts-plan/voice-lines-cz.csv')}
+            self.assertEqual(summary['safe_spoken_media_ids'], 318)
+            self.assertTrue(voices.isdisjoint(silent))
+
     def test_final_transcript_decisions_are_applied_and_every_plan_is_ready(self):
         expected = {('leonidas', '12766875'): ("We're being damaged by friendly fire!", 'CONFIRMED', 'HUMAN_CONFIRMED'),
                     ('zhuge-liang', '32253270'): ('Watch the wind, Zhou Yu!', 'CONFIRMED', 'HUMAN_CONFIRMED'),
@@ -107,9 +121,17 @@ class ResearchPlanTests(unittest.TestCase):
                 self.assertTrue(row['czech_text'])
                 review = {r['media_id']: r for r in read_csv(folder/'tts-plan/transcript-review-decisions.csv')}[mid]
                 self.assertEqual((review['transcript_resolution'], review['final_transcript']), (resolution, english))
-        for name in ['leonidas', 'scipio-africanus', 'spartacus', 'germanicus', 'zhuge-liang', 'miltiades', 'julius-caesar']:
+        for name in ['leonidas', 'scipio-africanus', 'spartacus', 'germanicus', 'zhuge-liang', 'miltiades', 'julius-caesar',
+                     'hasdrubal']:
             summary = json.loads((ROOT/'data/commanders'/name/'tts-plan/plan-summary.json').read_text(encoding='utf-8'))
             self.assertEqual((summary['ready_for_elevenlabs'], summary['manual_review_ids']), (True, []), name)
+        # Genuinely undecidable recordings stay deferred (no guessed English/Czech, never a TTS request).
+        for name, deferred in [('alexander-the-great', ['305833039', '366092679']), ('cynane', ['667922401'])]:
+            summary = json.loads((ROOT/'data/commanders'/name/'tts-plan/plan-summary.json').read_text(encoding='utf-8'))
+            self.assertEqual((summary['ready_for_elevenlabs'], summary['manual_review_ids']), (False, deferred), name)
+            plan_ids = {m for r in read_csv(ROOT/'data/commanders'/name/'tts-plan/tts-plan.csv') for m in r['member_media_ids'].split(';')
+                        if r['czech_text']}
+            self.assertTrue(plan_ids.isdisjoint(deferred), name)
 
     def test_budget_labels_do_not_claim_encoding(self):
         self.assertEqual(budget_risk(5000,1,'Go!','Běžte!'),'HIGH')
@@ -177,6 +199,26 @@ class ResearchPlanTests(unittest.TestCase):
         styles = {s for name, p in VOICE_PROFILES.items() if name not in {'miltiades', 'julius-caesar'}
                   for v in p.values() if isinstance(v, tuple) for s in [v[0]]} | {'CALM_COMMANDING', 'AUTHORITATIVE'}
         for name in ['miltiades', 'julius-caesar']:
+            self.assertLessEqual({v[0] for v in VOICE_PROFILES[name].values() if isinstance(v, tuple)}, styles, name)
+
+    def test_hasdrubal_alexander_cynane_profiles_are_distinct_and_reuse_project_styles(self):
+        def row(category, trigger, english):
+            return {'category':category,'trigger':trigger,'english_text':english,'raw_transcript':''}
+        charge = 'unit ability ordered: unit manual charge'
+        new = ['hasdrubal', 'alexander-the-great', 'cynane']
+        for name in new:
+            with self.subTest(name=name):
+                # v3 stays reserved for originals that are audibly shouted.
+                self.assertEqual(plan_delivery([row('ORDER', charge, 'Charge!')], name, {})[1], 'eleven_v4')
+                self.assertEqual(plan_delivery([row('ORDER', charge, 'CHARGE!')], name, {})[1], 'eleven_v3')
+        frontend = row('FRONTEND', 'open/select commander', 'Line.')
+        cards = {name: plan_delivery([frontend], name, {}) for name in new + ['leonidas', 'miltiades', 'julius-caesar']}
+        self.assertEqual(len(set(cards.values())), len(cards))
+        # Hasdrubal must not sound like Hannibal's legacy calm routing.
+        self.assertNotEqual(cards['hasdrubal'], plan_delivery([frontend], 'hannibal', {}))
+        styles = {s for name, p in VOICE_PROFILES.items() if name not in new
+                  for v in p.values() if isinstance(v, tuple) for s in [v[0]]} | {'CALM_COMMANDING', 'AUTHORITATIVE'}
+        for name in new:
             self.assertLessEqual({v[0] for v in VOICE_PROFILES[name].values() if isinstance(v, tuple)}, styles, name)
 
     def test_memory_accepts_reviewed_delivery_columns_only_when_valid(self):
