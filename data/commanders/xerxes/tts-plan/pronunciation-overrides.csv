@@ -1,0 +1,9 @@
+﻿tts_performance_group,tts_source_media_id,member_media_ids,english_text,czech_text,tts_text_override,palatalization_fallback_text,override_reason,status
+PCM-e939d1385f062fde-537e1624,251309807,251309807,Germanicus goes to his gods!,Germanicus odchází ke svým bohům!,Germanykus odchází ke svým bohům!,,Germanicus: Latin c = [k] and hard n; Czech TTS would read [germaňicus],PROPOSED_VERIFY_IN_PILOT
+PCM-479594176c56e1aa-5251271f,427090309,427090309,Xerxes the Great!,Xerxes Veliký!,Kserkses Veliký!,,Xerxes: Czech reading x = [ks] ([kserkses]); guards against an anglicized Zerk-sees,PROPOSED_VERIFY_IN_PILOT
+PCM-b4994cd03dd3c0c6-3e23919b,446046875,446046875;686507262,Tremble before Xerxes!,Třeste se před Xerxem!,Třeste se před Kserksem!,,Xerxes: Czech reading x = [ks] ([kserkses]); guards against an anglicized Zerk-sees,PROPOSED_VERIFY_IN_PILOT
+PCM-a42add15e0971c32-55d0040f,568649740,568649740,We brought down Caesar!,Srazili jsme Caesara!,Srazili jsme Cézara!,,Caesar: Czech convention [cézar]; TTS may read the Latin spelling as ka-e-sar,PROPOSED_VERIFY_IN_PILOT
+PCM-054831da67c6b5c4-79b3a5bd,571169368,571169368,Oh yes! Leonidas is dead!,Ó ano! Leonidas je mrtev!,,Ó ano! Leonydas je mrtev!,Leonidas: hard d (use only if the pilot palatalizes di),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-c39c64348b3ca54b-f131485c,729787063,729787063,Massinissa fights no more!,Massinissa už nedobojuje!,,Masynyssa už nedobojuje!,Massinissa: hard n (use only if the pilot palatalizes ni),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-127858a0c490b927-7c55bc9f,893715973,893715973,Arminius is no more!,Arminius už není!,,Arminyus už není!,Arminius: hard n (use only if the pilot palatalizes ni),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-c2124ab42b6cc479-133b7b3b,931526308,931526308,Boudica is out of the fight!,Boudica je mimo boj!,Boudyka je mimo boj!,,Boudica: c = [k] and hard d (English/Czech [boudika]),PROPOSED_VERIFY_IN_PILOT

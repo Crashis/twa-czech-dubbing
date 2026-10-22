@@ -106,7 +106,9 @@ def audit_commander(usage, spec):
     forward_explicit = {m for m, v in relevant.items() if v['explicit_speaker']}
     # D: parent emote pools are an independent candidate inventory. This catches
     # a playable ordinary event missed by localization-key name normalization.
-    emote_known, emote_pool = set(), set()
+    # A sibling Sound with no playback root at all cannot be such an event; it
+    # is reported separately (and in the corpus orphan audit), never as relevant.
+    emote_known, emote_pool, emote_unrooted = set(), set(), set()
     for mid, refs in usage.refs.items():
         for ref in refs:
             if 'emote' not in ref['bank'] or not usage.keyed(ref, spec):
@@ -118,7 +120,8 @@ def audit_commander(usage, spec):
                 for child in node.get('children', []):
                     sibling = usage.nodes[ref['bank']][int(child['value'])]
                     if sibling['type'] == 'CAkSound':
-                        emote_pool.add(int(sibling['sourceID'][0]['value']))
+                        rooted = usage.reverse_roots(ref['bank'], sibling['id'])
+                        (emote_pool if rooted else emote_unrooted).add(int(sibling['sourceID'][0]['value']))
     emote_delta = sorted(emote_pool ^ emote_known)
     delta = sorted(reverse_relevant ^ set(relevant))
     branch_delta = sorted(explicit ^ forward_explicit | explicit ^ reverse_explicit)
@@ -152,4 +155,5 @@ def audit_commander(usage, spec):
             'forward_reverse_symmetric_difference': delta, 'branch_enumeration_symmetric_difference': branch_delta,
             'unresolved_relevant_sound_references': unresolved, 'per_media_reverse_audit': audits,
             'no_audio_commander_branches': no_audio, 'emote_parent_pool_media': len(emote_pool),
-            'emote_named_event_media': len(emote_known), 'emote_pool_symmetric_difference': emote_delta}
+            'emote_named_event_media': len(emote_known), 'emote_pool_symmetric_difference': emote_delta,
+            'emote_pool_unrooted_media': sorted(emote_unrooted)}

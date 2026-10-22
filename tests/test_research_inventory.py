@@ -100,6 +100,19 @@ class OwnershipTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             audit_commander(graph, {'actor_name': 'Commander_A', 'actor_id': 7, 'culture_ids': [20]})
 
+    def test_unrooted_emote_pool_sibling_is_reported_not_a_missed_event(self):
+        # Xerxes's pool holds one Sound that no Event plays (corpus voice orphan).
+        first, orphan = sound(2), sound(3, 43)
+        first['DirectParentID'] = orphan['DirectParentID'] = [field(5)]
+        parent = {'id': 5, 'type': 'CAkRanSeqCntr', 'children': [field(2), field(3)],
+                  'playlist': [{'target': field(2)}, {'target': field(3)}]}
+        graph = UsageGraph({'parser_errors_or_skips': [], 'banks': {
+            'battle_vo_emotes.bnk': {'nodes': [event([([7], 2)]), first, orphan, parent]}}}, {7: 'Commander_A'}, {})
+        result = audit_commander(graph, {'actor_name': 'Commander_A', 'actor_id': 7, 'culture_ids': [20]})
+        self.assertEqual(result['emote_pool_symmetric_difference'], [])
+        self.assertEqual(result['emote_pool_unrooted_media'], [43])
+        self.assertEqual(result['forward_relevant_media'], 1)
+
     def test_emote_punctuation_normalization_needs_exact_event_match(self):
         candidates = emote_spellings('prefix_quote_a_-_b')
         self.assertIn('prefix_quote_a_b', candidates)
@@ -302,6 +315,26 @@ class MetadataTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'Original audio fact differs'):
                 validate_research(folder, 'leonidas')
 
+    def test_duplicate_of_own_advisor_reference_resolves_inside_the_inventory(self):
+        # Arminius reuses two commander recordings as separate advisor reference Media IDs.
+        source = ROOT/'data/commanders/arminius/research'
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)/'commanders'
+            folder = root/'arminius/research'
+            shutil.copytree(source, folder)
+            (root/'shared-research').mkdir()
+            shutil.copyfile(ROOT/'data/commanders/shared-research/cross-commander-duplicate-recordings.csv',
+                            root/'shared-research/cross-commander-duplicate-recordings.csv')
+            row = {r['media_id']: r for r in read_csv(folder/'voice-lines.csv')}['619244861']
+            self.assertEqual((row['safe_to_replace_for_commander'], row['duplicate_content_of']), ('YES', '383708169'))
+            self.assertEqual(validate_research(folder, 'arminius')['status'], 'PASS')
+            path = folder/'battle-advice-global-reference.csv'
+            advice = read_csv(path)
+            next(r for r in advice if r['media_id'] == '383708169')['pcm_sha256'] = 'f'*64
+            write_csv(path, advice, list(advice[0]))
+            with self.assertRaisesRegex(ValueError, 'Unresolved external duplicate reference'):
+                validate_research(folder, 'arminius')
+
     def test_research_datasets_and_installer_exclusion(self):
         for name in ['leonidas', 'scipio-africanus']:
             self.assertEqual(validate_research(ROOT/'data/commanders'/name/'research', name)['status'], 'PASS')
@@ -311,7 +344,8 @@ class MetadataTests(unittest.TestCase):
         research_only = {p.parent.parent.name for p in (ROOT / 'data/commanders').glob('*/research/voice-lines.csv')
                          if not (p.parent.parent / 'manifest.json').exists()}
         self.assertEqual(research_only, {'scipio-africanus', 'germanicus', 'miltiades', 'julius-caesar',
-                                         'hasdrubal', 'alexander-the-great', 'cynane'})
+                                         'hasdrubal', 'alexander-the-great', 'cynane',
+                                         'xerxes', 'arminius', 'boudica', 'vercingetorix'})
         self.assertTrue(research_only.isdisjoint(names))
         self.assertTrue(all((ROOT / 'data/commanders' / n / 'manifest.json').is_file() for n in names))
 

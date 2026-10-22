@@ -1,0 +1,9 @@
+﻿tts_performance_group,tts_source_media_id,member_media_ids,english_text,czech_text,tts_text_override,palatalization_fallback_text,override_reason,status
+PCM-3d9bc0e555dcef34-5b912a67,24310434,24310434,Germanicus is slain!,Germanicus padl!,Germanykus padl!,,Germanicus: Latin c = [k] and hard n; Czech TTS would read [germaňicus],PROPOSED_VERIFY_IN_PILOT
+PCM-76e957e9cf33ccd9-b82000cb,43809839,43809839,Arminius!,Arminius!,,Arminyus!,Arminius: hard n (use only if the pilot palatalizes ni),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-7249a003dadaa9cc-96ea609f,321092746,321092746,I spit at Caesar and Rome!,Plivu na Caesara i na Řím!,Plivu na Cézara i na Řím!,,Caesar: Czech convention [cézar]; TTS may read the Latin spelling as ka-e-sar,PROPOSED_VERIFY_IN_PILOT
+PCM-0f76584a37fe9403-74671913,368660600,368660600,We have executed Xanthippus!,Popravili jsme Xanthippa!,Popravili jsme Ksantypa!,,"Xanthippos: x = [ks], th = [t], hard t",PROPOSED_VERIFY_IN_PILOT
+PCM-3356edabf7e01c9d-c77d0bc4,378252420,378252420;423556510,Modi!,Modi!,,Mody!,"Modi: Norse god Módi, hard d (use only if the pilot palatalizes di)",FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-63159ba75dde4405-2a6442b2,454428217,454428217,Massinissa the treacherous has fallen!,Zrádný Massinissa padl!,,Zrádný Masynyssa padl!,Massinissa: hard n (use only if the pilot palatalizes ni),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-7edf5ba4b324444d-4a497985,539515411,539515411,Caesar is dead at long last!,Caesar je konečně mrtev!,Cézar je konečně mrtev!,,Caesar: Czech convention [cézar]; TTS may read the Latin spelling as ka-e-sar,PROPOSED_VERIFY_IN_PILOT
+PCM-3ba1d526b519fca4-fc26139b,572075108,572075108,"Your tyranny ends, Miltiades!","Tvé tyranii je konec, Miltiade!",,"Tvé tyranii je konec, Miltyade!",Miltiadés: hard t in the Greek name (use only if the pilot palatalizes ti),FALLBACK_ONLY_IF_PILOT_PALATALIZES

@@ -270,6 +270,37 @@
         "vo_ua_Rapid_Advance"
       ],
       "pilot_mix": true
+    },
+    "xerxes": {
+      "own_abilities": [
+        "vo_ua_Invigorating_Strike",
+        "vo_ua_Tremble_Before_Xerxes",
+        "vo_ua_Tyrants_Lash"
+      ],
+      "pilot_mix": true
+    },
+    "arminius": {
+      "own_abilities": [
+        "vo_ua_Frenzy",
+        "vo_ua_INFILTRATION",
+        "vo_ua_Momentum"
+      ],
+      "pilot_mix": true
+    },
+    "boudica": {
+      "own_abilities": [
+        "vo_ua_Fury",
+        "vo_ua_REBELLION"
+      ],
+      "pilot_mix": true
+    },
+    "vercingetorix": {
+      "own_abilities": [
+        "vo_ua_defiance",
+        "vo_ua_Iron_Discipline",
+        "vo_ua_Scorched_Earth"
+      ],
+      "pilot_mix": true
     }
   },
   "commander_cultures": {
@@ -289,7 +320,7 @@
       1422687991
     ]
   },
-  "culture_mapping_evidence": "Commander DB faction fields and supported-corpus culture/actor branches; affiliation never proves media ownership. Spartacus (DB faction rom_gladiators, vo_culture_Gladiators) and Germanicus (rom_rome, vo_culture_roman) are documented in commander-identification.json but intentionally not added here: no primary Spartacus/Germanicus Media ID is shared only between commanders, and adding them would relabel other inventories’ generic advisor references. Zhuge Liang (DB faction rom_china, vo_culture_China) is likewise not added: no Zhuge Liang Media ID is shared only between commanders (his shared IDs are vo_culture_China unit sets), and adding all seven rom_china commanders changes no classification in any inventory. Miltiades (DB faction rom_athens, vo_culture_greek) was already listed for the Leonidas inventory; Julius Caesar (rom_rome, vo_culture_roman) is documented in commander-identification.json but not added, for the same reason as Germanicus: adding him would relabel Scipio/Germanicus shared references without changing any safety flag. Hasdrubal (DB faction rom_carthage, vo_culture_Carthaginian) was already listed for the Hannibal inventory. Alexander the Great and Cynane (DB faction rom_athens, vo_culture_greek) are documented in commander-identification.json but not added: adding them would relabel Leonidas/Miltiades shared references between CULTURE_SHARED and GLOBAL_SHARED without changing any safety flag.",
+  "culture_mapping_evidence": "Commander DB faction fields and supported-corpus culture/actor branches; affiliation never proves media ownership. Spartacus (DB faction rom_gladiators, vo_culture_Gladiators) and Germanicus (rom_rome, vo_culture_roman) are documented in commander-identification.json but intentionally not added here: no primary Spartacus/Germanicus Media ID is shared only between commanders, and adding them would relabel other inventories’ generic advisor references. Zhuge Liang (DB faction rom_china, vo_culture_China) is likewise not added: no Zhuge Liang Media ID is shared only between commanders (his shared IDs are vo_culture_China unit sets), and adding all seven rom_china commanders changes no classification in any inventory. Miltiades (DB faction rom_athens, vo_culture_greek) was already listed for the Leonidas inventory; Julius Caesar (rom_rome, vo_culture_roman) is documented in commander-identification.json but not added, for the same reason as Germanicus: adding him would relabel Scipio/Germanicus shared references without changing any safety flag. Hasdrubal (DB faction rom_carthage, vo_culture_Carthaginian) was already listed for the Hannibal inventory. Alexander the Great and Cynane (DB faction rom_athens, vo_culture_greek) are documented in commander-identification.json but not added: adding them would relabel Leonidas/Miltiades shared references between CULTURE_SHARED and GLOBAL_SHARED without changing any safety flag. Xerxes (DB faction rom_persia, vo_culture_Persian) and Arminius, Boudica and Vercingetorix (DB faction rom_arverni, vo_culture_barbarian) are documented in commander-identification.json but not added: the only Media IDs shared purely between commanders are five Boudica/Vercingetorix ability-order recordings, which stay unsafe for both either way, and adding them would only relabel those between CULTURE_SHARED and GLOBAL_SHARED.",
   "commander_ability_evidence": {
     "source": "wad.pack:db/arena_commanders_to_com_abilities_tables; voice state names are exact FNV-1 members of battle_vo_orders.bnk DialogueEvent 825794328 ability group under the commander actor key",
     "spartacus": {
@@ -353,6 +384,38 @@
         "com_rapid_advance"
       ]
     },
-    "cynane_db_note": "gre_cynane has tiered com_barrage_*, com_hunt_* and com_rapid_advance_* rows (localized Barrage, Hunt, Rapid Advance). Under the Commander_Cynane actor key DialogueEvent 825794328 has the exact FNV-1 states vo_ua_BARRAGE, vo_ua_Hunt (also Massinissa, Xanthippus) and vo_ua_Rapid_Advance (also an ordinary order for 15 other actors)."
+    "cynane_db_note": "gre_cynane has tiered com_barrage_*, com_hunt_* and com_rapid_advance_* rows (localized Barrage, Hunt, Rapid Advance). Under the Commander_Cynane actor key DialogueEvent 825794328 has the exact FNV-1 states vo_ua_BARRAGE, vo_ua_Hunt (also Massinissa, Xanthippus) and vo_ua_Rapid_Advance (also an ordinary order for 15 other actors).",
+    "xerxes": {
+      "per_xerxes": [
+        "com_invigorating_strike",
+        "com_tremble_before_xerxes",
+        "com_tyrants_lash"
+      ]
+    },
+    "xerxes_db_note": "per_xerxes has tiered com_invigorating_strike_*, com_tremble_before_xerxes_* and com_tyrants_lash_* rows (localized Invigorating Strike, Tremble Before Xerxes!, Tyrant's Lash). Under the Commander_Xerxes actor key DialogueEvent 825794328 has the exact FNV-1 states vo_ua_Invigorating_Strike, vo_ua_Tremble_Before_Xerxes and vo_ua_Tyrants_Lash (no other actor).",
+    "arminius": {
+      "bar_arminius": [
+        "com_frenzy",
+        "com_infiltration",
+        "com_momentum"
+      ]
+    },
+    "arminius_db_note": "bar_arminius has tiered com_frenzy_*, com_infiltration_* and com_momentum_* rows (localized Frenzy, Infiltration, Momentum). Under the Commander_Arminius actor key DialogueEvent 825794328 has the exact FNV-1 states vo_ua_Frenzy, vo_ua_INFILTRATION and vo_ua_Momentum (also Massinissa, Xanthippus with their own branches).",
+    "boudica": {
+      "bar_boudica": [
+        "com_fury",
+        "com_rebellion",
+        "com_vanguard"
+      ]
+    },
+    "boudica_db_note": "bar_boudica (localization/ability key; the commander row also carries the separate value bar_boudicca) has tiered com_fury_*, com_rebellion_* and com_vanguard_* rows (localized Fury, Rebellion, Vanguard). Under the Commander_Boudica actor key DialogueEvent 825794328 has the exact FNV-1 states vo_ua_Fury and vo_ua_REBELLION (no other actor). No vo_ua_Vanguard state (1130349850, case-insensitive FNV-1) exists under her key, so Vanguard has no dedicated commander voice branch.",
+    "vercingetorix": {
+      "bar_vercingetorix": [
+        "com_defiance",
+        "com_iron_discipline",
+        "com_scorched_earth"
+      ]
+    },
+    "vercingetorix_db_note": "bar_vercingetorix has tiered com_defiance_*, com_iron_discipline_* and com_scorched_earth_* rows (localized Defiance, Iron Discipline, Scorched Earth). Under the Commander_Vercingetorix actor key DialogueEvent 825794328 has the exact FNV-1 states vo_ua_defiance (no other actor), vo_ua_Iron_Discipline and vo_ua_Scorched_Earth (also Massinissa, Xanthippus with their own branches)."
   }
 }

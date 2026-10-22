@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "research_schema_version": 1,
+  "id": "arminius",
+  "display_name": "Arminius",
+  "status": "research_ready",
+  "inventory_status": "complete_with_confidence_flags",
+  "release_ready": false,
+  "canonical_original_pack_sha256": "d6ee7ec4c4422276d9caba7013f46662a980955c138be13f653b58992ad876ad",
+  "actor_name": "Commander_Arminius",
+  "actor_id": 1378821244,
+  "culture_names": [
+    "vo_culture_barbarian"
+  ],
+  "culture_ids": [
+    4043584872
+  ],
+  "human_listening": "NOT_RUN",
+  "game_runtime_review": "NOT_RUN",
+  "paid_api_calls": 0,
+  "replacements": [],
+  "total_relevant_media_ids": 1847,
+  "spoken_media_ids": 1847,
+  "silent_placeholders": 0,
+  "commander_specific_media_ids": 231,
+  "explicit_commander_speaker_media_ids": 231,
+  "safe_replacement_media_ids": 231,
+  "shared_media_ids": 1616,
+  "frontend_count": 9,
+  "battle_count": 222,
+  "sharing_counts": {
+    "CULTURE_SHARED": 1437,
+    "GLOBAL_SHARED": 59,
+    "COMMANDER_SPECIFIC": 231,
+    "UNIT_TYPE_SHARED": 120
+  },
+  "category_counts": {
+    "VICTORY": 6,
+    "ORDER": 124,
+    "DEATH_REACTION": 18,
+    "FRONTEND": 9,
+    "BATTLE_EVENT": 21,
+    "DEFEAT": 6,
+    "EMOTE": 38,
+    "ABILITY": 9
+  },
+  "transcript_counts_all": {
+    "HIGH": 1414,
+    "LOW": 262,
+    "MEDIUM": 97,
+    "CONFIRMED": 74
+  },
+  "transcript_counts_commander_specific": {
+    "HIGH": 157,
+    "CONFIRMED": 74
+  },
+  "duplicate_groups": 41,
+  "commander_specific_transcripts_needing_review": 0,
+  "missing_transcripts_all": 0,
+  "manually_deferred_transcript_ids": [],
+  "unique_commander_specific_recordings": 193,
+  "ready_for_translation_tts": true,
+  "pilot_menu": 6,
+  "pilot_battle": 25
+}

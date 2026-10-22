@@ -599,5 +599,242 @@
         "container_id": 304157546
       }
     ]
+  },
+  {
+    "id": "xerxes",
+    "display_name": "Xerxes",
+    "actor_name": "Commander_Xerxes",
+    "actor_id": 2335687687,
+    "culture_names": [
+      "vo_culture_Persian"
+    ],
+    "culture_ids": [
+      776578854
+    ],
+    "db_actor_literal": {
+      "source": "wad.pack:db/arena_commanders_tables/data",
+      "byte_offset": 9947,
+      "exact_fnv1_match": true
+    },
+    "db_commander_key": "per_xerxes",
+    "db_faction": "rom_persia",
+    "localization_name_key": "arena_commanders_commander_localized_name_per_xerxes",
+    "frontend_decision_evidence": [
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1402037848,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          2335687687
+        ],
+        "container_id": 733567070
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1823898040,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          2335687687
+        ],
+        "container_id": 685599880
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 2732370230,
+        "group_ids": [
+          3113488887,
+          112324978,
+          4273992948
+        ],
+        "keys": [
+          776578854,
+          2335687687,
+          0
+        ],
+        "container_id": 596260840
+      }
+    ]
+  },
+  {
+    "id": "arminius",
+    "display_name": "Arminius",
+    "actor_name": "Commander_Arminius",
+    "actor_id": 1378821244,
+    "culture_names": [
+      "vo_culture_barbarian"
+    ],
+    "culture_ids": [
+      4043584872
+    ],
+    "db_actor_literal": {
+      "source": "wad.pack:db/arena_commanders_tables/data",
+      "byte_offset": 801,
+      "exact_fnv1_match": true
+    },
+    "db_commander_key": "bar_arminius",
+    "db_faction": "rom_arverni",
+    "localization_name_key": "arena_commanders_commander_localized_name_bar_arminius",
+    "frontend_decision_evidence": [
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1402037848,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          1378821244
+        ],
+        "container_id": 500350346
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1823898040,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          1378821244
+        ],
+        "container_id": 229776887
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 2732370230,
+        "group_ids": [
+          3113488887,
+          112324978,
+          4273992948
+        ],
+        "keys": [
+          4043584872,
+          1378821244,
+          0
+        ],
+        "container_id": 618068382
+      }
+    ]
+  },
+  {
+    "id": "boudica",
+    "display_name": "Boudica",
+    "actor_name": "Commander_Boudica",
+    "actor_id": 3051967427,
+    "culture_names": [
+      "vo_culture_barbarian"
+    ],
+    "culture_ids": [
+      4043584872
+    ],
+    "db_actor_literal": {
+      "source": "wad.pack:db/arena_commanders_tables/data",
+      "byte_offset": 1185,
+      "exact_fnv1_match": true
+    },
+    "db_commander_key": "bar_boudica",
+    "db_faction": "rom_arverni",
+    "localization_name_key": "arena_commanders_commander_localized_name_bar_boudica",
+    "frontend_decision_evidence": [
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1402037848,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          3051967427
+        ],
+        "container_id": 901631261
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1823898040,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          3051967427
+        ],
+        "container_id": 238556987
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 2732370230,
+        "group_ids": [
+          3113488887,
+          112324978,
+          4273992948
+        ],
+        "keys": [
+          4043584872,
+          3051967427,
+          0
+        ],
+        "container_id": 754861215
+      }
+    ],
+    "db_key_note": "The arena_commanders_tables row also carries the separate value bar_boudicca; localization, arena_commanders_to_com_abilities_tables and the variant mesh use bar_boudica."
+  },
+  {
+    "id": "vercingetorix",
+    "display_name": "Vercingetorix",
+    "actor_name": "Commander_Vercingetorix",
+    "actor_id": 83219417,
+    "culture_names": [
+      "vo_culture_barbarian"
+    ],
+    "culture_ids": [
+      4043584872
+    ],
+    "db_actor_literal": {
+      "source": "wad.pack:db/arena_commanders_tables/data",
+      "byte_offset": 1929,
+      "exact_fnv1_match": true
+    },
+    "db_commander_key": "bar_vercingetorix",
+    "db_faction": "rom_arverni",
+    "localization_name_key": "arena_commanders_commander_localized_name_bar_vercingetorix",
+    "frontend_decision_evidence": [
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1402037848,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          83219417
+        ],
+        "container_id": 802854480
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 1823898040,
+        "group_ids": [
+          112324978
+        ],
+        "keys": [
+          83219417
+        ],
+        "container_id": 991775500
+      },
+      {
+        "bank": "frontend_vo.bnk",
+        "event_id": 2732370230,
+        "group_ids": [
+          3113488887,
+          112324978,
+          4273992948
+        ],
+        "keys": [
+          4043584872,
+          83219417,
+          0
+        ],
+        "container_id": 922671073
+      }
+    ]
   }
 ]

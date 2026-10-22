@@ -172,6 +172,12 @@ def validate_research(folder, commander):
     rows = read_csv(folder / 'voice-lines.csv')
     cross_path = folder.parents[1] / 'shared-research/cross-commander-duplicate-recordings.csv'
     external = {r['media_id']: r for r in read_csv(cross_path)} if cross_path.exists() else {}
+    # Duplicate groups span all decoded audio, so a commander line may reuse the PCM of
+    # one of this inventory's own (separate Media ID) advisor reference recordings.
+    advice_path = folder / 'battle-advice-global-reference.csv'
+    if advice_path.exists():
+        for row in read_csv(advice_path):
+            external.setdefault(row['media_id'], row)
     result = validate_rows(rows, commander, external)
     manifest = json.loads((folder / 'manifest-draft.json').read_text(encoding='utf-8'))
     require(manifest['status'] == 'research_ready' and manifest['release_ready'] is False, 'Research must never masquerade as a release')

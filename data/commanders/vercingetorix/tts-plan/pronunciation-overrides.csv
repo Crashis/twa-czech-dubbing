@@ -1,0 +1,9 @@
+﻿tts_performance_group,tts_source_media_id,member_media_ids,english_text,czech_text,tts_text_override,palatalization_fallback_text,override_reason,status
+PCM-a432b1f453d4f65c-f69b21d8,43098239,43098239,We have the head of Xanthippus!,Máme Xanthippovu hlavu!,Máme Ksantypovu hlavu!,,"Xanthippos: x = [ks], th = [t], hard t",PROPOSED_VERIFY_IN_PILOT
+PCM-34fadf3790664bb7-e7d021a6,86243405,86243405,"The dog, Caesar, is dead at last!",Ten pes Caesar je konečně mrtev!,Ten pes Cézar je konečně mrtev!,,Caesar: Czech convention [cézar]; TTS may read the Latin spelling as ka-e-sar,PROPOSED_VERIFY_IN_PILOT
+PCM-bccebbae6356c032-ea8fd374,125172898,125172898,Miltiades is slain!,Miltiadés padl!,,Miltyadés padl!,Miltiadés: hard t in the Greek name (use only if the pilot palatalizes ti),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-404c93578d7962a3-e56faaf3,428780494,428780494,The Roman Germanicus is slain!,Říman Germanicus padl!,Říman Germanykus padl!,,Germanicus: Latin c = [k] and hard n; Czech TTS would read [germaňicus],PROPOSED_VERIFY_IN_PILOT
+PCM-8d3df0ec43752bbf-18f320d2,481608276,481608276,We have killed Massinissa!,Zabili jsme Massinissu!,,Zabili jsme Masynyssu!,Massinissa: hard n (use only if the pilot palatalizes ni),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-8832e3301b289529-c97d4efd,575084569,575084569,Queen Boudica has been killed!,Královna Boudica byla zabita!,Královna Boudyka byla zabita!,,Boudica: c = [k] and hard d (English/Czech [boudika]),PROPOSED_VERIFY_IN_PILOT
+PCM-b4b11af34a47e820-8390cc48,705392496,705392496,Arminius goes to his ancestors!,Arminius odchází ke svým předkům!,,Arminyus odchází ke svým předkům!,Arminius: hard n (use only if the pilot palatalizes ni),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-7639b3652c7fe9b7-e4e8156e,925415040,925415040,Leonidas has fallen!,Leonidas padl!,,Leonydas padl!,Leonidas: hard d (use only if the pilot palatalizes di),FALLBACK_ONLY_IF_PILOT_PALATALIZES

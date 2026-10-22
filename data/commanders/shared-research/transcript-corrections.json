@@ -3008,5 +3008,1311 @@
     "confidence": "LOW",
     "evidence": "all models \"Hot down!\"; dismantle artillery state (siblings Dismantle!, Take it apart!); meaningful candidates (Haul it down!, Cut it down!, Pull it down!) all far below the raw decode in forced choice",
     "resolution": "NEEDS_MANUAL_TRANSCRIPTION"
+  },
+  "66304129": {
+    "text": "Camels, do your worst!",
+    "confidence": "HIGH",
+    "evidence": "Canvas/Camus = camels; wild temper is the camel ability (siblings Rile the camels!, Frenzy the camels!)"
+  },
+  "593307220": {
+    "text": "Frenzy the camels!",
+    "confidence": "HIGH",
+    "evidence": "medium.en camels; base/small cameras; wild temper camel ability"
+  },
+  "1023130784": {
+    "text": "Camel riders, make haste!",
+    "confidence": "HIGH",
+    "evidence": "medium.en Camel Riders; camel dash state"
+  },
+  "117947665": {
+    "text": "We have bested Alexander!",
+    "confidence": "HIGH",
+    "evidence": "medium.en bested; second vo_actor Commander_Alexander"
+  },
+  "172249328": {
+    "text": "Vercingetorix has fallen!",
+    "confidence": "HIGH",
+    "evidence": "medium.en Vercingetrix; second vo_actor Commander_Vercingetorix; localized spelling"
+  },
+  "193875947": {
+    "text": "Hasdrubal falls to us!",
+    "confidence": "HIGH",
+    "evidence": "medium.en Hasdrubal; second vo_actor Commander_Hasdrubal"
+  },
+  "229130040": {
+    "text": "Our men flee, like whipped curs!",
+    "confidence": "HIGH",
+    "evidence": "whipped cars = whipped curs (idiom); unit routing"
+  },
+  "257359260": {
+    "text": "Apace!",
+    "confidence": "HIGH",
+    "evidence": "A PEACE/Peace; sprint state; Cyrus sprint A PEACE!, Arminius quick march medium.en Apace!"
+  },
+  "264715539": {
+    "text": "We have slain Cynane!",
+    "confidence": "HIGH",
+    "evidence": "Kinane = Cynane; second vo_actor Commander_Cynane"
+  },
+  "100932080": {
+    "text": "Ready those stakes!",
+    "confidence": "HIGH",
+    "evidence": "steaks = stakes (homophone); place stakes state"
+  },
+  "327037897": {
+    "text": "Eagle-eyed!",
+    "confidence": "HIGH",
+    "evidence": "small.en Eagle-eyed; Spot state; same line in Boudica (shared script)"
+  },
+  "427090309": {
+    "text": "Xerxes the Great!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Xerxes commander card"
+  },
+  "448213066": {
+    "text": "Yaaaah!",
+    "confidence": "HIGH",
+    "evidence": "wordless battle yell; localized chat text of the exact emote Event Play_per_xerxes_emote_battlecry_yaaaah"
+  },
+  "779807764": {
+    "text": "Yaaaah!",
+    "confidence": "HIGH",
+    "evidence": "exact PCM of battlecry emote 448213066 (localized Yaaaah!); camel dash state"
+  },
+  "450757893": {
+    "text": "Quick march!",
+    "confidence": "HIGH",
+    "evidence": "QUICK MATCH = quick march; sprint state; Cyrus sprint QUICK MARCH!"
+  },
+  "455625654": {
+    "text": "Man siege weapons!",
+    "confidence": "HIGH",
+    "evidence": "Man's = man; siblings Man the engines!, Prepare siege weapons!"
+  },
+  "457950824": {
+    "text": "Ready tar pits!",
+    "confidence": "HIGH",
+    "evidence": "tarpits; place tar state; Hannibal/Hasdrubal script Ready tar pits!"
+  },
+  "467639005": {
+    "text": "Dodge them!",
+    "confidence": "HIGH",
+    "evidence": "base.en Dodge them; dodge state; Cyrus (Persian script) same state, template-siblings-xabv medium.en DODGE THEM!"
+  },
+  "758068443": {
+    "text": "Dodge their attacks!",
+    "confidence": "HIGH",
+    "evidence": "touch that = dodge their; dodge state; Cyrus (Persian script) same state, template-siblings-xabv medium.en DODGE THEIR ATTACKS!"
+  },
+  "485853910": {
+    "text": "Arrow volley!",
+    "confidence": "HIGH",
+    "evidence": "Aro/Arow Volley; bow shot state"
+  },
+  "566965674": {
+    "text": "Hunt them down!",
+    "confidence": "HIGH",
+    "evidence": "base.en Hunt them down; spot stance; same line in Boudica (shared script)"
+  },
+  "666881966": {
+    "text": "Ride them into the dirt!",
+    "confidence": "HIGH",
+    "evidence": "write = ride; heavy cavalry charge"
+  },
+  "865918482": {
+    "text": "Hurl the naphtha!",
+    "confidence": "HIGH",
+    "evidence": "alt medium.en Harve naphtha!; Cyrus (Persian script) same state, template-siblings-xabv medium.en throw fire pots Hurly-nuff-da!; Hold-the reading rejected as contrary to the throw order"
+  },
+  "907146941": {
+    "text": "Place caltrops!",
+    "confidence": "HIGH",
+    "evidence": "count drops = caltrops; place caltrops state"
+  },
+  "931526308": {
+    "text": "Boudica is out of the fight!",
+    "confidence": "HIGH",
+    "evidence": "medium.en Boudicca; second vo_actor Commander_Boudica; localized spelling"
+  },
+  "946443613": {
+    "text": "What? Fight back!",
+    "confidence": "HIGH",
+    "evidence": "small.en and both alternative decodes Fight back; best forced choice; rally state (Cyrus Pick yourselves up!)"
+  },
+  "965874354": {
+    "text": "Battle calls!",
+    "confidence": "HIGH",
+    "evidence": "BATTLE COURSE/Cores; generic response; Cyrus BATTLE COOS!, Boudica (shared script) and Arminius Battle calls!"
+  },
+  "986570845": {
+    "text": "Caltrops!",
+    "confidence": "HIGH",
+    "evidence": "COUTROPS/Cow drops; place caltrops state"
+  },
+  "1005057054": {
+    "text": "Aim true!",
+    "confidence": "HIGH",
+    "evidence": "base Aim 2 / small And true; bow shot (sibling Focus your aim!)"
+  },
+  "34140997": {
+    "text": "Faster!",
+    "confidence": "HIGH",
+    "evidence": "Foster/HUSTER; quick reload (Vercingetorix Faster! FASTER!)"
+  },
+  "116179275": {
+    "text": "Vercingetorix goes to his ancestors!",
+    "confidence": "HIGH",
+    "evidence": "medium.en Vercingetrix; second vo_actor Commander_Vercingetorix"
+  },
+  "221202660": {
+    "text": "Our base is lost!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alt medium.en; base/small A base is lost (same meaning)"
+  },
+  "258238190": {
+    "text": "Cynane has fallen!",
+    "confidence": "HIGH",
+    "evidence": "Kinane = Cynane; second vo_actor Commander_Cynane"
+  },
+  "320639337": {
+    "text": "Moving unseen!",
+    "confidence": "HIGH",
+    "evidence": "on scene = unseen; Infiltration ability (siblings Going amongst them!, Know your enemy!)"
+  },
+  "834617163": {
+    "text": "Enemies of Germania!",
+    "confidence": "HIGH",
+    "evidence": "all models; capitalization only (brandish heads)"
+  },
+  "321092746": {
+    "text": "I spit at Caesar and Rome!",
+    "confidence": "HIGH",
+    "evidence": "base/small Rome; medium roam (homophone); frontend card"
+  },
+  "368660600": {
+    "text": "We have executed Xanthippus!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; second vo_actor Commander_Xanthippus"
+  },
+  "371366223": {
+    "text": "Loose!",
+    "confidence": "HIGH",
+    "evidence": "small.en Loose; Focus Fire (siblings Fire!, Release!)"
+  },
+  "378252420": {
+    "text": "Modi!",
+    "confidence": "HIGH",
+    "evidence": "localized chat text of the exact battlecry Event (Modi!); ASR More day/Moody"
+  },
+  "423556510": {
+    "text": "Modi!",
+    "confidence": "HIGH",
+    "evidence": "exact PCM of battlecry emote 378252420 (localized Modi!); Frenzy ability"
+  },
+  "454428217": {
+    "text": "Massinissa the treacherous has fallen!",
+    "confidence": "HIGH",
+    "evidence": "Mastinista/Master Nisha; second vo_actor Commander_Massinissa"
+  },
+  "516979019": {
+    "text": "Sulla breathes his last!",
+    "confidence": "HIGH",
+    "evidence": "Solar breathes his last; second vo_actor Commander_Sulla"
+  },
+  "572075108": {
+    "text": "Your tyranny ends, Miltiades!",
+    "confidence": "HIGH",
+    "evidence": "medium.en Miltiadis; second vo_actor Commander_Miltiades"
+  },
+  "1021771178": {
+    "text": "Stake wall, up!",
+    "confidence": "HIGH",
+    "evidence": "alt medium.en Stake wall, up!; place stakes state; forced choice ranks it first among meaningful readings"
+  },
+  "65908557": {
+    "text": "Glory awaits!",
+    "confidence": "HIGH",
+    "evidence": "GLORIA WAITS; generic response; Xerxes/Cyrus (shared script) Glory awaits!"
+  },
+  "100828565": {
+    "text": "Apace!",
+    "confidence": "HIGH",
+    "evidence": "A PACE; quick march; Cyrus/Arminius Apace"
+  },
+  "113176226": {
+    "text": "Enemies of the Iceni!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; brandish heads (Arminius Enemies of Germania!)"
+  },
+  "240206675": {
+    "text": "Tar pits!",
+    "confidence": "HIGH",
+    "evidence": "Toppits; place tar state"
+  },
+  "304105633": {
+    "text": "Iceni!",
+    "confidence": "HIGH",
+    "evidence": "exact PCM of battlecry emote 797441440 (localized Iceni!); ASR I say nay"
+  },
+  "797441440": {
+    "text": "Iceni!",
+    "confidence": "HIGH",
+    "evidence": "localized chat text of the exact battlecry Event (Iceni!); ASR I say nay"
+  },
+  "320804839": {
+    "text": "Deploy stakes!",
+    "confidence": "HIGH",
+    "evidence": "base.en Deploy Stakes; Xerxes/Ambiorix (shared script) Deploy stakes!"
+  },
+  "336303522": {
+    "text": "Attack the flank!",
+    "confidence": "HIGH",
+    "evidence": "small.en; exposed flanks"
+  },
+  "418790684": {
+    "text": "We have slain the mighty Vercingetorix!",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor Commander_Vercingetorix; localized spelling"
+  },
+  "472984813": {
+    "text": "Fear not, men!",
+    "confidence": "HIGH",
+    "evidence": "base/small FEAR NOT MEN"
+  },
+  "487123411": {
+    "text": "True queen of the Iceni!",
+    "confidence": "HIGH",
+    "evidence": "small.en; Boudica commander card"
+  },
+  "537241269": {
+    "text": "Allied traps nearby!",
+    "confidence": "HIGH",
+    "evidence": "I like traps = allied traps; Ambiorix (shared script) Allied traps nearby!"
+  },
+  "928910953": {
+    "text": "Take heed! Allied traps!",
+    "confidence": "HIGH",
+    "evidence": "I like traps = allied traps; Xerxes (shared script) Take heed, allied traps!"
+  },
+  "548025868": {
+    "text": "Beware! Allied traps!",
+    "confidence": "HIGH",
+    "evidence": "base/medium; shared script"
+  },
+  "605576921": {
+    "text": "Allied traps are close!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Xerxes (shared script) Allied traps are close!"
+  },
+  "1071723552": {
+    "text": "Careful! Allied traps!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; Xerxes/Ambiorix (shared script) Careful, allied traps!"
+  },
+  "256811321": {
+    "text": "Ready those stakes!",
+    "confidence": "HIGH",
+    "evidence": "steaks = stakes; shared script"
+  },
+  "555856990": {
+    "text": "Dismantle the artillery!",
+    "confidence": "HIGH",
+    "evidence": "This man told = dismantle; Xerxes (shared script) Dismantle the artillery!"
+  },
+  "771704350": {
+    "text": "Cravens! Our men are fleeing!",
+    "confidence": "HIGH",
+    "evidence": "base/small forced choice Cravens; unit routing"
+  },
+  "637271793": {
+    "text": "Position caltrops!",
+    "confidence": "HIGH",
+    "evidence": "all models; capitalization only"
+  },
+  "725514498": {
+    "text": "Abandon shields!",
+    "confidence": "HIGH",
+    "evidence": "small.en; drop shields state"
+  },
+  "781223224": {
+    "text": "Trample them!",
+    "confidence": "HIGH",
+    "evidence": "small.en; Mount Kick"
+  },
+  "784124063": {
+    "text": "Erect the barricades!",
+    "confidence": "HIGH",
+    "evidence": "small.en wrecked the barricades / medium Erect the body cage; place barricades"
+  },
+  "836840561": {
+    "text": "Strength and honor!",
+    "confidence": "HIGH",
+    "evidence": "medium.en"
+  },
+  "843651356": {
+    "text": "We have slain Cynane!",
+    "confidence": "HIGH",
+    "evidence": "Kinani = Cynane; second vo_actor Commander_Cynane"
+  },
+  "856299967": {
+    "text": "Ready the tar!",
+    "confidence": "HIGH",
+    "evidence": "medium Ready that's all / small Ready the top; Xerxes (shared script) Ready the tar!"
+  },
+  "872303098": {
+    "text": "Xanthippus is slain!",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor Commander_Xanthippus"
+  },
+  "903915759": {
+    "text": "Miltiades has fallen!",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor Commander_Miltiades"
+  },
+  "918752545": {
+    "text": "Prepare the tar!",
+    "confidence": "HIGH",
+    "evidence": "Taw/tall/tour; Xerxes/Ambiorix (shared script) Prepare the tar!"
+  },
+  "958256567": {
+    "text": "Deploy caltrops!",
+    "confidence": "HIGH",
+    "evidence": "base.en Deploy Caltrops"
+  },
+  "960947524": {
+    "text": "Ready tar pits!",
+    "confidence": "HIGH",
+    "evidence": "Ready, Tar Pits; Ambiorix (shared script) Ready, Toppits!"
+  },
+  "975920047": {
+    "text": "March!",
+    "confidence": "HIGH",
+    "evidence": "Much/MATCH; speed stance; Xerxes (shared script) March!"
+  },
+  "989145254": {
+    "text": "Their commander has been slain!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; wildcard enemy-commander death reaction"
+  },
+  "995845756": {
+    "text": "Hidden from view!",
+    "confidence": "HIGH",
+    "evidence": "small.en; ambush"
+  },
+  "8849698": {
+    "text": "First blood to the enemy!",
+    "confidence": "HIGH",
+    "evidence": "medium.en"
+  },
+  "14418753": {
+    "text": "Dismantle the engine!",
+    "confidence": "HIGH",
+    "evidence": "alt medium.en; dismantle artillery"
+  },
+  "20238269": {
+    "text": "On to glory!",
+    "confidence": "HIGH",
+    "evidence": "Home to glory; generic response state is line-for-line Arminius (who says On to glory!)"
+  },
+  "43098239": {
+    "text": "We have the head of Xanthippus!",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor Commander_Xanthippus"
+  },
+  "69979943": {
+    "text": "Vercingetorix, the Gaul!",
+    "confidence": "HIGH",
+    "evidence": "medium.en There's Incatorix, the Ghoul; commander card"
+  },
+  "107524444": {
+    "text": "Dig tar pits!",
+    "confidence": "HIGH",
+    "evidence": "Big/Dick Toppits; place tar (Arminius Dig those pits!)"
+  },
+  "125172898": {
+    "text": "Miltiades is slain!",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor Commander_Miltiades"
+  },
+  "130071443": {
+    "text": "Less bulk! More slash!",
+    "confidence": "HIGH",
+    "evidence": "Let's book (near-homophone); drop shields state; best meaningful forced choice"
+  },
+  "190161422": {
+    "text": "Chieftain of the Arverni!",
+    "confidence": "HIGH",
+    "evidence": "Chief 10/Ten = Chieftain; DB faction rom_arverni; commander card"
+  },
+  "220271932": {
+    "text": "Caltrops down!",
+    "confidence": "HIGH",
+    "evidence": "Cat drops down; place caltrops"
+  },
+  "250775092": {
+    "text": "Our men are being attacked!",
+    "confidence": "HIGH",
+    "evidence": "medium All men = our men; Arminius same state Our men are under attack!"
+  },
+  "274463963": {
+    "text": "Are our allies blind? Cease fire!",
+    "confidence": "HIGH",
+    "evidence": "medium.en and alt medium.en; best medium forced choice"
+  },
+  "297918372": {
+    "text": "Attack the flank!",
+    "confidence": "HIGH",
+    "evidence": "FLACK/FLOCK/flag; exposed flanks"
+  },
+  "315124374": {
+    "text": "Chuck them down!",
+    "confidence": "HIGH",
+    "evidence": "base.en Chuck them down; drop shields state"
+  },
+  "320081636": {
+    "text": "Enemies may surround us, but the gods are at our backs!",
+    "confidence": "HIGH",
+    "evidence": "maze around = may surround; base.en gods"
+  },
+  "332452017": {
+    "text": "Forward!",
+    "confidence": "HIGH",
+    "evidence": "localized chat text of the exact battlecry Event (Forward!); ASR FOLLOWED/Fall on"
+  },
+  "889405762": {
+    "text": "Forward!",
+    "confidence": "HIGH",
+    "evidence": "exact PCM of battlecry emote 332452017 (localized Forward!); manual charge"
+  },
+  "348605423": {
+    "text": "Victory! Their base is ours!",
+    "confidence": "HIGH",
+    "evidence": "small.en"
+  },
+  "481608276": {
+    "text": "We have killed Massinissa!",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor Commander_Massinissa"
+  },
+  "487659173": {
+    "text": "To the dirt!",
+    "confidence": "HIGH",
+    "evidence": "dead/debt; Mount Kick (Arminius TO THE DIRT!, Boudica In to the dirt!)"
+  },
+  "540150700": {
+    "text": "Apace!",
+    "confidence": "HIGH",
+    "evidence": "IN PEACE/Peace; quick march (Arminius Apace!)"
+  },
+  "541668067": {
+    "text": "The enemies of Gaul!",
+    "confidence": "HIGH",
+    "evidence": "GO/gold = Gaul; brandish heads (Enemies of Germania/of the Iceni)"
+  },
+  "558253376": {
+    "text": "Throw caltrops!",
+    "confidence": "HIGH",
+    "evidence": "base Throw gas ropes; place caltrops"
+  },
+  "575084569": {
+    "text": "Queen Boudica has been killed!",
+    "confidence": "HIGH",
+    "evidence": "CREAM PADAKA; second vo_actor Commander_Boudica"
+  },
+  "628111853": {
+    "text": "Dodge!",
+    "confidence": "HIGH",
+    "evidence": "DUDGE/DUNGE; dodge state (Arminius DODGE!)"
+  },
+  "638765059": {
+    "text": "Charge them!",
+    "confidence": "HIGH",
+    "evidence": "JOHNSON/Just them; harass (Arminius/Boudica Charge them!)"
+  },
+  "639071535": {
+    "text": "Dodge their blows!",
+    "confidence": "HIGH",
+    "evidence": "That's their blows; dodge state (Arminius Avoid their blows!)"
+  },
+  "639162043": {
+    "text": "Traps are near!",
+    "confidence": "HIGH",
+    "evidence": "alt medium.en Traps are near!; allied traps state"
+  },
+  "639859038": {
+    "text": "Burn it all!",
+    "confidence": "HIGH",
+    "evidence": "small Ben, it's all; Scorched Earth; forced choice ties BANDITO"
+  },
+  "705392496": {
+    "text": "Arminius goes to his ancestors!",
+    "confidence": "HIGH",
+    "evidence": "Amelius; second vo_actor Commander_Arminius"
+  },
+  "777749253": {
+    "text": "Shields up!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; raise shield"
+  },
+  "781526612": {
+    "text": "Sulla has been destroyed!",
+    "confidence": "HIGH",
+    "evidence": "second vo_actor Commander_Sulla"
+  },
+  "925415040": {
+    "text": "Leonidas has fallen!",
+    "confidence": "HIGH",
+    "evidence": "Their own need is; second vo_actor Commander_Leonidas"
+  },
+  "982170516": {
+    "text": "Belenus returns our men to us!",
+    "confidence": "HIGH",
+    "evidence": "Bellanus = Belenus (Gaulish god); unit recovered"
+  },
+  "1020683717": {
+    "text": "Spartacus breathes his last!",
+    "confidence": "HIGH",
+    "evidence": "medium.en; second vo_actor Commander_Spartacus"
+  },
+  "1028910226": {
+    "text": "Don't spare anything!",
+    "confidence": "HIGH",
+    "evidence": "all models spit; artillery strain; best meaningful forced choice"
+  },
+  "1052984739": {
+    "text": "Their flank is weak!",
+    "confidence": "HIGH",
+    "evidence": "flag = flank; exposed flanks"
+  },
+  "1057777280": {
+    "text": "Battle calls!",
+    "confidence": "HIGH",
+    "evidence": "BATTLES GOAL; generic response line-for-line Arminius Battle calls!"
+  },
+  "1068672043": {
+    "text": "Show them your trophies!",
+    "confidence": "HIGH",
+    "evidence": "small.en; brandish heads (Boudica Behold our trophies!)"
+  },
+  "216945308": {
+    "text": "Set it ablaze!",
+    "confidence": "HIGH",
+    "evidence": "Send it to Blaze; Scorched Earth"
+  },
+  "342358053": {
+    "text": "Scipio lies dead!",
+    "confidence": "HIGH",
+    "evidence": "Skip your; second vo_actor Commander_Scipio"
+  },
+  "508248766": {
+    "text": "Slayer of Romans!",
+    "confidence": "HIGH",
+    "evidence": "Slay of; commander card"
+  },
+  "964357114": {
+    "text": "Gauls never surrender! I will fight again!",
+    "confidence": "HIGH",
+    "evidence": "Gulls = Gauls"
+  },
+  "995393889": {
+    "text": "We have their base!",
+    "confidence": "HIGH",
+    "evidence": "that bass = their base; victory by capture"
+  },
+  "1000907949": {
+    "text": "The Macedonian Cynane is dead!",
+    "confidence": "HIGH",
+    "evidence": "Kinani = Cynane; second vo_actor Commander_Cynane"
+  },
+  "5778223": {
+    "text": "Raise shields!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: raise shield"
+  },
+  "10472463": {
+    "text": "Eyes!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: unit light spot stance"
+  },
+  "13302298": {
+    "text": "AS ONE!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: Push"
+  },
+  "24310434": {
+    "text": "Germanicus is slain!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: Commander_Germanicus; death context inferred from sibling recordings"
+  },
+  "28185218": {
+    "text": "Siege equipment down!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: drop siege equipment"
+  },
+  "43809839": {
+    "text": "Arminius!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: open/select/unlock commander card (static game.dll delays 32-34; not newly runtime tested)"
+  },
+  "47393791": {
+    "text": "The battle draws to a close!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: time running out with an even score"
+  },
+  "47716172": {
+    "text": "See! The omens were false!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: victory on points"
+  },
+  "54838949": {
+    "text": "Cease firing!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: your missile fire damages allies"
+  },
+  "57805782": {
+    "text": "Defeat only strengthens my resolve!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: defeat because your army was annihilated"
+  },
+  "63822580": {
+    "text": "Stakes out!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: deployables place stakes"
+  },
+  "73913403": {
+    "text": "Rapid reload!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: quick reload"
+  },
+  "77447273": {
+    "text": "Be vigilant!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: Spot"
+  },
+  "79570635": {
+    "text": "DO NOT RELENT!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: quick reload"
+  },
+  "86243405": {
+    "text": "The dog, Caesar, is dead at last!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: Commander_Caesar; death context inferred from sibling recordings"
+  },
+  "90334230": {
+    "text": "Ready Artillery!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 1992438609"
+  },
+  "91562779": {
+    "text": "Caltrops!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: deployables place caltrops"
+  },
+  "108569197": {
+    "text": "The Numidian King has fallen!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: Commander_Massinissa; death context inferred from sibling recordings"
+  },
+  "113872107": {
+    "text": "Up shields!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: raise shield"
+  },
+  "134698173": {
+    "text": "That is an ally! Cease fire!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: your missile fire damages allies"
+  },
+  "145802668": {
+    "text": "Drop shields!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 276550336"
+  },
+  "159703279": {
+    "text": "Break them!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: crushing blow"
+  },
+  "161097311": {
+    "text": "Our allies' countermeasures damage us!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: deployables ff caltrops receive"
+  },
+  "177810980": {
+    "text": "Put up stakes!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: deployables place stakes"
+  },
+  "190265215": {
+    "text": "We are Colossi!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: juggernaut"
+  },
+  "195863198": {
+    "text": "Evade them!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: unit light dodge"
+  },
+  "198624547": {
+    "text": "Leave siege equipment!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: drop siege equipment"
+  },
+  "224172221": {
+    "text": "Their commander is dead!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: *; death context inferred from sibling recordings"
+  },
+  "225367539": {
+    "text": "Harass them!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: harass"
+  },
+  "228700703": {
+    "text": "Increase the pressure!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: stress"
+  },
+  "229538491": {
+    "text": "Behold! Our enemies!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: brandish heads"
+  },
+  "244991066": {
+    "text": "Quick, march!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: quick march"
+  },
+  "252231963": {
+    "text": "Defeat is coming! Meet it head on!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: time running out while your team is losing"
+  },
+  "267463479": {
+    "text": "Grab that engine!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 2486100005"
+  },
+  "281828480": {
+    "text": "The end is near! Hack them down!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: time running out with an even score"
+  },
+  "285677396": {
+    "text": "Reload, now!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: quick reload"
+  },
+  "286603379": {
+    "text": "Your legacy is mine, Cyrus!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: Commander_Cyrus; death context inferred from sibling recordings"
+  },
+  "292659034": {
+    "text": "We made an end of Scipio!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: Commander_Scipio; death context inferred from sibling recordings"
+  },
+  "295894110": {
+    "text": "Dismantle!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: dismantle artillery piece"
+  },
+  "320963759": {
+    "text": "HOLD!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: unit brace"
+  },
+  "334037903": {
+    "text": "Quick, march!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: quick march"
+  },
+  "349341622": {
+    "text": "Take the enemy base or hack down all enemy forces!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: battle-start objective to capture the enemy base"
+  },
+  "354802495": {
+    "text": "The Roman Beast Germanicus is dead!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: Commander_Germanicus; death context inferred from sibling recordings"
+  },
+  "356442540": {
+    "text": "We will fight on!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: commander ability activation: defiance"
+  },
+  "385183160": {
+    "text": "Glory awaits!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: generic response"
+  },
+  "390581299": {
+    "text": "Cease fire! We're attacking our allies!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: your missile fire damages allies"
+  },
+  "396289430": {
+    "text": "Capture their base or cut them down!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: battle-start objective to capture the enemy base"
+  },
+  "410282173": {
+    "text": "PUSH!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: Push"
+  },
+  "411640359": {
+    "text": "Boudica! Warrior Queen!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: open/select/unlock commander card (static game.dll delays 32-34; not newly runtime tested)"
+  },
+  "416678407": {
+    "text": "Fly, camels, fly!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: camel dash"
+  },
+  "427110295": {
+    "text": "Allied traps, nearby!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 1644289067"
+  },
+  "428532582": {
+    "text": "Stakes out!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: deployables place stakes"
+  },
+  "429669794": {
+    "text": "ADVANCE!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: unit medium speed stance"
+  },
+  "430351886": {
+    "text": "Rile the camels!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: wild temper"
+  },
+  "437325545": {
+    "text": "The Iceni mourn the loss of their queen.",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: Commander_Boudica; death context inferred from sibling recordings"
+  },
+  "438616667": {
+    "text": "Glory awaits!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: generic response"
+  },
+  "477523371": {
+    "text": "Retreat!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 3233209236"
+  },
+  "492946545": {
+    "text": "ADVANCE!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: unit medium speed stance"
+  },
+  "498857137": {
+    "text": "RAISE YOUR SHIELD!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: raise shield"
+  },
+  "507016406": {
+    "text": "Their flank is weak!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: exposed flanks"
+  },
+  "512565213": {
+    "text": "We're attacking our allies!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: your caltrops damage allies"
+  },
+  "516985782": {
+    "text": "Build the engine!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 1992438609"
+  },
+  "518113651": {
+    "text": "Stop! We're firing on Allied troops!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: your missile fire damages allies"
+  },
+  "518967926": {
+    "text": "ADVANCE!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 1859526091"
+  },
+  "521348986": {
+    "text": "Eyes open, men!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: unit light spot stance"
+  },
+  "530359477": {
+    "text": "Unleash Woden's Fury!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 586209189"
+  },
+  "539364245": {
+    "text": "Apace!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: quick march"
+  },
+  "564402338": {
+    "text": "The enemy commander is dead!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: *; death context inferred from sibling recordings"
+  },
+  "566239704": {
+    "text": "Good work!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 3186949806"
+  },
+  "568233191": {
+    "text": "Shields high!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: raise shield"
+  },
+  "568770322": {
+    "text": "Barricades, now!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: deployables place barricades"
+  },
+  "575651385": {
+    "text": "Harass them!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: harass"
+  },
+  "586775400": {
+    "text": "The gods grant us sight!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: Spot"
+  },
+  "586925501": {
+    "text": "March!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: unit medium speed stance"
+  },
+  "595843995": {
+    "text": "Release!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: Focus Fire"
+  },
+  "613393835": {
+    "text": "The Roman dog Scipio is dead!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: Commander_Scipio; death context inferred from sibling recordings"
+  },
+  "620423591": {
+    "text": "Stake this ground!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: deployables place stakes"
+  },
+  "627044838": {
+    "text": "We may be defeated, but our spirits fight on!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: defeat because your army was annihilated"
+  },
+  "644085765": {
+    "text": "Glory awaits!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 276550336"
+  },
+  "671344531": {
+    "text": "Up shields!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: raise shield"
+  },
+  "679597743": {
+    "text": "Allies, fire on us! Imbeciles!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: your units receive allied missile fire"
+  },
+  "685849758": {
+    "text": "Keep firing!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: strain"
+  },
+  "690628794": {
+    "text": "Deploy caltrops!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: deployables place caltrops"
+  },
+  "692457905": {
+    "text": "Cease firing!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 3186949806"
+  },
+  "701934143": {
+    "text": "Steady the engine!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 586209189"
+  },
+  "701995591": {
+    "text": "Allied troops are assaulting us!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: your units are damaged by allied stakes"
+  },
+  "713302832": {
+    "text": "ADVANCE!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: unit medium speed stance"
+  },
+  "715787544": {
+    "text": "Onward!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 1859526091"
+  },
+  "728743785": {
+    "text": "No mercy!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: generic response"
+  },
+  "733701173": {
+    "text": "Dodge their attacks!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: unit light dodge"
+  },
+  "735297089": {
+    "text": "Out of their way!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: unit light dodge"
+  },
+  "742360713": {
+    "text": "RELEASE!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: Focus Fire"
+  },
+  "742881545": {
+    "text": "Beware! Allied fire!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: your units receive allied missile fire"
+  },
+  "746568795": {
+    "text": "Hannibal has breathed his last!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: Commander_Hannibal; death context inferred from sibling recordings"
+  },
+  "748319995": {
+    "text": "Rise, kinsmen!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 1341544316"
+  },
+  "755350732": {
+    "text": "The Roman Titan Sulla is dead!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: Commander_Sulla; death context inferred from sibling recordings"
+  },
+  "762513501": {
+    "text": "Force them back!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: Push"
+  },
+  "763402695": {
+    "text": "Drop shields!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: drop shields"
+  },
+  "764356064": {
+    "text": "Their base is ours!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: victory by capturing the enemy base"
+  },
+  "781568528": {
+    "text": "Defend yourselves!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: unit medium speed stance"
+  },
+  "792550540": {
+    "text": "Pierce their hearts!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 3177602592"
+  },
+  "805668678": {
+    "text": "Cease fire!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 3186949806"
+  },
+  "819064050": {
+    "text": "Quick, march!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: quick march"
+  },
+  "819107517": {
+    "text": "Harass them!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: harass"
+  },
+  "828210272": {
+    "text": "Our allies fire upon us!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: your units receive allied missile fire"
+  },
+  "831309727": {
+    "text": "cavalry charge!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: heavy cavalry charge"
+  },
+  "852329956": {
+    "text": "We hold the enemy base!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: victory by capturing the enemy base"
+  },
+  "855171778": {
+    "text": "Ready the tar!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: deployables place tar"
+  },
+  "875041725": {
+    "text": "Push! Push!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: Push"
+  },
+  "877582954": {
+    "text": "Woden Protects!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: unit medium defence stance"
+  },
+  "904810848": {
+    "text": "Cease firing!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 3186949806"
+  },
+  "917982699": {
+    "text": "Place caltrops!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: deployables place caltrops"
+  },
+  "924845879": {
+    "text": "Abandon the engines!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: drop siege equipment"
+  },
+  "927866511": {
+    "text": "Drop siege equipment!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: drop siege equipment"
+  },
+  "943060863": {
+    "text": "Prepare the pits!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: deployables place tar"
+  },
+  "952063149": {
+    "text": "Pulverize them!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: heavy cavalry charge"
+  },
+  "958110141": {
+    "text": "Shields up!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: shield wall"
+  },
+  "960033609": {
+    "text": "Victory is mine!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: victory by annihilating the enemy army"
+  },
+  "964725203": {
+    "text": "SHIELD HIGH!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: raise shield"
+  },
+  "985190124": {
+    "text": "Eyes open, brothers!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: Spot"
+  },
+  "996585414": {
+    "text": "Forward!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 1859526091"
+  },
+  "1002660855": {
+    "text": "Leave siege equipment!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: drop siege equipment"
+  },
+  "1019133479": {
+    "text": "We have killed Sulla!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: Commander_Sulla; death context inferred from sibling recordings"
+  },
+  "1021893859": {
+    "text": "Raise shields!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: raise shield"
+  },
+  "1025436353": {
+    "text": "Our allies fire on us!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: battle event: your units receive allied missile fire"
+  },
+  "1027550510": {
+    "text": "The gods be praised! Arminius is dead!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: Commander_Arminius; death context inferred from sibling recordings"
+  },
+  "1027767207": {
+    "text": "Scipio is vanquished!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: Commander_Scipio; death context inferred from sibling recordings"
+  },
+  "1032740695": {
+    "text": "Ready, caltrops!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: deployables place caltrops"
+  },
+  "1034217785": {
+    "text": "Cease fire!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 3186949806"
+  },
+  "1036822944": {
+    "text": "Alexander the Conqueror is conquered!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: reaction to another commander: Commander_Alexander; death context inferred from sibling recordings"
+  },
+  "1053884135": {
+    "text": "Oh, what beautiful death!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: commander ability activation: Invigorating Strike"
+  },
+  "1061313859": {
+    "text": "You call that a charge!",
+    "confidence": "HIGH",
+    "evidence": "raw wording accepted: medium.en/small.en (and alternative decode) agree on the meaningful reading; state/sibling context: unit ability ordered: 2740727828"
+  },
+  "729787063": {
+    "text": "Massinissa fights no more!",
+    "confidence": "HIGH",
+    "evidence": "all models; proper-name spelling (second vo_actor Commander_Massinissa)"
+  },
+  "400915013": {
+    "text": "Caltrops!",
+    "confidence": "HIGH",
+    "evidence": "CALDROPS; place caltrops state"
+  },
+  "1068449126": {
+    "text": "Loose!",
+    "confidence": "HIGH",
+    "evidence": "LOSE = loose; Focus Fire (siblings FIRE!, RELEASE!)"
+  },
+  "452220358": {
+    "text": "Place stakes!",
+    "confidence": "HIGH",
+    "evidence": "Play stakes / PLAYSTAKES; place stakes state; forced-choice-xabv-3"
+  },
+  "283563570": {
+    "text": "Tar pit!",
+    "confidence": "HIGH",
+    "evidence": "all models Top it; place tar state; Whisper renders tar pits as Toppits for Boudica and Ambiorix (template-siblings-xabv)"
+  },
+  "124609702": {
+    "text": "Take him out!",
+    "confidence": "CONFIRMED",
+    "resolution": "HUMAN_CONFIRMED",
+    "evidence": "Manual listening of the original WAV by the project owner (2026-10-22): spoken wording is \"Take him out!\", as all local ASR models heard; applied verbatim. Context anomaly kept as a note: the line sits under the vo_ua_deployables_place_tar branch; the audio takes precedence over the branch name. Not Take them out / Tar them out / Tar pits out."
   }
 }

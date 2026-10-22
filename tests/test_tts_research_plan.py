@@ -111,7 +111,8 @@ class ResearchPlanTests(unittest.TestCase):
                     ('scipio-africanus', '191571653'): ("The flank's exposed!", 'HIGH', 'SECOND_OPINION_RESOLVED'),
                     ('scipio-africanus', '238862791'): ('Attack the flank!', 'HIGH', 'SECOND_OPINION_RESOLVED'),
                     ('scipio-africanus', '1022842783'): ('Onward!', 'HIGH', 'SECOND_OPINION_RESOLVED'),
-                    ('spartacus', '697820721'): ('Strike through!', 'HIGH', 'SECOND_OPINION_RESOLVED')}
+                    ('spartacus', '697820721'): ('Strike through!', 'HIGH', 'SECOND_OPINION_RESOLVED'),
+                    ('vercingetorix', '124609702'): ('Take him out!', 'CONFIRMED', 'HUMAN_CONFIRMED')}
         for (name, mid), (english, confidence, resolution) in expected.items():
             with self.subTest(media_id=mid):
                 folder = ROOT/'data/commanders'/name
@@ -122,7 +123,7 @@ class ResearchPlanTests(unittest.TestCase):
                 review = {r['media_id']: r for r in read_csv(folder/'tts-plan/transcript-review-decisions.csv')}[mid]
                 self.assertEqual((review['transcript_resolution'], review['final_transcript']), (resolution, english))
         for name in ['leonidas', 'scipio-africanus', 'spartacus', 'germanicus', 'zhuge-liang', 'miltiades', 'julius-caesar',
-                     'hasdrubal']:
+                     'hasdrubal', 'xerxes', 'arminius', 'boudica', 'vercingetorix']:
             summary = json.loads((ROOT/'data/commanders'/name/'tts-plan/plan-summary.json').read_text(encoding='utf-8'))
             self.assertEqual((summary['ready_for_elevenlabs'], summary['manual_review_ids']), (True, []), name)
         # Genuinely undecidable recordings stay deferred (no guessed English/Czech, never a TTS request).
@@ -220,6 +221,28 @@ class ResearchPlanTests(unittest.TestCase):
                   for v in p.values() if isinstance(v, tuple) for s in [v[0]]} | {'CALM_COMMANDING', 'AUTHORITATIVE'}
         for name in new:
             self.assertLessEqual({v[0] for v in VOICE_PROFILES[name].values() if isinstance(v, tuple)}, styles, name)
+
+    def test_xerxes_arminius_boudica_vercingetorix_profiles_are_distinct_and_reuse_project_styles(self):
+        def row(category, trigger, english):
+            return {'category':category,'trigger':trigger,'english_text':english,'raw_transcript':''}
+        charge = 'unit ability ordered: unit manual charge'
+        new = ['xerxes', 'arminius', 'boudica', 'vercingetorix']
+        for name in new:
+            with self.subTest(name=name):
+                self.assertEqual(plan_delivery([row('ORDER', charge, 'Charge!')], name, {})[1], 'eleven_v4')
+                self.assertEqual(plan_delivery([row('ORDER', charge, 'CHARGE!')], name, {})[1], 'eleven_v3')
+        frontend = row('FRONTEND', 'open/select commander', 'Line.')
+        others = ['spartacus', 'germanicus', 'hasdrubal', 'alexander-the-great', 'cynane', 'miltiades', 'julius-caesar']
+        cards = {name: plan_delivery([frontend], name, {}) for name in new + others}
+        self.assertEqual(len(set(cards.values())), len(cards))
+        styles = {s for name, p in VOICE_PROFILES.items() if name not in new
+                  for v in p.values() if isinstance(v, tuple) for s in [v[0]]} | {'CALM_COMMANDING', 'AUTHORITATIVE'}
+        tags = {t for name, p in VOICE_PROFILES.items() if name not in new
+                for v in p.values() if isinstance(v, tuple) for t in v[1][1:-1].split(', ')}
+        for name in new:
+            self.assertLessEqual({v[0] for v in VOICE_PROFILES[name].values() if isinstance(v, tuple)}, styles, name)
+            self.assertLessEqual({t for v in VOICE_PROFILES[name].values() if isinstance(v, tuple)
+                                  for t in v[1][1:-1].split(', ')}, tags, name)
 
     def test_memory_accepts_reviewed_delivery_columns_only_when_valid(self):
         with tempfile.TemporaryDirectory() as temp:

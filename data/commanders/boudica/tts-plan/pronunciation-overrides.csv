@@ -1,0 +1,8 @@
+﻿tts_performance_group,tts_source_media_id,member_media_ids,english_text,czech_text,tts_text_override,palatalization_fallback_text,override_reason,status
+PCM-9f6a7c6ecfabd56b-c9902d66,108569197,108569197,The Numidian King has fallen!,Numidský král padl!,,Numydský král padl!,Numidský: hard d (use only if the pilot palatalizes di),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-5e6193b2b01a8368-ef0b8b31,354802495,354802495,The Roman Beast Germanicus is dead!,"Germanicus, římská bestie, je mrtev!","Germanykus, římská bestie, je mrtev!",,Germanicus: Latin c = [k] and hard n; Czech TTS would read [germaňicus],PROPOSED_VERIFY_IN_PILOT
+PCM-2be54183803f6374-139b702f,411640359,411640359,Boudica! Warrior Queen!,Boudica! Královna bojovnice!,Boudyka! Královna bojovnice!,,Boudica: c = [k] and hard d (English/Czech [boudika]),PROPOSED_VERIFY_IN_PILOT
+PCM-d0e89744332c3b11-67366348,733817349,733817349,The tyrant Caesar is dead at last!,Tyran Caesar je konečně mrtev!,Tyran Cézar je konečně mrtev!,,Caesar: Czech convention [cézar]; TTS may read the Latin spelling as ka-e-sar,PROPOSED_VERIFY_IN_PILOT
+PCM-6b287f5a3762ea20-8e5f0025,872303098,872303098,Xanthippus is slain!,Xanthippos padl!,Ksantypos padl!,,"Xanthippos: x = [ks], th = [t], hard t",PROPOSED_VERIFY_IN_PILOT
+PCM-4b18c9703e6c94fa-fbf5121b,903915759,903915759,Miltiades has fallen!,Miltiadés padl!,,Miltyadés padl!,Miltiadés: hard t in the Greek name (use only if the pilot palatalizes ti),FALLBACK_ONLY_IF_PILOT_PALATALIZES
+PCM-849c9c174eea289d-dd0f346d,1027550510,1027550510,The gods be praised! Arminius is dead!,Chvála bohům! Arminius je mrtev!,,Chvála bohům! Arminyus je mrtev!,Arminius: hard n (use only if the pilot palatalizes ni),FALLBACK_ONLY_IF_PILOT_PALATALIZES
