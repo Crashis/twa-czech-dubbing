@@ -1,0 +1,12 @@
+{
+  "commanders": [
+    "unit-voices",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "c336424dd70314a62ebca8fbef9fdbd39db38b48753312df0fa95cbe2913a97e",
+    "changed_entries": 758,
+    "unchanged_entries": 15787,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

@@ -9,7 +9,7 @@ import shutil
 import tempfile
 
 from tools import deploy, mod
-from tools.installer.catalog import discover, known_manifests
+from tools.installer.catalog import discover_all, known_manifests
 from tools.pack.reader import require
 from tools.resources import VERSION
 
@@ -229,7 +229,7 @@ class Installer:
         selected = set(self.manifest.get('components', [self.manifest['commander']]))
         removed = set(before['installed_commanders']) - selected
         if removed:
-            names = [m['display_name'] for m in discover() if m['commander'] in removed]
+            names = [m['display_name'] for m in discover_all() if m['commander'] in removed]
             raise InstallerError(ORIGINAL_SOURCE_REQUIRED_FOR_REMOVAL, 'Cannot remove '
                                  + ' + '.join(names)
                                  + ' because the original game audio backup is unavailable.' + NO_WRITE)

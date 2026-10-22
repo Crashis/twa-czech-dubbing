@@ -15,7 +15,7 @@ import zipfile
 from itertools import combinations
 
 from tools import mod
-from tools.installer.catalog import discover, selection
+from tools.installer.catalog import discover_all, selection
 from tools.pack.reader import require
 from tools.resources import VERSION
 from tools.validation.repository import audit, private_values, SECRET_PATTERNS
@@ -111,7 +111,7 @@ def payload_files(manifests):
     # Every selectable combination ships its own independently validated whole-PACK descriptor.
     files += [Path('data/releases') / (key + '.json') for key in joint_keys(manifests)]
     for m in manifests:
-        folder = Path('data/commanders') / m['commander']
+        folder = Path('data') / (mod.SHARED if mod.is_shared(m) else 'commanders') / m['commander']
         files += [folder / n for n in ('manifest.json', 'voice-lines.csv', 'media-inventory.csv')]
         files += [Path(m['replacement_directory']) / (s['media_id'] + '.wem') for s in m['replacements']]
     return sorted(set(files))
@@ -155,9 +155,9 @@ def bundle_audit(bundle, manifests):
 
 
 def release_manifests():
-    """Manifest-driven: every discovered production commander ships, and every combination
-    of them needs its own independently validated descriptor (selection() fails closed)."""
-    manifests = discover()
+    """Manifest-driven: every discovered production commander and shared module ships, and every
+    combination of them needs its own independently validated descriptor (selection() fails closed)."""
+    manifests = discover_all()
     require(bool(manifests), 'No production commander manifests found')
     require(all(m['version'] == VERSION for m in manifests),
             'Commander release version metadata does not match final version')
@@ -169,12 +169,18 @@ def release_manifests():
 
 
 def readme_text(manifests):
+    commanders = [m for m in manifests if not mod.is_shared(m)]
+    shared = [m for m in manifests if mod.is_shared(m)]
     return ('Total War: Arena - Czech Dubbing ' + VERSION + '\n\n'
             'Commanders: ' + ', '.join(f"{m['display_name']} ({m['replacement_count']} lines)"
-                                       for m in manifests) + '.\n\n'
+                                       for m in commanders) + '.\n'
+            + ''.join(f"Optional shared module: {m['display_name']} - {m['description']} ({m['replacement_count']} lines; "
+                      'male and female unit voices together, with any commander selection or alone).\n'
+                      for m in shared) + '\n'
             '1. Extract the entire ZIP.\n2. Run TWA-Czech-Dubbing-Installer.exe.\n'
             '3. Choose the Total War: Arena folder; checkboxes show verified installed dubbing.\n'
-            '4. Select any combination of available commanders. Close the game and launcher; click Install.\n'
+            '4. Select any combination of available commanders and optional shared modules.\n'
+            '   Close the game and launcher; click Install.\n'
             '5. Launch the game yourself.\n\n'
             'Checkboxes only change the pending selection. Only Install applies it.\n'
             'Verify checks installed audio and resets the selection to the actual state.\n'

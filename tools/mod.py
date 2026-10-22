@@ -32,11 +32,29 @@ def csv_rows(path):
         return list(csv.DictReader(stream))
 
 
+SHARED = 'shared'
+# Manifest fields only a shared module carries; a joint selection never inherits them.
+SHARED_FIELDS = ('module_type', 'description', 'voice_groups', 'deferred_media_ids', 'deferred_reason', 'source_plan')
+
+
+def module_folder(name):
+    """data/shared/<id> holds an installer module shared by every commander; anything else is a commander."""
+    require(bool(re.fullmatch(r'[a-z][a-z0-9_-]*', name)), 'Invalid commander name')
+    shared = ROOT / 'data' / 'shared' / name
+    return shared if (shared / 'manifest.json').is_file() else ROOT / 'data' / 'commanders' / name
+
+
+def is_shared(manifest):
+    return manifest.get('module_type') == SHARED
+
+
 def load_manifest(commander='hannibal'):
-    require(bool(re.fullmatch(r'[a-z][a-z0-9_-]*', commander)), 'Invalid commander name')
-    folder = ROOT / 'data' / 'commanders' / commander
+    # 'commander' is the installer component id of every module, including shared ones.
+    folder = module_folder(commander)
     value = json.loads((folder / 'manifest.json').read_text(encoding='utf-8'))
     require(value['schema_version'] == 1 and value['commander'] == commander, 'Unsupported manifest')
+    require(is_shared(value) == (folder.parent.name == SHARED) and value.get('module_type', SHARED) == SHARED,
+            'Module type does not match its data folder')
     require(value['runtime_slot'] == 'audio_cn.pack', 'Unsupported runtime slot')
     require(value['id'] == commander and value['spoken_count'] == value['expected_spoken_count']
             and value['replacement_count'] == value['expected_replacement_count']
@@ -56,6 +74,8 @@ def validate_data(manifest):
         results = [validate_data(part) for part in parts]
         require(merge_manifests(parts, manifest['release']) == manifest, 'Joint manifest mismatch')
         return {'status': 'PASS', 'components': results, 'replacement_wems': len(manifest['replacements'])}
+    if is_shared(manifest):
+        return validate_shared(manifest)
     name = manifest['commander']
     folder = ROOT / 'data' / 'commanders' / name
     rows = csv_rows(folder / 'voice-lines.csv')
@@ -74,15 +94,25 @@ def validate_data(manifest):
     require(silent == set(manifest['silent_placeholder_ids']) and not ids & silent, 'Silent IDs mismatch')
     require(manifest['release']['changed_entries'] == len(ids), 'Invalid release changed count')
     require(manifest['release']['unchanged_entries'] + len(ids) == manifest['base']['entry_count'], 'Invalid release unchanged count')
-    wem_dir = ROOT / 'replacements' / name / 'wem'
+    for spec in specs:
+        original = by_id[spec['media_id']]
+        require(original['scope'] == name.upper() + '_SPECIFIC' and original['silent_placeholder'] == 'NO'
+                and original['safe_to_replace_for_' + name] == 'YES', 'Shared/silent/unsafe replacement')
+    check_payloads(manifest, rows, by_id)
+    return {'status': 'PASS', 'commander': name, 'replacement_wems': len(specs), 'metadata_rows': len(rows),
+            'silent_placeholders': len(silent), 'shared_replacements': 0, 'fingerprints': 'PASS'}
+
+
+def check_payloads(manifest, rows, by_id):
+    """Every replacement file: exact original size, inventory hashes and the Arena Wwise Vorbis structure."""
+    specs, ids = manifest['replacements'], {s['media_id'] for s in manifest['replacements']}
+    wem_dir = ROOT / manifest['replacement_directory']
     require({p.name for p in wem_dir.iterdir()} == {mid + '.wem' for mid in ids}, 'Unexpected/missing replacement files')
     metadata = {r['media_id']: r for r in rows}
     for spec in specs:
         mid = spec['media_id']
         require(mid.isdecimal() and spec['path'] == f'audio/wwise/{mid}.wem', 'Invalid Media ID/path')
         original = by_id[mid]
-        require(original['scope'] == name.upper() + '_SPECIFIC' and original['silent_placeholder'] == 'NO'
-                and original['safe_to_replace_for_' + name] == 'YES', 'Shared/silent/unsafe replacement')
         require(int(metadata[mid]['original_size_bytes']) == int(original['original_size_bytes']) == spec['size'], 'Original size mismatch')
         require(original['wem_sha256'] == spec['original_sha256'], 'Original inventory hash mismatch')
         path = wem_dir / (mid + '.wem')
@@ -94,8 +124,50 @@ def validate_data(manifest):
         require(all(fp['fmt'][key] == expected[key] for key in ('sample_rate', 'channels', 'block_sizes', 'subtype_channel_config')), 'WEM format mismatch: ' + mid)
         require(fp['packets']['mod_packets'] and fp['setup']['stripped_setup']
                 and fp['setup']['codebook_reference_bits'] == 10, 'WEM packet/setup mismatch')
-    return {'status': 'PASS', 'commander': name, 'replacement_wems': len(specs), 'metadata_rows': len(rows),
-            'silent_placeholders': len(silent), 'shared_replacements': 0, 'fingerprints': 'PASS'}
+
+
+def validate_shared(manifest):
+    """A shared module (unit voices): its own inventory, gender routing and zero overlap with every commander."""
+    from tools.installer.catalog import discover
+    name = manifest['commander']
+    folder = ROOT / 'data' / SHARED / name
+    require(manifest['id'] == name and manifest['replacement_directory'] == f'replacements/{name}/wem'
+            and manifest['silent_placeholder_ids'] == [], 'Shared module metadata mismatch')
+    rows = csv_rows(folder / 'voice-lines.csv')
+    inventory = csv_rows(folder / 'media-inventory.csv')
+    by_id = {r['media_id']: r for r in inventory}
+    require(len(by_id) == len(inventory), 'Duplicate inventory Media IDs')
+    require(all(r['scope'] == 'SHARED' and r['silent_placeholder'] == 'NO' and r['safe_to_replace_for_' + name] == 'YES'
+                and r['production_status'] in ('REPLACED', 'DEFERRED') for r in inventory), 'Unsafe shared inventory row')
+    replaced = {mid for mid, r in by_id.items() if r['production_status'] == 'REPLACED'}
+    deferred = {mid for mid, r in by_id.items() if r['production_status'] == 'DEFERRED'}
+    specs = manifest['replacements']
+    ids = {s['media_id'] for s in specs}
+    require(len(ids) == len(specs) == manifest['expected_replacement_count'] == manifest['expected_spoken_count'],
+            'Replacement count/duplicates')
+    require(len(rows) == len({r['media_id'] for r in rows}) and ids == {r['media_id'] for r in rows} == replaced,
+            'Replacement/spoken allowlist mismatch')
+    require(set(manifest['deferred_media_ids']) == deferred == set(manifest['deferred_reason'])
+            and all(manifest['deferred_reason'][m] == by_id[m]['deferred_reason'] for m in deferred),
+            'Deferred Media IDs mismatch')
+    require(manifest['release']['changed_entries'] == len(ids)
+            and manifest['release']['unchanged_entries'] + len(ids) == manifest['base']['entry_count'], 'Invalid release counts')
+    # Male and female payloads ship together as one module, each line from its own voice group's voice.
+    groups = manifest['voice_groups']
+    for row in rows:
+        group = groups.get(row['voice_group'])
+        require(group is not None and row['voice_id'] == group['voice_id'] and row['voice_name'] == group['voice_name']
+                and by_id[row['media_id']]['voice_group'] == row['voice_group'], 'Voice group routing mismatch: ' + row['media_id'])
+    require({g: sum(r['voice_group'] == g for r in rows) for g in groups} == {g: v['media_ids'] for g, v in groups.items()},
+            'Voice group counts mismatch')
+    # Shared IDs are never commander-specific: no commander release replaces or silences any of them.
+    taken = {s['media_id'] for m in discover() for s in m['replacements']} | {
+        mid for m in discover() for mid in m['silent_placeholder_ids']}
+    require(not taken & set(by_id), 'Shared module overlaps a commander replacement')
+    check_payloads(manifest, rows, by_id)
+    return {'status': 'PASS', 'module': name, 'module_type': SHARED, 'replacement_wems': len(specs),
+            'metadata_rows': len(rows), 'deferred_media_ids': len(deferred),
+            'voice_groups': {g: v['media_ids'] for g, v in groups.items()}, 'commander_overlap': 0, 'fingerprints': 'PASS'}
 
 
 def check_structure(pack, manifest):

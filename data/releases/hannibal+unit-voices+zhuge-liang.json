@@ -1,0 +1,13 @@
+{
+  "commanders": [
+    "hannibal",
+    "unit-voices",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "3cab99cf5b318ea55bbcc41cc72c1c9079c6e2337ebd4323898b8a312f475437",
+    "changed_entries": 1063,
+    "unchanged_entries": 15482,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

@@ -8,7 +8,7 @@ import tkinter as tk
 from tkinter import filedialog, messagebox, ttk
 
 from tools.installer.backend import Installer, known_game_folders, state_directory
-from tools.installer.catalog import discover, selection
+from tools.installer.catalog import discover, discover_shared, display_order, selection
 from tools.pack.reader import require
 from tools.resources import VERSION
 
@@ -18,6 +18,9 @@ class App:
         self.root = root
         self.state_root = Path(state_root) if state_root is not None else state_directory()
         self.available_commanders = discover()
+        # Shared modules (unit voices) are one checkbox each, independent of the commander selection.
+        self.available_shared = discover_shared()
+        self.available_modules = self.available_commanders + self.available_shared
         if not self.available_commanders:
             raise ValueError('No dubbing payload found. Extract the complete release ZIP before running the installer.')
         self.events = queue.Queue()
@@ -30,10 +33,12 @@ class App:
         self.selection_status = tk.StringVar(root)
         self.source_status = tk.StringVar(root)
         self.choices = [(m, tk.BooleanVar(root, value=False)) for m in self.available_commanders]
+        self.shared_choices = [(m, tk.BooleanVar(root, value=False)) for m in self.available_shared]
         self.timer = None
         root.title('Total War: Arena – Czech Dubbing')
-        root.geometry('740x805')
-        root.minsize(680, 770)
+        extra = 78 * len(self.shared_choices)
+        root.geometry(f'740x{805 + extra}')
+        root.minsize(680, 770 + extra)
         root.protocol('WM_DELETE_WINDOW', self.close)
         style = ttk.Style(root)
         if 'vista' in style.theme_names():
@@ -45,7 +50,7 @@ class App:
         frame = ttk.Frame(root, padding=28)
         frame.pack(fill='both', expand=True)
         frame.columnconfigure(0, weight=1)
-        frame.rowconfigure(11, weight=1)
+        frame.rowconfigure(12, weight=1)
         ttk.Label(frame, text='Total War: Arena', style='Title.TLabel').grid(row=0, column=0, sticky='w')
         ttk.Label(frame, text='Czech Dubbing', style='Subtitle.TLabel').grid(row=1, column=0, sticky='w', pady=(0, 18))
         box = ttk.LabelFrame(frame, text='Available dubbing — select changes, then click Install', padding=12)
@@ -56,19 +61,29 @@ class App:
                                     variable=var, command=self.selection_changed)
             check.pack(anchor='w', pady=2)
             self.checks.append(check)
-        ttk.Label(frame, text='Game folder').grid(row=3, column=0, sticky='w', pady=(0, 5))
+        self.shared_checks = []
+        if self.shared_choices:
+            shared = ttk.LabelFrame(frame, text='Shared voices — optional, works with any commander selection', padding=12)
+            shared.grid(row=3, column=0, sticky='ew', pady=(0, 18))
+            for manifest, var in self.shared_choices:
+                check = ttk.Checkbutton(shared, text=f"{manifest['display_name']}  —  {manifest['replacement_count']} lines",
+                                        variable=var, command=self.selection_changed)
+                check.pack(anchor='w', pady=(2, 0))
+                ttk.Label(shared, text=manifest['description']).pack(anchor='w', padx=(24, 0), pady=(0, 2))
+                self.shared_checks.append(check)
+        ttk.Label(frame, text='Game folder').grid(row=4, column=0, sticky='w', pady=(0, 5))
         paths = ttk.Frame(frame)
-        paths.grid(row=4, column=0, sticky='ew')
+        paths.grid(row=5, column=0, sticky='ew')
         paths.columnconfigure(0, weight=1)
         self.entry = ttk.Entry(paths, textvariable=self.path)
         self.entry.grid(row=0, column=0, sticky='ew', padx=(0, 8))
         self.browse_button = ttk.Button(paths, text='Browse…', command=self.browse)
         self.browse_button.grid(row=0, column=1)
-        ttk.Label(frame, textvariable=self.status, wraplength=650).grid(row=5, column=0, sticky='w', pady=(14, 6))
-        ttk.Label(frame, textvariable=self.selection_status, wraplength=650).grid(row=6, column=0, sticky='w', pady=(0, 6))
-        ttk.Label(frame, textvariable=self.source_status, wraplength=650).grid(row=7, column=0, sticky='w', pady=(0, 14))
+        ttk.Label(frame, textvariable=self.status, wraplength=650).grid(row=6, column=0, sticky='w', pady=(14, 6))
+        ttk.Label(frame, textvariable=self.selection_status, wraplength=650).grid(row=7, column=0, sticky='w', pady=(0, 6))
+        ttk.Label(frame, textvariable=self.source_status, wraplength=650).grid(row=8, column=0, sticky='w', pady=(0, 14))
         actions = ttk.Frame(frame)
-        actions.grid(row=8, column=0, sticky='ew')
+        actions.grid(row=9, column=0, sticky='ew')
         self.install_button = ttk.Button(actions, text='Install', style='Action.TButton', command=lambda: self.start('install'))
         self.install_button.pack(side='left')
         self.verify_button = ttk.Button(actions, text='Verify', command=lambda: self.start('inspect'))
@@ -76,11 +91,11 @@ class App:
         self.restore_button = ttk.Button(actions, text='Restore Original', command=self.confirm_restore)
         self.restore_button.pack(side='left')
         self.progress = ttk.Progressbar(frame, mode='determinate', maximum=100)
-        self.progress.grid(row=9, column=0, sticky='ew', pady=(18, 10))
-        ttk.Label(frame, text='Status log').grid(row=10, column=0, sticky='w')
+        self.progress.grid(row=10, column=0, sticky='ew', pady=(18, 10))
+        ttk.Label(frame, text='Status log').grid(row=11, column=0, sticky='w')
         self.log = tk.Text(frame, height=8, wrap='word', font=('Consolas', 9), relief='solid', borderwidth=1, state='disabled')
-        self.log.grid(row=11, column=0, sticky='nsew', pady=(6, 12))
-        ttk.Label(frame, text=f'Version {VERSION}  ·  Close the game and launcher before installing or restoring.').grid(row=12, column=0, sticky='w')
+        self.log.grid(row=12, column=0, sticky='nsew', pady=(6, 12))
+        ttk.Label(frame, text=f'Version {VERSION}  ·  Close the game and launcher before installing or restoring.').grid(row=13, column=0, sticky='w')
         self.path.trace_add('write', lambda *_: self.folder_changed())
         self.controls()
         self.poll_id = root.after(80, self.poll)
@@ -89,13 +104,17 @@ class App:
             if len(found) == 1:
                 self.path.set(str(found[0]))
 
+    def all_choices(self):
+        return self.choices + self.shared_choices
+
     def selected(self):
         # Read the current widgets at the explicit Install click, never a startup cache.
-        return selection([m for m, var in self.choices if var.get()])
+        return selection([m for m, var in self.all_choices() if var.get()])
 
     def selection_changed(self):
         # Selection is local UI state. This callback must never schedule backend work.
-        self.pending_commanders = frozenset(m['commander'] for m, var in self.choices if var.get())
+        # pending/installed hold module ids: commanders and shared modules alike.
+        self.pending_commanders = frozenset(m['commander'] for m, var in self.all_choices() if var.get())
         self.controls()
 
     def folder_changed(self):
@@ -112,13 +131,13 @@ class App:
 
     def set_pending(self, commanders):
         self.pending_commanders = frozenset(commanders)
-        for manifest, var in self.choices:
+        for manifest, var in self.all_choices():
             var.set(manifest['commander'] in self.pending_commanders)
 
     def accept_verified_state(self, state):
         installed = frozenset(state.get('installed_commanders', ()))
-        require(installed <= {m['commander'] for m in self.available_commanders},
-                'Installed commander is missing from this release')
+        require(installed <= {m['commander'] for m in self.available_modules},
+                'Installed commander or module is missing from this release')
         self.last = state
         self.installed_commanders = installed
         # BooleanVar.set does not invoke Checkbutton.command; no backend callback here.
@@ -130,7 +149,7 @@ class App:
         return bool(last.get('original_source')) and last.get('backup_state') != 'INVALID'
 
     def removed_commanders(self):
-        return [m['display_name'] for m in self.available_commanders
+        return [m['display_name'] for m in self.available_modules
                 if m['commander'] in self.installed_commanders - self.pending_commanders]
 
     def refresh_install_button_state(self):
@@ -181,7 +200,7 @@ class App:
         self.restore_button['state'] = 'normal' if restorable else 'disabled'
         for control in [self.entry, self.browse_button]:
             control['state'] = 'disabled' if self.busy else 'normal'
-        for check in self.checks:
+        for check in self.checks + self.shared_checks:
             check['state'] = 'normal' if ready and state in ('ORIGINAL', 'INSTALLED') else 'disabled'
         if not self.last:
             text = 'Verify the game folder before selecting dubbing.'
@@ -201,7 +220,7 @@ class App:
             text = ('Original backup required to remove installed dubbing: '
                     + ' + '.join(self.removed_commanders()) + '.')
         else:
-            names = ' + '.join(m['display_name'] for m in self.available_commanders
+            names = ' + '.join(m['display_name'] for m in sorted(self.available_modules, key=display_order)
                                if m['commander'] in self.pending_commanders)
             text = 'Pending: ' + names + '. Click Install to apply.'
         self.selection_status.set(text)

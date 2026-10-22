@@ -1,0 +1,12 @@
+{
+  "commanders": [
+    "leonidas",
+    "unit-voices"
+  ],
+  "release": {
+    "sha256": "f1e3652bc7e6509f5070abf7e000a2f44c3e84447e1ef6d7ed078da51e003dfb",
+    "changed_entries": 722,
+    "unchanged_entries": 15823,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

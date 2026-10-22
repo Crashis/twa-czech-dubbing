@@ -1,0 +1,12 @@
+{
+  "commanders": [
+    "spartacus",
+    "unit-voices"
+  ],
+  "release": {
+    "sha256": "7e60d0dac43804c4ec2a775126fb2bd843a5596fa28c5e4fd4bee30444d55274",
+    "changed_entries": 769,
+    "unchanged_entries": 15776,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

@@ -13,7 +13,7 @@ from unittest.mock import patch
 
 from tools import deploy, mod
 from tools.installer.backend import Installer, InstallerError, normalize_game_path, transaction_lock
-from tools.installer.catalog import discover, known_manifests, merge_manifests, selection
+from tools.installer.catalog import discover, discover_all, discover_shared, known_manifests, merge_manifests, selection
 
 # Validated changed-entry counts of every production selection that exists in this checkout.
 EXPECTED_CHANGED = {'hannibal': 305, 'spartacus': 304, 'zhuge-liang': 293, 'leonidas': 257,
@@ -23,6 +23,15 @@ EXPECTED_CHANGED = {'hannibal': 305, 'spartacus': 304, 'zhuge-liang': 293, 'leon
                     'hannibal+leonidas+zhuge-liang': 855, 'leonidas+spartacus+zhuge-liang': 854,
                     'hannibal+leonidas+spartacus+zhuge-liang': 1159}
 INSTALLER_ORDER = ['hannibal', 'spartacus', 'zhuge-liang', 'leonidas']
+# The optional shared module adds its own changed entries to every commander selection (and alone).
+UNIT, UNIT_CHANGED = 'unit-voices', 465
+MODULES = INSTALLER_ORDER + [m['commander'] for m in discover_shared()]  # staged modules are invisible
+
+
+def expected_changed(key):
+    names = key.split('+')
+    rest = '+'.join(n for n in names if n != UNIT)
+    return (UNIT_CHANGED if UNIT in names else 0) + (EXPECTED_CHANGED[rest] if rest else 0)
 
 
 def production_names():
@@ -47,7 +56,7 @@ class InstallerTests(unittest.TestCase):
         parts = discover()
         self.assertEqual([m['commander'] for m in parts], INSTALLER_ORDER)
         self.assertEqual([m['display_order'] for m in parts], [1, 2, 3, 4])
-        self.assertTrue(all(m['version'] == '1.3.0' for m in parts))
+        self.assertTrue(all(m['version'] == '1.4.0' for m in parts))
         everything = selection(parts)
         self.assertEqual(everything['display_name'], 'Hannibal + Spartacus + Zhuge Liang + Leonidas')
         self.assertEqual(everything['components'], sorted(INSTALLER_ORDER))
@@ -74,10 +83,11 @@ class InstallerTests(unittest.TestCase):
 
     def test_known_states_cover_original_and_every_combination(self):
         known = known_manifests()
-        self.assertEqual(len(known), 15)
-        self.assertEqual(len({m['release']['sha256'] for m in known} | {self.manifest['base']['sha256']}), 16)
+        self.assertEqual(len(known), 2 ** len(MODULES) - 1)
+        self.assertEqual(len({m['release']['sha256'] for m in known} | {self.manifest['base']['sha256']}),
+                         2 ** len(MODULES))
         self.assertEqual({tuple(m.get('components', [m['commander']])) for m in known},
-                         {tuple(sorted(c)) for n in range(1, 5) for c in combinations(INSTALLER_ORDER, n)})
+                         {tuple(sorted(c)) for n in range(1, len(MODULES) + 1) for c in combinations(MODULES, n)})
 
     def test_missing_pack_rejected(self):
         with self.assertRaises(ValueError):
@@ -143,17 +153,16 @@ class InstallerTests(unittest.TestCase):
         self.assertIn('nonzero trailing setup bits', result.stderr)
 
     def test_production_commanders_have_disjoint_validated_combinations(self):
-        parts = discover()
+        parts = discover_all()
         ids = [{s['media_id'] for s in p['replacements']} for p in parts]
         for left in range(len(ids)):
             for right in range(left + 1, len(ids)):
-                self.assertFalse(ids[left] & ids[right], 'Production commanders overlap')
-        # Every combination of production commanders has its own validated whole-PACK descriptor.
+                self.assertFalse(ids[left] & ids[right], 'Production modules overlap')
+        # Every combination of production modules has its own validated whole-PACK descriptor.
         self.assertEqual(len(known_manifests()), 2 ** len(parts) - 1)
         counts = {'+'.join(m.get('components', [m['commander']])): m['release']['changed_entries']
                   for m in known_manifests()}
-        self.assertEqual(counts, {k: v for k, v in EXPECTED_CHANGED.items() if k in counts})
-        self.assertEqual(set(counts) - set(EXPECTED_CHANGED), set())
+        self.assertEqual(counts, {k: expected_changed(k) for k in counts})
         for manifest in known_manifests():
             self.assertEqual(mod.validate_data(manifest)['status'], 'PASS')
 

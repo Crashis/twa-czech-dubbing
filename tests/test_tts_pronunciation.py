@@ -114,8 +114,10 @@ class PronunciationTests(unittest.TestCase):
         self.assertEqual(caesar['tts_input_text'], 'Jsem Cézar!')
         units = pronunciation.unit_resolver()
         self.assertEqual(units.resolve('Falxy!', 'pilot')['tts_input_text'], 'Falksy!')
-        with self.assertRaises(ReviewRequired):
-            units.resolve('Falxy!', 'production')
+        # Approved by the user 2026-10-22: production sends Falksy!, the canonical text stays Falxy!.
+        falxy = units.resolve('Falxy!', 'production')
+        self.assertEqual((falxy['canonical_text'], falxy['tts_input_text']), ('Falxy!', 'Falksy!'))
+        self.assertEqual(falxy['applied_pronunciation_overrides'][0]['status'], 'APPROVED')
         staged = json.loads(Path('data/shared/unit-acknowledgements/plan.staged.json').read_text(encoding='utf-8'))
         for performance in staged['performances']:
             self.assertEqual(units.resolve(performance['czech_text'], 'pilot')['tts_input_text'],

@@ -1,0 +1,14 @@
+{
+  "commanders": [
+    "hannibal",
+    "spartacus",
+    "unit-voices",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "76146d3a8c3db3ec37378806e4f84aeb901ec9e2e839b8265ced925efc9eb4e9",
+    "changed_entries": 1367,
+    "unchanged_entries": 15178,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

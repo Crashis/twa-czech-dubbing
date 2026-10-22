@@ -1,7 +1,8 @@
 """Resume-safe ElevenLabs TTS staging from an independently checked routing CSV.
 
 This tool writes only to ignored work/. It does not create WEMs or touch game files.
-Run with an explicit --commander, --routing, and --output directory. A submitted
+Run with an explicit --commander (or --unit-voice-group for the shared unit voices, one
+ledger per voice group), --routing, and --output directory. A submitted
 request without a saved response is never automatically retried unless the task
 explicitly passes --auto-retry-technical; even then a transport error is first
 resolved against ElevenLabs history, and each performance gets at most one retry.
@@ -24,12 +25,15 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
-from tools.tts.pronunciation import Resolver, commander_resolver, request_text
+from tools.tts import units
+from tools.tts.pronunciation import Resolver, ReviewRequired, commander_resolver, request_text, unit_resolver
 
 BASE = "https://api.elevenlabs.io"
 MODELS = {"eleven_v3": "v3", "eleven_v4": "v4"}
 FORMAT = "mp3_44100_128"
 TECHNICAL_HTTP = {429, 500, 502, 503, 504}
+# A performance whose pronunciation override still awaits human review: planned, never sent.
+DEFERRED = "deferred_pronunciation"
 BLOCKING_HTTP = {401, 402, 403, 404}
 
 
@@ -212,7 +216,7 @@ def inspect_audio(path, mini):
             "sha256": sha_file(path)}
 
 
-def items_from_plan(plan, routes, output, voice_id, voice_name=None, pronunciation=None):
+def items_from_plan(plan, routes, output, voice_id, voice_name=None, pronunciation=None, defer_review=False):
     pronunciation = pronunciation or Resolver([])
     pronunciation.verify_phrases({row["tts_source_media_id"]: row["czech_text"] for row in plan})
     items = {}
@@ -220,7 +224,25 @@ def items_from_plan(plan, routes, output, voice_id, voice_name=None, pronunciati
         source = row["tts_source_media_id"]
         model = routes[source]["selected_model"]
         # Only approved overrides; an unreviewed one stops the run instead of silently using either spelling.
-        spoken = pronunciation.resolve(row["czech_text"], "production", source)
+        try:
+            spoken = pronunciation.resolve(row["czech_text"], "production", source)
+        except ReviewRequired as error:
+            if not defer_review:
+                raise
+            # Explicitly requested: this performance waits for the review; the rest of the run may proceed.
+            items[source] = {
+                "tts_performance_group": row["tts_performance_group"],
+                "tts_source_media_id": source, "member_media_ids": row["member_media_ids"].split(";"),
+                "voice_id": voice_id, "voice_name": voice_name, "model": model,
+                "czech_text_sha256": sha_bytes(row["czech_text"].encode("utf-8")),
+                "czech_text": row["czech_text"], "canonical_text": row["czech_text"],
+                "tts_input_text": None, "applied_pronunciation_overrides": [], "delivery_style": row["delivery_style"],
+                "tags": row["recommended_tags"], "request_text": None, "request_sha256": None,
+                "status": DEFERRED, "deferred_reason": str(error),
+                "output_path": str(output / "audio" / f"{source}_{MODELS[model]}.mp3"),
+                "generation_timestamp": None, "credits_used": None, "checksum": None,
+            }
+            continue
         text = request_text(row["recommended_tags"], spoken["tts_input_text"])
         request = {"voice_id": voice_id, "model_id": model, "text": text, "output_format": FORMAT}
         items[source] = {
@@ -316,22 +338,30 @@ def prepare_state(args, plan, routes, hashes, safe_count, voice_id, before, mini
     output.mkdir(parents=True, exist_ok=True)
     (output / "audio").mkdir(exist_ok=True)
     state_path = output / "generation-state.json"
-    expected = items_from_plan(plan, routes, output, voice_id, args.voice_name, pronunciation)
+    expected = items_from_plan(plan, routes, output, voice_id, args.voice_name, pronunciation,
+                               args.defer_pronunciation_review)
     if state_path.exists():
         state = json.loads(state_path.read_text(encoding="utf-8"))
         if (state["source_hashes"] != hashes or state["voice_id"] != voice_id
                 or set(state["items"]) != set(expected)):
             raise RuntimeError("Frozen production inputs changed; refusing resume")
-        for source, item in state["items"].items():
+        for source, item in list(state["items"].items()):
             for key in ("model", "output_path", "czech_text"):
                 if item[key] != expected[source][key]:
                     raise RuntimeError(f"Frozen request changed {source}")
+            if DEFERRED in (item["status"], expected[source]["status"]):
+                if item["status"] not in (DEFERRED, "planned"):
+                    raise RuntimeError(f"Pronunciation review reopened for an already requested performance {source}")
+                state["items"][source] = expected[source]  # nothing was ever sent for it
+                continue
             reconcile_pronunciation(item, expected[source])
             for key in ("request_sha256", "request_text"):
                 if item[key] != expected[source][key] and not item.get("needs_regeneration"):
                     raise RuntimeError(f"Frozen request changed {source}")
     else:
         state = {"schema": 1, "commander": args.commander, "voice_name": args.voice_name,
+                 **({"module": units.MODULE, "voice_group": args.unit_voice_group,
+                     "byte_budget_fallbacks": args.unit_fallbacks} if args.unit_voice_group else {}),
                  "voice_id": voice_id, "source_hashes": hashes, "safe_media_ids": safe_count,
                  "unique_performances": len(plan), "created_at": utc_now(),
                  "starting_credits": before["remaining"], "starting_usage": before["used"],
@@ -611,6 +641,8 @@ def audit_outputs(state, state_path, key, mini, before):
     items = list(state["items"].values())
     rows, problems = [], []
     for item in items:
+        if item["status"] == DEFERRED:
+            continue  # never requested; reported separately below
         if item["status"] != "complete":
             problems.append({"tts_source_media_id": item["tts_source_media_id"], "problem": item["status"]})
             continue
@@ -674,6 +706,7 @@ def audit_outputs(state, state_path, key, mini, before):
              "successful": len(rows), "failed": sum(x["status"] == "failed" for x in items),
              "uncertain": sum(x["status"] == "uncertain" for x in items),
              "missing": sum(x["status"] == "planned" for x in items), "origins": origins,
+             "deferred_pronunciation": sorted(x["tts_source_media_id"] for x in items if x["status"] == DEFERRED),
              "automatic_retries": sum(1 for x in items if x.get("retry_count")),
              "duplicate_media_id_requests": 0, "problems": problems,
              "starting_credits": state["starting_credits"], "remaining_credits_api": before["remaining"],
@@ -692,7 +725,10 @@ def audit_outputs(state, state_path, key, mini, before):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--commander", required=True)
+    owner = parser.add_mutually_exclusive_group(required=True)
+    owner.add_argument("--commander")
+    owner.add_argument("--unit-voice-group", choices=sorted(units.GROUPS),
+                       help="shared unit voices: one ledger per voice group, never a commander plan")
     parser.add_argument("--voice-name", required=True)
     parser.add_argument("--voice-id", help="expected voice ID; a different lookup result is a hard stop")
     parser.add_argument("--routing", required=True, type=Path)
@@ -708,14 +744,27 @@ def main():
     parser.add_argument("--preflight-only", action="store_true", help="validate and project cost; no TTS request")
     parser.add_argument("--audit", action="store_true", help="read-only audio/history audit; no TTS request")
     parser.add_argument("--retry-empty-history", nargs=2, metavar=("MEDIA_ID", "HISTORY_ITEM_ID"))
+    parser.add_argument("--unit-fallbacks", action="store_true",
+                        help="unit voices: generate the approved byte-budget fallback lines (own ledger) instead of the plan")
+    parser.add_argument("--defer-pronunciation-review", action="store_true",
+                        help="record performances with an unreviewed override as deferred (never sent) instead of stopping")
     args = parser.parse_args()
     if args.batch_size < 1 or args.batch_size > 30:
         parser.error("batch-size must be 1..30")
     if not args.output.resolve().is_relative_to(Path("work").resolve()):
         parser.error("output must be under ignored work/")
-    plan, routes, hashes, safe_count = load_plan(args.commander, args.routing, args.require_model)
-    pronunciation = commander_resolver(args.commander)
-    items_from_plan(plan, routes, args.output, None, pronunciation=pronunciation)  # offline stop before any request
+    if args.unit_voice_group:
+        if args.voice_name != units.VOICE_NAMES[args.unit_voice_group]:
+            parser.error("voice name does not belong to this unit voice group")
+        load = units.load_fallback_plan if args.unit_fallbacks else units.load_unit_plan
+        plan, routes, hashes, safe_count = load(args.unit_voice_group, args.routing, args.require_model)
+        pronunciation = unit_resolver()
+    else:
+        plan, routes, hashes, safe_count = load_plan(args.commander, args.routing, args.require_model)
+        pronunciation = commander_resolver(args.commander)
+    # Offline stop before any request.
+    items_from_plan(plan, routes, args.output, None, pronunciation=pronunciation,
+                    defer_review=args.defer_pronunciation_review)
     key = api_key()
     voice_id = voice_and_models(key, args.voice_name, args.voice_id,
                                 {route["selected_model"] for route in routes.values()})
@@ -739,6 +788,8 @@ def main():
                       "starting_credits": state["starting_credits"],
                       "current_credits": before["remaining"],
                       "needs_regeneration": sum(x["status"] == "stale" for x in state["items"].values()),
+                      "deferred_pronunciation": [x["tts_source_media_id"] for x in state["items"].values()
+                                                 if x["status"] == DEFERRED],
                       "reused": sum(x["origin"] == "pilot_reused" for x in state["items"].values() if x["status"] == "complete")}), flush=True)
     if projected + spent_credits(state) > args.max_credits:
         raise RuntimeError(f"Conservative credit projection {projected} exceeds {args.max_credits}")

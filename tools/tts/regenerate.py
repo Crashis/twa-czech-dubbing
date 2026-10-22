@@ -16,7 +16,8 @@ from pathlib import Path
 from tools.tts.production import (FORMAT, MODELS, HardStop, api_key, decoder, generate_one, get_json, history_fields,
                                   history_items, inspect_audio, read_csv, retry_technical, save_json, sha_bytes,
                                   sha_file, subscription, utc_now, voice_and_models)
-from tools.tts.pronunciation import commander_resolver, request_text
+from tools.tts import units
+from tools.tts.pronunciation import commander_resolver, request_text, unit_resolver
 
 
 def active_speech_seconds(path, mini):
@@ -40,13 +41,22 @@ def same_words(left, right):
     return words(left) == words(right)
 
 
-def load_targets(commander, production_state, deliveries, max_attempt, retranslated=()):
-    root = Path('data/commanders') / commander
-    plan = {r['tts_source_media_id']: r for r in read_csv(root / 'tts-plan/tts-plan.csv')}
-    voices = {r['media_id']: r for r in read_csv(root / 'tts-plan/voice-lines-cz.csv')}
+def load_targets(commander, production_state, deliveries, max_attempt, retranslated=(), unit_group=None, routing=None):
     production = json.loads(Path(production_state).read_text(encoding='utf-8'))
     rows = read_csv(Path(deliveries))
-    pronunciation = commander_resolver(commander)
+    if unit_group:
+        # Shared unit voices: targets are performance ids of one voice group's plan and ledger.
+        rows_, _, _, _ = units.load_unit_plan(unit_group, routing)
+        plan = {r['tts_source_media_id']: r for r in rows_}
+        voices = {mid: {'tts_source_media_id': mid} for mid in plan}
+        if production.get('voice_group') != unit_group:
+            raise RuntimeError('Production ledger belongs to another unit voice group')
+        pronunciation = unit_resolver()
+    else:
+        root = Path('data/commanders') / commander
+        plan = {r['tts_source_media_id']: r for r in read_csv(root / 'tts-plan/tts-plan.csv')}
+        voices = {r['media_id']: r for r in read_csv(root / 'tts-plan/voice-lines-cz.csv')}
+        pronunciation = commander_resolver(commander)
     pronunciation.verify_phrases({mid: row['czech_text'] for mid, row in plan.items()})
     targets = {}
     for row in rows:
@@ -84,7 +94,11 @@ def load_targets(commander, production_state, deliveries, max_attempt, retransla
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--commander', required=True)
+    owner = parser.add_mutually_exclusive_group(required=True)
+    owner.add_argument('--commander')
+    owner.add_argument('--unit-voice-group', choices=sorted(units.GROUPS),
+                       help='shared unit voices: delivery rows name performance ids; needs --routing')
+    parser.add_argument('--routing', type=Path, help='unit voices: the production routing CSV')
     parser.add_argument('--voice-name', required=True)
     parser.add_argument('--voice-id', required=True)
     parser.add_argument('--model', choices=sorted(MODELS), required=True)
@@ -103,8 +117,10 @@ def main():
     if not args.output.resolve().is_relative_to(Path('work').resolve()):
         parser.error('output must be under ignored work/')
     retranslated = tuple(filter(None, (args.retranslated or '').split(',')))
+    if args.unit_voice_group and (not args.routing or retranslated):
+        parser.error('unit voices need --routing and never take --retranslated')
     targets, production = load_targets(args.commander, args.production_state, args.deliveries, args.max_attempt,
-                                       retranslated)
+                                       retranslated, args.unit_voice_group, args.routing)
     key = api_key()
     voice_id = voice_and_models(key, args.voice_name, args.voice_id, {args.model})
     stored_settings = get_json(f'/v1/voices/{voice_id}/settings', key)  # read-only
@@ -116,7 +132,8 @@ def main():
     (output / 'audio').mkdir(parents=True, exist_ok=True)
     state_path = output / 'generation-state.json'
     state = (json.loads(state_path.read_text(encoding='utf-8')) if state_path.exists() else
-             {'schema': 1, 'commander': args.commander, 'voice_name': args.voice_name, 'voice_id': voice_id,
+             {'schema': 1, 'commander': args.commander, 'unit_voice_group': args.unit_voice_group,
+              'voice_name': args.voice_name, 'voice_id': voice_id,
               'model': args.model, 'production_state_sha256': sha_file(args.production_state),
               'deliveries_sha256': {}, 'starting_credits': before['remaining'], 'starting_usage': before['used'],
               'created_at': utc_now(), 'items': {}})
@@ -127,7 +144,8 @@ def main():
         return
     state['deliveries_sha256'][str(args.attempt)] = sha_file(args.deliveries)
     pending = []
-    for name, target in sorted(targets.items(), key=lambda kv: (kv[1]['attempt'], int(kv[1]['media_id']))):
+    # Commander targets are numeric Media IDs, unit targets performance ids.
+    for name, target in sorted(targets.items(), key=lambda kv: (kv[1]['attempt'], kv[1]['media_id'].zfill(12))):
         if target['attempt'] != args.attempt:
             continue
         mid = target['media_id']
@@ -138,6 +156,8 @@ def main():
         if item:
             if item['request_text'] != text:
                 raise RuntimeError(f'Frozen request changed {name}')
+            if item['status'] == 'planned':  # recorded before a pre-send stop; never submitted
+                pending.append(item)
             continue
         old = target['old']
         old_audio = Path(old['output_path'])

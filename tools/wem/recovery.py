@@ -330,7 +330,14 @@ def run(args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    for name in ('commander', 'routing', 'state', 'production-work', 'work', 'analysis', 'original-dir',
+    owner = parser.add_mutually_exclusive_group(required=True)
+    owner.add_argument('--commander')
+    owner.add_argument('--module', choices=('unit-voices',), help='shared unit voices: pass both ledgers to --state')
+    parser.add_argument('--original-audit', help='unit voices: private original-audio-audit.json')
+    parser.add_argument('--fallback-state', nargs='+', help='unit voices: byte-budget fallback ledgers (approved per-ID lines)')
+    parser.add_argument('--compact', help='unit voices: accepted compact sources JSON (performance, attempt, regeneration_state, media_ids)')
+    parser.add_argument('--state', required=True, nargs='+')
+    for name in ('routing', 'production-work', 'work', 'analysis', 'original-dir',
                  'oggenc', 'wav2wem', 'vgmstream', 'ww2ogg', 'codebooks'):
         parser.add_argument('--' + name, required=True)
     parser.add_argument('--jobs', type=int, default=1)

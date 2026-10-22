@@ -1,4 +1,4 @@
-"""Discover commanders and resolve overlap before any build or installation."""
+"""Discover commanders and shared modules; resolve overlap before any build or installation."""
 import copy
 from itertools import combinations
 import json
@@ -7,19 +7,35 @@ from tools import mod
 from tools.pack.reader import require
 
 
-def discover():
+def discover(folder='commanders'):
     """Production commanders in their manifest-defined installer display order."""
-    parts = [mod.load_manifest(p.parent.name) for p in (mod.ROOT / 'data/commanders').glob('*/manifest.json')]
+    parts = [mod.load_manifest(p.parent.name) for p in (mod.ROOT / 'data' / folder).glob('*/manifest.json')]
     require(len({p['display_order'] for p in parts}) == len(parts), 'Duplicate commander display order')
     return sorted(parts, key=lambda m: m['display_order'])
 
 
+def discover_shared():
+    """Optional modules shared by every commander (unit voices), in their own display order."""
+    return discover(mod.SHARED)
+
+
+def discover_all():
+    """Every installer module: commanders first, then shared modules. Selection keys stay sorted by id."""
+    parts = discover() + discover_shared()
+    require(len({p['commander'] for p in parts}) == len(parts), 'Duplicate installer module id')
+    return parts
+
+
+def display_order(manifest):
+    return (mod.is_shared(manifest), manifest['display_order'])
+
+
 def display_names(parts):
-    return ' + '.join(p['display_name'] for p in sorted(parts, key=lambda m: m['display_order']))
+    return ' + '.join(p['display_name'] for p in sorted(parts, key=display_order))
 
 
 def merge_manifests(parts, release):
-    require(len(parts) > 1, 'A joint release needs at least two commanders')
+    require(len(parts) > 1, 'A joint release needs at least two modules')
     parts = sorted(parts, key=lambda m: m['commander'])
     require(len({p['commander'] for p in parts}) == len(parts), 'Duplicate commander selection')
     merged = {}
@@ -38,7 +54,8 @@ def merge_manifests(parts, release):
     require(not silent.intersection(merged), 'CONFLICT: replacement overlaps a silent placeholder')
     require(release['changed_entries'] == len(merged) and
             release['unchanged_entries'] + len(merged) == parts[0]['base']['entry_count'], 'Joint counts mismatch')
-    result = copy.deepcopy(parts[0])
+    # A joint state is never itself a shared module, whichever component sorts first.
+    result = {k: v for k, v in copy.deepcopy(parts[0]).items() if k not in mod.SHARED_FIELDS}
     result.update(commander='combined', components=[p['commander'] for p in parts],
                   display_name=display_names(parts),
                   replacements=sorted(merged.values(), key=lambda s: int(s['media_id'])),
@@ -48,7 +65,7 @@ def merge_manifests(parts, release):
 
 
 def selection(parts):
-    require(bool(parts), 'Select at least one commander')
+    require(bool(parts), 'Select at least one commander or shared module')
     if len(parts) == 1:
         return parts[0]
     # A complete, independently reproduced whole-PACK hash is mandatory even for combinations.
@@ -58,15 +75,15 @@ def selection(parts):
     count = len({s['media_id'] for p in parts for s in p['replacements']})
     merge_manifests(parts, {'changed_entries': count,
                           'unchanged_entries': parts[0]['base']['entry_count'] - count})
-    require(descriptor.is_file(), 'This commander combination has no validated joint release yet')
+    require(descriptor.is_file(), 'This combination has no validated joint release yet')
     joint = json.loads(descriptor.read_text(encoding='utf-8'))
     require(joint['commanders'] == key.split('+'), 'Joint release selection mismatch')
     return merge_manifests(parts, joint['release'])
 
 
 def known_manifests():
-    """All validated states the installer can recognize, including joint builds."""
-    parts = discover()
+    """All validated states the installer can recognize, including joint builds with shared modules."""
+    parts = discover_all()
     known = list(parts)
     for count in range(2, len(parts) + 1):
         for group in combinations(parts, count):

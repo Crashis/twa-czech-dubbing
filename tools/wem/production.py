@@ -65,10 +65,140 @@ def fallback_one(mid, source, budget, original, tools, work, wem_format, profile
     return mid, attempts, None, None
 
 
+def states(args):
+    return [Path(p) for p in (args.state if isinstance(args.state, (list, tuple)) else [args.state])]
+
+
+def apply_compact(args, group, state, plan, items):
+    """Accepted compact regenerations (--compact): the new source serves only the listed blocked Media IDs.
+
+    Same voice, model and canonical text as the production performance; its other members keep their
+    validated WEMs. The compact source becomes its own reference id '<performance>.compact<attempt>'.
+    """
+    if not getattr(args, 'compact', None):
+        return
+    accepted = json.loads(Path(args.compact).read_text(encoding='utf-8'))
+    rows = {row['tts_source_media_id']: row for row in plan}
+    for cid, spec in sorted(accepted.items()):
+        if spec['voice_group'] != group:
+            continue
+        perf, attempt = spec['performance'], spec['attempt']
+        require(cid == f'{perf}.compact{attempt}' and perf in rows, 'Invalid compact source ' + cid)
+        regen = json.loads(Path(spec['regeneration_state']).read_text(encoding='utf-8'))
+        new, old = regen['items'][f'{perf}#{attempt}'], items[perf]
+        path = mod.ROOT / Path(new['output_path'])
+        require(new['status'] == 'complete' and regen['voice_id'] == state['voice_id'] == new['voice_id']
+                and regen.get('unit_voice_group') == group and new['model'] == old['model']
+                and new['canonical_text'] == old['canonical_text'] and new['tts_input_text'] == old['tts_input_text']
+                and path.is_file() and mod.sha256(path) == new['checksum'] == new['audio']['sha256'],
+                'Compact source provenance mismatch ' + cid)
+        members = rows[perf]['member_media_ids'].split(';')
+        ids = spec['media_ids']
+        require(ids and len(set(ids)) == len(ids) and set(ids) <= set(members), 'Compact members outside performance ' + cid)
+        kept = [m for m in members if m not in ids]
+        rows[perf]['member_media_ids'] = ';'.join(kept)
+        old['member_media_ids'] = kept
+        row = dict(rows[perf], tts_source_media_id=cid, member_media_ids=';'.join(ids), recommended_tags=new['tags'])
+        plan.append(row)
+        items[cid] = dict(old, tts_source_media_id=cid, member_media_ids=ids, output_path=new['output_path'],
+                          checksum=new['checksum'], audio=new['audio'], tags=new['tags'], request_text=new['request_text'],
+                          request_id=new.get('request_id'), credits_used=new['credits_used'],
+                          generation_timestamp=new['generation_timestamp'], origin='compact_regeneration',
+                          compact_attempt=attempt, delivery_style='COMPACT_' + old['delivery_style'])
+
+
+def apply_fallback(args, group, state, plan, items):
+    """Approved byte-budget fallback lines (--fallback-state): own ledgers that take over only their listed IDs."""
+    from tools.tts import units
+    for path in getattr(args, 'fallback_state', None) or ():
+        ledger = json.loads(Path(path).read_text(encoding='utf-8'))
+        if ledger.get('voice_group') != group:
+            continue
+        rows, _, hashes, count = units.load_fallback_plan(group, Path(args.routing))
+        require(ledger.get('byte_budget_fallbacks') is True and ledger['voice_id'] == state['voice_id']
+                and ledger['voice_name'] == state['voice_name'] and ledger['source_hashes'] == hashes
+                and ledger['safe_media_ids'] == count and set(ledger['items']) == {r['tts_source_media_id'] for r in rows},
+                'Fallback ledger and approved fallbacks differ ' + group)
+        holders = {m: row for row in plan for m in row['member_media_ids'].split(';') if m}
+        for row in rows:
+            source, ids = row['tts_source_media_id'], row['member_media_ids'].split(';')
+            item = ledger['items'][source]
+            path_ = mod.ROOT / Path(item['output_path'])
+            require(item['status'] == 'complete' and item['model'] == units.MODEL and item['member_media_ids'] == ids
+                    and item['czech_text'] == row['czech_text'] and item['tags'] == row['recommended_tags']
+                    and path_.is_file() and mod.sha256(path_) == item['checksum'] == item['audio']['sha256'],
+                    'Fallback source provenance mismatch ' + source)
+            for mid in ids:
+                holder = holders[mid]
+                kept = [m for m in holder['member_media_ids'].split(';') if m != mid]
+                holder['member_media_ids'] = ';'.join(kept)
+                items[holder['tts_source_media_id']]['member_media_ids'] = kept
+            plan.append(row)
+            items[source] = dict(item, voice_group=group, translation_status=units.FALLBACK_REASON,
+                                 canonical_plan_czech=row['canonical_plan_czech'])
+
+
+def unit_context(args):
+    """Shared unit voices: both voice-group ledgers as one offline production set (deferred lines excluded)."""
+    from tools.installer.catalog import discover
+    from tools.tts import units
+    from tools.tts.production import DEFERRED
+    require(bool(getattr(args, 'original_audit', None)), 'Unit voices need --original-audit (private research archive)')
+    audit = json.loads(Path(args.original_audit).read_text(encoding='utf-8'))
+    require(audit['RSA'] == 'PASS' and audit['canonical_pack_sha256'] == discover()[0]['base']['sha256'],
+            'Original unit audit mismatch')
+    media = {r['media_id']: r for r in mod.csv_rows(mod.ROOT / units.MEDIA_PATH)}
+    loaded = [json.loads(path.read_text(encoding='utf-8')) for path in states(args)]
+    require(sorted(s.get('voice_group') for s in loaded) == sorted(units.GROUPS)
+            and all(s.get('module') == units.MODULE for s in loaded), 'Expected one ledger per unit voice group')
+    plan, items, safe, groups = [], {}, {}, {}
+    for state in loaded:
+        group = state['voice_group']
+        rows, routes, hashes, count = units.load_unit_plan(group, Path(args.routing))
+        require(state['source_hashes'] == hashes and state['safe_media_ids'] == count
+                and state['unique_performances'] == len(rows) and set(state['items']) == {r['tts_source_media_id'] for r in rows}
+                and state['voice_name'] == units.VOICE_NAMES[group], 'Unit ledger and current plan/routing differ ' + group)
+        deferred = sorted(s for s, item in state['items'].items() if item['status'] == DEFERRED)
+        groups[group] = {'voice_name': state['voice_name'], 'voice_id': state['voice_id'], 'deferred': deferred,
+                         'deferred_members': {s: state['items'][s]['member_media_ids'] for s in deferred},
+                         'deferred_media_ids': sorted((m for s in deferred for m in state['items'][s]['member_media_ids']), key=int)}
+        for row in rows:
+            source = row['tts_source_media_id']
+            item = state['items'][source]
+            if item['status'] == DEFERRED:
+                continue
+            ids = row['member_media_ids'].split(';')
+            require(item['status'] == 'complete' and item['member_media_ids'] == ids
+                    and item['model'] == routes[source]['selected_model'] == units.MODEL
+                    and item['czech_text'] == row['czech_text'] and item['voice_id'] == state['voice_id']
+                    and item['tags'] == row['recommended_tags'], 'Unapproved or changed performance ' + source)
+            path = mod.ROOT / Path(item['output_path'])
+            require(path.is_file() and mod.sha256(path) == item['checksum'] == item['audio']['sha256'],
+                    'TTS source checksum mismatch ' + source)
+            items[source] = dict(item, voice_group=group)
+            plan.append(row)
+            for mid in ids:
+                original = audit['results'].get(mid)
+                require(mid not in safe and original is not None and original['silent_placeholder'] == 'NO'
+                        and original['original_size_bytes'] == int(media[mid]['original_size_bytes'])
+                        and original['original_wem_sha256'] == media[mid]['original_wem_sha256'],
+                        'Original inventory mismatch ' + mid)
+                safe[mid] = media[mid]
+        apply_compact(args, group, state, plan, items)
+        apply_fallback(args, group, state, plan, items)
+    state = {'module': units.MODULE, 'items': items, 'safe_media_ids': len(safe), 'unique_performances': len(plan),
+             'voice_groups': groups, 'canonical_pack_sha256': audit['canonical_pack_sha256']}
+    return plan, state, audit, safe
+
+
 def context(args):
+    if getattr(args, 'module', None):
+        require(args.module == 'unit-voices' and not args.commander, 'Choose either --commander or --module unit-voices')
+        return unit_context(args)
     root = mod.ROOT
     plan, routes, hashes, safe_count = load_plan(args.commander, Path(args.routing))
-    state_path = Path(args.state)
+    require(len(states(args)) == 1, 'A commander has exactly one generation ledger')
+    state_path = states(args)[0]
     state = json.loads(state_path.read_text(encoding='utf-8'))
     require(state['commander'] == args.commander and state['safe_media_ids'] == safe_count
             and state['unique_performances'] == len(plan) and state['source_hashes'] == hashes,
@@ -336,9 +466,14 @@ def run(args):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--commander', required=True)
+    owner = parser.add_mutually_exclusive_group(required=True)
+    owner.add_argument('--commander')
+    owner.add_argument('--module', choices=('unit-voices',), help='shared unit voices: pass both ledgers to --state')
     parser.add_argument('--routing', required=True)
-    parser.add_argument('--state', required=True)
+    parser.add_argument('--state', required=True, nargs='+')
+    parser.add_argument('--original-audit', help='unit voices: private original-audio-audit.json')
+    parser.add_argument('--fallback-state', nargs='+', help='unit voices: byte-budget fallback ledgers (approved per-ID lines)')
+    parser.add_argument('--compact', help='unit voices: accepted compact sources JSON (performance, attempt, regeneration_state, media_ids)')
     parser.add_argument('--base', required=True)
     parser.add_argument('--work', required=True)
     parser.add_argument('--phase', choices=('preflight', 'prepare', 'encode', 'fallback', 'validate'), required=True)

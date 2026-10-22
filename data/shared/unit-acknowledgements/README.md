@@ -1,7 +1,10 @@
 # Unit acknowledgements (staged research)
 
-Status: **research_staged**, `release_ready: false`. This folder is deliberately not a commander folder and contains no
-`manifest.json`; the installer and release builder never read it. No TTS, WEM or paid request has been made.
+Status: canonical source plan of the shared module `unit-voices` ("Univerzální hlášky"). This folder is deliberately not a
+commander folder and contains no `manifest.json`; the installer and release builder never read it. Production (2026-10-22):
+44/44 performances (`Units Male CZ`, `Units Women CZ`, `eleven_v4`; Falxy → Falksy approved), 5 compact sources and 10
+approved byte-budget fallback lines (`byte-budget-fallbacks.csv`, `translation-notes.md`), 465/465 exact-size WEMs, active
+installer module `data/shared/unit-voices/manifest.json` with `replacements/unit-voices/wem/`. See the "Univerzální hlášky" section of [DEVELOPMENT](../../../docs/DEVELOPMENT.md).
 
 - `plan.staged.json`: canonical English phrases, approved Czech texts (male/neutral and female-slot forms, optional TTS
   pronunciation input), and one planned performance per unique Czech text and voice group, mapped to its reachable Media IDs.

@@ -1,0 +1,13 @@
+{
+  "commanders": [
+    "leonidas",
+    "unit-voices",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "709e140f12f597f78410231ff3800952641e1f867c55fd4facf447cedb4f7eb3",
+    "changed_entries": 1015,
+    "unchanged_entries": 15530,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}
