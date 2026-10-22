@@ -1,0 +1,15 @@
+{
+  "commanders": [
+    "germanicus",
+    "julius-caesar",
+    "spartacus",
+    "unit-voices",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "8a884ad61076b7714eeb65259b7c73c3365dd1a10afca5a6d589a9086c548653",
+    "changed_entries": 1542,
+    "unchanged_entries": 15003,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "commanders": [
+    "hannibal",
+    "leonidas",
+    "scipio-africanus",
+    "spartacus",
+    "unit-voices"
+  ],
+  "release": {
+    "sha256": "e5c748080e03cecbcb02c4d5eae562016a948a0fa23d3ef6a02e14740b768893",
+    "changed_entries": 1580,
+    "unchanged_entries": 14965,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

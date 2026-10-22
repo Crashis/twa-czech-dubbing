@@ -1,0 +1,12 @@
+{
+  "commanders": [
+    "leonidas",
+    "scipio-africanus"
+  ],
+  "release": {
+    "sha256": "6c5db088764fcf78421fb52074cb30fb4896071d4d8b3cd9982dc95efc7bde9a",
+    "changed_entries": 506,
+    "unchanged_entries": 16039,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "commanders": [
+    "leonidas",
+    "scipio-africanus",
+    "spartacus",
+    "unit-voices"
+  ],
+  "release": {
+    "sha256": "5e9840b9c3731509df60e9d1bb47f42fe61bef4826cd634d2d683aa5665a9716",
+    "changed_entries": 1275,
+    "unchanged_entries": 15270,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

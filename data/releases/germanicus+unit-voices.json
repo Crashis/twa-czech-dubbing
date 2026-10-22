@@ -1,0 +1,12 @@
+{
+  "commanders": [
+    "germanicus",
+    "unit-voices"
+  ],
+  "release": {
+    "sha256": "b6a0ed7aca33804a20c3c6c3da3286dd2746f47727198123f2d5c8018bf55cd4",
+    "changed_entries": 699,
+    "unchanged_entries": 15846,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

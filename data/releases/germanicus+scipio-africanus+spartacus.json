@@ -1,0 +1,13 @@
+{
+  "commanders": [
+    "germanicus",
+    "scipio-africanus",
+    "spartacus"
+  ],
+  "release": {
+    "sha256": "914083fadcdfd59291be17638df021e8685ecef1df51ca389c9c5e2bf9ceb514",
+    "changed_entries": 787,
+    "unchanged_entries": 15758,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

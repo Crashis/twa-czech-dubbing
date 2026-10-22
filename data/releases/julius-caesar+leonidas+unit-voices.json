@@ -1,0 +1,13 @@
+{
+  "commanders": [
+    "julius-caesar",
+    "leonidas",
+    "unit-voices"
+  ],
+  "release": {
+    "sha256": "b873e4a465430e7799600eeff2ddea0f82314915e43cd2a0c4db43669689bfc3",
+    "changed_entries": 968,
+    "unchanged_entries": 15577,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

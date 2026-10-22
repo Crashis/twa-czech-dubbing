@@ -28,6 +28,7 @@ GROUPS = {'CZ_UNIT_MALE': ('Units Male CZ', 'w1mDmAXaMBkdpEOg9E7B', 395),
           'CZ_UNIT_FEMALE': ('Units Women CZ', 'sIwXy4sPJTVqdHS9lRt8', 70)}
 FALLBACKS = {'Jdeme!': 9, 'Hotovi!': 1}
 COMMANDER_IDS = 1159  # v1.3.0 Hannibal + Spartacus + Zhuge Liang + Leonidas
+ALL_COMMANDER_IDS = 1888  # v1.5.0 adds Scipio Africanus, Germanicus and Julius Caesar
 
 
 def routing(folder):
@@ -104,7 +105,7 @@ class UnitDataTests(unittest.TestCase):
         self.assertEqual({g: (v['voice_name'], v['voice_id'], v['media_ids']) for g, v in unit['voice_groups'].items()}, GROUPS)
         ids = {s['media_id'] for s in unit['replacements']}
         commander_ids = {s['media_id'] for m in discover() for s in m['replacements']}
-        self.assertEqual(len(commander_ids), COMMANDER_IDS)
+        self.assertEqual(len(commander_ids), ALL_COMMANDER_IDS)
         self.assertFalse(ids & commander_ids)
         reasons = [r.split(':')[0] for r in unit['deferred_reason'].values()]
         self.assertEqual((len(ids), reasons.count('PRONUNCIATION_REVIEW'), reasons.count('NO_EXACT_SIZE_WEM')),
@@ -150,8 +151,8 @@ class UnitModuleTests(unittest.TestCase):
 
     def test_every_selection_with_unit_voices_has_a_validated_hash(self):
         known = known_manifests()
-        self.assertEqual(len(known), 31)
-        self.assertEqual(len({m['release']['sha256'] for m in known}), 31)
+        self.assertEqual(len(known), 255)  # 7 commanders + unit voices: every non-empty selection
+        self.assertEqual(len({m['release']['sha256'] for m in known}), 255)
         unit = mod.load_manifest(UNIT)
         joint = modules('hannibal', 'leonidas', 'spartacus', 'zhuge-liang', UNIT)
         self.assertEqual(len(joint['replacements']), joint['release']['changed_entries'], COMMANDER_IDS + REPLACED)
@@ -183,7 +184,7 @@ class UnitCheckboxTests(unittest.TestCase):
 
     def test_one_checkbox_changes_only_pending_state(self):
         self.assertEqual(len(self.app.shared_checks), 1)
-        self.assertEqual(len(self.app.checks), 4)
+        self.assertEqual(len(self.app.checks), 7)
         self.assertTrue(self.app.shared_checks[0]['text'].startswith('Univerzální hlášky'))
         self.app.accept_verified_state(dict(state='INSTALLED', installed_commanders=['hannibal'], backup_state='MISSING',
                                             original_source=None, original_source_file=None))

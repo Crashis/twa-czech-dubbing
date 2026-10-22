@@ -1,0 +1,13 @@
+{
+  "commanders": [
+    "scipio-africanus",
+    "unit-voices",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "a517e537fec76878d752a2c88eb53b81a9816ad9ee540f55920fae258757bd1e",
+    "changed_entries": 1007,
+    "unchanged_entries": 15538,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

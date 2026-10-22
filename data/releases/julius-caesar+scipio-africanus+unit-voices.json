@@ -1,0 +1,13 @@
+{
+  "commanders": [
+    "julius-caesar",
+    "scipio-africanus",
+    "unit-voices"
+  ],
+  "release": {
+    "sha256": "9aca7f300068c8776a9cd982c79116fb184820bee90bb5b6ea282eee0e7e9f7b",
+    "changed_entries": 960,
+    "unchanged_entries": 15585,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

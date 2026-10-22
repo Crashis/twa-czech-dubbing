@@ -1,0 +1,13 @@
+{
+  "commanders": [
+    "germanicus",
+    "spartacus",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "f4bfa602ebcbd8c37054d5785edfc298a5effcd7912f1a6424ae2eaff5a22dab",
+    "changed_entries": 831,
+    "unchanged_entries": 15714,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

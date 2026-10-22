@@ -1,0 +1,12 @@
+{
+  "commanders": [
+    "julius-caesar",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "154971c7a80a27da6abc25a2e3c09a6dcdac03a4acf4dfd8d615f4d9e1c492c0",
+    "changed_entries": 539,
+    "unchanged_entries": 16006,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

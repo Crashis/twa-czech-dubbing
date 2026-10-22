@@ -1,0 +1,14 @@
+{
+  "commanders": [
+    "julius-caesar",
+    "leonidas",
+    "spartacus",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "14503139307973699d0507e4be5044d7fa479e4410b83affe7da76bef1c8477e",
+    "changed_entries": 1100,
+    "unchanged_entries": 15445,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

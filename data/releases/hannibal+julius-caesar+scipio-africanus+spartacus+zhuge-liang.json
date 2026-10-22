@@ -1,0 +1,15 @@
+{
+  "commanders": [
+    "hannibal",
+    "julius-caesar",
+    "scipio-africanus",
+    "spartacus",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "55feb925c7441fbdba96124053bcab18ebb7c3f055576f240ed5b274698a16bb",
+    "changed_entries": 1397,
+    "unchanged_entries": 15148,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

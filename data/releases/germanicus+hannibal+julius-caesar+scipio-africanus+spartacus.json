@@ -1,0 +1,15 @@
+{
+  "commanders": [
+    "germanicus",
+    "hannibal",
+    "julius-caesar",
+    "scipio-africanus",
+    "spartacus"
+  ],
+  "release": {
+    "sha256": "ea544badbb00c3db0a8afd9fb657765681005dda5ad3a2bd38de75840451b327",
+    "changed_entries": 1338,
+    "unchanged_entries": 15207,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

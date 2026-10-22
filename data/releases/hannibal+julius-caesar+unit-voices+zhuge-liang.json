@@ -1,0 +1,14 @@
+{
+  "commanders": [
+    "hannibal",
+    "julius-caesar",
+    "unit-voices",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "596bf9e8871ae09108b8036509685b1c56f1746c50b93f2a2e4c5efce2c5a2ba",
+    "changed_entries": 1309,
+    "unchanged_entries": 15236,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

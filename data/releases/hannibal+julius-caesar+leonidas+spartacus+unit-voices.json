@@ -1,0 +1,15 @@
+{
+  "commanders": [
+    "hannibal",
+    "julius-caesar",
+    "leonidas",
+    "spartacus",
+    "unit-voices"
+  ],
+  "release": {
+    "sha256": "591441a09e853c397c203ad67a1dd066ba078e39c0d914ef4fe8bf0a359aaa66",
+    "changed_entries": 1577,
+    "unchanged_entries": 14968,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

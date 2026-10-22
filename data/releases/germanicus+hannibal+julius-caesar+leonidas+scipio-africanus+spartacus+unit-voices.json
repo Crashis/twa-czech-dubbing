@@ -1,0 +1,17 @@
+{
+  "commanders": [
+    "germanicus",
+    "hannibal",
+    "julius-caesar",
+    "leonidas",
+    "scipio-africanus",
+    "spartacus",
+    "unit-voices"
+  ],
+  "release": {
+    "sha256": "b327c032484f9e4de09708c9af7aa86e70e267ef6c8676e28775e8a3e3b1d5c4",
+    "changed_entries": 2060,
+    "unchanged_entries": 14485,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

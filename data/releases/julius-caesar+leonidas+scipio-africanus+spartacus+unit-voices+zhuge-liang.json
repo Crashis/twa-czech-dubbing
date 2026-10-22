@@ -1,0 +1,16 @@
+{
+  "commanders": [
+    "julius-caesar",
+    "leonidas",
+    "scipio-africanus",
+    "spartacus",
+    "unit-voices",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "925b8de7a0c858202f0a1538179b9266465ad83fb1dac5015ea01f5258dcc925",
+    "changed_entries": 1814,
+    "unchanged_entries": 14731,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

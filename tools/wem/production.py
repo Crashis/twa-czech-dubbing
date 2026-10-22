@@ -213,17 +213,36 @@ def context(args):
             and audit['RSA'] == 'PASS', 'Original audit mismatch')
     members = set()
     items = state['items']
+    deferred = set()
+    allow_deferred = getattr(args, 'defer_pronunciation_review', False)
+    if allow_deferred:
+        from tools.tts.production import items_from_plan, DEFERRED
+        from tools.tts.pronunciation import commander_resolver
+        expected = items_from_plan(plan, routes, state_path.parent, state['voice_id'], state['voice_name'],
+                                   commander_resolver(args.commander), defer_review=True)
     for row in plan:
         source = row['tts_source_media_id']
         item = items[source]
         ids = row['member_media_ids'].split(';')
-        require(item['status'] == 'complete' and item['tts_source_media_id'] == source
+        waiting = allow_deferred and item['status'] == DEFERRED
+        if waiting:
+            require(expected[source]['status'] == DEFERRED and not item.get('request_text')
+                    and not item.get('request_id') and not item.get('generation_timestamp')
+                    and not Path(item['output_path']).exists(), 'Invalid deferred performance ' + source)
+            deferred.add(source)
+        elif allow_deferred:
+            require(expected[source]['status'] != DEFERRED
+                    and item.get('tts_input_text') == expected[source]['tts_input_text']
+                    and item.get('request_sha256') == expected[source]['request_sha256'],
+                    'Stale pronunciation or request ' + source)
+        require((item['status'] == 'complete' or waiting) and item['tts_source_media_id'] == source
                 and item['tts_performance_group'] == row['tts_performance_group']
                 and item['member_media_ids'] == ids and item['model'] == routes[source]['selected_model']
                 and item['czech_text'] == row['czech_text'], 'Unapproved or changed performance ' + source)
-        path = root / Path(item['output_path'])
-        require(path.is_file() and mod.sha256(path) == item['checksum'] == item['audio']['sha256']
-                and path.stat().st_size == item['audio']['bytes'], 'TTS source checksum mismatch ' + source)
+        if not waiting:
+            path = root / Path(item['output_path'])
+            require(path.is_file() and mod.sha256(path) == item['checksum'] == item['audio']['sha256']
+                    and path.stat().st_size == item['audio']['bytes'], 'TTS source checksum mismatch ' + source)
         for mid in ids:
             require(mid not in members and mid in safe and mid in audit['results'], 'Unsafe/duplicate target ' + mid)
             original = audit['results'][mid]
@@ -235,6 +254,11 @@ def context(args):
                     and inventory['scope'] == args.commander.upper() + '_SPECIFIC', 'Original inventory mismatch ' + mid)
             members.add(mid)
     require(members == set(safe), 'Source performance mapping incomplete')
+    if deferred:
+        # Work-only subset. Promotion never exposes this option and still requires the full plan.
+        plan = [row for row in plan if row['tts_source_media_id'] not in deferred]
+        ready = {mid for row in plan for mid in row['member_media_ids'].split(';')}
+        safe = {mid: row for mid, row in safe.items() if mid in ready}
     return plan, state, audit, safe
 
 
@@ -266,6 +290,12 @@ def run(args):
         result = {'status': 'PASS', 'safe_media_ids': len(safe), 'unique_performances': len(plan),
                   'duplicate_media_ids': len(safe) - len(plan), 'source_checksums': 'PASS',
                   'canonical_pack_sha256': audit['canonical_pack_sha256'], 'RSA': 'PASS'}
+        if getattr(args, 'defer_pronunciation_review', False):
+            deferred = [source for source, item in state['items'].items()
+                        if item['status'] == 'deferred_pronunciation']
+            result.update(scope='WORK_SUBSET', full_target_media_ids=state['safe_media_ids'],
+                          full_unique_performances=state['unique_performances'],
+                          deferred_pronunciation=deferred, production_complete=not deferred)
         save(work / 'preflight.json', result)
         return result
     require((work / 'preflight.json').is_file(), 'Run preflight first')
@@ -484,6 +514,8 @@ def main():
     parser.add_argument('--codebooks')
     parser.add_argument('--original-dir')
     parser.add_argument('--jobs', type=int, default=1, help='parallel fallback workers')
+    parser.add_argument('--defer-pronunciation-review', action='store_true',
+                        help='work-only commander subset: exclude never-requested pronunciation blockers; promotion stays blocked')
     parser.add_argument('--trailing-margin-ms', type=int, choices=(20,),
                         help='fallback only: re-prepare still-blocked sources with the validated 20 ms tail margin')
     args = parser.parse_args()

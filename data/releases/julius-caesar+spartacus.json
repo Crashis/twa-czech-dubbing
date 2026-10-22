@@ -1,0 +1,12 @@
+{
+  "commanders": [
+    "julius-caesar",
+    "spartacus"
+  ],
+  "release": {
+    "sha256": "406cb96a4f09f3a10c79c43ab9247026df4c5f0539107ec23b8053f0edcedbda",
+    "changed_entries": 550,
+    "unchanged_entries": 15995,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

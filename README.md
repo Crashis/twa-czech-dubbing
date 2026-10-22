@@ -1,14 +1,14 @@
 # Total War: Arena Czech Dubbing
 
-Český dabing pro **Total War: Arena**, Windows x64. Verze 1.3.0 obsahuje Hannibala (305 hlášek), Spartaka (304), Zhuge Lianga (293) a Leonida (257) v libovolné kombinaci; všichni čtyři dohromady mají 1159 hlášek. Všech 16 Hannibalových tichých placeholderů zůstává původních; sdílené hlášky se nemění.
+Český dabing pro **Total War: Arena**, Windows x64. Verze 1.5.0 obsahuje Hannibala (305 hlášek), Spartaka (304), Zhuge Lianga (293), Leonida (257), Scipia Africana (249), Germanica (234) a Julia Caesara (246). Samostatný volitelný modul **Univerzální hlášky** přidává 465 společných mužských i ženských hlášek jednotek. Celý výběr má 2 353 náhrad; tiché placeholdery zůstávají původní.
 
 Potřebujete vlastní podporovanou instalaci hry a přibližně 750 MB volného místa pro zálohu a sestavení. Release obsahuje připravený installer a česká data. Python, Git, API klíč ani další nástroje nejsou k instalaci potřeba.
 
 ## Installation
 
-1. Rozbalte celý Windows ZIP verze 1.3.0.
+1. Rozbalte celý Windows ZIP verze 1.5.0.
 2. Spusťte `TWA-Czech-Dubbing-Installer.exe`.
-3. Vyberte složku Total War: Arena a zaškrtněte commandery.
+3. Vyberte složku Total War: Arena a zaškrtněte požadované commandery a případně Univerzální hlášky.
 4. Zavřete hru i launcher a klikněte na **Install**.
 5. Po dokončení spusťte hru.
 
@@ -25,7 +25,10 @@ Installer nejprve ověří podporovanou verzi, česká data a dostupnost ověře
 | Spartacus CZ | `743b7e5677796d306b715857742dd900341e9ad4484c48f315f2a3e6c719cf35` |
 | Zhuge Liang CZ | `9afa0f8b7b0cb24564c54c6c6aa2f7c577a53f32db41a50125ab3fe1ef15ecf6` |
 | Leonidas CZ | `f121b2c73ea25015e4ade07637d50365e0e9d4cde9ce0e2ce174cf407e51a041` |
-| Všichni čtyři CZ | `1d5401f6ec6d92dc7eecf240a45151c00bb8ed593a83175426a347ead7e23324` |
+| Scipio Africanus CZ | `dc68174cb3aae799113163bd1460d256ff9f7bd4d29ce72bab6fe9f382469f02` |
+| Germanicus CZ | `b710d2c43aaf2136ec48eec357aa306c709f17ce46e9b8aa354c8d6057ae0626` |
+| Julius Caesar CZ | `47624e843b05ad84f4abbf28deb6097b7627ec65e2692bf9ba43512bb7aabde6` |
+| Všech sedm commanderů + Univerzální hlášky | `083a09ded4641b74fbc2f1a6e8bbda5aa346f8a4fbddb034f334ec4f9d0c702b` |
 
 Podporovaný soubor má 244 019 593 B a 16 545 položek. Název launcheru ani jazyk v názvu souboru neurčuje kompatibilitu. Původní herní soubory nejsou součástí projektu ani releasu.
 
@@ -35,4 +38,4 @@ Zdrojový repozitář obsahuje finální české WEMy, metadata, Python/PowerShe
 
 [DEVELOPMENT](docs/DEVELOPMENT.md) · [TECHNICAL_PIPELINE](docs/TECHNICAL_PIPELINE.md) · [ADDING_COMMANDER](docs/ADDING_COMMANDER.md) · [VALIDATION](docs/VALIDATION.md) · [AGENTS](AGENTS.md) · [THIRD_PARTY_NOTICES](THIRD_PARTY_NOTICES.md)
 
-Dostupné commandery a jejich pořadí v installeru určují manifesty. Každá z 15 kombinací má samostatně ověřený hash výsledného PACKu v `data/releases/`. Hannibal, Spartacus a Zhuge Liang prošli podle potvrzení uživatele testem ve hře; Leonidas na lidský test ve hře teprve čeká. Artefakt v1.3.0 je zatím lokální release candidate; nebyl publikován. Technické výsledky jsou v [DEVELOPMENT](docs/DEVELOPMENT.md).
+Dostupné moduly a jejich pořadí v installeru určují manifesty. Výběr má 255 neprázdných stavů: osm samostatných modulů a 247 kombinací s vlastním whole-PACK hashem v `data/releases/`. Metadata kombinací vznikají z canonical originálu dvěma nezávislými výpočty hashe; cílené skutečné PACK buildy ověřují nové samostatné commandery a plnou kombinaci. Release 1.5.0 čeká na manuální herní test; je lokální a nebyl publikován. Technické výsledky jsou v [DEVELOPMENT](docs/DEVELOPMENT.md).

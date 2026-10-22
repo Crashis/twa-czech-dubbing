@@ -1,0 +1,13 @@
+{
+  "commanders": [
+    "germanicus",
+    "julius-caesar",
+    "unit-voices"
+  ],
+  "release": {
+    "sha256": "d8235ccbc665bdefc17bf5a290e9d471ebbb8cccb576c5984dd2db2c94313259",
+    "changed_entries": 945,
+    "unchanged_entries": 15600,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

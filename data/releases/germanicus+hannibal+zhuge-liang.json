@@ -1,0 +1,13 @@
+{
+  "commanders": [
+    "germanicus",
+    "hannibal",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "d60332675807e62e95fca3f2e2c2bebc988637bc4f0351625679821f42cc288c",
+    "changed_entries": 832,
+    "unchanged_entries": 15713,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

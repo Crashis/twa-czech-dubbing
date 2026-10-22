@@ -23,8 +23,8 @@ from tools.validation.repository import audit, private_values, SECRET_PATTERNS
 ROOT = Path(__file__).resolve().parents[1]
 EXE = 'TWA-Czech-Dubbing-Installer.exe'
 NAME = f'TWA-Czech-Dubbing-v{VERSION}-win64'
-EPOCH = '1792368000'
-DATE = (2026, 10, 19, 0, 0, 0)
+EPOCH = '1792627200'
+DATE = (2026, 10, 22, 0, 0, 0)
 # Evidence record, not a selection rule: commanders whose payloads the user reported as tested in game.
 USER_REPORTED_RUNTIME = ('hannibal', 'spartacus', 'zhuge-liang')
 
@@ -199,6 +199,77 @@ def readme_text(manifests):
             'Keep at least 750 MB free (backup, build, Python extraction).\n')
 
 
+def build_fast_release(base_pack, output_directory=None):
+    """One frozen build and one ZIP, audited with a single full-selection mock PACK build.
+
+    Module validation plus fail-closed selection descriptors cover the payload catalog.
+    Targeted installer tests are run separately; no transition matrix or historical suite.
+    """
+    require(os.name == 'nt' and struct.calcsize('P') == 8, 'Build requires 64-bit Windows Python')
+    require(version('pyinstaller') == '6.22.3', 'Install pinned requirements-development.txt in .venv')
+    manifests, joints = release_manifests()
+    base = Path(base_pack).resolve(strict=True)
+    require(not base.is_relative_to(ROOT) and mod.sha256(base) == manifests[0]['base']['sha256'],
+            'Unsupported canonical original')
+    validated = {m['commander']: mod.validate_data(m)['status'] for m in manifests}
+    repository = audit()
+    require(repository['secret_scan'] == 'SECRET SCAN PASS' and not repository['prohibited_asset_files'],
+            'Repository secret/asset audit failed')
+    output = Path(output_directory).resolve() if output_directory else ROOT / 'work/fast-release'
+    require(output.is_relative_to(ROOT / 'work'), 'FAST build outputs must stay under ignored work/')
+    output.mkdir(parents=True, exist_ok=True)
+    final, zipped, report_path = output / NAME, output / (NAME + '.zip'), output / (NAME + '-fast-build-report.json')
+    require(not any(p.exists() for p in (final, zipped, report_path)), 'FAST release output already exists')
+    env = os.environ.copy()
+    env.update(PYTHONHASHSEED='0', SOURCE_DATE_EPOCH=EPOCH, PYTHONDONTWRITEBYTECODE='1')
+    (ROOT / 'build').mkdir(exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='fast-release-', dir=ROOT / 'build') as temporary:
+        temp = Path(temporary)
+        checked([sys.executable, '-B', '-m', 'PyInstaller', '--noconfirm', '--clean',
+                 '--distpath', temp / 'dist', '--workpath', temp / 'work', ROOT / 'scripts/installer.spec'], env)
+        bundle = temp / NAME
+        bundle.mkdir()
+        shutil.copyfile(temp / 'dist' / EXE, bundle / EXE)
+        for rel in payload_files(manifests):
+            target = bundle / 'payload' / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(ROOT / rel, target)
+        (bundle / 'README.txt').write_text(readme_text(manifests), encoding='utf-8')
+        add_notices(bundle)
+        sums = ''.join(mod.sha256(p) + '  ' + p.relative_to(bundle).as_posix() + '\n' for p in file_list(bundle))
+        (bundle / 'SHA256SUMS.txt').write_text(sums, encoding='utf-8', newline='\n')
+        package_audit = bundle_audit(bundle, manifests)
+        archive = temp / 'release.zip'
+        deterministic_zip(bundle, archive)
+        extracted = temp / 'extracted folder with spaces'
+        with zipfile.ZipFile(archive) as stream:
+            require(stream.testzip() is None, 'ZIP CRC failed')
+            stream.extractall(extracted)
+        bundle_audit(extracted / NAME, manifests)
+        integration = mod.build(base, temp / 'all-modules.pack', selection(manifests))
+        require(integration['matches_known_release'] and integration['RSA'] == 'PASS', 'Full selection differs')
+        exe_sha = mod.sha256(bundle / EXE)
+        exe_size = (bundle / EXE).stat().st_size
+        shutil.copytree(bundle, final)
+        shutil.copyfile(archive, zipped)
+    report = dict(status='PASS', build_type='FAST', version=VERSION, release_name=NAME,
+                  zip_path=zipped.relative_to(ROOT).as_posix(), zip_size=zipped.stat().st_size,
+                  zip_sha256=mod.sha256(zipped), installer_path=(final / EXE).relative_to(ROOT).as_posix(),
+                  installer_size=exe_size, installer_sha256=exe_sha, modules=validated,
+                  joint_descriptors=len(joints), catalog_states=len(manifests)+len(joints),
+                  bundle_audit=package_audit, extracted_zip_audit='PASS', secret_scan=repository['secret_scan'],
+                  integration={k:integration[k] for k in ('sha256','RSA','changed_entries','unchanged_entries',
+                                                         'diff_outside_allowed_payloads','encrypted_index','appendix')},
+                  python=sys.version.split()[0], pyinstaller=version('pyinstaller'),
+                  SOURCE_DATE_EPOCH=EPOCH, PYTHONHASHSEED='0',
+                  skipped=['full transition matrix','full historical/release suite','all combination PACK rebuilds',
+                           'second EXE build/reproducibility','second ZIP reproducibility','frozen GUI smoke'],
+                  game_runtime_test='NOT_PERFORMED', human_listening_of_final_WEMs='NOT_PERFORMED')
+    report_path.write_text(json.dumps(report, ensure_ascii=False, indent=2)+'\n', encoding='utf-8')
+    print(json.dumps(report, ensure_ascii=True, indent=2))
+    return report
+
+
 def build_release(base_pack, reference_pack=None, output_directory=None):
     require(os.name == 'nt' and struct.calcsize('P') == 8, 'Build requires 64-bit Windows Python')
     require(version('pyinstaller') == '6.22.3', 'Install pinned requirements-development.txt in .venv')
@@ -322,9 +393,14 @@ def main():
     parser.add_argument('--base-pack', required=True)
     parser.add_argument('--reference-pack')
     parser.add_argument('--output-directory')
+    parser.add_argument('--fast', action='store_true', help='one EXE/ZIP; targeted checks only, no exhaustive suite')
     args = parser.parse_args()
     try:
-        build_release(args.base_pack, args.reference_pack, args.output_directory)
+        if args.fast:
+            require(not args.reference_pack, '--fast does not use a historical reference PACK')
+            build_fast_release(args.base_pack, args.output_directory)
+        else:
+            build_release(args.base_pack, args.reference_pack, args.output_directory)
         return 0
     except Exception as error:
         print('RELEASE BUILD FAIL: ' + str(error), file=sys.stderr)

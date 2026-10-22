@@ -1,0 +1,12 @@
+{
+  "commanders": [
+    "scipio-africanus",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "ffa57025d4ca488d8224adc589c0fa5c5d68cddc8b0b07938b2286a4815190c6",
+    "changed_entries": 542,
+    "unchanged_entries": 16003,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

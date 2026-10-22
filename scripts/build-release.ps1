@@ -2,7 +2,8 @@ param(
     [Parameter(Mandatory = $true)][string]$BasePack,
     [string]$ReferencePack,
     [string]$PythonExecutable,
-    [string]$OutputDirectory
+    [string]$OutputDirectory,
+    [switch]$Fast
 )
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
@@ -11,6 +12,7 @@ if (-not (Test-Path -LiteralPath $PythonExecutable)) { throw 'Create .venv and i
 $arguments = @('-B', '-m', 'tools.release', '--base-pack', $BasePack)
 if ($ReferencePack) { $arguments += @('--reference-pack', $ReferencePack) }
 if ($OutputDirectory) { $arguments += @('--output-directory', $OutputDirectory) }
+if ($Fast) { $arguments += '--fast' }
 Push-Location -LiteralPath $projectRoot
 try {
     & $PythonExecutable @arguments

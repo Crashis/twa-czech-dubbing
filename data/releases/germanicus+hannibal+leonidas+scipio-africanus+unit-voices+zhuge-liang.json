@@ -1,0 +1,16 @@
+{
+  "commanders": [
+    "germanicus",
+    "hannibal",
+    "leonidas",
+    "scipio-africanus",
+    "unit-voices",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "82926305372120245f8feb8d4731dfaa56c7d684d5c6da71c40b2d06ad9c871d",
+    "changed_entries": 1803,
+    "unchanged_entries": 14742,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

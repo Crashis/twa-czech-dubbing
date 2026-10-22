@@ -2096,6 +2096,6 @@
   "replacement_directory": "replacements/leonidas/wem",
   "supported_base_pack_hash": "d6ee7ec4c4422276d9caba7013f46662a980955c138be13f653b58992ad876ad",
   "required_runtime_pack": "audio_cn.pack",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "display_order": 4
 }

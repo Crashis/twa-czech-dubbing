@@ -1,0 +1,12 @@
+{
+  "commanders": [
+    "julius-caesar",
+    "leonidas"
+  ],
+  "release": {
+    "sha256": "40900858e5558e25442a79b81c3aaf2e01de8be51c4edcf89d5c0005b37cdf5e",
+    "changed_entries": 503,
+    "unchanged_entries": 16042,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

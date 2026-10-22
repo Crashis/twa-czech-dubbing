@@ -1,0 +1,13 @@
+{
+  "commanders": [
+    "germanicus",
+    "hannibal",
+    "unit-voices"
+  ],
+  "release": {
+    "sha256": "5536538a90adebffd7587c7b1fc337b44dfc065cf0a5f11ae4834ce3acae0b73",
+    "changed_entries": 1004,
+    "unchanged_entries": 15541,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

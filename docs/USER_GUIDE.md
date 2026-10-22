@@ -2,10 +2,10 @@
 
 ## Instalace
 
-1. Rozbalte **celý** Windows ZIP verze 1.3.0 do vlastní složky.
+1. Rozbalte **celý** Windows ZIP verze 1.5.0 do vlastní složky.
 2. Dvakrát klikněte na `TWA-Czech-Dubbing-Installer.exe`.
 3. Vyberte složku Total War: Arena přes **Browse…**. Po ověření checkboxy ukážou skutečně nainstalované hlasy; u originálu budou všechny prázdné.
-4. Zaškrtněte požadované commandery, zavřete hru i launcher a klikněte na **Install**.
+4. Zaškrtněte požadované commandery a případně **Univerzální hlášky**, zavřete hru i launcher a klikněte na **Install**.
 5. Po zprávě o úspěšné instalaci spusťte hru.
 
 Žádná další konfigurace, Python, Git ani API účet nejsou potřeba. Po rozbalení funguje instalace offline. Potřebujete Windows x64, vlastní podporovanou hru a přibližně 750 MB volného místa; záloha a dočasný soubor mohou být na různých discích.
@@ -57,7 +57,11 @@ Technický stav je vidět v okně. Stručné logy jsou v `%LOCALAPPDATA%\TWA-Cze
 
 Pokud launcher opraví nebo aktualizuje hru, spusťte po jeho zavření **Verify**. Dabing používá podporovaný hlasový soubor `audio_cn.pack`, přestože jeho původní zvuky jsou anglické; nepřejmenovávejte jiné soubory podle jazyka.
 
-## Výběr commanderů ve verzi 1.3.0
+## Výběr ve verzi 1.5.0
+
+Každý commander má vlastní checkbox: Hannibal, Spartacus, Zhuge Liang, Leonidas, Scipio Africanus, Germanicus a Julius Caesar. **Univerzální hlášky** jsou osmý, samostatný checkbox pro společné mužské i ženské hlasy jednotek. Lze vybrat libovolnou kombinaci; všech sedm commanderů obsahuje 1 888 náhrad a společně s Univerzálními hláškami 2 353. Výběr checkboxů mění pouze pending stav. Původní hlasy a platná záloha se řídí stejnými pravidly jako dříve. Po instalaci 1.5.0 proveďte vlastní test nových hlasů v menu i bitvě.
+
+## Historický výběr commanderů ve verzi 1.3.0
 
 ZIP verze 1.3.0 nabízí v tomto pořadí Hannibala (305 hlášek), Spartaka (304), Zhuge Lianga (293) a Leonida (257) v libovolné z 15 kombinací; všichni čtyři dohromady dají 1159 náhrad. Při změně výběru zaškrtněte commandery a klikněte na **Install**. Je-li k dispozici ověřený originál, installer sestaví celý nový výběr od začátku; přidání i odebrání commandera tak dává přesně vybranou sadu. Bez originálu je možné jen přidávání, jehož výsledek je bajtově shodný. **Restore Original** obnoví původní PACK, pokud installer má ověřený originál. Artefakt je zatím lokální release candidate a nebyl publikován.
 

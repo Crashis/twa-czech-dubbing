@@ -1,0 +1,14 @@
+{
+  "commanders": [
+    "germanicus",
+    "hannibal",
+    "julius-caesar",
+    "leonidas"
+  ],
+  "release": {
+    "sha256": "dbc7d293b1d1c8b925494a3e671b1103ba9bb0e41d0be15a30e403b27b33e6f6",
+    "changed_entries": 1042,
+    "unchanged_entries": 15503,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

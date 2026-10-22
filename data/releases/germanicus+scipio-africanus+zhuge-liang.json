@@ -1,0 +1,13 @@
+{
+  "commanders": [
+    "germanicus",
+    "scipio-africanus",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "3aa8fd3c0d3317c52c4885f088bc387e436491590262fd0ac148b876da18e83c",
+    "changed_entries": 776,
+    "unchanged_entries": 15769,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

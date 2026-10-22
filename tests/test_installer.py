@@ -13,30 +13,34 @@ from unittest.mock import patch
 
 from tools import deploy, mod
 from tools.installer.backend import Installer, InstallerError, normalize_game_path, transaction_lock
-from tools.installer.catalog import discover, discover_all, discover_shared, known_manifests, merge_manifests, selection
+from tools.installer.catalog import (discover, discover_all, discover_shared, display_names, known_manifests,
+                                     merge_manifests, selection)
+from tools.resources import VERSION
 
-# Validated changed-entry counts of every production selection that exists in this checkout.
-EXPECTED_CHANGED = {'hannibal': 305, 'spartacus': 304, 'zhuge-liang': 293, 'leonidas': 257,
-                    'hannibal+spartacus': 609, 'hannibal+zhuge-liang': 598, 'hannibal+leonidas': 562,
-                    'spartacus+zhuge-liang': 597, 'leonidas+spartacus': 561, 'leonidas+zhuge-liang': 550,
-                    'hannibal+spartacus+zhuge-liang': 902, 'hannibal+leonidas+spartacus': 866,
-                    'hannibal+leonidas+zhuge-liang': 855, 'leonidas+spartacus+zhuge-liang': 854,
-                    'hannibal+leonidas+spartacus+zhuge-liang': 1159}
-INSTALLER_ORDER = ['hannibal', 'spartacus', 'zhuge-liang', 'leonidas']
-# The optional shared module adds its own changed entries to every commander selection (and alone).
-UNIT, UNIT_CHANGED = 'unit-voices', 465
-MODULES = INSTALLER_ORDER + [m['commander'] for m in discover_shared()]  # staged modules are invisible
+# Everything is derived from the active manifests; staged modules are invisible to the installer.
+UNIT = 'unit-voices'
+MODULES = [m['commander'] for m in discover_all()]
+COUNTS = {m['commander']: m['replacement_count'] for m in discover_all()}
+# Exhaustive matrices grow as 4^modules; by default a representative set of states is exercised.
+EXHAUSTIVE = os.getenv('TWA_TEST_EXHAUSTIVE') == '1'
 
 
-def expected_changed(key):
-    names = key.split('+')
-    rest = '+'.join(n for n in names if n != UNIT)
-    return (UNIT_CHANGED if UNIT in names else 0) + (EXPECTED_CHANGED[rest] if rest else 0)
+def expected_changed(names):
+    """Production modules are disjoint (checked below), so a selection changes the sum of its modules."""
+    return sum(COUNTS[n] for n in names)
 
 
 def production_names():
-    """Installer display order: Hannibal, Spartacus, Zhuge Liang, Leonidas."""
+    """Commanders in installer display order (Hannibal and Spartacus first, the newest last)."""
     return tuple(m['commander'] for m in discover())
+
+
+def representative_states():
+    """Original, the newest commander, the newest with shared voices (or the oldest), everything."""
+    names = production_names()
+    shared = [m['commander'] for m in discover_shared()]
+    pair = (names[-1], *shared[:1]) if shared else (names[0], names[-1])
+    return [(), (names[-1],), tuple(sorted(pair)), tuple(sorted(MODULES))]
 
 
 class InstallerTests(unittest.TestCase):
@@ -54,12 +58,15 @@ class InstallerTests(unittest.TestCase):
 
     def test_display_order_is_manifest_driven_and_joint_keys_stay_sorted(self):
         parts = discover()
-        self.assertEqual([m['commander'] for m in parts], INSTALLER_ORDER)
-        self.assertEqual([m['display_order'] for m in parts], [1, 2, 3, 4])
-        self.assertTrue(all(m['version'] == '1.4.0' for m in parts))
+        names = [m['commander'] for m in parts]
+        self.assertEqual(names[:2], ['hannibal', 'spartacus'])
+        self.assertEqual([m['display_order'] for m in parts], list(range(1, len(parts) + 1)))
+        self.assertTrue(all(m['version'] == VERSION for m in discover_all()))
+        self.assertEqual([m['commander'] for m in discover_shared()], [UNIT])
+        self.assertTrue(mod.is_shared(discover_shared()[0]) and not any(mod.is_shared(m) for m in parts))
         everything = selection(parts)
-        self.assertEqual(everything['display_name'], 'Hannibal + Spartacus + Zhuge Liang + Leonidas')
-        self.assertEqual(everything['components'], sorted(INSTALLER_ORDER))
+        self.assertEqual(everything['display_name'], ' + '.join(m['display_name'] for m in parts))
+        self.assertEqual(everything['components'], sorted(names))
         self.assertEqual(selection(list(reversed(parts))), everything)
         by_name = {m['commander']: m for m in parts}
         self.assertEqual(selection([by_name['leonidas'], by_name['spartacus']])['display_name'], 'Spartacus + Leonidas')
@@ -159,12 +166,19 @@ class InstallerTests(unittest.TestCase):
             for right in range(left + 1, len(ids)):
                 self.assertFalse(ids[left] & ids[right], 'Production modules overlap')
         # Every combination of production modules has its own validated whole-PACK descriptor.
-        self.assertEqual(len(known_manifests()), 2 ** len(parts) - 1)
-        counts = {'+'.join(m.get('components', [m['commander']])): m['release']['changed_entries']
-                  for m in known_manifests()}
-        self.assertEqual(counts, {k: expected_changed(k) for k in counts})
-        for manifest in known_manifests():
-            self.assertEqual(mod.validate_data(manifest)['status'], 'PASS')
+        for part in parts:
+            self.assertEqual(mod.validate_data(part)['status'], 'PASS')
+        specs = {p['commander']: p['replacements'] for p in parts}
+        known = known_manifests()
+        self.assertEqual(len(known), 2 ** len(parts) - 1)
+        for manifest in known:
+            names = manifest.get('components', [manifest['commander']])
+            self.assertEqual(manifest['release']['changed_entries'], expected_changed(names))
+            # A joint is exactly the union of its validated modules (their WEMs were hashed above).
+            by_id = lambda s: int(s['media_id'])
+            union = sorted((s for n in names for s in specs[n]), key=by_id)
+            self.assertEqual(sorted(({k: v for k, v in s.items() if k != 'source_commander'}
+                                     for s in manifest['replacements']), key=by_id), union)
 
     def test_conflicting_production_payloads_abort_before_game_write(self):
         parts = [copy.deepcopy(p) for p in discover()]
@@ -249,7 +263,7 @@ class InstallerIntegrationTests(unittest.TestCase):
     # --- Backup-independent transitions -------------------------------------------------
 
     def selected(self, names):
-        parts = {m['commander']: m for m in discover()}
+        parts = {m['commander']: m for m in discover_all()}
         return selection([parts[n] for n in names])
 
     def put_state(self, names, target=None):
@@ -290,29 +304,30 @@ class InstallerIntegrationTests(unittest.TestCase):
         profile = self.folder / 'fresh profile'
         state = Installer(self.selected((h, s)), profile).inspect(self.game)
         self.assertEqual((state['state'], state['changed_entries'], state['backup_state'], state['original_source']),
-                         ('INSTALLED', 305, 'MISSING', None))
+                         ('INSTALLED', expected_changed((h,)), 'MISSING', None))
         with patch.object(Installer, 'restore', side_effect=AssertionError('Install called Restore')), \
                 patch.object(mod, 'build', side_effect=AssertionError('Canonical build without an original')):
             result = Installer(self.selected((h, s)), profile).install(self.game)
             self.assertEqual(result['mode'], 'ADDITIVE')
-            self.assert_installed((h, s), result, 609)
+            self.assert_installed((h, s), result, expected_changed((h, s)))
             result = Installer(self.selected(names), profile).install(self.game)
             self.assertEqual(result['mode'], 'ADDITIVE')
-            self.assert_installed(names, result, 1159)
+            self.assert_installed(names, result, expected_changed(names))
         self.assertTrue(self.no_backup(profile), 'A modified PACK became an original backup')
 
     def test_additive_supersets_without_backup(self):
-        """Adding Leonidas next to every earlier state needs no backup or original source."""
-        h, s, z, l = production_names()
-        for current, target, before, after in [((h, s, z), (h, s, z, l), 902, 1159), ((h,), (h, l), 305, 562),
-                                               ((s,), (s, l), 304, 561), ((z,), (z, l), 293, 550),
-                                               ((h, s), (h, s, l), 609, 866), ((h, z), (h, z, l), 598, 855),
-                                               ((s, z), (s, z, l), 597, 854), ((h,), (h, s, z, l), 305, 1159),
-                                               ((l,), (h, l), 257, 562), ((s,), (h, s), 304, 609)]:
+        """Adding the newest commander (or shared voices) to an earlier state needs no backup or original."""
+        names = production_names()
+        h, s, newest = names[0], names[1], names[-1]
+        cases = [(names[:-1], names), ((h,), (h, newest)), ((h, s), (h, s, newest)),
+                 ((newest,), (h, newest)), ((s,), (h, s))]
+        cases += [((newest,), (newest, m['commander'])) for m in discover_shared()]
+        for index, (current, target) in enumerate(cases):
             with self.subTest(current=current, target=target):
+                before, after = expected_changed(current), expected_changed(target)
                 self.put_state(current)
                 self.assertEqual(mod.verify_pack(self.target, self.selected(current))['changed_entries'], before)
-                profile = self.folder / ('fresh-' + '+'.join(current + target))
+                profile = self.folder / f'fresh-{index}'  # joined module ids would exceed MAX_PATH
                 with patch.object(mod, 'build', side_effect=AssertionError('Canonical build without an original')):
                     result = Installer(self.selected(target), profile).install(self.game)
                 self.assertEqual((result['mode'], result['backup_created']), ('ADDITIVE', False))
@@ -331,21 +346,24 @@ class InstallerIntegrationTests(unittest.TestCase):
                                             'ORIGINAL_SOURCE_REQUIRED_FOR_REMOVAL', before)
                 self.assertIn('Cannot remove ' + displayed[gone] + ' because the original game audio backup is '
                               'unavailable. No game files were modified.', str(error))
-        h, s, z, l = names
-        error = self.assert_refused(lambda: Installer(self.selected((s, z)), profile).install(self.game),
+        kept = names[1:3]  # several commanders removed at once are all named, in installer order
+        error = self.assert_refused(lambda: Installer(self.selected(kept), profile).install(self.game),
                                     'ORIGINAL_SOURCE_REQUIRED_FOR_REMOVAL', before)
-        self.assertIn('Cannot remove Hannibal + Leonidas because', str(error))
-        self.assertEqual(mod.verify_pack(self.target, self.selected(names), self.base)['changed_entries'], 1159)
+        self.assertIn('Cannot remove ' + display_names([m for m in discover() if m['commander'] not in kept])
+                      + ' because', str(error))
+        self.assertEqual(mod.verify_pack(self.target, self.selected(names), self.base)['changed_entries'],
+                         expected_changed(names))
         self.assertTrue(self.no_backup(profile))
 
     def test_removal_with_valid_original_backup(self):
-        """H+S+Z+L -> H+S+Z (902), -> L (257) and -> Restore Original, each from the canonical backup."""
+        """All commanders -> all but the newest, -> only the newest and -> Restore Original, from the backup."""
         names = production_names()
         profile = self.folder / 'backup profile'
         service = Installer(self.manifest, profile)
         root, _, backup = service.paths(self.game)
         service.backup(root, self.base, backup)
-        for target, count in ((names[:-1], 902), (names[-1:], 257), ('RESTORE', 0)):
+        for target, count in ((names[:-1], expected_changed(names[:-1])), (names[-1:], expected_changed(names[-1:])),
+                              ('RESTORE', 0)):
             with self.subTest(target=target):
                 self.put_state(names)
                 if target == 'RESTORE':
@@ -376,8 +394,8 @@ class InstallerIntegrationTests(unittest.TestCase):
         self.assertEqual(service.inspect(self.game)['original_source'], 'CURRENT_PACK')
         result = service.install(self.game)
         self.assertEqual((result['mode'], result['backup_created']), ('CANONICAL', True))
-        self.assertEqual(result['message'], 'Hannibal + Spartacus + Zhuge Liang + Leonidas installed correctly.')
-        self.assert_installed(names, result, 1159)
+        self.assertEqual(result['message'], display_names(discover()) + ' installed correctly.')
+        self.assert_installed(names, result, expected_changed(names))
         _, _, backup = service.paths(self.game)
         self.assertEqual((mod.sha256(backup), backup.stat().st_size, result['backup_size']),
                          (self.manifest['base']['sha256'], self.manifest['base']['size'], self.manifest['base']['size']))
@@ -401,7 +419,7 @@ class InstallerIntegrationTests(unittest.TestCase):
         result = Installer(self.selected((s,)), profile).install(self.game)
         self.assertEqual((result['mode'], result['backup_created'], result['backup_source']),
                          ('CANONICAL', True, 'data/audio_en.pack'))
-        self.assert_installed((s,), result, 304)
+        self.assert_installed((s,), result, expected_changed((s,)))
         _, _, backup = Installer(self.manifest, profile).paths(self.game)
         self.assertEqual(mod.sha256(backup), self.manifest['base']['sha256'])
         meta = json.loads(backup.with_suffix('.json').read_text(encoding='utf-8'))
@@ -497,12 +515,16 @@ class InstallerIntegrationTests(unittest.TestCase):
         self.assertFalse(output.exists() or list(self.folder.glob('*.partial')))
         result = mod.build_additive(self.target, output, current, target)
         self.assertEqual((result['sha256'], result['added_entries'], result['changed_entries'],
-                          result['diff_outside_added_payloads']), (target['release']['sha256'], 304, 609, 0))
+                          result['diff_outside_added_payloads']),
+                         (target['release']['sha256'], expected_changed((s,)), expected_changed((h, s)), 0))
 
     def test_transition_matrix_with_and_without_backup(self):
-        """Every known current state -> every target, with a canonical backup and with none."""
-        names = tuple(m['commander'] for m in discover())
-        states = [()] + [tuple(c) for n in range(1, len(names) + 1) for c in combinations(names, n)]
+        """Each current state -> each target and Restore, with a canonical backup and with none.
+
+        Representative states by default; TWA_TEST_EXHAUSTIVE=1 uses every commander selection."""
+        names = production_names()
+        states = ([()] + [tuple(c) for n in range(1, len(names) + 1) for c in combinations(names, n)]
+                  if EXHAUSTIVE else representative_states())
         rows, cache = [], self.folder / 'current-state.pack'
         backed = self.folder / 'matrix backup profile'
         service = Installer(self.manifest, backed)
@@ -590,7 +612,8 @@ class InstallerIntegrationTests(unittest.TestCase):
         names = list(parts)
         self.assertEqual(names[:2], ['hannibal', 'spartacus'])
         ALL = tuple(names)
-        subsets = [tuple(c) for n in range(1, len(names) + 1) for c in combinations(names, n)]
+        subsets = ([tuple(c) for n in range(1, len(names) + 1) for c in combinations(names, n)] if EXHAUSTIVE
+                   else [(names[0],), (names[-1],), (names[0], names[-1]), ALL])
 
         def manifest(selected):
             return selection([parts[n] for n in selected])
@@ -599,7 +622,8 @@ class InstallerIntegrationTests(unittest.TestCase):
         newest = names[-1]
         if len(names) > 2:
             # Adding the newest commander next to each existing single installation.
-            scenarios += [[(n,), tuple(x for x in names if x in (n, newest))] for n in names[:-1]]
+            scenarios += [[(n,), tuple(x for x in names if x in (n, newest))]
+                          for n in (names[:-1] if EXHAUSTIVE else names[:1])]
         transitions = set()
         for index, steps in enumerate(scenarios):
             with self.subTest(steps=steps):

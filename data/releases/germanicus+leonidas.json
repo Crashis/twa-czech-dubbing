@@ -1,0 +1,12 @@
+{
+  "commanders": [
+    "germanicus",
+    "leonidas"
+  ],
+  "release": {
+    "sha256": "5caf1b9a662a219110dd1d774aaf0d37ae6fe07b6907643ad1d8a24ff0b240c1",
+    "changed_entries": 491,
+    "unchanged_entries": 16054,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

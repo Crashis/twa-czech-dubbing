@@ -1,0 +1,14 @@
+{
+  "commanders": [
+    "leonidas",
+    "scipio-africanus",
+    "unit-voices",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "519e83fada6219cfac2221bfcad3e365c9fe2aa2d4ebdbd225def93ef6da8452",
+    "changed_entries": 1264,
+    "unchanged_entries": 15281,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

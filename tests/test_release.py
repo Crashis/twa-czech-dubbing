@@ -1,5 +1,6 @@
 """Manifest-driven release builder gates and deterministic packaging, without PyInstaller or a game."""
 import copy
+from itertools import combinations
 from pathlib import Path
 import tempfile
 import unittest
@@ -8,22 +9,25 @@ from unittest.mock import patch
 from tools import mod, release
 from tools.installer.catalog import discover, discover_all, discover_shared
 
-COUNTS = {'hannibal': 305, 'spartacus': 304, 'zhuge-liang': 293, 'leonidas': 257}
+COUNTS = {'hannibal': 305, 'spartacus': 304, 'zhuge-liang': 293, 'leonidas': 257,
+          'scipio-africanus': 249, 'germanicus': 234, 'julius-caesar': 246}
+ALL_COMMANDERS = sum(COUNTS.values())  # 1888; commander payloads are disjoint
 UNIT, UNIT_COUNT = 'unit-voices', 465
 ACTIVE = bool(discover_shared())  # a staged shared module never ships
-COMMANDER_JOINTS = [550, 561, 562, 597, 598, 609, 854, 855, 866, 902, 1159]
+COMMANDER_JOINTS = [sum(group) for n in range(2, len(COUNTS) + 1) for group in combinations(COUNTS.values(), n)]
+JOINTS = 2 ** (len(COUNTS) + ACTIVE) - 1 - len(COUNTS) - ACTIVE  # 247 with unit voices, 120 without
 
 
 class ReleaseBuilderTests(unittest.TestCase):
-    def test_release_identity_is_v1_4_0(self):
-        self.assertEqual(release.VERSION, '1.4.0')
-        self.assertEqual(release.NAME, 'TWA-Czech-Dubbing-v1.4.0-win64')
+    def test_release_identity_is_v1_5_0(self):
+        self.assertEqual(release.VERSION, '1.5.0')
+        self.assertEqual(release.NAME, 'TWA-Czech-Dubbing-v1.5.0-win64')
         self.assertEqual(release.EXE, 'TWA-Czech-Dubbing-Installer.exe')
 
     def test_every_production_commander_and_combination_ships(self):
         manifests, joints = release.release_manifests()
         self.assertEqual([m['commander'] for m in manifests], list(COUNTS) + [UNIT] * ACTIVE)
-        self.assertEqual(len(joints), 26 if ACTIVE else 11)
+        self.assertEqual(len(joints), JOINTS)
         # Commander joints, then every commander selection plus the shared unit voices.
         with_unit = [n + UNIT_COUNT for n in [*COUNTS.values(), *COMMANDER_JOINTS]] if ACTIVE else []
         self.assertEqual(sorted(len(j['replacements']) for j in joints), sorted(COMMANDER_JOINTS + with_unit))
@@ -34,7 +38,7 @@ class ReleaseBuilderTests(unittest.TestCase):
         manifests = discover_all()
         files = release.payload_files(manifests)
         wems = [p for p in files if p.suffix == '.wem']
-        self.assertEqual(len(wems), 1159 + UNIT_COUNT * ACTIVE)
+        self.assertEqual(len(wems), ALL_COMMANDERS + UNIT_COUNT * ACTIVE)
         for name, count in {**COUNTS, **({UNIT: UNIT_COUNT} if ACTIVE else {})}.items():
             folder = Path('data/shared' if name == UNIT else 'data/commanders') / name
             ours = {p.name for p in wems if p.parts[1] == name}
@@ -44,20 +48,20 @@ class ReleaseBuilderTests(unittest.TestCase):
                 self.assertIn(folder / data, files)
             self.assertNotIn(folder / 'audio-qa.json', files)
         self.assertFalse([p for p in files if p.parts[:3] == ('data', 'shared', 'unit-acknowledgements')])
-        joints = 26 if ACTIVE else 11
-        self.assertEqual(len([p for p in files if p.parent == Path('data/releases')]), joints)
-        self.assertEqual(len(files), 1 + joints + (4 + ACTIVE) * 3 + 1159 + UNIT_COUNT * ACTIVE)
+        self.assertEqual(len([p for p in files if p.parent == Path('data/releases')]), JOINTS)
+        self.assertEqual(len(files), 1 + JOINTS + (len(COUNTS) + ACTIVE) * 3 + ALL_COMMANDERS + UNIT_COUNT * ACTIVE)
         self.assertFalse([p for p in files if 'staged' in p.name or p.suffix in ('.pack', '.orig', '.bnk')])
 
     def test_readme_lists_commanders_in_installer_order(self):
         text = release.readme_text(discover())
-        self.assertTrue(text.startswith('Total War: Arena - Czech Dubbing 1.4.0\n'))
+        self.assertTrue(text.startswith('Total War: Arena - Czech Dubbing 1.5.0\n'))
         self.assertIn('Commanders: Hannibal (305 lines), Spartacus (304 lines), Zhuge Liang (293 lines), '
-                      'Leonidas (257 lines).', text)
+                      'Leonidas (257 lines), Scipio Africanus (249 lines), Germanicus (234 lines), '
+                      'Julius Caesar (246 lines).', text)
         self.assertNotIn('Univerzální', text)
         if ACTIVE:
             text = release.readme_text(discover_all())
-            self.assertIn('Leonidas (257 lines).\nOptional shared module: Univerzální hlášky - Český dabing obecných '
+            self.assertIn('Julius Caesar (246 lines).\nOptional shared module: Univerzální hlášky - Český dabing obecných '
                           'hlášek jednotek (465 lines; male and female unit voices together', text)
         self.assertNotIn('Install.bat', text)
 

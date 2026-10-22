@@ -1,0 +1,14 @@
+{
+  "commanders": [
+    "germanicus",
+    "julius-caesar",
+    "scipio-africanus",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "39c8accd6ef875aa81b62372a59da8d436e0b507cf168411b9b457ef698e94ea",
+    "changed_entries": 1022,
+    "unchanged_entries": 15523,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

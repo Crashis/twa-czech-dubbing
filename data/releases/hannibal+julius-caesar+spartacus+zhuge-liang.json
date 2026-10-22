@@ -1,0 +1,14 @@
+{
+  "commanders": [
+    "hannibal",
+    "julius-caesar",
+    "spartacus",
+    "zhuge-liang"
+  ],
+  "release": {
+    "sha256": "fed522e5dd8173631c3512b968abdf46f8eb6593280a683d07b0aeb55770242b",
+    "changed_entries": 1148,
+    "unchanged_entries": 15397,
+    "runtime_test": "PENDING HUMAN IN-GAME TEST"
+  }
+}

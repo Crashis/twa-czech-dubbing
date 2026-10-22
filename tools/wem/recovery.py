@@ -269,11 +269,16 @@ def run(args):
     require(all(p.is_relative_to(mod.ROOT / 'work') for p in (work, production, sources)),
             'Recovery outputs must stay under ignored work/')
     work.mkdir(parents=True, exist_ok=True)
+    by_target = {mid: row['tts_source_media_id'] for row in plan for mid in row['member_media_ids'].split(';')}
     if args.prepare_from_state:
-        prepare_sources(Path(args.prepare_from_state), args.attempt, args.media_ids.split(','), sources)
+        require(bool(args.media_ids), 'Compact preparation needs explicit target Media IDs')
+        targets = args.media_ids.split(',')
+        require(set(targets) <= set(safe), 'Only safe Media IDs can be prepared')
+        # The regeneration ledger names unique performances, not every duplicate target Media ID.
+        source_ids = sorted({by_target[mid] for mid in targets})
+        prepare_sources(Path(args.prepare_from_state), args.attempt, source_ids, sources)
     original_dir = Path(args.original_dir).resolve(strict=True)
     analysis = {r['media_id']: r for r in csv.DictReader(Path(args.analysis).open(encoding='utf-8'))}
-    by_target = {mid: row['tts_source_media_id'] for row in plan for mid in row['member_media_ids'].split(';')}
     wem_format = discover()[0]['wem_format']
     blocked = (sorted(args.media_ids.split(','), key=int) if args.media_ids else
                sorted((m for m in safe if not (production / 'wem' / (m + '.wem')).is_file()), key=int))
@@ -341,6 +346,8 @@ def main():
                  'oggenc', 'wav2wem', 'vgmstream', 'ww2ogg', 'codebooks'):
         parser.add_argument('--' + name, required=True)
     parser.add_argument('--jobs', type=int, default=1)
+    parser.add_argument('--defer-pronunciation-review', action='store_true',
+                        help='work-only commander subset; never permits promotion of an incomplete plan')
     parser.add_argument('--reselect', action='store_true', help='re-audit existing QC passes; no new encoding')
     parser.add_argument('--media-ids', help='comma-separated targets instead of every production-blocked ID')
     parser.add_argument('--source-dir', help='work folder with canonical-32k[-tail20]/ for the target sources')
